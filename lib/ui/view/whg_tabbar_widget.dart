@@ -84,7 +84,7 @@ class WhgTabBarWidgetState extends State<WhgTabBarWidget>
         controller: _tabController,
       ),
       bottomNavigationBar: Material(
-        color: Colors.deepOrange,
+        color: backgroundColor,
         child: TabBar(
           tabs: tabItems,
           controller: _tabController,

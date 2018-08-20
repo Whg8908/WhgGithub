@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:whg_github/common/style/whg_style.dart';
 import 'package:whg_github/ui/view/whg_tabbar_widget.dart';
 
 class HomePage extends StatelessWidget {
@@ -16,7 +17,7 @@ class HomePage extends StatelessWidget {
           new Icon(Icons.directions_transit),
           new Icon(Icons.directions_bike),
         ],
-        backgroundColor: Colors.deepOrange,
+        backgroundColor: WhgColors.primarySwatch,
         indicatorColor: Colors.white,
         title: "Title");
   }

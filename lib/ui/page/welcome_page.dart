@@ -1,8 +1,7 @@
-
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:whg_github/ui/page/home_page.dart';
+import 'package:whg_github/ui/page/login_page.dart';
 
 /**
  * @Author by whg
@@ -13,21 +12,18 @@ import 'package:whg_github/ui/page/home_page.dart';
  */
 
 class WelComePage extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
-
     //延时跳转
-    Future.delayed(Duration(seconds: 2),(){
-      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context){
-        return HomePage();
+    Future.delayed(Duration(seconds: 2), () {
+      Navigator.of(context)
+          .pushReplacement(MaterialPageRoute(builder: (context) {
+        return LoginPage();
       }));
     });
 
     return Container(
-      child: Center(
-        child: Text("Welcome"),
-      ),
-    );
+        color: Colors.white,
+        child: Image(image: AssetImage("static/images/welcome.png")));
   }
 }
