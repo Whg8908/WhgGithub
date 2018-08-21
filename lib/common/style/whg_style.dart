@@ -25,5 +25,5 @@ class WhgColors {
 }
 
 class WhgStrings {
-  static const String login_text = "Welcome Flutter";
+  static const String login_text = "登录";
 }

@@ -11,7 +11,7 @@ class LoginPage extends StatelessWidget {
       child: Center(
         child: Card(
           color: Color(WhgColors.cardWhite),
-          margin: const EdgeInsets.all(20.0),
+          margin: const EdgeInsets.all(30.0),
           child: Padding(
             padding: const EdgeInsets.only(
                 left: 20.0, top: 60.0, right: 30.0, bottom: 80.0),
