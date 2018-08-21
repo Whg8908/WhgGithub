@@ -14,4 +14,4 @@ build/
 
 .gradle/
 
-ignoreConfig.dart
+lib/net_config.dart

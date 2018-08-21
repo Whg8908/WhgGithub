@@ -1,3 +1,6 @@
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:whg_github/common/style/whg_style.dart';
+
 /**
  * @Author by whg
  * @Email ghw8908@163.com
@@ -20,5 +23,25 @@ class Code {
 
   static const SUCCESS = 200;
 
-  static errorHandleFunction(code) {}
+  static errorHandleFunction(code, message) {
+    switch (code) {
+      case 401:
+        Fluttertoast.showToast(msg: WhgStrings.network_error_401);
+        return WhgStrings.network_error_401; //401 Unauthorized
+      case 403:
+        Fluttertoast.showToast(msg: WhgStrings.network_error_403);
+        return WhgStrings.network_error_403;
+      case 404:
+        Fluttertoast.showToast(msg: WhgStrings.network_error_404);
+        return WhgStrings.network_error_404;
+      case NETWORK_TIMEOUT:
+        //超时
+        Fluttertoast.showToast(msg: WhgStrings.network_error_timeout);
+        return WhgStrings.network_error_timeout;
+      default:
+        Fluttertoast.showToast(
+            msg: WhgStrings.network_error_unknown + " " + message);
+        return WhgStrings.network_error_unknown;
+    }
+  }
 }
