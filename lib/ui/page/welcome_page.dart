@@ -5,6 +5,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:whg_github/common/config/config.dart';
 import 'package:whg_github/common/dao/user_dao.dart';
 import 'package:whg_github/common/redux/whg_state.dart';
+import 'package:whg_github/common/utils/navigatorutils.dart';
 
 /**
  * @Author by whg
@@ -17,6 +18,8 @@ import 'package:whg_github/common/redux/whg_state.dart';
  */
 
 class WelComePage extends StatelessWidget {
+  static const String sName = "/";
+
   @override
   Widget build(BuildContext context) {
     toNext(res) {
@@ -24,13 +27,11 @@ class WelComePage extends StatelessWidget {
         print(res);
         print(res.result);
       }
-      String widget;
       if (res != null && res.result) {
-        widget = "home";
+        NavigatorUtils.goHome(context);
       } else {
-        widget = "login";
+        NavigatorUtils.goLogin(context);
       }
-      Navigator.pushReplacementNamed(context, widget);
     }
 
     return StoreBuilder<WhgState>(

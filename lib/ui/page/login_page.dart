@@ -6,6 +6,7 @@ import 'package:whg_github/common/config/config.dart';
 import 'package:whg_github/common/dao/user_dao.dart';
 import 'package:whg_github/common/local/local_storage.dart';
 import 'package:whg_github/common/style/whg_style.dart';
+import 'package:whg_github/common/utils/navigatorutils.dart';
 import 'package:whg_github/ui/view/whg_flex_button.dart';
 import 'package:whg_github/ui/view/whg_input_widget.dart';
 
@@ -19,6 +20,8 @@ import 'package:whg_github/ui/view/whg_input_widget.dart';
  * PS: Stay hungry,Stay foolish.
  */
 class LoginPage extends StatefulWidget {
+  static const String sName = "login";
+
   @override
   LoginPageState createState() => LoginPageState();
 }
@@ -109,7 +112,7 @@ class LoginPageState extends State<LoginPage> {
                     UserDao.login(_userName, _passWord, (data) {
                       if (data != null && data.result == true) {
                         Fluttertoast.showToast(msg: WhgStrings.login_success);
-                        Navigator.pushReplacementNamed(context, "home");
+                        NavigatorUtils.goHome(context);
                       }
                     });
                   },

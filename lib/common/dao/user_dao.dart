@@ -46,12 +46,13 @@ class UserDao {
     HttpManager.clearAuthorization();
 
     print("params = " + json.encode(requestParams));
-
+    //主要获取token授权
     var res = await HttpManager.fetch(Address.getAuthorization(),
         json.encode(requestParams), null, new Options(method: "post"));
 
     if (res != null && res.result) {
       await LocalStorage.put(Config.PW_KEY, passWord); //存储密码
+      //获取user信息
       var resultData = await getUserInfo(null);
       if (Config.DEBUG) {
         print("user result " + resultData.result.toString());
