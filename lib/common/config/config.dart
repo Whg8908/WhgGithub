@@ -17,4 +17,6 @@ class Config {
   static const String PW_KEY = "pw_key";
   static const String TOKEN_KEY = "token_key";
   static const String USER_BASIC_CODE = "user_basic_code";
+
+  static const String USER_INFO = "user_info";
 }

@@ -49,6 +49,10 @@ class HttpManager {
 
     headers["Authorization"] = optionParams["authorizationCode"];
 
+    if (Config.DEBUG) {
+      print(headers["Authorization"]);
+    }
+
     if (option != null) {
       option.headers = headers;
     } else {
@@ -100,8 +104,8 @@ class HttpManager {
         return new ResultData(response.data, true, Code.SUCCESS);
       } else {
         var responseJson = await response.data;
-        if (response.statusCode == 201 && responseJson.token != null) {
-          optionParams["authorizationCode"] = 'token ' + responseJson.token;
+        if (response.statusCode == 201 && responseJson["token"] != null) {
+          optionParams["authorizationCode"] = 'token ' + responseJson["token"];
           await LocalStorage.put(
               Config.TOKEN_KEY, optionParams["authorizationCode"]);
         }

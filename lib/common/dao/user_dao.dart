@@ -1,10 +1,13 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:whg_github/common/bean/User.dart';
 import 'package:whg_github/common/config/config.dart';
 import 'package:whg_github/common/local/local_storage.dart';
 import 'package:whg_github/common/net/address.dart';
+import 'package:whg_github/common/net/data_result.dart';
 import 'package:whg_github/common/net/httpmanager.dart';
+import 'package:whg_github/common/redux/user_redux.dart';
 import 'package:whg_github/net_config.dart';
 
 /**
@@ -21,7 +24,7 @@ class UserDao {
   /**
    * 登录
    */
-  static void login(String userName, String passWord, callback) async {
+  static void login(userName, passWord, callback) async {
     String type = userName + ":" + passWord;
     var bytes = utf8.encode(type);
     var base64Str = base64.encode(bytes);
@@ -30,7 +33,7 @@ class UserDao {
     }
     //存储本地
     await LocalStorage.put(Config.USER_NAME_KEY, userName);
-    await LocalStorage.put(Config.PW_KEY, base64Str);
+    await LocalStorage.put(Config.USER_BASIC_CODE, base64Str);
 
     //请求参数
     Map requestParams = {
@@ -43,16 +46,64 @@ class UserDao {
     HttpManager.clearAuthorization();
 
     print("params = " + json.encode(requestParams));
+
     var res = await HttpManager.fetch(Address.getAuthorization(),
-        json.encode(requestParams), null, Options(method: "post"));
+        json.encode(requestParams), null, new Options(method: "post"));
 
     if (res != null && res.result) {
-      await LocalStorage.put(Config.PW_KEY, passWord);
-      print("login result " + res.result.toString());
-      print(res.data.toString());
+      await LocalStorage.put(Config.PW_KEY, passWord); //存储密码
+      var resultData = await getUserInfo(null);
+      if (Config.DEBUG) {
+        print("user result " + resultData.result.toString());
+        print(resultData.data);
+        print(res.data.toString());
+      }
     }
     if (callback != null) {
       callback(res);
+    }
+  }
+
+  ///初始化用户信息
+  static initUserInfo(store) async {
+    var token = await LocalStorage.get(Config.TOKEN_KEY);
+    var res = await getUserInfoLocal();
+    if (res != null && res.result && token != null) {
+      store.dispatch(UpdataUserAction(res.data));
+    }
+    return new DataResult(res.data, (res.result && (token != null)));
+  }
+
+  ///获取本地登录用户信息
+  static getUserInfoLocal() async {
+    var userText = await LocalStorage.get(Config.USER_INFO);
+    if (userText != null) {
+      var userMap = json.decode(userText);
+      User user = User.fromJson(userMap);
+      return new DataResult(user, true);
+    } else {
+      return new DataResult(null, false);
+    }
+  }
+
+  ///获取用户详细信息
+  static getUserInfo(userName) async {
+    var res;
+    if (userName == null) {
+      res = await HttpManager.fetch(Address.getMyUserInfo(), null, null, null);
+    } else {
+      res = await HttpManager.fetch(
+          Address.getUserInfo(userName), null, null, null);
+    }
+    if (res != null && res.result) {
+      User user = User.fromJson(res.data);
+      user.starred = "---";
+      if (userName == null) {
+        LocalStorage.put(Config.USER_INFO, json.encode(user.toJson()));
+      }
+      return new DataResult(user, true);
+    } else {
+      return new DataResult(res.data, false);
     }
   }
 }

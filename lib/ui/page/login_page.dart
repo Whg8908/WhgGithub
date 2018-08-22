@@ -109,6 +109,7 @@ class LoginPageState extends State<LoginPage> {
                     UserDao.login(_userName, _passWord, (data) {
                       if (data != null && data.result == true) {
                         Fluttertoast.showToast(msg: WhgStrings.login_success);
+                        Navigator.pushReplacementNamed(context, "home");
                       }
                     });
                   },
