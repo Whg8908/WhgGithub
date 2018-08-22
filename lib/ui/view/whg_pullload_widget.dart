@@ -1,16 +1,11 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_redux/flutter_redux.dart';
-import 'package:whg_github/common/bean/User.dart';
-import 'package:whg_github/common/redux/user_redux.dart';
-import 'package:whg_github/common/redux/whg_state.dart';
+import 'package:whg_github/common/style/whg_style.dart';
 /**
  * @Author by whg
  * @Email ghw8908@163.com
  * @Date on 2018/8/22
  *
- * @Description
+ * @Description  上拉刷新下拉加载控件
  *
  * PS: Stay hungry,Stay foolish.
  */
@@ -18,61 +13,84 @@ import 'package:whg_github/common/redux/whg_state.dart';
 class WhgPullLoadWidget extends StatefulWidget {
   final IndexedWidgetBuilder itemBuilder;
 
-  final NotificationListenerCallback<Notification> notificationListenerCallback;
-
   final RefreshCallback onRefresh;
+  final RefreshCallback onLoadMore;
 
   final WhgPullLoadWidgetControl control;
 
-  WhgPullLoadWidget(this.itemBuilder, this.notificationListenerCallback,
-      this.onRefresh, this.control);
+  WhgPullLoadWidget(
+      this.itemBuilder, this.onRefresh, this.onLoadMore, this.control);
 
   @override
   WhgPullLoadWidgetState createState() => WhgPullLoadWidgetState(
-      this.itemBuilder,
-      this.notificationListenerCallback,
-      this.onRefresh,
-      this.control);
+      this.itemBuilder, this.onRefresh, this.onLoadMore, this.control);
 }
 
 class WhgPullLoadWidgetState extends State<WhgPullLoadWidget> {
   final IndexedWidgetBuilder itemBuilder;
 
-  final NotificationListenerCallback<Notification> notificationListenerCallback;
-
   final RefreshCallback onRefresh;
+  final RefreshCallback onLoadMore;
 
-  final WhgPullLoadWidgetControl control;
+  WhgPullLoadWidgetControl control;
 
-  WhgPullLoadWidgetState(this.itemBuilder, this.notificationListenerCallback,
-      this.onRefresh, this.control);
+  WhgPullLoadWidgetState(
+      this.itemBuilder, this.onRefresh, this.onLoadMore, this.control);
+
+  final ScrollController scrollController = ScrollController();
+
+  @override
+  void initState() {
+    scrollController.addListener(() {
+      if (scrollController.position.pixels ==
+          scrollController.position.maxScrollExtent) {
+        if (this.onLoadMore != null && this.control.needLoadMore) {
+          this.onLoadMore();
+        }
+      }
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return StoreBuilder<WhgState>(
-      builder: (context, store) {
-        new Future.delayed(const Duration(seconds: 2), () {
-          User user = store.state.userInfo;
-          user.login = "new login";
-          user.name = "new name";
-          store.dispatch(new UpdataUserAction(user));
-        });
-        return NotificationListener(
-          onNotification: notificationListenerCallback,
-          child: RefreshIndicator(
-            onRefresh: onRefresh,
-            child: ListView.builder(
-              itemBuilder: itemBuilder,
-              itemCount: control.count,
-              physics: const AlwaysScrollableScrollPhysics(),
-            ),
-          ),
-        );
-      },
+    return RefreshIndicator(
+      onRefresh: onRefresh,
+      child: ListView.builder(
+        physics: const AlwaysScrollableScrollPhysics(),
+        itemBuilder: (context, index) {
+          if (index == control.dataList.length &&
+              control.dataList.length != 0) {
+            return _buildProgressIndicator();
+          } else {
+            return itemBuilder(context, index);
+          }
+        },
+        itemCount: (control.dataList.length > 0)
+            ? control.dataList.length + 1
+            : control.dataList.length,
+        controller: scrollController,
+      ),
+    );
+  }
+
+  /*
+  * 加载进度条
+  * */
+  Widget _buildProgressIndicator() {
+    Widget bottomWidget = (control.needLoadMore)
+        ? new CircularProgressIndicator()
+        : new Text(WhgStrings.load_more_not);
+    return new Padding(
+      padding: const EdgeInsets.all(20.0),
+      child: new Center(
+        child: bottomWidget,
+      ),
     );
   }
 }
 
 class WhgPullLoadWidgetControl {
-  int count = 5;
+  List dataList = new List();
+  bool needLoadMore = true;
 }

@@ -22,7 +22,8 @@ void main() => runApp(new FlutterReduxApp());
 class FlutterReduxApp extends StatelessWidget {
   //全局store
   final store = new Store<WhgState>(appReducer,
-      initialState: new WhgState(userInfo: User.empty()));
+      initialState:
+          new WhgState(userInfo: User.empty(), eventList: new List()));
 
   FlutterReduxApp({Key key}) : super(key: key);
 

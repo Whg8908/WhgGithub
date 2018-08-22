@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:whg_github/common/bean/event_view_model.dart';
 import 'package:whg_github/common/style/whg_style.dart';
 
 /**
@@ -11,6 +12,10 @@ import 'package:whg_github/common/style/whg_style.dart';
  * PS: Stay hungry,Stay foolish.
  */
 class EventItem extends StatelessWidget {
+  final EventViewModel eventViewModel;
+
+  EventItem(this.eventViewModel) : super();
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -28,42 +33,65 @@ class EventItem extends StatelessWidget {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                Row(
-                  children: <Widget>[
-                    Image(
-                        image: new AssetImage('static/images/logo.png'),
-                        width: 30.0,
-                        height: 30.0),
-                    SizedBox(
-                      width: 10.0,
-                    ),
-                    Expanded(child: new Text("ffffffffffffff")),
-                    Text("ffffffffffffff"),
-                  ],
-                ),
-                Container(
-                    child: new Text("Ffffffffff",
-                        style: new TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16.0,
-                            height: 1.3,
-                            color: Colors.lightBlue)),
-                    margin: new EdgeInsets.only(top: 6.0, bottom: 2.0),
-                    alignment: Alignment.topLeft),
-                Container(
-                    child: new Text("Fffffffffffe",
-                        style: new TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16.0,
-                            height: 1.3,
-                            color: Colors.black)),
-                    margin: new EdgeInsets.only(top: 6.0, bottom: 2.0),
-                    alignment: Alignment.topLeft)
+                fitrtColumn(),
+                secondColumn(),
+                thirdColumn(),
               ],
             ),
           ),
         ),
       ),
     );
+  }
+
+  //第一行
+  Widget fitrtColumn() => Row(
+        children: <Widget>[
+          new ClipOval(
+            //有placeholder
+            child: new FadeInImage.assetNetwork(
+              placeholder: "static/images/logo.png",
+              //预览图
+              fit: BoxFit.fitWidth,
+              image: eventViewModel.actionUserPic,
+              width: 30.0,
+              height: 30.0,
+            ),
+          ),
+          SizedBox(
+            width: 10.0,
+          ),
+          Expanded(child: new Text(eventViewModel.actionUser)),
+          Text("ffffffffffffff"),
+        ],
+      );
+
+  //第二行
+  secondColumn() => Container(
+      child: new Text(eventViewModel.actionTarget,
+          style: new TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 16.0,
+              height: 1.3,
+              color: Colors.lightBlue)),
+      margin: new EdgeInsets.only(top: 6.0, bottom: 2.0),
+      alignment: Alignment.topLeft);
+
+  //第三行
+  Widget thirdColumn() {
+    if (eventViewModel.actionDes == null ||
+        eventViewModel.actionDes.length == 0) {
+      return new Container();
+    } else {
+      return Container(
+          child: new Text(eventViewModel.actionDes,
+              style: new TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16.0,
+                  height: 1.3,
+                  color: Colors.black)),
+          margin: new EdgeInsets.only(top: 6.0, bottom: 2.0),
+          alignment: Alignment.topLeft);
+    }
   }
 }

@@ -1,9 +1,12 @@
 import 'package:whg_github/common/bean/User.dart';
+import 'package:whg_github/common/bean/event_view_model.dart';
+import 'package:whg_github/common/redux/event_redux.dart';
 import 'package:whg_github/common/redux/user_redux.dart';
 
 class WhgState {
   User userInfo;
-  WhgState({this.userInfo});
+  List<EventViewModel> eventList = new List();
+  WhgState({this.userInfo, this.eventList});
 }
 
 class UserActions {
@@ -14,5 +17,6 @@ class UserActions {
 WhgState appReducer(WhgState state, dynamic action) {
   return WhgState(
     userInfo: UserReducer(state.userInfo, action),
+    eventList: EventReducer(state.eventList, action),
   );
 }

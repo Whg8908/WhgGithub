@@ -24,6 +24,6 @@ class HomePage extends StatelessWidget {
         ],
         backgroundColor: WhgColors.primarySwatch,
         indicatorColor: Colors.white,
-        title: "Title");
+        title: WhgStrings.appName);
   }
 }

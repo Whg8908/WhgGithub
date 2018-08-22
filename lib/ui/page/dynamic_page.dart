@@ -2,6 +2,9 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:redux/redux.dart';
+import 'package:whg_github/common/config/config.dart';
+import 'package:whg_github/common/dao/event_dao.dart';
 import 'package:whg_github/common/redux/whg_state.dart';
 import 'package:whg_github/ui/view/eventitem.dart';
 import 'package:whg_github/ui/view/whg_pullload_widget.dart';
@@ -24,21 +27,51 @@ class DynamicPage extends StatefulWidget {
 class DynamicPageState extends State<DynamicPage> {
   final WhgPullLoadWidgetControl control = WhgPullLoadWidgetControl();
 
+  bool isLoading = false;
+  int page = 1;
+  final List dataList = new List();
+
+  //刷新数据
   Future<Null> _handleRefresh() async {
+    if (isLoading) {
+      return null;
+    }
+    isLoading = true;
+    page = 1;
+    var result = await EventDao.getEventReceived(_getStore(), page: page);
+    //更新数据
     setState(() {
-      control.count = 5;
+      control.needLoadMore =
+          (result != null && result.length == Config.PAGE_SIZE);
     });
+    isLoading = false;
     return null;
   }
 
-  bool _onNotifycation<Notification>(Notification notify) {
-    if (notify is! OverscrollNotification) {
-      return true;
+  //加载更多
+  Future<Null> _onLoadMore() async {
+    if (isLoading) {
+      return null;
     }
+    isLoading = true;
+    page++;
+    var result = await EventDao.getEventReceived(_getStore(), page: page);
     setState(() {
-      control.count += 5;
+      control.needLoadMore = (result != null);
     });
-    return true;
+    isLoading = false;
+    return null;
+  }
+
+  Store<WhgState> _getStore() {
+    return StoreProvider.of(context);
+  }
+
+  @override
+  void didChangeDependencies() {
+    control.dataList = _getStore().state.eventList;
+    _handleRefresh();
+    super.didChangeDependencies();
   }
 
   @override
@@ -46,11 +79,11 @@ class DynamicPageState extends State<DynamicPage> {
     return StoreBuilder<WhgState>(
       builder: (context, store) {
         return WhgPullLoadWidget(
-          (BuildContext context, int index) => EventItem(),
-          _onNotifycation,
-          _handleRefresh,
-          control,
-        );
+            (BuildContext context, int index) =>
+                EventItem(control.dataList[index]),
+            _handleRefresh,
+            _onLoadMore,
+            control);
       },
     );
   }

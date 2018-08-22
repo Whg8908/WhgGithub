@@ -25,6 +25,8 @@ class WhgColors {
 }
 
 class WhgStrings {
+  static const String appName = "WhgGithub";
+
   static const String login_text = "登录";
   static const String login_username_hint_text = "请输入github用户名";
   static const String login_password_hint_text = "请输入密码";
@@ -35,4 +37,6 @@ class WhgStrings {
   static const String network_error_404 = "404错误";
   static const String network_error_timeout = "请求超时";
   static const String network_error_unknown = "其他异常";
+
+  static const String load_more_not = "加载没有更多...";
 }
