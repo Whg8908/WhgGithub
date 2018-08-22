@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:whg_github/common/bean/event_view_model.dart';
 import 'package:whg_github/common/style/whg_style.dart';
+import 'package:whg_github/ui/view/card_item.dart';
 
 /**
  * @Author by whg
@@ -19,13 +20,7 @@ class EventItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Card(
-        elevation: 5.0,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(4.0)),
-        ),
-        color: Color(WhgColors.cardWhite),
-        margin: const EdgeInsets.all(10.0),
+      child: WhgCardItem(
         child: FlatButton(
           onPressed: () => {},
           child: Padding(
@@ -61,19 +56,19 @@ class EventItem extends StatelessWidget {
           SizedBox(
             width: 10.0,
           ),
-          Expanded(child: new Text(eventViewModel.actionUser)),
-          Text("ffffffffffffff"),
+          Expanded(
+              child: new Text(
+            eventViewModel.actionUser,
+            style: WhgConstant.smallTextBold,
+          )),
+          new Text(eventViewModel.actionTime, style: WhgConstant.subSmallText),
         ],
       );
 
   //第二行
   secondColumn() => Container(
       child: new Text(eventViewModel.actionTarget,
-          style: new TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 16.0,
-              height: 1.3,
-              color: Colors.lightBlue)),
+          style: WhgConstant.smallTextBold),
       margin: new EdgeInsets.only(top: 6.0, bottom: 2.0),
       alignment: Alignment.topLeft);
 
@@ -85,11 +80,7 @@ class EventItem extends StatelessWidget {
     } else {
       return Container(
           child: new Text(eventViewModel.actionDes,
-              style: new TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16.0,
-                  height: 1.3,
-                  color: Colors.black)),
+              style: WhgConstant.subSmallText),
           margin: new EdgeInsets.only(top: 6.0, bottom: 2.0),
           alignment: Alignment.topLeft);
     }

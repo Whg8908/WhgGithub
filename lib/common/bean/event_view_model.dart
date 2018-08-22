@@ -1,3 +1,4 @@
+import 'package:whg_github/common/utils/commonutils.dart';
 import 'package:whg_github/common/utils/eventutils.dart';
 
 class EventViewModel {
@@ -8,7 +9,8 @@ class EventViewModel {
   String actionTarget;
 
   EventViewModel.fromEventMap(eventMap) {
-    //actionTime = eventMap["created_at"];
+    actionTime =
+        CommonUtils.getNewsTimeStr(DateTime.parse(eventMap["created_at"]));
     actionUser = eventMap["actor"]["display_login"];
     actionUserPic = eventMap["actor"]["avatar_url"];
     var other = EventUtils.getActionAndDes(eventMap);
