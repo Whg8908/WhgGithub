@@ -2,9 +2,9 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:whg_github/common/bean/User.dart';
-import 'package:whg_github/common/redux/user_redux.dart';
 import 'package:whg_github/common/redux/whg_state.dart';
+import 'package:whg_github/ui/view/eventitem.dart';
+import 'package:whg_github/ui/view/whg_pullload_widget.dart';
 
 /**
  * @Author by whg
@@ -16,20 +16,40 @@ import 'package:whg_github/common/redux/whg_state.dart';
  * PS: Stay hungry,Stay foolish.
  */
 
-class DynamicPage extends StatelessWidget {
+class DynamicPage extends StatefulWidget {
+  @override
+  DynamicPageState createState() => DynamicPageState();
+}
+
+class DynamicPageState extends State<DynamicPage> {
+  final WhgPullLoadWidgetControl control = WhgPullLoadWidgetControl();
+
+  Future<Null> _handleRefresh() async {
+    setState(() {
+      control.count = 5;
+    });
+    return null;
+  }
+
+  bool _onNotifycation<Notification>(Notification notify) {
+    if (notify is! OverscrollNotification) {
+      return true;
+    }
+    setState(() {
+      control.count += 5;
+    });
+    return true;
+  }
+
   @override
   Widget build(BuildContext context) {
     return StoreBuilder<WhgState>(
       builder: (context, store) {
-        new Future.delayed(const Duration(seconds: 2), () {
-          User user = store.state.userInfo;
-          user.login = "new login";
-          user.name = "new name";
-          store.dispatch(new UpdataUserAction(user));
-        });
-        return new Text(
-          store.state.userInfo.login,
-          style: Theme.of(context).textTheme.display1,
+        return WhgPullLoadWidget(
+          (BuildContext context, int index) => EventItem(),
+          _onNotifycation,
+          _handleRefresh,
+          control,
         );
       },
     );
