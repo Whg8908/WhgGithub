@@ -24,12 +24,13 @@ class DynamicPage extends StatefulWidget {
   DynamicPageState createState() => DynamicPageState();
 }
 
-class DynamicPageState extends State<DynamicPage> {
+class DynamicPageState extends State<DynamicPage>
+    with AutomaticKeepAliveClientMixin {
   final WhgPullLoadWidgetControl control = WhgPullLoadWidgetControl();
+  final List dataList = new List();
 
   bool isLoading = false;
   int page = 1;
-  final List dataList = new List();
 
   //刷新数据
   Future<Null> _handleRefresh() async {
@@ -68,9 +69,14 @@ class DynamicPageState extends State<DynamicPage> {
   }
 
   @override
+  bool get wantKeepAlive => true;
+
+  @override
   void didChangeDependencies() {
     control.dataList = _getStore().state.eventList;
-    _handleRefresh();
+    if (control.dataList.length == 0) {
+      _handleRefresh();
+    }
     super.didChangeDependencies();
   }
 

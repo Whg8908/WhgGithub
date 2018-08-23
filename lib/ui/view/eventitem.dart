@@ -41,6 +41,7 @@ class EventItem extends StatelessWidget {
 
   //第一行
   Widget fitrtColumn() => Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           new ClipOval(
             //有placeholder
@@ -66,7 +67,7 @@ class EventItem extends StatelessWidget {
       );
 
   //第二行
-  secondColumn() => Container(
+  Widget secondColumn() => Container(
       child: new Text(eventViewModel.actionTarget,
           style: WhgConstant.smallTextBold),
       margin: new EdgeInsets.only(top: 6.0, bottom: 2.0),

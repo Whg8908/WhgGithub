@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+///配合AutomaticKeepAliveClientMixin可以keep住
+
 class WhgTabBarWidget extends StatefulWidget {
   //位置
   static const int BOTTOM_TAB = 1;

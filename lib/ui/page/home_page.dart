@@ -13,9 +13,9 @@ class HomePage extends StatelessWidget {
     return WhgTabBarWidget(
         type: WhgTabBarWidget.BOTTOM_TAB,
         tabItems: [
-          new Tab(icon: new Icon(Icons.directions_car)),
-          new Tab(icon: new Icon(Icons.directions_transit)),
-          new Tab(icon: new Icon(Icons.directions_bike)),
+          new Tab(icon: new Icon(WhgICons.MAIN_DT)),
+          new Tab(icon: new Icon(WhgICons.MAIN_QS)),
+          new Tab(icon: new Icon(WhgICons.MAIN_MY)),
         ],
         tabViews: [
           DynamicPage(),

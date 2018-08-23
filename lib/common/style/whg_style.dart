@@ -174,4 +174,33 @@ class WhgConstant {
     color: Color(WhgColors.TextColorWhite),
     fontSize: bigTextSize,
   );
+
+  static const normalTextBold = TextStyle(
+    color: Color(WhgColors.mainTextColor),
+    fontSize: normalTextSize,
+    fontWeight: FontWeight.bold,
+  );
+}
+
+class WhgICons {
+  static String FONT_FAMILY = 'wxcIconFont';
+
+  static IconData MAIN_DT =
+      new IconData(0xe684, fontFamily: WhgICons.FONT_FAMILY);
+
+  static IconData MAIN_QS =
+      new IconData(0xe818, fontFamily: WhgICons.FONT_FAMILY);
+
+  static IconData MAIN_MY =
+      new IconData(0xe6d0, fontFamily: WhgICons.FONT_FAMILY);
+
+  static IconData REPOS_ITEM_USER =
+      new IconData(0xe63e, fontFamily: WhgICons.FONT_FAMILY);
+
+  static IconData REPOS_ITEM_STAR =
+      new IconData(0xe643, fontFamily: WhgICons.FONT_FAMILY);
+  static IconData REPOS_ITEM_FORK =
+      new IconData(0xe67e, fontFamily: WhgICons.FONT_FAMILY);
+  static IconData REPOS_ITEM_ISSUE =
+      new IconData(0xe661, fontFamily: WhgICons.FONT_FAMILY);
 }

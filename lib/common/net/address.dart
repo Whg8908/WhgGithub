@@ -48,4 +48,12 @@ class Address {
   static getEventReceived(userName) {
     return "${host}users/$userName/received_events";
   }
+
+  ///趋势 get
+  static trending(since, languageType) {
+    if (languageType == null) {
+      return "${hostWeb}trending/$languageType?since=$since";
+    }
+    return "${hostWeb}trending?since=$since";
+  }
 }
