@@ -66,12 +66,22 @@ class WhgPullLoadWidgetState extends State<WhgPullLoadWidget> {
             return itemBuilder(context, index);
           }
         },
-        itemCount: (control.dataList.length > 0)
-            ? control.dataList.length + 1
-            : control.dataList.length,
+        itemCount: _getListCount(),
         controller: scrollController,
       ),
     );
+  }
+
+  _getListCount() {
+    if (control.needHeader) {
+      return (control.dataList.length > 0)
+          ? control.dataList.length + 2
+          : control.dataList.length + 1;
+    } else {
+      return (control.dataList.length > 0)
+          ? control.dataList.length + 1
+          : control.dataList.length;
+    }
   }
 
   /*
@@ -93,4 +103,5 @@ class WhgPullLoadWidgetState extends State<WhgPullLoadWidget> {
 class WhgPullLoadWidgetControl {
   List dataList = new List();
   bool needLoadMore = true;
+  bool needHeader = false;
 }

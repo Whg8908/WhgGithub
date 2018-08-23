@@ -6,7 +6,7 @@ import 'package:redux/redux.dart';
 import 'package:whg_github/common/config/config.dart';
 import 'package:whg_github/common/dao/event_dao.dart';
 import 'package:whg_github/common/redux/whg_state.dart';
-import 'package:whg_github/ui/view/eventitem.dart';
+import 'package:whg_github/ui/view/event_item.dart';
 import 'package:whg_github/ui/view/whg_pullload_widget.dart';
 
 /**

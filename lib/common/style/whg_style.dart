@@ -65,6 +65,7 @@ class WhgStrings {
   static const String network_error_unknown = "其他异常";
 
   static const String load_more_not = "加载没有更多...";
+  static const String nothing_now = "目前什么都没有。";
 }
 
 class WhgConstant {
@@ -180,6 +181,12 @@ class WhgConstant {
     fontSize: normalTextSize,
     fontWeight: FontWeight.bold,
   );
+
+  static const largeTextWhiteBold = TextStyle(
+    color: Color(WhgColors.TextColorWhite),
+    fontSize: bigTextSize,
+    fontWeight: FontWeight.bold,
+  );
 }
 
 class WhgICons {
@@ -203,4 +210,11 @@ class WhgICons {
       new IconData(0xe67e, fontFamily: WhgICons.FONT_FAMILY);
   static IconData REPOS_ITEM_ISSUE =
       new IconData(0xe661, fontFamily: WhgICons.FONT_FAMILY);
+
+  static IconData USER_ITEM_COMPANY =
+      new IconData(0xe63e, fontFamily: WhgICons.FONT_FAMILY);
+  static IconData USER_ITEM_LOCATION =
+      new IconData(0xe7e6, fontFamily: WhgICons.FONT_FAMILY);
+  static IconData USER_ITEM_LINK =
+      new IconData(0xe670, fontFamily: WhgICons.FONT_FAMILY);
 }
