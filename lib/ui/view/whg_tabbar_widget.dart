@@ -13,6 +13,7 @@ class WhgTabBarWidget extends StatefulWidget {
   final Color backgroundColor;
   final Color indicatorColor;
   final String title;
+  final Widget drawer;
 
   WhgTabBarWidget(
       {Key key,
@@ -21,7 +22,8 @@ class WhgTabBarWidget extends StatefulWidget {
       this.tabViews,
       this.backgroundColor,
       this.indicatorColor,
-      this.title})
+      this.title,
+      this.drawer})
       : super(key: key);
 
   @override
@@ -31,7 +33,8 @@ class WhgTabBarWidget extends StatefulWidget {
       this.tabViews,
       this.backgroundColor,
       this.indicatorColor,
-      this.title);
+      this.title,
+      this.drawer);
 }
 
 class WhgTabBarWidgetState extends State<WhgTabBarWidget>
@@ -42,11 +45,12 @@ class WhgTabBarWidgetState extends State<WhgTabBarWidget>
   final Color backgroundColor;
   final Color indicatorColor;
   final String title;
+  final Widget drawer;
 
   TabController _tabController;
 
   WhgTabBarWidgetState(this.type, this.tabItems, this.tabViews,
-      this.backgroundColor, this.indicatorColor, this.title)
+      this.backgroundColor, this.indicatorColor, this.title, this.drawer)
       : super();
 
   @override
@@ -77,6 +81,7 @@ class WhgTabBarWidgetState extends State<WhgTabBarWidget>
     }
 
     return Scaffold(
+      drawer: drawer,
       appBar: AppBar(
         backgroundColor: backgroundColor,
         title: Text(title),
