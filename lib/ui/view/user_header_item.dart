@@ -44,6 +44,7 @@ class UserHeaderItem extends StatelessWidget {
                   color: Color(WhgColors.subLightTextColor),
                 ),
                 thirdColumn(),
+                userDynamicTitle(),
               ],
             ),
           ),
@@ -58,7 +59,7 @@ class UserHeaderItem extends StatelessWidget {
           ClipOval(
             child: FadeInImage.assetNetwork(
               placeholder: "static/images/logo.png",
-              image: userInfo.avatar_url,
+              image: userInfo.avatar_url == null ? "" : userInfo.avatar_url,
               fit: BoxFit.fitWidth,
               width: 80.0,
               height: 80.0,
@@ -71,9 +72,10 @@ class UserHeaderItem extends StatelessWidget {
             child: new Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                new Text(userInfo.login, style: WhgConstant.largeTextWhiteBold),
+                new Text(userInfo.login == null ? "" : userInfo.login,
+                    style: WhgConstant.largeTextWhiteBold),
                 userInfo.name != null
-                    ? new Text(userInfo.name,
+                    ? new Text(userInfo.name == null ? "" : userInfo.name,
                         style: WhgConstant.subLightSmallText)
                     : Container(),
                 new WhgIconText(
@@ -121,7 +123,6 @@ class UserHeaderItem extends StatelessWidget {
                 userInfo.bio == null ? WhgStrings.nothing_now : userInfo.bio,
                 style: WhgConstant.subLightSmallText,
                 maxLines: 3,
-                overflow: TextOverflow.ellipsis,
               ),
               margin: new EdgeInsets.only(top: 6.0, bottom: 2.0),
               alignment: Alignment.topLeft),
@@ -133,18 +134,12 @@ class UserHeaderItem extends StatelessWidget {
         children: <Widget>[
           new Expanded(
             child: new Center(
-              child: new Text("仓库\n" + userInfo.public_repos.toString(),
-                  textAlign: TextAlign.center, style: WhgConstant.subSmallText),
-            ),
-          ),
-          new Container(
-              width: 0.3,
-              height: 40.0,
-              color: Color(WhgColors.subLightTextColor)),
-          new Expanded(
-            child: new Center(
-              child: new Text("粉丝\n" + userInfo.followers.toString(),
-                  textAlign: TextAlign.center, style: WhgConstant.subSmallText),
+              child: new Text(
+                  WhgStrings.user_tab_repos +
+                      "\n" +
+                      userInfo.public_repos.toString(),
+                  textAlign: TextAlign.center,
+                  style: WhgConstant.subSmallText),
             ),
           ),
           new Container(
@@ -154,7 +149,23 @@ class UserHeaderItem extends StatelessWidget {
           new Expanded(
             child: new Center(
               child: new Text(
-                "关注\n" + userInfo.following.toString(),
+                  WhgStrings.user_tab_fans +
+                      "粉丝\n" +
+                      userInfo.followers.toString(),
+                  textAlign: TextAlign.center,
+                  style: WhgConstant.subSmallText),
+            ),
+          ),
+          new Container(
+              width: 0.3,
+              height: 40.0,
+              color: Color(WhgColors.subLightTextColor)),
+          new Expanded(
+            child: new Center(
+              child: new Text(
+                WhgStrings.user_tab_focus +
+                    "\n" +
+                    userInfo.following.toString(),
                 textAlign: TextAlign.center,
                 style: WhgConstant.subSmallText,
               ),
@@ -166,7 +177,7 @@ class UserHeaderItem extends StatelessWidget {
               color: Color(WhgColors.subLightTextColor)),
           new Expanded(
             child: new Center(
-              child: new Text("星标\n---",
+              child: new Text(WhgStrings.user_tab_star + "\n---",
                   textAlign: TextAlign.center, style: WhgConstant.subSmallText),
             ),
           ),
@@ -176,10 +187,19 @@ class UserHeaderItem extends StatelessWidget {
               color: Color(WhgColors.subLightTextColor)),
           new Expanded(
             child: new Center(
-              child: new Text("荣耀\n---",
+              child: new Text(WhgStrings.user_tab_honor + "\n---",
                   textAlign: TextAlign.center, style: WhgConstant.subSmallText),
             ),
           ),
         ],
       );
+
+  Widget userDynamicTitle() => Container(
+      child: new Text(
+        WhgStrings.user_dynamic_title,
+        style: WhgConstant.normalTextBold,
+        overflow: TextOverflow.ellipsis,
+      ),
+      margin: new EdgeInsets.only(top: 15.0, bottom: 15.0, left: 12.0),
+      alignment: Alignment.topLeft);
 }

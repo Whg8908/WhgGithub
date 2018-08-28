@@ -56,4 +56,19 @@ class Address {
     }
     return "${hostWeb}trending?since=$since";
   }
+
+  ///用户相关的事件信息 get
+  static getEvent(userName) {
+    return "${host}users/$userName/events";
+  }
+
+  ///仓库详情 get
+  static getReposDetail(reposOwner, reposName) {
+    return "${host}repos/$reposOwner/$reposName";
+  }
+
+  ///仓库活动 get
+  static getReposEvent(reposOwner, reposName) {
+    return "${host}networks/$reposOwner/$reposName/events";
+  }
 }

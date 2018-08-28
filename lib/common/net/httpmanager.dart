@@ -1,5 +1,6 @@
 import 'dart:collection';
 
+import 'package:connectivity/connectivity.dart';
 import 'package:dio/dio.dart';
 import 'package:whg_github/common/config/config.dart';
 import 'package:whg_github/common/local/local_storage.dart';
@@ -33,6 +34,13 @@ class HttpManager {
    *  opption  配置
    */
   static fetch(url, params, Map<String, String> header, Options option) async {
+    //没有网络
+    var connectivityResult = await (new Connectivity().checkConnectivity());
+    if (connectivityResult == ConnectivityResult.none) {
+      return new ResultData(Code.errorHandleFunction(Code.NETWORK_ERROR, ""),
+          false, Code.NETWORK_ERROR);
+    }
+
     Map<String, String> headers = HashMap();
 
     if (header != null) {

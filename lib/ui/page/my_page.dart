@@ -3,7 +3,10 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
+import 'package:whg_github/common/config/config.dart';
+import 'package:whg_github/common/dao/event_dao.dart';
 import 'package:whg_github/common/redux/whg_state.dart';
+import 'package:whg_github/ui/view/event_item.dart';
 import 'package:whg_github/ui/view/user_header_item.dart';
 import 'package:whg_github/ui/view/whg_pullload_widget.dart';
 
@@ -33,10 +36,46 @@ class MyPageState extends State<MyPage> with AutomaticKeepAliveClientMixin {
       WhgPullLoadWidgetControl();
 
   Future<Null> _handleRefresh() async {
+    if (isLoading) {
+      return null;
+    }
+    isLoading = true;
+    page = 1;
+
+    var result = await EventDao.getEventDao(_getUserName(), page: page);
+    //刷新item
+    if (result != null && result.length > 0) {
+      pullLoadWidgetControl.dataList.clear();
+      setState(() {
+        pullLoadWidgetControl.dataList.addAll(result);
+      });
+    }
+    //更新是否能加载更多
+    setState(() {
+      pullLoadWidgetControl.needLoadMore =
+          (result != null && result.length == Config.PAGE_SIZE);
+    });
+    isLoading = false;
+
     return null;
   }
 
   Future<Null> _onLoadMore() async {
+    if (isLoading) {
+      return null;
+    }
+    isLoading = true;
+    page++;
+    var result = await EventDao.getEventDao(_getUserName(), page: page);
+    if (result != null && result.length > 0) {
+      setState(() {
+        pullLoadWidgetControl.dataList.addAll(result);
+      });
+    }
+    setState(() {
+      pullLoadWidgetControl.needLoadMore = (result != null);
+    });
+    isLoading = false;
     return null;
   }
 
@@ -44,6 +83,14 @@ class MyPageState extends State<MyPage> with AutomaticKeepAliveClientMixin {
     if (index == 0) {
       return new UserHeaderItem(userInfo);
     }
+    return new EventItem(pullLoadWidgetControl.dataList[index - 1]);
+  }
+
+  _getUserName() {
+    if (_getStore().state.userInfo == null) {
+      return null;
+    }
+    return _getStore().state.userInfo.login;
   }
 
   Store<WhgState> _getStore() {

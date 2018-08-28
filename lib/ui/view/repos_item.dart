@@ -6,15 +6,16 @@ import 'package:whg_github/ui/view/whg_icon_text.dart';
 
 class ReposItem extends StatelessWidget {
   final ReposViewModel reposViewModel;
+  final VoidCallback onPressed;
 
-  ReposItem(this.reposViewModel) : super();
+  ReposItem(this.reposViewModel, {this.onPressed}) : super();
 
   @override
   Widget build(BuildContext context) {
     return Container(
       child: WhgCardItem(
         child: FlatButton(
-          onPressed: () => {},
+          onPressed: onPressed,
           child: Padding(
             padding: const EdgeInsets.all(10.0),
             child: Column(
@@ -73,8 +74,12 @@ class ReposItem extends StatelessWidget {
       );
 
   Widget secondColumn() => Container(
-      child: new Text(reposViewModel.repositoryDes,
-          style: WhgConstant.subSmallText),
+      child: new Text(
+        reposViewModel.repositoryDes,
+        style: WhgConstant.subSmallText,
+        maxLines: 3,
+        overflow: TextOverflow.ellipsis,
+      ),
       margin: new EdgeInsets.only(top: 6.0, bottom: 2.0),
       alignment: Alignment.topLeft);
 

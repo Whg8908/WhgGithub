@@ -59,7 +59,12 @@ class WhgPullLoadWidgetState extends State<WhgPullLoadWidget> {
       child: ListView.builder(
         physics: const AlwaysScrollableScrollPhysics(),
         itemBuilder: (context, index) {
-          if (index == control.dataList.length &&
+          if (!control.needHeader &&
+              index == control.dataList.length &&
+              control.dataList.length != 0) {
+            return _buildProgressIndicator();
+          } else if (control.needHeader &&
+              index == _getListCount() - 1 &&
               control.dataList.length != 0) {
             return _buildProgressIndicator();
           } else {

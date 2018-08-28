@@ -59,7 +59,7 @@ class WhgStrings {
   static const String login_password_hint_text = "请输入密码";
   static const String login_success = "登录成功";
 
-  static const String network_error_401 = "未授权或授权登录失败";
+  static const String network_error_401 = "[401错误可能: 未授权 \\ 授权登录失败 \\ 登录过期]";
   static const String network_error_403 = "403权限错误";
   static const String network_error_404 = "404错误";
   static const String network_error_timeout = "请求超时";
@@ -67,6 +67,23 @@ class WhgStrings {
 
   static const String load_more_not = "加载没有更多...";
   static const String nothing_now = "目前什么都没有。";
+  static const String home_dynamic = "动态";
+  static const String home_trend = "趋势";
+  static const String home_my = "我的";
+
+  static const String user_tab_repos = "仓库";
+  static const String user_tab_fans = "粉丝";
+  static const String user_tab_focus = "关注";
+  static const String user_tab_star = "星标";
+  static const String user_tab_honor = "荣耀";
+
+  static const String user_dynamic_title = "个人动态";
+  static const String network_error = "网络错误";
+
+  static const String repos_tab_readme = "详情";
+  static const String repos_tab_info = "动态";
+  static const String repos_tab_file = "文件";
+  static const String repos_tab_issue = "ISSUE";
 }
 
 class WhgConstant {
@@ -187,6 +204,11 @@ class WhgConstant {
     color: Color(WhgColors.TextColorWhite),
     fontSize: bigTextSize,
     fontWeight: FontWeight.bold,
+  );
+
+  static const middleSubText = TextStyle(
+    color: Color(WhgColors.subTextColor),
+    fontSize: middleTextWhiteSize,
   );
 }
 

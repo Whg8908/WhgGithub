@@ -65,7 +65,7 @@ class WhgTabBarWidgetState extends State<WhgTabBarWidget>
   Widget build(BuildContext context) {
     if (this.type == WhgTabBarWidget.TOP_TAB) {
       return DefaultTabController(
-        length: 3,
+        length: tabItems.length,
         child: Scaffold(
           appBar: AppBar(
             backgroundColor: backgroundColor,
@@ -84,7 +84,11 @@ class WhgTabBarWidgetState extends State<WhgTabBarWidget>
       drawer: drawer,
       appBar: AppBar(
         backgroundColor: backgroundColor,
-        title: Text(title),
+        title: new Text(
+          title,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+        ),
       ),
       body: TabBarView(
         children: tabViews,

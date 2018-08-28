@@ -25,6 +25,9 @@ class Code {
 
   static errorHandleFunction(code, message) {
     switch (code) {
+      case NETWORK_ERROR:
+        Fluttertoast.showToast(msg: WhgStrings.network_error);
+        return WhgStrings.network_error;
       case 401:
         Fluttertoast.showToast(msg: WhgStrings.network_error_401);
         return WhgStrings.network_error_401; //401 Unauthorized

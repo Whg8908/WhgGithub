@@ -1,3 +1,15 @@
+import 'package:flutter/material.dart';
+import 'package:whg_github/common/utils/navigatorutils.dart';
+
+/**
+ * @Author by whg
+ * @Email ghw8908@163.com
+ * @Date on 2018/8/23
+ *
+ * @Description 事件描述与动作
+ *
+ * PS: Stay hungry,Stay foolish.
+ */
 class EventUtils {
   static getActionAndDes(event) {
     String actionStr;
@@ -107,21 +119,23 @@ class EventUtils {
         String descSpan = '';
 
         int count = event["comments"];
-        int maxLines = 4;
-        int max = (count > maxLines) ? maxLines - 1 : count;
+        if (count != null) {
+          int maxLines = 4;
+          int max = (count != null && count > maxLines) ? maxLines - 1 : count;
 
-        for (int i = 0; i < max; i++) {
-          var commit = event["payload"]["comment"].get(i);
-          if (i != 0) {
-            descSpan += ("\n");
+          for (int i = 0; i < max; i++) {
+            var commit = event["payload"]["comment"].get(i);
+            if (i != 0) {
+              descSpan += ("\n");
+            }
+            String sha = commit["sha"].substring(0, 7);
+            descSpan += sha;
+            descSpan += " ";
+            descSpan += commit["message"];
           }
-          String sha = commit["sha"].substring(0, 7);
-          descSpan += sha;
-          descSpan += " ";
-          descSpan += commit["message"];
-        }
-        if (count > maxLines) {
-          descSpan = descSpan + "\n" + "...";
+          if (count > maxLines) {
+            descSpan = descSpan + "\n" + "...";
+          }
         }
         break;
       case "ReleaseEvent":
@@ -137,5 +151,67 @@ class EventUtils {
     }
 
     return {"actionStr": actionStr, "des": des != null ? des : ""};
+  }
+
+  ///跳转
+  static ActionUtils(BuildContext context, event, currentRepository) {
+    if (event["repo"] == null) {
+      NavigatorUtils.goPerson(context, event["actor"]["login"]);
+      return;
+    }
+    String owner = event["repo"]["name"].split("/")[0];
+    String repositoryName = event["repo"]["name"].split("/")[1];
+    String fullName = owner + '/' + repositoryName;
+    switch (event["type"]) {
+      case 'ForkEvent':
+        String forkName = event["actor"]["login"] + "/" + repositoryName;
+        if (forkName == currentRepository) {
+          return;
+        }
+        NavigatorUtils.goReposDetail(
+            context, event["actor"]["login"], repositoryName);
+        break;
+      case 'PushEvent':
+        if (event["payload"]["commits"] == null) {
+          if (fullName == currentRepository) {
+            return;
+          }
+          NavigatorUtils.goReposDetail(context, owner, repositoryName);
+        } else if (event["payload"]["commits"].length == 1) {
+          //goToPush(repositoryName, owner, event.payload.commits[0].sha)
+        } else {
+          //Actions.OptionModal({dataList: getOptionItem(repositoryName, owner, event.payload.commits)});
+        }
+        break;
+      case 'ReleaseEvent':
+        String url = event["payload"]["release"]["html_url"];
+        //launchUrl(url);
+        break;
+      case 'IssueCommentEvent':
+      case 'IssuesEvent':
+        // 去issue
+        /*Actions.IssueDetail({
+          issue: event.payload.issue,
+          title: fullName,
+          repositoryName: repositoryName,
+          userName: owner,
+          needRightBtn: true,
+          iconType:1,
+          rightBtn: 'home',
+          rightBtnPress: () => {
+          Actions.RepositoryDetail({
+          repositoryName: repositoryName, ownerName: owner
+          , title: repositoryName
+          });
+          }
+          });*/
+        break;
+      default:
+        if (fullName == currentRepository) {
+          return;
+        }
+        NavigatorUtils.goReposDetail(context, owner, repositoryName);
+        break;
+    }
   }
 }

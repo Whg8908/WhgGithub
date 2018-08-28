@@ -1,7 +1,10 @@
+import 'package:whg_github/common/bean/event_view_model.dart';
+import 'package:whg_github/common/bean/repos_header_view_model.dart';
 import 'package:whg_github/common/bean/repos_view_model.dart';
 import 'package:whg_github/common/bean/trending_repo_model.dart';
 import 'package:whg_github/common/net/address.dart';
 import 'package:whg_github/common/net/data_result.dart';
+import 'package:whg_github/common/net/httpmanager.dart';
 import 'package:whg_github/common/net/trend/github_trend.dart';
 
 /**
@@ -44,6 +47,48 @@ class ReposDao {
         reposViewModel.repositoryType = model.language;
         reposViewModel.repositoryDes = model.description;
         list.add(reposViewModel);
+      }
+      return new DataResult(list, true);
+    } else {
+      return new DataResult(null, false);
+    }
+  }
+
+  /**
+   * 仓库的详情数据
+   */
+  static getRepositoryDetailDao(userName, reposName) async {
+    String url = Address.getReposDetail(userName, reposName);
+    var res = await HttpManager.fetch(url, null,
+        {"Accept": 'application/vnd.github.mercy-preview+json'}, null);
+    if (res != null && res.result && res.data.length > 0) {
+      List<ReposHeaderViewModel> list = new List();
+      var data = res.data;
+      if (data == null || data.length == 0) {
+        return new DataResult(null, false);
+      }
+      return new DataResult(
+          ReposHeaderViewModel.fromHttpMap(reposName, userName, data), true);
+    } else {
+      return new DataResult(null, false);
+    }
+  }
+
+  /**
+   * 仓库活动事件
+   */
+  static getRepositoryEventDao(userName, reposName, {page = 0}) async {
+    String url = Address.getReposEvent(userName, reposName) +
+        Address.getPageParams("?", page);
+    var res = await HttpManager.fetch(url, null, null, null);
+    if (res != null && res.result) {
+      List<EventViewModel> list = new List();
+      var data = res.data;
+      if (data == null || data.length == 0) {
+        return new DataResult(null, false);
+      }
+      for (int i = 0; i < data.length; i++) {
+        list.add(EventViewModel.fromEventMap(data[i]));
       }
       return new DataResult(list, true);
     } else {

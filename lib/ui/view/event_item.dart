@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:whg_github/common/bean/event_view_model.dart';
 import 'package:whg_github/common/style/whg_style.dart';
+import 'package:whg_github/common/utils/navigatorutils.dart';
 import 'package:whg_github/ui/view/card_item.dart';
 
 /**
@@ -14,21 +15,23 @@ import 'package:whg_github/ui/view/card_item.dart';
  */
 class EventItem extends StatelessWidget {
   final EventViewModel eventViewModel;
+  final VoidCallback onPressed;
 
-  EventItem(this.eventViewModel) : super();
+  EventItem(this.eventViewModel, {this.onPressed}) : super();
 
   @override
   Widget build(BuildContext context) {
     return Container(
       child: WhgCardItem(
         child: FlatButton(
-          onPressed: () => {},
+          onPressed: onPressed,
           child: Padding(
-            padding: const EdgeInsets.all(10.0),
+            padding: new EdgeInsets.only(
+                left: 0.0, top: 5.0, right: 0.0, bottom: 10.0),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                fitrtColumn(),
+                fitrtColumn(context),
                 secondColumn(),
                 thirdColumn(),
               ],
@@ -40,19 +43,24 @@ class EventItem extends StatelessWidget {
   }
 
   //第一行
-  Widget fitrtColumn() => Row(
+  Widget fitrtColumn(BuildContext context) => Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          new ClipOval(
-            //有placeholder
-            child: new FadeInImage.assetNetwork(
-              placeholder: "static/images/logo.png",
-              //预览图
-              fit: BoxFit.fitWidth,
-              image: eventViewModel.actionUserPic,
-              width: 30.0,
-              height: 30.0,
+          IconButton(
+            icon: new ClipOval(
+              //有placeholder
+              child: new FadeInImage.assetNetwork(
+                placeholder: "static/images/logo.png",
+                //预览图
+                fit: BoxFit.fitWidth,
+                image: eventViewModel.actionUserPic,
+                width: 30.0,
+                height: 30.0,
+              ),
             ),
+            onPressed: () {
+              NavigatorUtils.goPerson(context, eventViewModel.actionUser);
+            },
           ),
           SizedBox(
             width: 10.0,

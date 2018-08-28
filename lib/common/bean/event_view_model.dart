@@ -7,6 +7,7 @@ class EventViewModel {
   String actionDes;
   String actionTime;
   String actionTarget;
+  var eventMap;
 
   EventViewModel.fromEventMap(eventMap) {
     actionTime =
@@ -16,5 +17,6 @@ class EventViewModel {
     var other = EventUtils.getActionAndDes(eventMap);
     actionDes = other["des"];
     actionTarget = other["actionStr"];
+    this.eventMap = eventMap;
   }
 }

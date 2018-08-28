@@ -3,9 +3,11 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
+import 'package:whg_github/common/bean/event_view_model.dart';
 import 'package:whg_github/common/config/config.dart';
 import 'package:whg_github/common/dao/event_dao.dart';
 import 'package:whg_github/common/redux/whg_state.dart';
+import 'package:whg_github/common/utils/eventutils.dart';
 import 'package:whg_github/ui/view/event_item.dart';
 import 'package:whg_github/ui/view/whg_pullload_widget.dart';
 
@@ -75,9 +77,21 @@ class DynamicPageState extends State<DynamicPage>
   void didChangeDependencies() {
     control.dataList = _getStore().state.eventList;
     if (control.dataList.length == 0) {
+      if (!mounted) {
+        return;
+      }
       _handleRefresh();
     }
     super.didChangeDependencies();
+  }
+
+  _renderEventItem(EventViewModel e) {
+    return new EventItem(
+      e,
+      onPressed: () {
+        EventUtils.ActionUtils(context, e.eventMap, "");
+      },
+    );
   }
 
   @override
@@ -86,7 +100,7 @@ class DynamicPageState extends State<DynamicPage>
       builder: (context, store) {
         return WhgPullLoadWidget(
             (BuildContext context, int index) =>
-                EventItem(control.dataList[index]),
+                _renderEventItem(control.dataList[index]),
             _handleRefresh,
             _onLoadMore,
             control);

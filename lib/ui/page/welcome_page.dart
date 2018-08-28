@@ -39,7 +39,9 @@ class WelComePage extends StatelessWidget {
       builder: (context, store) {
         return Container(
             color: Colors.white,
-            child: Image(image: AssetImage("static/images/welcome.png")));
+            child: Image(
+                fit: BoxFit.cover,
+                image: AssetImage("static/images/welcome.png")));
       },
     );
   }
