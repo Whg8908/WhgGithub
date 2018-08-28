@@ -84,6 +84,11 @@ class WhgStrings {
   static const String repos_tab_info = "动态";
   static const String repos_tab_file = "文件";
   static const String repos_tab_issue = "ISSUE";
+  static const String repos_issue_search = "搜索";
+
+  static const String repos_tab_issue_all = "所有";
+  static const String repos_tab_issue_open = "打开";
+  static const String repos_tab_issue_closed = "关闭";
 }
 
 class WhgConstant {
@@ -252,4 +257,9 @@ class WhgICons {
       new IconData(0xe681, fontFamily: WhgICons.FONT_FAMILY);
   static IconData REPOS_ITEM_WATCHED =
       new IconData(0xee629, fontFamily: WhgICons.FONT_FAMILY);
+
+  static IconData ISSUE_ITEM_ISSUE =
+      new IconData(0xe661, fontFamily: WhgICons.FONT_FAMILY);
+  static IconData ISSUE_ITEM_COMMENT =
+      new IconData(0xe6ba, fontFamily: WhgICons.FONT_FAMILY);
 }

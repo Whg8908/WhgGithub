@@ -28,6 +28,9 @@ class DynamicPage extends StatefulWidget {
 
 class DynamicPageState extends State<DynamicPage>
     with AutomaticKeepAliveClientMixin {
+  final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
+      new GlobalKey<RefreshIndicatorState>();
+
   final WhgPullLoadWidgetControl control = WhgPullLoadWidgetControl();
   final List dataList = new List();
 
@@ -77,10 +80,9 @@ class DynamicPageState extends State<DynamicPage>
   void didChangeDependencies() {
     control.dataList = _getStore().state.eventList;
     if (control.dataList.length == 0) {
-      if (!mounted) {
-        return;
-      }
-      _handleRefresh();
+      new Future.delayed(const Duration(seconds: 0), () {
+        _refreshIndicatorKey.currentState.show().then((e) {});
+      });
     }
     super.didChangeDependencies();
   }
@@ -100,11 +102,13 @@ class DynamicPageState extends State<DynamicPage>
     return StoreBuilder<WhgState>(
       builder: (context, store) {
         return WhgPullLoadWidget(
-            (BuildContext context, int index) =>
-                _renderEventItem(control.dataList[index]),
-            _handleRefresh,
-            _onLoadMore,
-            control);
+          (BuildContext context, int index) =>
+              _renderEventItem(control.dataList[index]),
+          _handleRefresh,
+          _onLoadMore,
+          control,
+          refreshKey: _refreshIndicatorKey,
+        );
       },
     );
   }

@@ -81,4 +81,12 @@ class Address {
   static resolveWatcherRepos(reposOwner, repos) {
     return "${host}user/subscriptions/$reposOwner/$repos";
   }
+
+  ///仓库Issue get
+  static getReposIssue(reposOwner, reposName, state, sort, direction) {
+    state ??= 'all';
+    sort ??= 'created';
+    direction ??= 'desc';
+    return "${host}repos/$reposOwner/$reposName/issues?state=$state&sort=$sort&direction=$direction";
+  }
 }

@@ -32,6 +32,9 @@ class PersonPage extends StatefulWidget {
 
 class PersonPageState extends State<PersonPage>
     with AutomaticKeepAliveClientMixin {
+  final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
+      new GlobalKey<RefreshIndicatorState>();
+
   final String userName;
   User userInfo = User.empty();
 
@@ -59,7 +62,9 @@ class PersonPageState extends State<PersonPage>
   void didChangeDependencies() {
     pullLoadWidgetControl.dataList = dataList;
     if (pullLoadWidgetControl.dataList.length == 0) {
-      _handleRefresh();
+      new Future.delayed(const Duration(seconds: 0), () {
+        _refreshIndicatorKey.currentState.show().then((e) {});
+      });
     }
     super.didChangeDependencies();
   }
@@ -136,9 +141,11 @@ class PersonPageState extends State<PersonPage>
               : ""),
         ),
         body: WhgPullLoadWidget(
-            (BuildContext context, int index) => _renderEventItem(index),
-            _handleRefresh,
-            _onLoadMore,
-            pullLoadWidgetControl));
+          (BuildContext context, int index) => _renderEventItem(index),
+          _handleRefresh,
+          _onLoadMore,
+          pullLoadWidgetControl,
+          refreshKey: _refreshIndicatorKey,
+        ));
   }
 }

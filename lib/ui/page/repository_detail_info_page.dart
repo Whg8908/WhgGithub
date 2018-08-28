@@ -35,9 +35,13 @@ class RepositoryDetailInfoPage extends StatefulWidget {
 
 class RepositoryDetailInfoPageState extends State<RepositoryDetailInfoPage>
     with AutomaticKeepAliveClientMixin {
+  final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
+      new GlobalKey<RefreshIndicatorState>();
+
   final ReposDetailInfoPageControl reposDetailInfoPageControl;
   final String userName;
   final String reposName;
+
   RepositoryDetailInfoPageState(
       this.reposDetailInfoPageControl, this.userName, this.reposName);
 
@@ -117,11 +121,12 @@ class RepositoryDetailInfoPageState extends State<RepositoryDetailInfoPage>
   @override
   void initState() {
     super.initState();
-
     pullLoadWidgetControl.needHeader = true;
     pullLoadWidgetControl.dataList = dataList;
     if (pullLoadWidgetControl.dataList.length == 0) {
-      _onRefresh();
+      new Future.delayed(const Duration(seconds: 0), () {
+        _refreshIndicatorKey.currentState.show().then((e) {});
+      });
     }
   }
 
@@ -134,10 +139,12 @@ class RepositoryDetailInfoPageState extends State<RepositoryDetailInfoPage>
   Widget build(BuildContext context) {
     super.build(context); // See AutomaticKeepAliveClientMixin.
     return WhgPullLoadWidget(
-        (BuildContext context, int index) => _renderEventItem(index),
-        _onRefresh,
-        _onLoadMore,
-        pullLoadWidgetControl);
+      (BuildContext context, int index) => _renderEventItem(index),
+      _onRefresh,
+      _onLoadMore,
+      pullLoadWidgetControl,
+      refreshKey: _refreshIndicatorKey,
+    );
   }
 }
 

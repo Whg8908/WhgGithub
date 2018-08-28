@@ -28,6 +28,9 @@ class MyPage extends StatefulWidget {
 }
 
 class MyPageState extends State<MyPage> with AutomaticKeepAliveClientMixin {
+  final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
+      new GlobalKey<RefreshIndicatorState>();
+
   bool isLoading = false;
 
   int page = 1;
@@ -118,6 +121,12 @@ class MyPageState extends State<MyPage> with AutomaticKeepAliveClientMixin {
 
   @override
   void didChangeDependencies() {
+    pullLoadWidgetControl.dataList = dataList;
+    if (pullLoadWidgetControl.dataList.length == 0) {
+      new Future.delayed(const Duration(seconds: 0), () {
+        _refreshIndicatorKey.currentState.show().then((e) {});
+      });
+    }
     super.didChangeDependencies();
   }
 
@@ -127,11 +136,13 @@ class MyPageState extends State<MyPage> with AutomaticKeepAliveClientMixin {
     return StoreBuilder<WhgState>(
       builder: (context, store) {
         return WhgPullLoadWidget(
-            (BuildContext context, int index) =>
-                _renderEventItem(store.state.userInfo, index),
-            _handleRefresh,
-            _onLoadMore,
-            pullLoadWidgetControl);
+          (BuildContext context, int index) =>
+              _renderEventItem(store.state.userInfo, index),
+          _handleRefresh,
+          _onLoadMore,
+          pullLoadWidgetControl,
+          refreshKey: _refreshIndicatorKey,
+        );
       },
     );
   }

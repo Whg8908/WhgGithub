@@ -24,6 +24,9 @@ class TrendPage extends StatefulWidget {
 
 class TrendPageState extends State<TrendPage>
     with AutomaticKeepAliveClientMixin {
+  final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
+      new GlobalKey<RefreshIndicatorState>();
+
   bool isLoading = false;
 
   int page = 1;
@@ -70,7 +73,11 @@ class TrendPageState extends State<TrendPage>
 
   @override
   void didChangeDependencies() {
-    ReposDao.getTrendDao();
+    if (pullLoadWidgetControl.dataList.length == 0) {
+      new Future.delayed(const Duration(seconds: 0), () {
+        _refreshIndicatorKey.currentState.show().then((e) {});
+      });
+    }
     super.didChangeDependencies();
   }
 
@@ -83,6 +90,7 @@ class TrendPageState extends State<TrendPage>
       _handleRefresh,
       _onLoadMore,
       pullLoadWidgetControl,
+      refreshKey: _refreshIndicatorKey,
     );
   }
 }

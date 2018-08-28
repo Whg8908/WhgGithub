@@ -17,13 +17,19 @@ class WhgPullLoadWidget extends StatefulWidget {
   final RefreshCallback onLoadMore;
 
   final WhgPullLoadWidgetControl control;
+  final Key refreshKey;
 
   WhgPullLoadWidget(
-      this.itemBuilder, this.onRefresh, this.onLoadMore, this.control);
+      this.itemBuilder, this.onRefresh, this.onLoadMore, this.control,
+      {this.refreshKey});
 
   @override
   WhgPullLoadWidgetState createState() => WhgPullLoadWidgetState(
-      this.itemBuilder, this.onRefresh, this.onLoadMore, this.control);
+      this.itemBuilder,
+      this.onRefresh,
+      this.onLoadMore,
+      this.control,
+      this.refreshKey);
 }
 
 class WhgPullLoadWidgetState extends State<WhgPullLoadWidget> {
@@ -33,9 +39,10 @@ class WhgPullLoadWidgetState extends State<WhgPullLoadWidget> {
   final RefreshCallback onLoadMore;
 
   WhgPullLoadWidgetControl control;
+  final Key refreshKey;
 
-  WhgPullLoadWidgetState(
-      this.itemBuilder, this.onRefresh, this.onLoadMore, this.control);
+  WhgPullLoadWidgetState(this.itemBuilder, this.onRefresh, this.onLoadMore,
+      this.control, this.refreshKey);
 
   final ScrollController scrollController = ScrollController();
 
@@ -55,6 +62,7 @@ class WhgPullLoadWidgetState extends State<WhgPullLoadWidget> {
   @override
   Widget build(BuildContext context) {
     return RefreshIndicator(
+      key: refreshKey,
       onRefresh: onRefresh,
       child: ListView.builder(
         physics: const AlwaysScrollableScrollPhysics(),

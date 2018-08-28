@@ -3,6 +3,7 @@ import 'package:whg_github/common/bean/bottom_status_view_model.dart';
 import 'package:whg_github/common/dao/repos_dao.dart';
 import 'package:whg_github/common/style/whg_style.dart';
 import 'package:whg_github/ui/page/repository_detail_info_page.dart';
+import 'package:whg_github/ui/page/repository_detail_issue_page.dart';
 import 'package:whg_github/ui/page/repository_detail_readme_page.dart';
 import 'package:whg_github/ui/view/whg_icon_text.dart';
 import 'package:whg_github/ui/view/whg_tabbar_widget.dart';
@@ -135,8 +136,7 @@ class RepositoryDetailPageState extends State<RepositoryDetailPage> {
           RepositoryDetailInfoPage(
               reposDetailInfoPageControl, userName, reposName),
           new Icon(WhgICons.MAIN_DT),
-          new Icon(WhgICons.MAIN_DT),
-          new Icon(WhgICons.MAIN_DT),
+          RepositoryDetailIssuePage(userName, reposName),
         ],
         backgroundColor: WhgColors.primarySwatch,
         indicatorColor: Colors.white,
