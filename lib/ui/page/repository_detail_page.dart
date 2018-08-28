@@ -61,7 +61,7 @@ class RepositoryDetailPageState extends State<RepositoryDetailPage>
         ],
         backgroundColor: WhgColors.primarySwatch,
         indicatorColor: Colors.white,
-        title: userName + "/" + reposName);
+        title: reposName);
   }
 
   @override

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:whg_github/common/bean/repos_view_model.dart';
 import 'package:whg_github/common/dao/repos_dao.dart';
+import 'package:whg_github/common/utils/navigatorutils.dart';
 import 'package:whg_github/ui/view/repos_item.dart';
 import 'package:whg_github/ui/view/whg_pullload_widget.dart';
 
@@ -56,7 +57,12 @@ class TrendPageState extends State<TrendPage>
   }
 
   _renderItem(ReposViewModel e) {
-    return new ReposItem(e);
+    return new ReposItem(
+      e,
+      onPressed: () {
+        NavigatorUtils.goReposDetail(context, e.ownerName, e.repositoryName);
+      },
+    );
   }
 
   @override

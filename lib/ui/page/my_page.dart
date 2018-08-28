@@ -3,9 +3,11 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
+import 'package:whg_github/common/bean/event_view_model.dart';
 import 'package:whg_github/common/config/config.dart';
 import 'package:whg_github/common/dao/event_dao.dart';
 import 'package:whg_github/common/redux/whg_state.dart';
+import 'package:whg_github/common/utils/eventutils.dart';
 import 'package:whg_github/ui/view/event_item.dart';
 import 'package:whg_github/ui/view/user_header_item.dart';
 import 'package:whg_github/ui/view/whg_pullload_widget.dart';
@@ -83,7 +85,15 @@ class MyPageState extends State<MyPage> with AutomaticKeepAliveClientMixin {
     if (index == 0) {
       return new UserHeaderItem(userInfo);
     }
-    return new EventItem(pullLoadWidgetControl.dataList[index - 1]);
+
+    EventViewModel eventViewModel = pullLoadWidgetControl.dataList[index - 1];
+
+    return new EventItem(
+      eventViewModel,
+      onPressed: () {
+        EventUtils.ActionUtils(context, eventViewModel.eventMap, "");
+      },
+    );
   }
 
   _getUserName() {

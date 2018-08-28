@@ -75,7 +75,7 @@ class ReposHeaderItem extends StatelessWidget {
             style: WhgConstant.normalTextMitWhite,
           ),
           Text(
-            reposHeaderViewModel.repositoryName,
+            " " + reposHeaderViewModel.repositoryName,
             style: WhgConstant.normalTextMitWhite,
           )
         ],
@@ -85,18 +85,24 @@ class ReposHeaderItem extends StatelessWidget {
   Widget secondColumn() => Row(
         children: <Widget>[
           Text(
-            reposHeaderViewModel.repositoryType,
+            reposHeaderViewModel.repositoryType != null
+                ? reposHeaderViewModel.repositoryType
+                : "--",
             style: WhgConstant.subLightSmallText,
           ),
           Padding(
             padding: const EdgeInsets.only(left: 5.0, right: 5.0),
             child: Text(
-              reposHeaderViewModel.repositorySize,
+              reposHeaderViewModel.repositorySize != null
+                  ? reposHeaderViewModel.repositorySize
+                  : "--",
               style: WhgConstant.subLightSmallText,
             ),
           ),
           Text(
-            reposHeaderViewModel.license,
+            reposHeaderViewModel.license != null
+                ? reposHeaderViewModel.license
+                : "--",
             style: WhgConstant.subLightSmallText,
           )
         ],

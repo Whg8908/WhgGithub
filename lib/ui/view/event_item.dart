@@ -88,8 +88,11 @@ class EventItem extends StatelessWidget {
       return new Container();
     } else {
       return Container(
-          child: new Text(eventViewModel.actionDes,
-              style: WhgConstant.subSmallText),
+          child: new Text(
+            eventViewModel.actionDes,
+            style: WhgConstant.subSmallText,
+            maxLines: 3,
+          ),
           margin: new EdgeInsets.only(top: 6.0, bottom: 2.0),
           alignment: Alignment.topLeft);
     }
