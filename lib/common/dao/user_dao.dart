@@ -107,4 +107,10 @@ class UserDao {
       return new DataResult(res.data, false);
     }
   }
+
+  //清除token和用户信息
+  static clearAll() async {
+    HttpManager.clearAuthorization();
+    LocalStorage.remove(Config.USER_INFO);
+  }
 }

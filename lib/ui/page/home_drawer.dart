@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:whg_github/common/bean/User.dart';
+import 'package:whg_github/common/dao/user_dao.dart';
 import 'package:whg_github/common/redux/whg_state.dart';
 import 'package:whg_github/common/style/whg_style.dart';
+import 'package:whg_github/common/utils/navigatorutils.dart';
 import 'package:whg_github/ui/view/whg_flex_button.dart';
 
 /**
@@ -48,7 +50,10 @@ class HomeDrawer extends StatelessWidget {
                     text: WhgStrings.Login_out,
                     color: Colors.red,
                     textColor: Colors.white,
-                    onPress: () {}),
+                    onPress: () {
+                      NavigatorUtils.goLogin(context);
+                      UserDao.clearAll();
+                    }),
               ),
             ],
           ),
