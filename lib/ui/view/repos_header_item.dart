@@ -67,16 +67,16 @@ class ReposHeaderItem extends StatelessWidget {
             onPressed: () {},
             child: Text(
               reposHeaderViewModel.ownerName,
-              style: WhgConstant.normalTextMitWhite,
+              style: WhgConstant.normalTextMitWhiteBold,
             ),
           ),
           Text(
             " / ",
-            style: WhgConstant.normalTextMitWhite,
+            style: WhgConstant.normalTextMitWhiteBold,
           ),
           Text(
             " " + reposHeaderViewModel.repositoryName,
-            style: WhgConstant.normalTextMitWhite,
+            style: WhgConstant.normalTextMitWhiteBold,
           )
         ],
       );
@@ -111,13 +111,13 @@ class ReposHeaderItem extends StatelessWidget {
   //第三行
   Widget timeColumn() => new Container(
       child: new Text(reposHeaderViewModel.repositoryDes,
-          style: WhgConstant.subLightSmallText),
+          style: WhgConstant.subSmallText),
       margin: new EdgeInsets.only(top: 6.0, bottom: 2.0),
       alignment: Alignment.topLeft);
 
   //第四行
   Widget pullinfoColumn(String infoText) => new Container(
-      child: new Text(infoText, style: WhgConstant.smallTextWhite),
+      child: new Text(infoText, style: WhgConstant.subSmallText),
       margin: new EdgeInsets.only(top: 6.0, bottom: 2.0, right: 5.0),
       alignment: Alignment.topRight);
 

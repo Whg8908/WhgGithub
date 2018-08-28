@@ -76,6 +76,7 @@ class TrendPageState extends State<TrendPage>
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return WhgPullLoadWidget(
       (BuildContext context, int index) =>
           _renderItem(pullLoadWidgetControl.dataList[index]),

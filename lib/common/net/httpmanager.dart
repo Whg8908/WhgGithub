@@ -33,12 +33,15 @@ class HttpManager {
    *  text 是否配置text返回
    *  opption  配置
    */
-  static fetch(url, params, Map<String, String> header, Options option) async {
+  static fetch(url, params, Map<String, String> header, Options option,
+      {noTip = false}) async {
     //没有网络
     var connectivityResult = await (new Connectivity().checkConnectivity());
     if (connectivityResult == ConnectivityResult.none) {
-      return new ResultData(Code.errorHandleFunction(Code.NETWORK_ERROR, ""),
-          false, Code.NETWORK_ERROR);
+      return new ResultData(
+          Code.errorHandleFunction(Code.NETWORK_ERROR, "", noTip),
+          false,
+          Code.NETWORK_ERROR);
     }
 
     Map<String, String> headers = HashMap();
@@ -87,7 +90,7 @@ class HttpManager {
         print('请求异常url: ' + url);
       }
       return new ResultData(
-          Code.errorHandleFunction(errorResponse.statusCode, e.message),
+          Code.errorHandleFunction(errorResponse.statusCode, e.message, noTip),
           false,
           errorResponse.statusCode);
     }
@@ -127,8 +130,10 @@ class HttpManager {
       return new ResultData(response.data, false, response.statusCode,
           headers: response.headers);
     }
-    return new ResultData(Code.errorHandleFunction(response.statusCode, ""),
-        false, response.statusCode);
+    return new ResultData(
+        Code.errorHandleFunction(response.statusCode, "", noTip),
+        false,
+        response.statusCode);
   }
 
   //清理授权

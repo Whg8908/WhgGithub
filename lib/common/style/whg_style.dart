@@ -210,6 +210,11 @@ class WhgConstant {
     color: Color(WhgColors.subTextColor),
     fontSize: middleTextWhiteSize,
   );
+
+  static const normalTextMitWhiteBold = TextStyle(
+      color: Color(WhgColors.miWhite),
+      fontSize: normalTextSize,
+      fontWeight: FontWeight.bold);
 }
 
 class WhgICons {
@@ -240,4 +245,11 @@ class WhgICons {
       new IconData(0xe7e6, fontFamily: WhgICons.FONT_FAMILY);
   static IconData USER_ITEM_LINK =
       new IconData(0xe670, fontFamily: WhgICons.FONT_FAMILY);
+
+  static IconData REPOS_ITEM_STARED =
+      new IconData(0xe698, fontFamily: WhgICons.FONT_FAMILY);
+  static IconData REPOS_ITEM_WATCH =
+      new IconData(0xe681, fontFamily: WhgICons.FONT_FAMILY);
+  static IconData REPOS_ITEM_WATCHED =
+      new IconData(0xee629, fontFamily: WhgICons.FONT_FAMILY);
 }

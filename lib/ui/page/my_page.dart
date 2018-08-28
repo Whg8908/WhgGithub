@@ -123,6 +123,7 @@ class MyPageState extends State<MyPage> with AutomaticKeepAliveClientMixin {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context); // See AutomaticKeepAliveClientMixin.
     return StoreBuilder<WhgState>(
       builder: (context, store) {
         return WhgPullLoadWidget(

@@ -71,4 +71,14 @@ class Address {
   static getReposEvent(reposOwner, reposName) {
     return "${host}networks/$reposOwner/$reposName/events";
   }
+
+  ///关注仓库 put
+  static resolveStarRepos(reposOwner, repos) {
+    return "${host}user/starred/$reposOwner/$repos";
+  }
+
+  ///订阅仓库 put
+  static resolveWatcherRepos(reposOwner, repos) {
+    return "${host}user/subscriptions/$reposOwner/$repos";
+  }
 }

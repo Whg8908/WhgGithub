@@ -116,21 +116,23 @@ class RepositoryDetailInfoPageState extends State<RepositoryDetailInfoPage>
 
   @override
   void initState() {
-    pullLoadWidgetControl.needHeader = true;
     super.initState();
-  }
 
-  @override
-  void didChangeDependencies() {
+    pullLoadWidgetControl.needHeader = true;
     pullLoadWidgetControl.dataList = dataList;
     if (pullLoadWidgetControl.dataList.length == 0) {
       _onRefresh();
     }
+  }
+
+  @override
+  void didChangeDependencies() {
     super.didChangeDependencies();
   }
 
   @override
   Widget build(BuildContext context) {
+    super.build(context); // See AutomaticKeepAliveClientMixin.
     return WhgPullLoadWidget(
         (BuildContext context, int index) => _renderEventItem(index),
         _onRefresh,

@@ -14,6 +14,8 @@ class WhgTabBarWidget extends StatefulWidget {
   final Color indicatorColor;
   final String title;
   final Widget drawer;
+  final Widget floatingActionButton;
+  final TarWidgetControl tarWidgetControl;
 
   WhgTabBarWidget(
       {Key key,
@@ -23,7 +25,9 @@ class WhgTabBarWidget extends StatefulWidget {
       this.backgroundColor,
       this.indicatorColor,
       this.title,
-      this.drawer})
+      this.drawer,
+      this.floatingActionButton,
+      this.tarWidgetControl})
       : super(key: key);
 
   @override
@@ -34,7 +38,9 @@ class WhgTabBarWidget extends StatefulWidget {
       this.backgroundColor,
       this.indicatorColor,
       this.title,
-      this.drawer);
+      this.drawer,
+      this.floatingActionButton,
+      this.tarWidgetControl);
 }
 
 class WhgTabBarWidgetState extends State<WhgTabBarWidget>
@@ -46,11 +52,22 @@ class WhgTabBarWidgetState extends State<WhgTabBarWidget>
   final Color indicatorColor;
   final String title;
   final Widget drawer;
+  final Widget floatingActionButton;
+
+  final TarWidgetControl tarWidgetControl;
 
   TabController _tabController;
 
-  WhgTabBarWidgetState(this.type, this.tabItems, this.tabViews,
-      this.backgroundColor, this.indicatorColor, this.title, this.drawer)
+  WhgTabBarWidgetState(
+      this.type,
+      this.tabItems,
+      this.tabViews,
+      this.backgroundColor,
+      this.indicatorColor,
+      this.title,
+      this.drawer,
+      this.floatingActionButton,
+      this.tarWidgetControl)
       : super();
 
   @override
@@ -67,6 +84,9 @@ class WhgTabBarWidgetState extends State<WhgTabBarWidget>
       return DefaultTabController(
         length: tabItems.length,
         child: Scaffold(
+          floatingActionButton: floatingActionButton,
+          persistentFooterButtons:
+              tarWidgetControl == null ? [] : tarWidgetControl.footerButton,
           appBar: AppBar(
             backgroundColor: backgroundColor,
             title: Text(title),
@@ -112,4 +132,8 @@ class WhgTabBarWidgetState extends State<WhgTabBarWidget>
       _tabController.dispose();
     }
   }
+}
+
+class TarWidgetControl {
+  List<Widget> footerButton = [];
 }

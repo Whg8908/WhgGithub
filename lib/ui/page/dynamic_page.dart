@@ -96,6 +96,7 @@ class DynamicPageState extends State<DynamicPage>
 
   @override
   Widget build(BuildContext context) {
+    super.build(context); // See AutomaticKeepAliveClientMixin.
     return StoreBuilder<WhgState>(
       builder: (context, store) {
         return WhgPullLoadWidget(
