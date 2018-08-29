@@ -1,13 +1,11 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 import 'package:whg_github/common/bean/event_view_model.dart';
-import 'package:whg_github/common/config/config.dart';
 import 'package:whg_github/common/dao/event_dao.dart';
 import 'package:whg_github/common/redux/whg_state.dart';
 import 'package:whg_github/common/utils/eventutils.dart';
+import 'package:whg_github/ui/base/whg_list_state.dart';
 import 'package:whg_github/ui/view/event_item.dart';
 import 'package:whg_github/ui/view/user_header_item.dart';
 import 'package:whg_github/ui/view/whg_pullload_widget.dart';
@@ -27,62 +25,22 @@ class MyPage extends StatefulWidget {
   MyPageState createState() => MyPageState();
 }
 
-class MyPageState extends State<MyPage> with AutomaticKeepAliveClientMixin {
-  final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
-      new GlobalKey<RefreshIndicatorState>();
-
-  bool isLoading = false;
-
-  int page = 1;
-
-  final List dataList = new List();
-
-  final WhgPullLoadWidgetControl pullLoadWidgetControl =
-      WhgPullLoadWidgetControl();
-
-  Future<Null> _handleRefresh() async {
-    if (isLoading) {
-      return null;
-    }
-    isLoading = true;
-    page = 1;
-
-    var result = await EventDao.getEventDao(_getUserName(), page: page);
-    //刷新item
-    if (result != null && result.length > 0) {
-      pullLoadWidgetControl.dataList.clear();
-      setState(() {
-        pullLoadWidgetControl.dataList.addAll(result);
-      });
-    }
-    //更新是否能加载更多
-    setState(() {
-      pullLoadWidgetControl.needLoadMore =
-          (result != null && result.length == Config.PAGE_SIZE);
-    });
-    isLoading = false;
-
-    return null;
+class MyPageState extends WhgListState<MyPage> {
+  @override
+  requestRefresh() async {
+    return await EventDao.getEventDao(_getUserName(), page: page);
   }
 
-  Future<Null> _onLoadMore() async {
-    if (isLoading) {
-      return null;
-    }
-    isLoading = true;
-    page++;
-    var result = await EventDao.getEventDao(_getUserName(), page: page);
-    if (result != null && result.length > 0) {
-      setState(() {
-        pullLoadWidgetControl.dataList.addAll(result);
-      });
-    }
-    setState(() {
-      pullLoadWidgetControl.needLoadMore = (result != null);
-    });
-    isLoading = false;
-    return null;
+  @override
+  requestLoadMore() async {
+    return await EventDao.getEventDao(_getUserName(), page: page);
   }
+
+  @override
+  bool get isRefreshFirst => false;
+
+  @override
+  bool get needHeader => true;
 
   _renderEventItem(userInfo, index) {
     if (index == 0) {
@@ -111,24 +69,7 @@ class MyPageState extends State<MyPage> with AutomaticKeepAliveClientMixin {
   }
 
   @override
-  bool get wantKeepAlive => true;
-
-  @override
-  void initState() {
-    pullLoadWidgetControl.needHeader = true;
-    super.initState();
-  }
-
-  @override
-  void didChangeDependencies() {
-    pullLoadWidgetControl.dataList = dataList;
-    if (pullLoadWidgetControl.dataList.length == 0) {
-      new Future.delayed(const Duration(seconds: 0), () {
-        _refreshIndicatorKey.currentState.show().then((e) {});
-      });
-    }
-    super.didChangeDependencies();
-  }
+  List get getDataList => super.getDataList;
 
   @override
   Widget build(BuildContext context) {
@@ -138,10 +79,10 @@ class MyPageState extends State<MyPage> with AutomaticKeepAliveClientMixin {
         return WhgPullLoadWidget(
           (BuildContext context, int index) =>
               _renderEventItem(store.state.userInfo, index),
-          _handleRefresh,
-          _onLoadMore,
+          handleRefresh,
+          onLoadMore,
           pullLoadWidgetControl,
-          refreshKey: _refreshIndicatorKey,
+          refreshKey: refreshIndicatorKey,
         );
       },
     );

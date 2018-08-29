@@ -1,16 +1,13 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 import 'package:whg_github/common/bean/event_view_model.dart';
-import 'package:whg_github/common/config/config.dart';
 import 'package:whg_github/common/dao/event_dao.dart';
 import 'package:whg_github/common/redux/whg_state.dart';
 import 'package:whg_github/common/utils/eventutils.dart';
+import 'package:whg_github/ui/base/whg_list_state.dart';
 import 'package:whg_github/ui/view/event_item.dart';
 import 'package:whg_github/ui/view/whg_pullload_widget.dart';
-
 /**
  * @Author by whg
  * @Email ghw8908@163.com
@@ -26,66 +23,26 @@ class DynamicPage extends StatefulWidget {
   DynamicPageState createState() => DynamicPageState();
 }
 
-class DynamicPageState extends State<DynamicPage>
-    with AutomaticKeepAliveClientMixin {
-  final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
-      new GlobalKey<RefreshIndicatorState>();
-
-  final WhgPullLoadWidgetControl control = WhgPullLoadWidgetControl();
-  final List dataList = new List();
-
-  bool isLoading = false;
-  int page = 1;
-
-  //刷新数据
-  Future<Null> _handleRefresh() async {
-    if (isLoading) {
-      return null;
-    }
-    isLoading = true;
-    page = 1;
-    var result = await EventDao.getEventReceived(_getStore(), page: page);
-    //更新数据
-    setState(() {
-      control.needLoadMore =
-          (result != null && result.length == Config.PAGE_SIZE);
-    });
-    isLoading = false;
-    return null;
-  }
-
-  //加载更多
-  Future<Null> _onLoadMore() async {
-    if (isLoading) {
-      return null;
-    }
-    isLoading = true;
-    page++;
-    var result = await EventDao.getEventReceived(_getStore(), page: page);
-    setState(() {
-      control.needLoadMore = (result != null);
-    });
-    isLoading = false;
-    return null;
-  }
-
+class DynamicPageState extends WhgListState<DynamicPage> {
   Store<WhgState> _getStore() {
     return StoreProvider.of(context);
   }
 
   @override
-  bool get wantKeepAlive => true;
+  requestRefresh() async {
+    return await EventDao.getEventReceived(_getStore(), page: page);
+  }
 
   @override
-  void didChangeDependencies() {
-    control.dataList = _getStore().state.eventList;
-    if (control.dataList.length == 0) {
-      new Future.delayed(const Duration(seconds: 0), () {
-        _refreshIndicatorKey.currentState.show().then((e) {});
-      });
-    }
-    super.didChangeDependencies();
+  requestLoadMore() async {
+    return await EventDao.getEventReceived(_getStore(), page: page);
   }
+
+  @override
+  bool get isRefreshFirst => false;
+
+  @override
+  List get getDataList => _getStore().state.eventList;
 
   _renderEventItem(EventViewModel e) {
     return new EventItem(
@@ -103,11 +60,11 @@ class DynamicPageState extends State<DynamicPage>
       builder: (context, store) {
         return WhgPullLoadWidget(
           (BuildContext context, int index) =>
-              _renderEventItem(control.dataList[index]),
-          _handleRefresh,
-          _onLoadMore,
-          control,
-          refreshKey: _refreshIndicatorKey,
+              _renderEventItem(pullLoadWidgetControl.dataList[index]),
+          handleRefresh,
+          onLoadMore,
+          pullLoadWidgetControl,
+          refreshKey: refreshIndicatorKey,
         );
       },
     );

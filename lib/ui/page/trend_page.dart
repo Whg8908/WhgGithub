@@ -1,9 +1,8 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:whg_github/common/bean/repos_view_model.dart';
 import 'package:whg_github/common/dao/repos_dao.dart';
 import 'package:whg_github/common/utils/navigatorutils.dart';
+import 'package:whg_github/ui/base/whg_list_state.dart';
 import 'package:whg_github/ui/view/repos_item.dart';
 import 'package:whg_github/ui/view/whg_pullload_widget.dart';
 
@@ -22,42 +21,19 @@ class TrendPage extends StatefulWidget {
   TrendPageState createState() => TrendPageState();
 }
 
-class TrendPageState extends State<TrendPage>
-    with AutomaticKeepAliveClientMixin {
-  final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
-      new GlobalKey<RefreshIndicatorState>();
+class TrendPageState extends WhgListState<TrendPage> {
+  @override
+  requestRefresh() async {
+    return await ReposDao.getTrendDao(since: 'daily');
+  }
 
-  bool isLoading = false;
-
-  int page = 1;
-
-  final List dataList = new List();
-
-  final WhgPullLoadWidgetControl pullLoadWidgetControl =
-      new WhgPullLoadWidgetControl();
-
-  Future<Null> _handleRefresh() async {
-    if (isLoading) {
-      return null;
-    }
-    isLoading = true;
-    page = 1;
-    var res = await ReposDao.getTrendDao(since: 'daily');
-    if (res != null && res.result && res.data.length > 0) {
-      setState(() {
-        pullLoadWidgetControl.dataList = res.data;
-      });
-    }
-    setState(() {
-      pullLoadWidgetControl.needLoadMore = false;
-    });
-    isLoading = false;
+  @override
+  requestLoadMore() async {
     return null;
   }
 
-  Future<Null> _onLoadMore() async {
-    return null;
-  }
+  @override
+  bool get isRefreshFirst => true;
 
   _renderItem(ReposViewModel e) {
     return new ReposItem(
@@ -69,28 +45,15 @@ class TrendPageState extends State<TrendPage>
   }
 
   @override
-  bool get wantKeepAlive => true;
-
-  @override
-  void didChangeDependencies() {
-    if (pullLoadWidgetControl.dataList.length == 0) {
-      new Future.delayed(const Duration(seconds: 0), () {
-        _refreshIndicatorKey.currentState.show().then((e) {});
-      });
-    }
-    super.didChangeDependencies();
-  }
-
-  @override
   Widget build(BuildContext context) {
     super.build(context);
     return WhgPullLoadWidget(
       (BuildContext context, int index) =>
           _renderItem(pullLoadWidgetControl.dataList[index]),
-      _handleRefresh,
-      _onLoadMore,
+      handleRefresh,
+      onLoadMore,
       pullLoadWidgetControl,
-      refreshKey: _refreshIndicatorKey,
+      refreshKey: refreshIndicatorKey,
     );
   }
 }

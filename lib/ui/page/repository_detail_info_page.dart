@@ -1,11 +1,9 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:whg_github/common/bean/event_view_model.dart';
 import 'package:whg_github/common/bean/repos_header_view_model.dart';
-import 'package:whg_github/common/config/config.dart';
 import 'package:whg_github/common/dao/repos_dao.dart';
 import 'package:whg_github/common/utils/eventutils.dart';
+import 'package:whg_github/ui/base/whg_list_state.dart';
 import 'package:whg_github/ui/view/event_item.dart';
 import 'package:whg_github/ui/view/repos_header_item.dart';
 import 'package:whg_github/ui/view/whg_pullload_widget.dart';
@@ -33,11 +31,8 @@ class RepositoryDetailInfoPage extends StatefulWidget {
           reposDetailInfoPageControl, userName, reposName);
 }
 
-class RepositoryDetailInfoPageState extends State<RepositoryDetailInfoPage>
-    with AutomaticKeepAliveClientMixin {
-  final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
-      new GlobalKey<RefreshIndicatorState>();
-
+class RepositoryDetailInfoPageState
+    extends WhgListState<RepositoryDetailInfoPage> {
   final ReposDetailInfoPageControl reposDetailInfoPageControl;
   final String userName;
   final String reposName;
@@ -45,58 +40,16 @@ class RepositoryDetailInfoPageState extends State<RepositoryDetailInfoPage>
   RepositoryDetailInfoPageState(
       this.reposDetailInfoPageControl, this.userName, this.reposName);
 
-  final List dataList = new List();
-
-  bool isLoading = false;
-  int page = 1;
-  final WhgPullLoadWidgetControl pullLoadWidgetControl =
-      new WhgPullLoadWidgetControl();
-
-//刷新数据
-  Future<Null> _onRefresh() async {
-    if (isLoading) {
-      return null;
-    }
-    isLoading = true;
-    page = 1;
-    var res =
-        await ReposDao.getRepositoryEventDao(userName, reposName, page: page);
-    if (res != null && res.result) {
-      pullLoadWidgetControl.dataList.clear();
-      setState(() {
-        pullLoadWidgetControl.dataList.addAll(res.data);
-      });
-    }
-    setState(() {
-      pullLoadWidgetControl.needLoadMore = (res != null &&
-          res.data != null &&
-          res.data.length == Config.PAGE_SIZE);
-    });
-    isLoading = false;
-    return null;
+  @protected
+  requestRefresh() async {
+    return await ReposDao.getRepositoryEventDao(userName, reposName,
+        page: page);
   }
 
-//加载更多
-  Future<Null> _onLoadMore() async {
-    if (isLoading) {
-      return null;
-    }
-    isLoading = true;
-    page++;
-    var res =
-        await ReposDao.getRepositoryEventDao(userName, reposName, page: page);
-    if (res != null && res.result) {
-      setState(() {
-        pullLoadWidgetControl.dataList.addAll(res.data);
-      });
-    }
-    setState(() {
-      pullLoadWidgetControl.needLoadMore = (res != null &&
-          res.data != null &&
-          res.data.length == Config.PAGE_SIZE);
-    });
-    isLoading = false;
-    return null;
+  @protected
+  requestLoadMore() async {
+    return await ReposDao.getRepositoryEventDao(userName, reposName,
+        page: page);
   }
 
   _renderEventItem(index) {
@@ -119,33 +72,22 @@ class RepositoryDetailInfoPageState extends State<RepositoryDetailInfoPage>
   bool get wantKeepAlive => true;
 
   @override
-  void initState() {
-    super.initState();
-    pullLoadWidgetControl.needHeader = true;
-    pullLoadWidgetControl.dataList = dataList;
-    if (pullLoadWidgetControl.dataList.length == 0) {
-      new Future.delayed(const Duration(seconds: 0), () {
-        _refreshIndicatorKey.currentState.show().then((e) {});
-      });
-    }
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-  }
-
-  @override
   Widget build(BuildContext context) {
     super.build(context); // See AutomaticKeepAliveClientMixin.
     return WhgPullLoadWidget(
       (BuildContext context, int index) => _renderEventItem(index),
-      _onRefresh,
-      _onLoadMore,
+      handleRefresh,
+      onLoadMore,
       pullLoadWidgetControl,
-      refreshKey: _refreshIndicatorKey,
+      refreshKey: refreshIndicatorKey,
     );
   }
+
+  @override
+  bool get needHeader => true;
+
+  @override
+  bool get isRefreshFirst => true;
 }
 
 class ReposDetailInfoPageControl {
