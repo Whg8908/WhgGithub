@@ -86,43 +86,29 @@ class ReposItem extends StatelessWidget {
   Widget thridColumn() => Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Expanded(
-            child: new Center(
-              child: new WhgIconText(
-                WhgICons.REPOS_ITEM_STAR,
-                reposViewModel.repositoryStar,
-                WhgConstant.subSmallText,
-                Color(WhgColors.subTextColor),
-                15.0,
-                padding: 5.0,
-              ),
-            ),
-          ),
-          Expanded(
-            child: new Center(
-              child: new WhgIconText(
-                WhgICons.REPOS_ITEM_FORK,
-                reposViewModel.repositoryFork,
-                WhgConstant.subSmallText,
-                Color(WhgColors.subTextColor),
-                15.0,
-                padding: 5.0,
-              ),
-            ),
-          ),
-          Expanded(
-            flex: 2,
-            child: new Center(
-              child: new WhgIconText(
-                WhgICons.REPOS_ITEM_ISSUE,
-                reposViewModel.repositoryWatch,
-                WhgConstant.subSmallText,
-                Color(WhgColors.subTextColor),
-                15.0,
-                padding: 5.0,
-              ),
-            ),
-          ),
+          _getBottomItem(
+              WhgICons.REPOS_ITEM_STAR, reposViewModel.repositoryStar),
+          _getBottomItem(
+              WhgICons.REPOS_ITEM_FORK, reposViewModel.repositoryFork),
+          _getBottomItem(
+              WhgICons.REPOS_ITEM_ISSUE, reposViewModel.repositoryWatch,
+              flex: 4),
         ],
       );
+
+  _getBottomItem(IconData icon, String text, {int flex = 2}) {
+    return Expanded(
+      flex: flex,
+      child: new Center(
+        child: new WhgIconText(
+          icon,
+          text,
+          WhgConstant.subSmallText,
+          Color(WhgColors.subTextColor),
+          15.0,
+          padding: 5.0,
+        ),
+      ),
+    );
+  }
 }

@@ -81,6 +81,13 @@ abstract class WhgListState<T extends StatefulWidget> extends State<T>
   }
 
   @protected
+  clearData() {
+    setState(() {
+      pullLoadWidgetControl.dataList.clear();
+    });
+  }
+
+  @protected
   requestRefresh() async {}
 
   @protected

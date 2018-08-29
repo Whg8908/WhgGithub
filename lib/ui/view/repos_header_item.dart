@@ -127,70 +127,30 @@ class ReposHeaderItem extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          new Expanded(
-            child: new Center(
-              child: new WhgIconText(
-                WhgICons.REPOS_ITEM_STAR,
-                reposHeaderViewModel.repositoryStar,
-                WhgConstant.middleSubText,
-                Color(WhgColors.subTextColor),
-                15.0,
-                padding: 3.0,
-                mainAxisAlignment: MainAxisAlignment.center,
-              ),
-            ),
-          ),
-          new Container(
-              width: 0.3,
-              height: 30.0,
-              color: Color(WhgColors.subLightTextColor)),
-          new Expanded(
-            child: new Center(
-              child: new WhgIconText(
-                WhgICons.REPOS_ITEM_FORK,
-                reposHeaderViewModel.repositoryFork,
-                WhgConstant.middleSubText,
-                Color(WhgColors.subTextColor),
-                15.0,
-                padding: 3.0,
-                mainAxisAlignment: MainAxisAlignment.center,
-              ),
-            ),
-          ),
-          new Container(
-              width: 0.3,
-              height: 30.0,
-              color: Color(WhgColors.subLightTextColor)),
-          new Expanded(
-            child: new Center(
-              child: new WhgIconText(
-                WhgICons.REPOS_ITEM_ISSUE,
-                reposHeaderViewModel.repositoryWatch,
-                WhgConstant.middleSubText,
-                Color(WhgColors.subTextColor),
-                15.0,
-                padding: 3.0,
-                mainAxisAlignment: MainAxisAlignment.center,
-              ),
-            ),
-          ),
-          new Container(
-              width: 0.3,
-              height: 30.0,
-              color: Color(WhgColors.subLightTextColor)),
-          new Expanded(
-            child: new Center(
-              child: new WhgIconText(
-                WhgICons.REPOS_ITEM_ISSUE,
-                reposHeaderViewModel.repositoryIssue,
-                WhgConstant.middleSubText,
-                Color(WhgColors.subTextColor),
-                15.0,
-                padding: 3.0,
-                mainAxisAlignment: MainAxisAlignment.center,
-              ),
-            ),
-          ),
+          _getBottomItem(
+              WhgICons.REPOS_ITEM_STAR, reposHeaderViewModel.repositoryStar),
+          _getBottomItem(
+              WhgICons.REPOS_ITEM_FORK, reposHeaderViewModel.repositoryFork),
+          _getBottomItem(
+              WhgICons.REPOS_ITEM_WATCH, reposHeaderViewModel.repositoryWatch),
+          _getBottomItem(
+              WhgICons.REPOS_ITEM_ISSUE, reposHeaderViewModel.repositoryIssue),
         ],
       ));
+
+  _getBottomItem(IconData icon, String text) {
+    return new Expanded(
+      child: new Center(
+        child: new WhgIconText(
+          icon,
+          text,
+          WhgConstant.middleSubText,
+          Color(WhgColors.subTextColor),
+          15.0,
+          padding: 3.0,
+          mainAxisAlignment: MainAxisAlignment.center,
+        ),
+      ),
+    );
+  }
 }

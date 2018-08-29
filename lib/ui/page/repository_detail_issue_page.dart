@@ -6,6 +6,7 @@ import 'package:whg_github/ui/base/whg_list_state.dart';
 import 'package:whg_github/ui/view/issue_item.dart';
 import 'package:whg_github/ui/view/repository_issue_list_header.dart';
 import 'package:whg_github/ui/view/whg_pullload_widget.dart';
+import 'package:whg_github/ui/view/whg_search_input_widget.dart';
 
 /**
  * @Author by whg
@@ -60,6 +61,23 @@ class RepositoryDetailIssuePageState
     );
   }
 
+  //type选择来刷新数据
+  _resolveSelectIndex(selectIndex) {
+    clearData();
+    switch (selectIndex) {
+      case 0:
+        issueState = null;
+        break;
+      case 1:
+        issueState = 'open';
+        break;
+      case 2:
+        issueState = "closed";
+        break;
+    }
+    showRefreshLoading();
+  }
+
   @override
   bool get isRefreshFirst => true;
 
@@ -73,22 +91,16 @@ class RepositoryDetailIssuePageState
       backgroundColor: Color(WhgColors.mainBackgroundColor),
       appBar: new AppBar(
         leading: new Container(),
-        flexibleSpace: Container(
-          padding: new EdgeInsets.only(
-              left: 20.0, top: 12.0, right: 20.0, bottom: 12.0),
-          color: Colors.white,
-          child: new TextField(
-              autofocus: false,
-              decoration: new InputDecoration.collapsed(
-                hintText: WhgStrings.repos_issue_search,
-                hintStyle: WhgConstant.subSmallText,
-              ),
-              style: WhgConstant.smallText,
-              onSubmitted: (result) {}),
-        ),
+        flexibleSpace: WhgSearchInputWidget((value) {}),
         elevation: 0.0,
         backgroundColor: Color(WhgColors.mainBackgroundColor),
-        bottom: new RepositoryIssueListHeader((selectIndex) {}),
+        bottom: new WhgSelectItemWidget([
+          WhgStrings.repos_tab_issue_all,
+          WhgStrings.repos_tab_issue_open,
+          WhgStrings.repos_tab_issue_closed,
+        ], (selectIndex) {
+          _resolveSelectIndex(selectIndex);
+        }),
       ),
       body: WhgPullLoadWidget(
         (BuildContext context, int index) => _renderEventItem(index),

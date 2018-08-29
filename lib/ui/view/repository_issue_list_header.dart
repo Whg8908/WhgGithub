@@ -14,11 +14,12 @@ import 'package:whg_github/ui/view/card_item.dart';
 
 typedef void SelectItemChanged<int>(int value);
 
-class RepositoryIssueListHeader extends StatefulWidget
+class WhgSelectItemWidget extends StatefulWidget
     implements PreferredSizeWidget {
   final SelectItemChanged selectItemChanged;
+  final List<String> itemName;
 
-  RepositoryIssueListHeader(this.selectItemChanged);
+  WhgSelectItemWidget(this.itemName, this.selectItemChanged);
 
   @override
   Size get preferredSize {
@@ -27,66 +28,68 @@ class RepositoryIssueListHeader extends StatefulWidget
 
   @override
   RepositoryIssueListHeaderState createState() =>
-      RepositoryIssueListHeaderState(selectItemChanged);
+      RepositoryIssueListHeaderState(this.itemName, this.selectItemChanged);
 }
 
-class RepositoryIssueListHeaderState extends State<RepositoryIssueListHeader> {
+class RepositoryIssueListHeaderState extends State<WhgSelectItemWidget> {
   int selectIndex = 0;
   final SelectItemChanged selectItemChanged;
+  final List<String> itemNames;
 
-  RepositoryIssueListHeaderState(this.selectItemChanged);
+  RepositoryIssueListHeaderState(this.itemNames, this.selectItemChanged);
+
+  _renderList() {
+    List<Widget> list = new List();
+    for (int i = 0; i < itemNames.length; i++) {
+      if (i == itemNames.length - 1) {
+        list.add(_renderItem(itemNames[i], i));
+      } else {
+        list.add(_renderItem(itemNames[i], i));
+        list.add(new Container(
+            width: 1.0,
+            height: 26.0,
+            color: Color(WhgColors.subLightTextColor)));
+      }
+    }
+    return list;
+  }
 
   @override
   Widget build(BuildContext context) {
     return WhgCardItem(
         color: Color(WhgColors.primaryValue),
-        margin: EdgeInsets.all(10.0),
+        margin: EdgeInsets.all(6.0),
         shape: new RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(4.0)),
         ),
         child: new Padding(
-            padding: new EdgeInsets.only(
-                left: 0.0, top: 5.0, right: 0.0, bottom: 5.0),
-            child: new Row(
-              children: <Widget>[
-                new Expanded(
-                  child: _renderItem(WhgStrings.repos_tab_issue_all, 0),
-                ),
-                new Container(
-                    width: 1.0,
-                    height: 30.0,
-                    color: Color(WhgColors.subLightTextColor)),
-                new Expanded(
-                    child: _renderItem(WhgStrings.repos_tab_issue_open, 1)),
-                new Container(
-                    width: 1.0,
-                    height: 30.0,
-                    color: Color(WhgColors.subLightTextColor)),
-                new Expanded(
-                  child: _renderItem(WhgStrings.repos_tab_issue_closed, 2),
-                ),
-              ],
-            )));
+          padding:
+              new EdgeInsets.only(left: 0.0, top: 4.0, right: 0.0, bottom: 4.0),
+          child: Row(
+            children: _renderList(),
+          ),
+        ));
   }
 
-  _renderItem(String name, int index) {
+  Widget _renderItem(String name, int index) {
     var style = index == selectIndex
         ? WhgConstant.middleTextWhite
         : WhgConstant.middleSubText;
 
-    return FlatButton(
-        onPressed: () {
-          setState(() {
-            selectIndex = index;
-          });
-          if (selectItemChanged != null) {
-            selectItemChanged(index);
-          }
-        },
-        child: new Text(
-          name,
-          style: style,
-          textAlign: TextAlign.center,
-        ));
+    return Expanded(
+        child: FlatButton(
+            onPressed: () {
+              setState(() {
+                selectIndex = index;
+              });
+              if (selectItemChanged != null) {
+                selectItemChanged(index);
+              }
+            },
+            child: new Text(
+              name,
+              style: style,
+              textAlign: TextAlign.center,
+            )));
   }
 }

@@ -132,65 +132,27 @@ class UserHeaderItem extends StatelessWidget {
   Widget thirdColumn() => new Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          new Expanded(
-            child: new Center(
-              child: new Text(
-                  WhgStrings.user_tab_repos +
-                      "\n" +
-                      userInfo.public_repos.toString(),
-                  textAlign: TextAlign.center,
-                  style: WhgConstant.subSmallText),
-            ),
-          ),
+          _getBottomItem(WhgStrings.user_tab_repos, userInfo.public_repos),
           new Container(
               width: 0.3,
               height: 40.0,
               color: Color(WhgColors.subLightTextColor)),
-          new Expanded(
-            child: new Center(
-              child: new Text(
-                  WhgStrings.user_tab_fans +
-                      "粉丝\n" +
-                      userInfo.followers.toString(),
-                  textAlign: TextAlign.center,
-                  style: WhgConstant.subSmallText),
-            ),
-          ),
+          _getBottomItem(WhgStrings.user_tab_fans, userInfo.followers),
           new Container(
               width: 0.3,
               height: 40.0,
               color: Color(WhgColors.subLightTextColor)),
-          new Expanded(
-            child: new Center(
-              child: new Text(
-                WhgStrings.user_tab_focus +
-                    "\n" +
-                    userInfo.following.toString(),
-                textAlign: TextAlign.center,
-                style: WhgConstant.subSmallText,
-              ),
-            ),
-          ),
+          _getBottomItem(WhgStrings.user_tab_focus, userInfo.following),
           new Container(
               width: 0.3,
               height: 40.0,
               color: Color(WhgColors.subLightTextColor)),
-          new Expanded(
-            child: new Center(
-              child: new Text(WhgStrings.user_tab_star + "\n---",
-                  textAlign: TextAlign.center, style: WhgConstant.subSmallText),
-            ),
-          ),
+          _getBottomItem(WhgStrings.user_tab_star, "---"),
           new Container(
               width: 0.3,
               height: 40.0,
               color: Color(WhgColors.subLightTextColor)),
-          new Expanded(
-            child: new Center(
-              child: new Text(WhgStrings.user_tab_honor + "\n---",
-                  textAlign: TextAlign.center, style: WhgConstant.subSmallText),
-            ),
-          ),
+          _getBottomItem(WhgStrings.user_tab_honor, "---"),
         ],
       );
 
@@ -202,4 +164,13 @@ class UserHeaderItem extends StatelessWidget {
       ),
       margin: new EdgeInsets.only(top: 15.0, bottom: 15.0, left: 12.0),
       alignment: Alignment.topLeft);
+
+  Widget _getBottomItem(String title, var value) {
+    return new Expanded(
+      child: new Center(
+        child: new Text(title + "\n" + (value == null ? "" : value.toString()),
+            textAlign: TextAlign.center, style: WhgConstant.subSmallText),
+      ),
+    );
+  }
 }
