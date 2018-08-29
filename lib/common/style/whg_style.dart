@@ -89,6 +89,9 @@ class WhgStrings {
   static const String repos_tab_issue_all = "所有";
   static const String repos_tab_issue_open = "打开";
   static const String repos_tab_issue_closed = "关闭";
+
+  static const String repos_tab_activity = "动态";
+  static const String repos_tab_commits = "提交";
 }
 
 class WhgConstant {
@@ -262,4 +265,7 @@ class WhgICons {
       new IconData(0xe661, fontFamily: WhgICons.FONT_FAMILY);
   static IconData ISSUE_ITEM_COMMENT =
       new IconData(0xe6ba, fontFamily: WhgICons.FONT_FAMILY);
+
+  static IconData ISSUE_ITEM_ADD =
+      new IconData(0xe662, fontFamily: WhgICons.FONT_FAMILY);
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:whg_github/common/bean/repos_header_view_model.dart';
 import 'package:whg_github/common/style/whg_style.dart';
 import 'package:whg_github/ui/view/card_item.dart';
+import 'package:whg_github/ui/view/repository_issue_list_header.dart';
 import 'package:whg_github/ui/view/whg_icon_text.dart';
 
 /**
@@ -14,9 +15,10 @@ import 'package:whg_github/ui/view/whg_icon_text.dart';
  * PS: Stay hungry,Stay foolish.
  */
 class ReposHeaderItem extends StatelessWidget {
+  final SelectItemChanged selectItemChanged;
   final ReposHeaderViewModel reposHeaderViewModel;
 
-  ReposHeaderItem(this.reposHeaderViewModel) : super();
+  ReposHeaderItem(this.reposHeaderViewModel, this.selectItemChanged) : super();
 
   @override
   Widget build(BuildContext context) {
@@ -29,32 +31,38 @@ class ReposHeaderItem extends StatelessWidget {
     String infoText =
         createStr + ((reposHeaderViewModel.push_at != null) ? updateStr : '');
 
-    return Container(
-      child: WhgCardItem(
-        color: Color(WhgColors.primaryValue),
-        child: Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              firstColumn(),
-              SizedBox(
-                height: 5.0,
-              ),
-              secondColumn(),
-              SizedBox(
-                height: 5.0,
-              ),
-              timeColumn(),
-              pullinfoColumn(infoText),
-              new Divider(
-                color: Color(WhgColors.subTextColor),
-              ),
-              icontitleColumn(),
-            ],
+    return Column(
+      children: <Widget>[
+        WhgCardItem(
+          color: Color(WhgColors.primaryValue),
+          child: Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                firstColumn(),
+                SizedBox(
+                  height: 5.0,
+                ),
+                secondColumn(),
+                SizedBox(
+                  height: 5.0,
+                ),
+                timeColumn(),
+                pullinfoColumn(infoText),
+                new Divider(
+                  color: Color(WhgColors.subTextColor),
+                ),
+                icontitleColumn(),
+              ],
+            ),
           ),
         ),
-      ),
+        new WhgSelectItemWidget([
+          WhgStrings.repos_tab_activity,
+          WhgStrings.repos_tab_commits,
+        ], selectItemChanged)
+      ],
     );
   }
 
@@ -110,7 +118,10 @@ class ReposHeaderItem extends StatelessWidget {
 
   //第三行
   Widget timeColumn() => new Container(
-      child: new Text(reposHeaderViewModel.repositoryDes,
+      child: new Text(
+          reposHeaderViewModel.repositoryDes == null
+              ? reposHeaderViewModel.repositoryDes
+              : "",
           style: WhgConstant.subSmallText),
       margin: new EdgeInsets.only(top: 6.0, bottom: 2.0),
       alignment: Alignment.topLeft);
@@ -129,10 +140,22 @@ class ReposHeaderItem extends StatelessWidget {
         children: <Widget>[
           _getBottomItem(
               WhgICons.REPOS_ITEM_STAR, reposHeaderViewModel.repositoryStar),
+          new Container(
+              width: 0.3,
+              height: 30.0,
+              color: Color(WhgColors.subLightTextColor)),
           _getBottomItem(
               WhgICons.REPOS_ITEM_FORK, reposHeaderViewModel.repositoryFork),
+          new Container(
+              width: 0.3,
+              height: 30.0,
+              color: Color(WhgColors.subLightTextColor)),
           _getBottomItem(
               WhgICons.REPOS_ITEM_WATCH, reposHeaderViewModel.repositoryWatch),
+          new Container(
+              width: 0.3,
+              height: 30.0,
+              color: Color(WhgColors.subLightTextColor)),
           _getBottomItem(
               WhgICons.REPOS_ITEM_ISSUE, reposHeaderViewModel.repositoryIssue),
         ],

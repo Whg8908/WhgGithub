@@ -89,4 +89,19 @@ class Address {
     direction ??= 'desc';
     return "${host}repos/$reposOwner/$reposName/issues?state=$state&sort=$sort&direction=$direction";
   }
+
+  ///搜索issue
+  static repositoryIssueSearch(q) {
+    return "${host}search/issues?q=$q";
+  }
+
+  ///仓库提交 get
+  static getReposCommits(reposOwner, reposName) {
+    return "${host}repos/$reposOwner/$reposName/commits";
+  }
+
+  ///仓库提交详情 get
+  static getReposCommitsInfo(reposOwner, reposName, sha) {
+    return "${host}repos/$reposOwner/$reposName/commits/$sha";
+  }
 }

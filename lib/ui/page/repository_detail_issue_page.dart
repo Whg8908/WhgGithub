@@ -34,6 +34,8 @@ class RepositoryDetailIssuePageState
   final String userName;
   final String reposName;
   String issueState;
+  String searchText;
+  int selectIndex;
 
   RepositoryDetailIssuePageState(this.userName, this.reposName);
 
@@ -42,14 +44,23 @@ class RepositoryDetailIssuePageState
 
   @protected
   requestRefresh() async {
-    return await IssueDao.getRepositoryIssueDao(userName, reposName, issueState,
-        page: page);
+    return await _getDataLogic(this.searchText);
   }
 
   @protected
   requestLoadMore() async {
-    return await IssueDao.getRepositoryIssueDao(userName, reposName, issueState,
-        page: page);
+    return await _getDataLogic(this.searchText);
+  }
+
+  _getDataLogic(String searchString) async {
+    if (searchString == null || searchString.trim().length == 0) {
+      return await IssueDao.getRepositoryIssueDao(
+          userName, reposName, issueState,
+          page: page);
+    }
+    return await IssueDao.searchRepositoryIssue(
+        searchString, userName, reposName, this.issueState,
+        page: this.page);
   }
 
   _renderEventItem(index) {
@@ -62,7 +73,7 @@ class RepositoryDetailIssuePageState
   }
 
   //type选择来刷新数据
-  _resolveSelectIndex(selectIndex) {
+  _resolveSelectIndex() {
     clearData();
     switch (selectIndex) {
       case 0:
@@ -88,10 +99,22 @@ class RepositoryDetailIssuePageState
   Widget build(BuildContext context) {
     super.build(context); // See AutomaticKeepAliveClientMixin.
     return new Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        child: Icon(
+          WhgICons.ISSUE_ITEM_ADD,
+          size: 55.0,
+          color: Color(WhgColors.textWhite),
+        ),
+      ),
       backgroundColor: Color(WhgColors.mainBackgroundColor),
       appBar: new AppBar(
         leading: new Container(),
-        flexibleSpace: WhgSearchInputWidget((value) {}),
+        flexibleSpace: WhgSearchInputWidget((value) {
+          this.searchText = value;
+        }, (value) {
+          _resolveSelectIndex();
+        }),
         elevation: 0.0,
         backgroundColor: Color(WhgColors.mainBackgroundColor),
         bottom: new WhgSelectItemWidget([
@@ -99,7 +122,8 @@ class RepositoryDetailIssuePageState
           WhgStrings.repos_tab_issue_open,
           WhgStrings.repos_tab_issue_closed,
         ], (selectIndex) {
-          _resolveSelectIndex(selectIndex);
+          this.selectIndex = selectIndex;
+          _resolveSelectIndex();
         }),
       ),
       body: WhgPullLoadWidget(

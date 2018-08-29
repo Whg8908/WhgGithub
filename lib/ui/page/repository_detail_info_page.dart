@@ -36,36 +36,52 @@ class RepositoryDetailInfoPageState
   final ReposDetailInfoPageControl reposDetailInfoPageControl;
   final String userName;
   final String reposName;
+  int selectIndex = 0;
 
   RepositoryDetailInfoPageState(
       this.reposDetailInfoPageControl, this.userName, this.reposName);
 
   @protected
   requestRefresh() async {
-    return await ReposDao.getRepositoryEventDao(userName, reposName,
-        page: page);
+    return await _getDataLogic();
   }
 
   @protected
   requestLoadMore() async {
-    return await ReposDao.getRepositoryEventDao(userName, reposName,
-        page: page);
+    return await _getDataLogic();
   }
 
   _renderEventItem(index) {
     if (index == 0) {
       return new ReposHeaderItem(
-          reposDetailInfoPageControl.reposHeaderViewModel);
+          reposDetailInfoPageControl.reposHeaderViewModel, (index) {
+        selectIndex = index;
+        clearData();
+        showRefreshLoading();
+      });
     }
 
     EventViewModel eventViewModel = pullLoadWidgetControl.dataList[index - 1];
 
-    return new EventItem(
-      eventViewModel,
-      onPressed: () {
-        EventUtils.ActionUtils(context, eventViewModel.eventMap, "");
-      },
-    );
+    if (selectIndex == 1) {
+      return new EventItem(
+        eventViewModel,
+        onPressed: () {},
+        needImage: false,
+      );
+    }
+
+    return new EventItem(eventViewModel, onPressed: () {
+      EventUtils.ActionUtils(context, eventViewModel.eventMap, "");
+    }, needImage: true);
+  }
+
+  _getDataLogic() async {
+    if (selectIndex == 1) {
+      return await ReposDao.getReposCommitsDao(userName, reposName, page: page);
+    }
+    return await ReposDao.getRepositoryEventDao(userName, reposName,
+        page: page);
   }
 
   @override

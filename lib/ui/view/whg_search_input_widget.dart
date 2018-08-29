@@ -13,8 +13,9 @@ import 'package:whg_github/common/style/whg_style.dart';
 
 class WhgSearchInputWidget extends StatelessWidget {
   final ValueChanged<String> onSubmitted;
+  final ValueChanged<String> onChanged;
 
-  WhgSearchInputWidget(this.onSubmitted);
+  WhgSearchInputWidget(this.onChanged, this.onSubmitted);
 
   @override
   Widget build(BuildContext context) {
@@ -33,6 +34,7 @@ class WhgSearchInputWidget extends StatelessWidget {
           hintStyle: WhgConstant.subSmallText,
         ),
         style: WhgConstant.middleText,
+        onChanged: onChanged,
         onSubmitted: onSubmitted,
       ),
     );

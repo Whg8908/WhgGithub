@@ -19,4 +19,13 @@ class EventViewModel {
     actionTarget = other["actionStr"];
     this.eventMap = eventMap;
   }
+
+  EventViewModel.fromCommitMap(eventMap) {
+    actionTime = CommonUtils.getNewsTimeStr(
+        DateTime.parse(eventMap["commit"]["committer"]["date"]));
+    actionUser = eventMap["commit"]["committer"]["name"];
+    actionDes = "sha:" + eventMap["sha"];
+    actionTarget = eventMap["commit"]["message"];
+    this.eventMap = eventMap;
+  }
 }

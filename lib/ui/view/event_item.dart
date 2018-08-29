@@ -16,8 +16,10 @@ import 'package:whg_github/ui/view/card_item.dart';
 class EventItem extends StatelessWidget {
   final EventViewModel eventViewModel;
   final VoidCallback onPressed;
+  final bool needImage;
 
-  EventItem(this.eventViewModel, {this.onPressed}) : super();
+  EventItem(this.eventViewModel, {this.onPressed, this.needImage = true})
+      : super();
 
   @override
   Widget build(BuildContext context) {
@@ -46,25 +48,7 @@ class EventItem extends StatelessWidget {
   Widget fitrtColumn(BuildContext context) => Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          IconButton(
-            icon: new ClipOval(
-              //有placeholder
-              child: new FadeInImage.assetNetwork(
-                placeholder: "static/images/logo.png",
-                //预览图
-                fit: BoxFit.fitWidth,
-                image: eventViewModel.actionUserPic,
-                width: 30.0,
-                height: 30.0,
-              ),
-            ),
-            onPressed: () {
-              NavigatorUtils.goPerson(context, eventViewModel.actionUser);
-            },
-          ),
-          SizedBox(
-            width: 10.0,
-          ),
+          imageRow(context),
           Expanded(
               child: new Text(
             eventViewModel.actionUser,
@@ -95,6 +79,30 @@ class EventItem extends StatelessWidget {
           ),
           margin: new EdgeInsets.only(top: 6.0, bottom: 2.0),
           alignment: Alignment.topLeft);
+    }
+  }
+
+  imageRow(BuildContext context) {
+    if (needImage) {
+      return IconButton(
+        padding: EdgeInsets.only(top: 0.0, left: 0.0, bottom: 0.0, right: 10.0),
+        icon: new ClipOval(
+          //有placeholder
+          child: new FadeInImage.assetNetwork(
+            placeholder: "static/images/logo.png",
+            //预览图
+            fit: BoxFit.fitWidth,
+            image: eventViewModel.actionUserPic,
+            width: 30.0,
+            height: 30.0,
+          ),
+        ),
+        onPressed: () {
+          NavigatorUtils.goPerson(context, eventViewModel.actionUser);
+        },
+      );
+    } else {
+      return Container();
     }
   }
 }

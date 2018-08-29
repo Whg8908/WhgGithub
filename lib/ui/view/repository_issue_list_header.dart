@@ -79,12 +79,15 @@ class RepositoryIssueListHeaderState extends State<WhgSelectItemWidget> {
     return Expanded(
         child: FlatButton(
             onPressed: () {
+              if (selectItemChanged != null) {
+                if (selectIndex != index) {
+                  //防止重复点击
+                  selectItemChanged(index);
+                }
+              }
               setState(() {
                 selectIndex = index;
               });
-              if (selectItemChanged != null) {
-                selectItemChanged(index);
-              }
             },
             child: new Text(
               name,

@@ -126,17 +126,17 @@ class RepositoryDetailPageState extends State<RepositoryDetailPage> {
         type: WhgTabBarWidget.TOP_TAB,
         tarWidgetControl: tarBarControl,
         tabItems: [
-          new Tab(text: WhgStrings.repos_tab_readme),
           new Tab(text: WhgStrings.repos_tab_info),
-          new Tab(text: WhgStrings.repos_tab_file),
           new Tab(text: WhgStrings.repos_tab_issue),
+          new Tab(text: WhgStrings.repos_tab_file),
+          new Tab(text: WhgStrings.repos_tab_readme),
         ],
         tabViews: [
-          RepostroyDetailReadmePage(),
           RepositoryDetailInfoPage(
               reposDetailInfoPageControl, userName, reposName),
-          new Icon(WhgICons.MAIN_DT),
           RepositoryDetailIssuePage(userName, reposName),
+          new Icon(WhgICons.MAIN_DT),
+          RepostroyDetailReadmePage(),
         ],
         backgroundColor: WhgColors.primarySwatch,
         indicatorColor: Colors.white,
