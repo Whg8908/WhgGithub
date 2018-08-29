@@ -17,12 +17,12 @@ import 'package:whg_github/ui/view/whg_pullload_widget.dart';
  *
  * PS: Stay hungry,Stay foolish.
  */
-class RepositoryDetailInfoPage extends StatefulWidget {
+class RepositoryDetailInfoListPage extends StatefulWidget {
   final ReposDetailInfoPageControl reposDetailInfoPageControl;
   final String userName;
   final String reposName;
 
-  RepositoryDetailInfoPage(
+  RepositoryDetailInfoListPage(
       this.reposDetailInfoPageControl, this.userName, this.reposName);
 
   @override
@@ -32,7 +32,7 @@ class RepositoryDetailInfoPage extends StatefulWidget {
 }
 
 class RepositoryDetailInfoPageState
-    extends WhgListState<RepositoryDetailInfoPage> {
+    extends WhgListState<RepositoryDetailInfoListPage> {
   final ReposDetailInfoPageControl reposDetailInfoPageControl;
   final String userName;
   final String reposName;
@@ -72,7 +72,8 @@ class RepositoryDetailInfoPageState
     }
 
     return new EventItem(eventViewModel, onPressed: () {
-      EventUtils.ActionUtils(context, eventViewModel.eventMap, "");
+      EventUtils.ActionUtils(
+          context, eventViewModel.eventMap, userName + "/" + reposName);
     }, needImage: true);
   }
 

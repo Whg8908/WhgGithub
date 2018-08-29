@@ -11,6 +11,7 @@ import 'package:whg_github/common/utils/navigatorutils.dart';
  * PS: Stay hungry,Stay foolish.
  */
 class EventUtils {
+  ///事件描述与动作
   static getActionAndDes(event) {
     String actionStr;
     String des;
@@ -165,7 +166,7 @@ class EventUtils {
     switch (event["type"]) {
       case 'ForkEvent':
         String forkName = event["actor"]["login"] + "/" + repositoryName;
-        if (forkName == currentRepository) {
+        if (forkName.toLowerCase() == currentRepository.toLowerCase()) {
           return;
         }
         NavigatorUtils.goReposDetail(
@@ -173,7 +174,7 @@ class EventUtils {
         break;
       case 'PushEvent':
         if (event["payload"]["commits"] == null) {
-          if (fullName == currentRepository) {
+          if (fullName.toLowerCase() == currentRepository.toLowerCase()) {
             return;
           }
           NavigatorUtils.goReposDetail(context, owner, repositoryName);
@@ -207,7 +208,7 @@ class EventUtils {
           });*/
         break;
       default:
-        if (fullName == currentRepository) {
+        if (fullName.toLowerCase() == currentRepository.toLowerCase()) {
           return;
         }
         NavigatorUtils.goReposDetail(context, owner, repositoryName);

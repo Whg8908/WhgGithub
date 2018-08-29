@@ -18,11 +18,11 @@ import 'package:whg_github/ui/view/whg_search_input_widget.dart';
  * PS: Stay hungry,Stay foolish.
  */
 
-class RepositoryDetailIssuePage extends StatefulWidget {
+class RepositoryDetailIssueListPage extends StatefulWidget {
   final String userName;
   final String reposName;
 
-  RepositoryDetailIssuePage(this.userName, this.reposName);
+  RepositoryDetailIssueListPage(this.userName, this.reposName);
 
   @override
   RepositoryDetailIssuePageState createState() =>
@@ -30,7 +30,7 @@ class RepositoryDetailIssuePage extends StatefulWidget {
 }
 
 class RepositoryDetailIssuePageState
-    extends WhgListState<RepositoryDetailIssuePage> {
+    extends WhgListState<RepositoryDetailIssueListPage> {
   final String userName;
   final String reposName;
   String issueState;

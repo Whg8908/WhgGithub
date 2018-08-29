@@ -1,9 +1,13 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:whg_github/common/bean/bottom_status_view_model.dart';
+import 'package:whg_github/common/config/config.dart';
 import 'package:whg_github/common/dao/repos_dao.dart';
 import 'package:whg_github/common/style/whg_style.dart';
-import 'package:whg_github/ui/page/repository_detail_info_page.dart';
-import 'package:whg_github/ui/page/repository_detail_issue_page.dart';
+import 'package:whg_github/ui/page/repository_detail_file_list_page.dart';
+import 'package:whg_github/ui/page/repository_detail_info_list_page.dart';
+import 'package:whg_github/ui/page/repository_detail_issue_list_page.dart';
 import 'package:whg_github/ui/page/repository_detail_readme_page.dart';
 import 'package:whg_github/ui/view/whg_icon_text.dart';
 import 'package:whg_github/ui/view/whg_tabbar_widget.dart';
@@ -42,8 +46,10 @@ class RepositoryDetailPageState extends State<RepositoryDetailPage> {
 
   _getReposStatus() async {
     var result = await ReposDao.getRepositoryStatusDao(userName, reposName);
-    print(result.data["star"]);
-    print(result.data["watch"]);
+    if (Config.DEBUG) {
+      print(result.data["star"]);
+      print(result.data["watch"]);
+    }
     String watchText = result.data["watch"] ? "UnWatch" : "Watch";
     String starText = result.data["star"] ? "UnStar" : "Star";
     IconData watchIcon = result.data["watch"]
@@ -54,8 +60,8 @@ class RepositoryDetailPageState extends State<RepositoryDetailPage> {
         : WhgICons.REPOS_ITEM_STAR;
     BottomStatusModel model = new BottomStatusModel(watchText, starText,
         watchIcon, starIcon, result.data["watch"], result.data["star"]);
-    bottomStatusModel = model;
     setState(() {
+      bottomStatusModel = model;
       tarBarControl.footerButton = _getBottomWidget();
     });
   }
@@ -65,25 +71,41 @@ class RepositoryDetailPageState extends State<RepositoryDetailPage> {
         ? []
         : <Widget>[
             new FlatButton(
-                onPressed: () => {},
+                onPressed: () {
+                  _showRequestDialog();
+                  return ReposDao.doRepositoryStarDao(
+                          userName, reposName, bottomStatusModel.star)
+                      .then((result) {
+                    _refresh();
+                    Navigator.pop(context);
+                  });
+                },
                 child: new WhgIconText(
                   bottomStatusModel.starIcon,
                   bottomStatusModel.starText,
                   WhgConstant.smallText,
                   Color(WhgColors.primaryValue),
                   15.0,
-                  padding: 5.0,
+                  padding: 2.0,
                   mainAxisAlignment: MainAxisAlignment.center,
                 )),
             new FlatButton(
-                onPressed: () {},
+                onPressed: () {
+                  _showRequestDialog();
+                  return ReposDao.doRepositoryWatchDao(
+                          userName, reposName, bottomStatusModel.watch)
+                      .then((result) {
+                    _refresh();
+                    Navigator.pop(context);
+                  });
+                },
                 child: new WhgIconText(
                   bottomStatusModel.watchIcon,
                   bottomStatusModel.watchText,
                   WhgConstant.smallText,
                   Color(WhgColors.primaryValue),
                   15.0,
-                  padding: 5.0,
+                  padding: 2.0,
                   mainAxisAlignment: MainAxisAlignment.center,
                 )),
             new FlatButton(
@@ -94,7 +116,7 @@ class RepositoryDetailPageState extends State<RepositoryDetailPage> {
                   WhgConstant.smallText,
                   Color(WhgColors.primaryValue),
                   15.0,
-                  padding: 5.0,
+                  padding: 2.0,
                   mainAxisAlignment: MainAxisAlignment.center,
                 )),
             new FlatButton(
@@ -106,16 +128,28 @@ class RepositoryDetailPageState extends State<RepositoryDetailPage> {
                   WhgConstant.smallTextWhite,
                   Color(WhgColors.white),
                   30.0,
-                  padding: 3.0,
+                  padding: 2.0,
                   mainAxisAlignment: MainAxisAlignment.center,
                 ))
           ];
     return bottomWidget;
   }
 
+  Future<Null> _showRequestDialog() {
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return Center(child: new CircularProgressIndicator());
+        });
+  }
+
   @override
   void initState() {
     super.initState();
+    _refresh();
+  }
+
+  _refresh() {
     this._getReposDetail();
     this._getReposStatus();
   }
@@ -132,10 +166,10 @@ class RepositoryDetailPageState extends State<RepositoryDetailPage> {
           new Tab(text: WhgStrings.repos_tab_readme),
         ],
         tabViews: [
-          RepositoryDetailInfoPage(
+          RepositoryDetailInfoListPage(
               reposDetailInfoPageControl, userName, reposName),
-          RepositoryDetailIssuePage(userName, reposName),
-          new Icon(WhgICons.MAIN_DT),
+          RepositoryDetailIssueListPage(userName, reposName),
+          RepositoryDetailFileListPage(userName, reposName),
           RepostroyDetailReadmePage(),
         ],
         backgroundColor: WhgColors.primarySwatch,

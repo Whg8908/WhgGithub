@@ -104,4 +104,15 @@ class Address {
   static getReposCommitsInfo(reposOwner, reposName, sha) {
     return "${host}repos/$reposOwner/$reposName/commits/$sha";
   }
+
+  ///仓库路径下的内容 get
+  static reposDataDir(reposOwner, repos, path, [branch = 'master']) {
+    return "${host}repos/$reposOwner/$repos/contents/$path" +
+        ((branch == null) ? "" : ("?ref=" + branch));
+  }
+
+  ///create fork post
+  static createFork(reposOwner, reposName) {
+    return "${host}repos/$reposOwner/$reposName/forks";
+  }
 }

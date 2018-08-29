@@ -226,46 +226,48 @@ class WhgConstant {
 }
 
 class WhgICons {
-  static String FONT_FAMILY = 'wxcIconFont';
+  static const String FONT_FAMILY = 'wxcIconFont';
 
-  static IconData MAIN_DT =
-      new IconData(0xe684, fontFamily: WhgICons.FONT_FAMILY);
+  static const IconData MAIN_DT =
+      const IconData(0xe684, fontFamily: WhgICons.FONT_FAMILY);
+  static const IconData MAIN_QS =
+      const IconData(0xe818, fontFamily: WhgICons.FONT_FAMILY);
+  static const IconData MAIN_MY =
+      const IconData(0xe6d0, fontFamily: WhgICons.FONT_FAMILY);
 
-  static IconData MAIN_QS =
-      new IconData(0xe818, fontFamily: WhgICons.FONT_FAMILY);
+  static const IconData REPOS_ITEM_USER =
+      const IconData(0xe63e, fontFamily: WhgICons.FONT_FAMILY);
+  static const IconData REPOS_ITEM_STAR =
+      const IconData(0xe643, fontFamily: WhgICons.FONT_FAMILY);
+  static const IconData REPOS_ITEM_FORK =
+      const IconData(0xe67e, fontFamily: WhgICons.FONT_FAMILY);
+  static const IconData REPOS_ITEM_ISSUE =
+      const IconData(0xe661, fontFamily: WhgICons.FONT_FAMILY);
 
-  static IconData MAIN_MY =
-      new IconData(0xe6d0, fontFamily: WhgICons.FONT_FAMILY);
+  static const IconData REPOS_ITEM_STARED =
+      const IconData(0xe698, fontFamily: WhgICons.FONT_FAMILY);
+  static const IconData REPOS_ITEM_WATCH =
+      const IconData(0xe681, fontFamily: WhgICons.FONT_FAMILY);
+  static const IconData REPOS_ITEM_WATCHED =
+      const IconData(0xe629, fontFamily: WhgICons.FONT_FAMILY);
+  static const IconData REPOS_ITEM_DIR =
+      const IconData(0xe793, fontFamily: WhgICons.FONT_FAMILY);
+  static const IconData REPOS_ITEM_FILE =
+      const IconData(0xea77, fontFamily: WhgICons.FONT_FAMILY);
+  static const IconData REPOS_ITEM_NEXT =
+      const IconData(0xe610, fontFamily: WhgICons.FONT_FAMILY);
 
-  static IconData REPOS_ITEM_USER =
-      new IconData(0xe63e, fontFamily: WhgICons.FONT_FAMILY);
+  static const IconData USER_ITEM_COMPANY =
+      const IconData(0xe63e, fontFamily: WhgICons.FONT_FAMILY);
+  static const IconData USER_ITEM_LOCATION =
+      const IconData(0xe7e6, fontFamily: WhgICons.FONT_FAMILY);
+  static const IconData USER_ITEM_LINK =
+      const IconData(0xe670, fontFamily: WhgICons.FONT_FAMILY);
 
-  static IconData REPOS_ITEM_STAR =
-      new IconData(0xe643, fontFamily: WhgICons.FONT_FAMILY);
-  static IconData REPOS_ITEM_FORK =
-      new IconData(0xe67e, fontFamily: WhgICons.FONT_FAMILY);
-  static IconData REPOS_ITEM_ISSUE =
-      new IconData(0xe661, fontFamily: WhgICons.FONT_FAMILY);
-
-  static IconData USER_ITEM_COMPANY =
-      new IconData(0xe63e, fontFamily: WhgICons.FONT_FAMILY);
-  static IconData USER_ITEM_LOCATION =
-      new IconData(0xe7e6, fontFamily: WhgICons.FONT_FAMILY);
-  static IconData USER_ITEM_LINK =
-      new IconData(0xe670, fontFamily: WhgICons.FONT_FAMILY);
-
-  static IconData REPOS_ITEM_STARED =
-      new IconData(0xe698, fontFamily: WhgICons.FONT_FAMILY);
-  static IconData REPOS_ITEM_WATCH =
-      new IconData(0xe681, fontFamily: WhgICons.FONT_FAMILY);
-  static IconData REPOS_ITEM_WATCHED =
-      new IconData(0xee629, fontFamily: WhgICons.FONT_FAMILY);
-
-  static IconData ISSUE_ITEM_ISSUE =
-      new IconData(0xe661, fontFamily: WhgICons.FONT_FAMILY);
-  static IconData ISSUE_ITEM_COMMENT =
-      new IconData(0xe6ba, fontFamily: WhgICons.FONT_FAMILY);
-
-  static IconData ISSUE_ITEM_ADD =
-      new IconData(0xe662, fontFamily: WhgICons.FONT_FAMILY);
+  static const IconData ISSUE_ITEM_ISSUE =
+      const IconData(0xe661, fontFamily: WhgICons.FONT_FAMILY);
+  static const IconData ISSUE_ITEM_COMMENT =
+      const IconData(0xe6ba, fontFamily: WhgICons.FONT_FAMILY);
+  static const IconData ISSUE_ITEM_ADD =
+      const IconData(0xe662, fontFamily: WhgICons.FONT_FAMILY);
 }
