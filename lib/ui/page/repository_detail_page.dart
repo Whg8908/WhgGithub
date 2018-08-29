@@ -1,10 +1,9 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:whg_github/common/bean/bottom_status_view_model.dart';
 import 'package:whg_github/common/config/config.dart';
 import 'package:whg_github/common/dao/repos_dao.dart';
 import 'package:whg_github/common/style/whg_style.dart';
+import 'package:whg_github/common/utils/commonutils.dart';
 import 'package:whg_github/ui/page/repository_detail_file_list_page.dart';
 import 'package:whg_github/ui/page/repository_detail_info_list_page.dart';
 import 'package:whg_github/ui/page/repository_detail_issue_list_page.dart';
@@ -72,7 +71,7 @@ class RepositoryDetailPageState extends State<RepositoryDetailPage> {
         : <Widget>[
             new FlatButton(
                 onPressed: () {
-                  _showRequestDialog();
+                  CommonUtils.showLoadingDialog(context);
                   return ReposDao.doRepositoryStarDao(
                           userName, reposName, bottomStatusModel.star)
                       .then((result) {
@@ -91,7 +90,7 @@ class RepositoryDetailPageState extends State<RepositoryDetailPage> {
                 )),
             new FlatButton(
                 onPressed: () {
-                  _showRequestDialog();
+                  CommonUtils.showLoadingDialog(context);
                   return ReposDao.doRepositoryWatchDao(
                           userName, reposName, bottomStatusModel.watch)
                       .then((result) {
@@ -133,14 +132,6 @@ class RepositoryDetailPageState extends State<RepositoryDetailPage> {
                 ))
           ];
     return bottomWidget;
-  }
-
-  Future<Null> _showRequestDialog() {
-    return showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return Center(child: new CircularProgressIndicator());
-        });
   }
 
   @override

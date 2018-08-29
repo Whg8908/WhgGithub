@@ -1,3 +1,8 @@
+import 'dart:async';
+
+import 'package:flutter/material.dart';
+import 'package:whg_github/common/style/whg_style.dart';
+
 /**
  * @Author by whg
  * @Email ghw8908@163.com
@@ -55,5 +60,34 @@ class CommonUtils {
       }
     }
     return fullName;
+  }
+
+  static Future<Null> showLoadingDialog(BuildContext context) {
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return Center(
+            child: new Container(
+              width: 140.0,
+              height: 140.0,
+              padding: new EdgeInsets.all(4.0),
+              decoration: new BoxDecoration(
+                color: Colors.white,
+                //用一个BoxDecoration装饰器提供背景图片
+                borderRadius: BorderRadius.all(Radius.circular(4.0)),
+              ),
+              child: new Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  new CircularProgressIndicator(),
+                  new Container(width: 10.0),
+                  new Container(
+                      child: new Text(WhgStrings.loading_text,
+                          style: WhgConstant.middleText)),
+                ],
+              ),
+            ),
+          );
+        });
   }
 }

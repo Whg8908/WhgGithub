@@ -92,6 +92,7 @@ class WhgStrings {
 
   static const String repos_tab_activity = "动态";
   static const String repos_tab_commits = "提交";
+  static const String loading_text = "加载中···";
 }
 
 class WhgConstant {

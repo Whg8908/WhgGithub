@@ -6,6 +6,7 @@ import 'package:whg_github/common/config/config.dart';
 import 'package:whg_github/common/dao/user_dao.dart';
 import 'package:whg_github/common/local/local_storage.dart';
 import 'package:whg_github/common/style/whg_style.dart';
+import 'package:whg_github/common/utils/commonutils.dart';
 import 'package:whg_github/common/utils/navigatorutils.dart';
 import 'package:whg_github/ui/view/whg_flex_button.dart';
 import 'package:whg_github/ui/view/whg_input_widget.dart';
@@ -109,6 +110,7 @@ class LoginPageState extends State<LoginPage> {
                     if (_passWord == null || _passWord.length == 0) {
                       return;
                     }
+                    CommonUtils.showLoadingDialog(context);
                     UserDao.login(_userName, _passWord, (data) {
                       if (data != null && data.result == true) {
                         Fluttertoast.showToast(msg: WhgStrings.login_success);
