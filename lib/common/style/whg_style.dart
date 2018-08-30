@@ -93,6 +93,20 @@ class WhgStrings {
   static const String repos_tab_activity = "动态";
   static const String repos_tab_commits = "提交";
   static const String loading_text = "加载中···";
+
+  static const String issue_reply = "回复";
+  static const String issue_edit = "编辑";
+  static const String issue_open = "打开";
+  static const String issue_close = "关闭";
+  static const String issue_lock = "锁定";
+  static const String issue_unlock = "解锁";
+
+  static const String app_ok = "确定";
+  static const String app_cancel = "取消";
+  static const String issue_reply_issue = "回复Issue";
+  static const String issue_commit_issue = "提交Issue";
+  static const String issue_edit_issue = "编译Issue";
+  static const String issue_edit_issue_commit = "编译回复";
 }
 
 class WhgConstant {

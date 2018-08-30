@@ -49,7 +49,7 @@ class WhgInputWidgetState extends State<WhgInputWidget> {
       obscureText: obscureText,
       decoration: InputDecoration(
         hintText: hintText,
-        icon: Icon(iconData),
+        icon: iconData == null ? null : new Icon(iconData),
       ),
     );
   }

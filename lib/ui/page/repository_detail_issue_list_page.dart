@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:whg_github/common/bean/issue_item_view_model.dart';
 import 'package:whg_github/common/dao/issue_dao.dart';
 import 'package:whg_github/common/style/whg_style.dart';
+import 'package:whg_github/common/utils/navigatorutils.dart';
 import 'package:whg_github/ui/base/whg_list_state.dart';
 import 'package:whg_github/ui/view/issue_item.dart';
 import 'package:whg_github/ui/view/repository_issue_list_header.dart';
@@ -68,7 +69,10 @@ class RepositoryDetailIssuePageState
         pullLoadWidgetControl.dataList[index];
     return new IssueItem(
       issueItemViewModel,
-      onPressed: () {},
+      onPressed: () {
+        NavigatorUtils.goIssueDetail(
+            context, userName, reposName, issueItemViewModel.number);
+      },
     );
   }
 

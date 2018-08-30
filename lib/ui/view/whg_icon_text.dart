@@ -51,6 +51,8 @@ class WhgIconText extends StatelessWidget {
         Text(
           iconText,
           style: textStyle,
+          overflow: TextOverflow.ellipsis,
+          maxLines: 1,
         )
       ],
     );

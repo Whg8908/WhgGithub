@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:whg_github/common/bean/issue_item_view_model.dart';
 import 'package:whg_github/common/style/whg_style.dart';
+import 'package:whg_github/common/utils/navigatorutils.dart';
 import 'package:whg_github/ui/view/card_item.dart';
 import 'package:whg_github/ui/view/whg_icon_text.dart';
 /**
@@ -16,9 +17,13 @@ import 'package:whg_github/ui/view/whg_icon_text.dart';
 class IssueItem extends StatelessWidget {
   final IssueItemViewModel issueItemViewModel;
   final VoidCallback onPressed;
-  final bool needBottom;
 
-  IssueItem(this.issueItemViewModel, {this.onPressed, this.needBottom = false});
+  final bool hideBottom;
+
+  final bool limitComment;
+
+  IssueItem(this.issueItemViewModel,
+      {this.onPressed, this.hideBottom = false, this.limitComment = true});
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +51,10 @@ class IssueItem extends StatelessWidget {
                         height: 30.0,
                       ),
                     ),
-                    onPressed: () {}),
+                    onPressed: () {
+                      NavigatorUtils.goPerson(
+                          context, issueItemViewModel.actionUser);
+                    }),
                 new Expanded(
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
@@ -72,7 +80,7 @@ class IssueItem extends StatelessWidget {
                           child: new Text(
                             issueItemViewModel.issueComment,
                             style: WhgConstant.subSmallText,
-                            maxLines: 2,
+                            maxLines: limitComment ? 2 : 1000,
                           ),
                           margin: new EdgeInsets.only(top: 6.0, bottom: 2.0),
                           alignment: Alignment.topLeft),
@@ -91,7 +99,7 @@ class IssueItem extends StatelessWidget {
   }
 
   buttomContainer(Color issueStateColor) {
-    if (needBottom) {
+    if (hideBottom) {
       return Container();
     } else {
       return new Row(

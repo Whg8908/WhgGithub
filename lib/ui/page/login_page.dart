@@ -113,6 +113,7 @@ class LoginPageState extends State<LoginPage> {
                     CommonUtils.showLoadingDialog(context);
                     UserDao.login(_userName, _passWord, (data) {
                       if (data != null && data.result == true) {
+                        Navigator.pop(context);
                         Fluttertoast.showToast(msg: WhgStrings.login_success);
                         NavigatorUtils.goHome(context);
                       }

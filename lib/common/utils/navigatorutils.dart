@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:whg_github/ui/page/home_page.dart';
+import 'package:whg_github/ui/page/issue_detail_page.dart';
 import 'package:whg_github/ui/page/login_page.dart';
 import 'package:whg_github/ui/page/person_page.dart';
 import 'package:whg_github/ui/page/repository_detail_page.dart';
@@ -35,5 +36,14 @@ class NavigatorUtils {
         new MaterialPageRoute(
             builder: (context) =>
                 new RepositoryDetailPage(userName, reposName)));
+  }
+
+  ///issue详情
+  static goIssueDetail(
+      BuildContext context, String userName, String reposName, String num) {
+    Navigator.push(
+        context,
+        new MaterialPageRoute(
+            builder: (context) => IssueDetailPage(userName, reposName, num)));
   }
 }

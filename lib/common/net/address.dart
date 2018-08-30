@@ -115,4 +115,40 @@ class Address {
   static createFork(reposOwner, reposName) {
     return "${host}repos/$reposOwner/$reposName/forks";
   }
+
+  ///仓库Issue评论 get
+  static getIssueComment(reposOwner, reposName, issueNumber) {
+    return "${host}repos/$reposOwner/$reposName/issues/$issueNumber/comments";
+  }
+
+  ///仓库Issue get
+  static getIssueInfo(reposOwner, reposName, issueNumber) {
+    return "${host}repos/$reposOwner/$reposName/issues/$issueNumber";
+  }
+
+  ///增加issue评论 post
+
+  static addIssueComment(reposOwner, reposName, issueNumber) {
+    return "${host}repos/$reposOwner/$reposName/issues/$issueNumber/comments";
+  }
+
+  ///编辑issue put
+  static editIssue(reposOwner, reposName, issueNumber) {
+    return "${host}repos/$reposOwner/$reposName/issues/$issueNumber";
+  }
+
+  ///锁定issue put
+  static lockIssue(reposOwner, reposName, issueNumber) {
+    return "${host}repos/$reposOwner/$reposName/issues/$issueNumber/lock";
+  }
+
+  ///创建issue post
+  static createIssue(reposOwner, reposName) {
+    return "${host}repos/$reposOwner/$reposName/issues";
+  }
+
+  ///编辑评论 patch, delete
+  static editComment(reposOwner, reposName, commentId) {
+    return "${host}repos/$reposOwner/$reposName/issues/comments/$commentId";
+  }
 }

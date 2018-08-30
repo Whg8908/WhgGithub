@@ -25,7 +25,7 @@ class WelComePage extends StatelessWidget {
     //获取全局的store
     Store<WhgState> store = StoreProvider.of(context);
 
-    new Future.delayed(const Duration(seconds: 2), () {
+    new Future.delayed(const Duration(seconds: 1), () {
       UserDao.initUserInfo(store).then((res) {
         if (res != null && res.result) {
           NavigatorUtils.goHome(context);

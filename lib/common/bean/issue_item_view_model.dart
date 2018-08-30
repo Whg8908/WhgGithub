@@ -8,18 +8,24 @@ class IssueItemViewModel {
   String commentCount = "---";
   String state = "---";
   String issueTag = "---";
+  String number = "---";
 
   IssueItemViewModel();
 
-  IssueItemViewModel.fromMap(issueMap) {
+  IssueItemViewModel.fromMap(issueMap, {needTitle = true}) {
     String fullName = CommonUtils.getFullName(issueMap["repository_url"]);
     actionTime =
         CommonUtils.getNewsTimeStr(DateTime.parse(issueMap["created_at"]));
     actionUser = issueMap["user"]["login"];
     actionUserPic = issueMap["user"]["avatar_url"];
-    issueComment = fullName + "- " + issueMap["title"];
-    commentCount = issueMap["comments"].toString();
-    state = issueMap["state"];
-    issueTag = "#" + issueMap["number"].toString();
+    if (needTitle) {
+      issueComment = fullName + "- " + issueMap["title"];
+      commentCount = issueMap["comments"].toString();
+      state = issueMap["state"];
+      issueTag = "#" + issueMap["number"].toString();
+      number = issueMap["number"].toString();
+    } else {
+      issueComment = issueMap["body"] != null ? issueMap["body"] : "";
+    }
   }
 }

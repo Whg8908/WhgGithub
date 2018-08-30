@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:whg_github/common/style/whg_style.dart';
+import 'package:whg_github/ui/view/issue_edit_dialog.dart';
 
 /**
  * @Author by whg
@@ -86,6 +87,33 @@ class CommonUtils {
                           style: WhgConstant.middleText)),
                 ],
               ),
+            ),
+          );
+        });
+  }
+
+  static Future<Null> showEditDialog(
+    BuildContext context,
+    String dialogTitle,
+    ValueChanged<String> onTitleChanged,
+    ValueChanged<String> onContentChanged,
+    VoidCallback onPressed, {
+    TextEditingController titleController,
+    TextEditingController valueController,
+    bool needTitle = true,
+  }) {
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return Center(
+            child: new IssueEditDialog(
+              dialogTitle,
+              onTitleChanged,
+              onContentChanged,
+              onPressed,
+              titleController: titleController,
+              valueController: valueController,
+              needTitle: needTitle,
             ),
           );
         });
