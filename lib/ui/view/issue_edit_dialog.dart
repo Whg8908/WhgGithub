@@ -75,7 +75,7 @@ class IssueEditDialogState extends State<IssueEditDialog> {
             child: new WhgInputWidget(
               onChange: onTitleChanged,
               controller: titleController,
-              hintText: WhgStrings.login_password_hint_text,
+              hintText: WhgStrings.issue_edit_issue_title_tip,
               obscureText: false,
             ))
         : new Container();
@@ -98,7 +98,7 @@ class IssueEditDialogState extends State<IssueEditDialog> {
             new Container(height: 10.0),
             new Center(child: new Text("Title")),
             new WhgInputWidget(
-              hintText: WhgStrings.login_password_hint_text,
+              hintText: WhgStrings.issue_edit_issue_content_tip,
               obscureText: false,
             ),
             new Container(height: 10.0),
