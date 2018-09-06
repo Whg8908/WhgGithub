@@ -115,6 +115,11 @@ class WhgStrings {
 
   static const String issue_edit_issue_title_tip = "请输入标题";
   static const String issue_edit_issue_content_tip = "请输入内容";
+
+  static const String trend_day = '今日';
+  static const String trend_week = '本周';
+  static const String trend_month = '本月';
+  static const String trend_all = '全部';
 }
 
 class WhgConstant {

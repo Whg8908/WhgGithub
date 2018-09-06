@@ -25,9 +25,13 @@ class TrendPage extends StatefulWidget {
 }
 
 class TrendPageState extends WhgListState<TrendPage> {
+  TrendTypeModel selectTime = TrendTime[0];
+  TrendTypeModel selectType = TrendType[0];
+
   @override
   requestRefresh() async {
-    return await ReposDao.getTrendDao(since: 'daily');
+    return await ReposDao.getTrendDao(
+        since: selectTime.value, languageType: selectType.value);
   }
 
   @override
@@ -59,18 +63,20 @@ class TrendPageState extends WhgListState<TrendPage> {
             new EdgeInsets.only(left: 0.0, top: 5.0, right: 0.0, bottom: 5.0),
         child: new Row(
           children: <Widget>[
-            _renderHeaderPopItem("aaa", [
-              new TrendTypeModel("fff", "fff"),
-              new TrendTypeModel("fff", "fff")
-            ], (TrendTypeModel result) {
-              setState(() {});
+            _renderHeaderPopItem(selectTime.name, TrendTime,
+                (TrendTypeModel result) {
+              setState(() {
+                selectTime = result;
+              });
+              showRefreshLoading();
             }),
             new Container(height: 10.0, width: 0.5, color: Colors.white),
-            _renderHeaderPopItem("bbb", [
-              new TrendTypeModel("fff", "fff"),
-              new TrendTypeModel("fff", "fff")
-            ], (TrendTypeModel result) {
-              setState(() {});
+            _renderHeaderPopItem(selectType.name, TrendType,
+                (TrendTypeModel result) {
+              setState(() {
+                selectType = result;
+              });
+              showRefreshLoading();
             }),
           ],
         ),

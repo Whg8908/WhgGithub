@@ -51,7 +51,7 @@ class Address {
 
   ///趋势 get
   static trending(since, languageType) {
-    if (languageType == null) {
+    if (languageType != null) {
       return "${hostWeb}trending/$languageType?since=$since";
     }
     return "${hostWeb}trending?since=$since";
