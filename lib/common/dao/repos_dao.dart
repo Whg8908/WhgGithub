@@ -215,4 +215,88 @@ class ReposDao {
         await HttpManager.fetch(url, null, null, new Options(method: "POST"));
     return new DataResult(null, res.result);
   }
+
+  /**
+   * 获取当前仓库所有订阅用户
+   */
+  static getRepositoryWatcherDao(userName, reposName, page) async {}
+
+  /**
+   * 获取当前仓库所有star用户
+   */
+  static getRepositoryStarDao(userName, reposName, page) async {}
+
+  /**
+   * 获取仓库的fork分支
+   */
+  static getRepositoryForksDao(userName, reposName, page) async {
+    String url = Address.getReposForks(userName, reposName) +
+        Address.getPageParams("?", page);
+    var res = await HttpManager.fetch(url, null, null, null);
+    if (res != null && res.result && res.data.length > 0) {
+      List<ReposViewModel> list = new List();
+      var dataList = res.data;
+      if (dataList == null || dataList.length == 0) {
+        return new DataResult(null, false);
+      }
+      for (int i = 0; i < dataList.length; i++) {
+        var data = dataList[i];
+        list.add(ReposViewModel.fromMap(data));
+      }
+      return new DataResult(list, true);
+    } else {
+      return new DataResult(null, false);
+    }
+  }
+
+  /**
+   * 获取当前仓库所有star用户
+   */
+  static getStarRepositoryDao(userName, page, sort) async {
+    String url =
+        Address.userStar(userName, sort) + Address.getPageParams("&", page);
+    var res = await HttpManager.fetch(url, null, null, null);
+    if (res != null && res.result && res.data.length > 0) {
+      List<ReposViewModel> list = new List();
+      var dataList = res.data;
+      if (dataList == null || dataList.length == 0) {
+        return new DataResult(null, false);
+      }
+      for (int i = 0; i < dataList.length; i++) {
+        var data = dataList[i];
+        list.add(ReposViewModel.fromMap(data));
+      }
+      return new DataResult(list, true);
+    } else {
+      return new DataResult(null, false);
+    }
+  }
+
+  /**
+   * 用户的仓库
+   */
+  static getUserRepositoryDao(userName, page, sort) async {
+    String url =
+        Address.userRepos(userName, sort) + Address.getPageParams("&", page);
+    var res = await HttpManager.fetch(url, null, null, null);
+    if (res != null && res.result && res.data.length > 0) {
+      List<ReposViewModel> list = new List();
+      var dataList = res.data;
+      if (dataList == null || dataList.length == 0) {
+        return new DataResult(null, false);
+      }
+      for (int i = 0; i < dataList.length; i++) {
+        var data = dataList[i];
+        list.add(ReposViewModel.fromMap(data));
+      }
+      return new DataResult(list, true);
+    } else {
+      return new DataResult(null, false);
+    }
+  }
+
+  /**
+   * 获取当前仓库所有分支
+   */
+  static getBranchesDao(userName, reposName) async {}
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:whg_github/common/bean/repos_header_view_model.dart';
 import 'package:whg_github/common/style/whg_style.dart';
+import 'package:whg_github/common/utils/navigatorutils.dart';
 import 'package:whg_github/ui/view/card_item.dart';
 import 'package:whg_github/ui/view/repository_issue_list_header.dart';
 import 'package:whg_github/ui/view/whg_icon_text.dart';
@@ -53,7 +54,7 @@ class ReposHeaderItem extends StatelessWidget {
                 new Divider(
                   color: Color(WhgColors.subTextColor),
                 ),
-                icontitleColumn(),
+                icontitleColumn(context),
               ],
             ),
           ),
@@ -132,38 +133,45 @@ class ReposHeaderItem extends StatelessWidget {
       margin: new EdgeInsets.only(top: 6.0, bottom: 2.0, right: 5.0),
       alignment: Alignment.topRight);
 
-  Widget icontitleColumn() => new Padding(
+  Widget icontitleColumn(BuildContext context) => new Padding(
       padding: new EdgeInsets.all(5.0),
       child: new Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          _getBottomItem(
-              WhgICons.REPOS_ITEM_STAR, reposHeaderViewModel.repositoryStar),
+          _getBottomItem(WhgICons.REPOS_ITEM_STAR,
+              reposHeaderViewModel.repositoryStar, () {}),
           new Container(
               width: 0.3,
               height: 30.0,
               color: Color(WhgColors.subLightTextColor)),
           _getBottomItem(
-              WhgICons.REPOS_ITEM_FORK, reposHeaderViewModel.repositoryFork),
+              WhgICons.REPOS_ITEM_FORK, reposHeaderViewModel.repositoryFork,
+              () {
+            NavigatorUtils.gotoCommonList(context,
+                reposHeaderViewModel.repositoryName, "repository", "repo_fork",
+                userName: reposHeaderViewModel.ownerName,
+                reposName: reposHeaderViewModel.repositoryName);
+          }),
           new Container(
               width: 0.3,
               height: 30.0,
               color: Color(WhgColors.subLightTextColor)),
-          _getBottomItem(
-              WhgICons.REPOS_ITEM_WATCH, reposHeaderViewModel.repositoryWatch),
+          _getBottomItem(WhgICons.REPOS_ITEM_WATCH,
+              reposHeaderViewModel.repositoryWatch, () {}),
           new Container(
               width: 0.3,
               height: 30.0,
               color: Color(WhgColors.subLightTextColor)),
-          _getBottomItem(
-              WhgICons.REPOS_ITEM_ISSUE, reposHeaderViewModel.repositoryIssue),
+          _getBottomItem(WhgICons.REPOS_ITEM_ISSUE,
+              reposHeaderViewModel.repositoryIssue, () {}),
         ],
       ));
 
-  _getBottomItem(IconData icon, String text) {
+  _getBottomItem(IconData icon, String text, onPressed) {
     return new Expanded(
-      child: new Center(
+      child: new FlatButton(
+        onPressed: onPressed,
         child: new WhgIconText(
           icon,
           text,

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:whg_github/common/style/whg_style.dart';
 import 'package:whg_github/ui/view/issue_edit_dialog.dart';
+import 'package:whg_github/ui/view/whg_flex_button.dart';
 
 /**
  * @Author by whg
@@ -114,6 +115,60 @@ class CommonUtils {
               titleController: titleController,
               valueController: valueController,
               needTitle: needTitle,
+            ),
+          );
+        });
+  }
+
+  static Future<Null> showConfirmDialog(
+      BuildContext context,
+      String leftTitle,
+      String rightTile,
+      VoidCallback onCanclePressed,
+      VoidCallback onConfirmPressed) {
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return new Center(
+            child: new Container(
+              decoration: new BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(6.0)),
+                  color: Colors.white,
+                  border: new Border.all(
+                      color: Color(WhgColors.subTextColor), width: 0.3)),
+              margin: EdgeInsets.all(20.0),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  new WhgFlexButton(
+                    color: Colors.white,
+                    fontSize: 18.0,
+                    textColor: Color(WhgColors.subTextColor),
+                    text: leftTitle,
+                    onPress: () {
+                      if (onCanclePressed != null) {
+                        onCanclePressed();
+                      }
+                    },
+                  ),
+                  Container(
+                    color: Color(WhgColors.lineColor),
+                    height: 0.5,
+                  ),
+                  new WhgFlexButton(
+                    color: Colors.white,
+                    fontSize: 18.0,
+                    text: rightTile,
+                    textColor: Color(WhgColors.subTextColor),
+                    onPress: () {
+                      if (onConfirmPressed != null) {
+                        onConfirmPressed();
+                      }
+                    },
+                  ),
+                ],
+              ),
             ),
           );
         });

@@ -151,4 +151,22 @@ class Address {
   static editComment(reposOwner, reposName, commentId) {
     return "${host}repos/$reposOwner/$reposName/issues/comments/$commentId";
   }
+
+  ///用户的仓库 get
+  static userRepos(userName, sort) {
+    sort ??= 'pushed';
+    return "${host}users/$userName/repos?sort=$sort";
+  }
+
+  ///仓库Fork get
+  static getReposForks(reposOwner, reposName) {
+    return "${host}repos/$reposOwner/$reposName/forks";
+  }
+
+  ///用户的star get
+  static userStar(userName, sort) {
+    sort ??= 'updated';
+
+    return "${host}users/$userName/starred?sort=$sort";
+  }
 }

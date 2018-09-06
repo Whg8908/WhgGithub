@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:whg_github/common/bean/issue_item_view_model.dart';
 import 'package:whg_github/common/dao/issue_dao.dart';
 import 'package:whg_github/common/style/whg_style.dart';
+import 'package:whg_github/common/utils/commonutils.dart';
 import 'package:whg_github/common/utils/navigatorutils.dart';
 import 'package:whg_github/ui/base/whg_list_state.dart';
 import 'package:whg_github/ui/view/issue_item.dart';
@@ -93,6 +95,43 @@ class RepositoryDetailIssuePageState
     showRefreshLoading();
   }
 
+  _createIssue() {
+    String title = "";
+    String content = "";
+    CommonUtils.showEditDialog(
+      context,
+      WhgStrings.issue_edit_issue,
+      (titleValue) {
+        title = titleValue;
+      },
+      (contentValue) {
+        content = contentValue;
+      },
+      () {
+        if (title == null || title.trim().length == 0) {
+          Fluttertoast.showToast(
+              msg: WhgStrings.issue_edit_issue_title_not_be_null);
+          return;
+        }
+        if (content == null || content.trim().length == 0) {
+          Fluttertoast.showToast(
+              msg: WhgStrings.issue_edit_issue_content_not_be_null);
+          return;
+        }
+        CommonUtils.showLoadingDialog(context);
+        //提交修改
+        IssueDao.createIssueDao(
+                userName, reposName, {"title": title, "body": content})
+            .then((result) {
+          showRefreshLoading();
+          Navigator.pop(context);
+          Navigator.pop(context);
+        });
+      },
+      needTitle: true,
+    );
+  }
+
   @override
   bool get isRefreshFirst => true;
 
@@ -104,7 +143,9 @@ class RepositoryDetailIssuePageState
     super.build(context); // See AutomaticKeepAliveClientMixin.
     return new Scaffold(
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          _createIssue();
+        },
         child: Icon(
           WhgICons.ISSUE_ITEM_ADD,
           size: 55.0,

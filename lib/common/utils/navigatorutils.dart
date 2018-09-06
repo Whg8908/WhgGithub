@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:whg_github/ui/base/common_list_page.dart';
 import 'package:whg_github/ui/page/home_page.dart';
 import 'package:whg_github/ui/page/issue_detail_page.dart';
 import 'package:whg_github/ui/page/login_page.dart';
@@ -45,5 +46,21 @@ class NavigatorUtils {
         context,
         new MaterialPageRoute(
             builder: (context) => IssueDetailPage(userName, reposName, num)));
+  }
+
+  ///通用列表
+  static gotoCommonList(
+      BuildContext context, String title, String showType, String dataType,
+      {String userName, String reposName}) {
+    Navigator.push(
+        context,
+        new MaterialPageRoute(
+            builder: (context) => new CommonListPage(
+                  showType,
+                  dataType,
+                  title,
+                  userName: userName,
+                  reposName: reposName,
+                )));
   }
 }

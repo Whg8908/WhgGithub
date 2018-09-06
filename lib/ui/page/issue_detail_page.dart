@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:whg_github/common/bean/issue_item_view_model.dart';
 import 'package:whg_github/common/dao/issue_dao.dart';
 import 'package:whg_github/common/style/whg_style.dart';
@@ -94,8 +95,29 @@ class IssueDetailPageState extends WhgListState<IssueDetailPage> {
       issueItemViewModel,
       hideBottom: true,
       limitComment: false,
-      onPressed: () {},
+      onPressed: () {
+        CommonUtils.showConfirmDialog(
+            context,
+            WhgStrings.issue_edit_issue_edit_commit,
+            WhgStrings.issue_edit_issue_delete_commit, () {
+          Navigator.pop(context);
+        }, () {
+          _deleteCommit(issueItemViewModel.id);
+        });
+      },
     );
+  }
+
+  _deleteCommit(id) {
+    Navigator.pop(context);
+    CommonUtils.showLoadingDialog(context);
+    //提交修改
+    IssueDao.deleteCommentDao(userName, reposName, issueNum, id).then()(
+        (result) {
+      showRefreshLoading();
+      Navigator.pop(context);
+      Navigator.pop(context);
+    });
   }
 
   _editIssue() {
@@ -114,6 +136,16 @@ class IssueDetailPageState extends WhgListState<IssueDetailPage> {
         content = contentValue;
       },
       () {
+        if (title == null || title.trim().length == 0) {
+          Fluttertoast.showToast(
+              msg: WhgStrings.issue_edit_issue_title_not_be_null);
+          return;
+        }
+        if (content == null || content.trim().length == 0) {
+          Fluttertoast.showToast(
+              msg: WhgStrings.issue_edit_issue_content_not_be_null);
+          return;
+        }
         CommonUtils.showLoadingDialog(context);
         //提交修改
         IssueDao.editIssueDao(userName, reposName, issueNum,
@@ -136,6 +168,11 @@ class IssueDetailPageState extends WhgListState<IssueDetailPage> {
         (replyContent) {
       content = replyContent;
     }, () {
+      if (content == null || content.trim().length == 0) {
+        Fluttertoast.showToast(
+            msg: WhgStrings.issue_edit_issue_content_not_be_null);
+        return;
+      }
       CommonUtils.showLoadingDialog(context);
       //提交评论
       IssueDao.addIssueCommentDao(userName, reposName, issueNum, content)

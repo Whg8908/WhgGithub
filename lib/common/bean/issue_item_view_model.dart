@@ -9,6 +9,7 @@ class IssueItemViewModel {
   String state = "---";
   String issueTag = "---";
   String number = "---";
+  String id = "";
 
   IssueItemViewModel();
 
@@ -26,6 +27,7 @@ class IssueItemViewModel {
       number = issueMap["number"].toString();
     } else {
       issueComment = issueMap["body"] != null ? issueMap["body"] : "";
+      id = issueMap["id"].toString();
     }
   }
 }

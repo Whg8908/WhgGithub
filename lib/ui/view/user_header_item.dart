@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:whg_github/common/bean/User.dart';
 import 'package:whg_github/common/style/whg_style.dart';
+import 'package:whg_github/common/utils/navigatorutils.dart';
 import 'package:whg_github/ui/view/card_item.dart';
 import 'package:whg_github/ui/view/whg_icon_text.dart';
 
@@ -43,7 +44,7 @@ class UserHeaderItem extends StatelessWidget {
                 Divider(
                   color: Color(WhgColors.subLightTextColor),
                 ),
-                thirdColumn(),
+                thirdColumn(context),
                 userDynamicTitle(),
               ],
             ),
@@ -129,30 +130,38 @@ class UserHeaderItem extends StatelessWidget {
         ],
       );
 
-  Widget thirdColumn() => new Row(
+  Widget thirdColumn(BuildContext context) => new Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          _getBottomItem(WhgStrings.user_tab_repos, userInfo.public_repos),
+          _getBottomItem(WhgStrings.user_tab_repos, userInfo.public_repos, () {
+            NavigatorUtils.gotoCommonList(
+                context, userInfo.login, "repository", "user_repos",
+                userName: userInfo.login);
+          }),
           new Container(
               width: 0.3,
               height: 40.0,
               color: Color(WhgColors.subLightTextColor)),
-          _getBottomItem(WhgStrings.user_tab_fans, userInfo.followers),
+          _getBottomItem(WhgStrings.user_tab_fans, userInfo.followers, () {}),
           new Container(
               width: 0.3,
               height: 40.0,
               color: Color(WhgColors.subLightTextColor)),
-          _getBottomItem(WhgStrings.user_tab_focus, userInfo.following),
+          _getBottomItem(WhgStrings.user_tab_focus, userInfo.following, () {}),
           new Container(
               width: 0.3,
               height: 40.0,
               color: Color(WhgColors.subLightTextColor)),
-          _getBottomItem(WhgStrings.user_tab_star, "---"),
+          _getBottomItem(WhgStrings.user_tab_star, "---", () {
+            NavigatorUtils.gotoCommonList(
+                context, userInfo.login, "repository", "user_star",
+                userName: userInfo.login);
+          }),
           new Container(
               width: 0.3,
               height: 40.0,
               color: Color(WhgColors.subLightTextColor)),
-          _getBottomItem(WhgStrings.user_tab_honor, "---"),
+          _getBottomItem(WhgStrings.user_tab_honor, "---", () {}),
         ],
       );
 
@@ -165,11 +174,16 @@ class UserHeaderItem extends StatelessWidget {
       margin: new EdgeInsets.only(top: 15.0, bottom: 15.0, left: 12.0),
       alignment: Alignment.topLeft);
 
-  Widget _getBottomItem(String title, var value) {
+  Widget _getBottomItem(String title, var value, onPressed) {
     return new Expanded(
       child: new Center(
-        child: new Text(title + "\n" + (value == null ? "" : value.toString()),
-            textAlign: TextAlign.center, style: WhgConstant.subSmallText),
+        child: new FlatButton(
+          onPressed: onPressed,
+          child: new Text(
+              title + "\n" + (value == null ? "" : value.toString()),
+              textAlign: TextAlign.center,
+              style: WhgConstant.subSmallText),
+        ),
       ),
     );
   }
