@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:whg_github/common/dao/repos_dao.dart';
+import 'package:whg_github/common/style/whg_style.dart';
 import 'package:whg_github/ui/page/repository_detail_page.dart';
+import 'package:whg_github/ui/view/whg_markdown_widget.dart';
 
 /**
  * @Author by whg
@@ -27,24 +28,43 @@ class RepostroyDetailReadmePage extends StatefulWidget {
           this.userName, this.reposName, this.branchControl);
 }
 
-class RepostroyDetailReadmePageState extends State<RepostroyDetailReadmePage> {
+class RepostroyDetailReadmePageState extends State<RepostroyDetailReadmePage>
+    with AutomaticKeepAliveClientMixin {
   final String userName;
   final String reposName;
   final BranchControl branchControl;
 
   bool isShow = false;
-  String markdownData = "";
+  String markdownData;
+
+  @override
+  bool get wantKeepAlive => true;
 
   RepostroyDetailReadmePageState(
       this.userName, this.reposName, this.branchControl);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        padding: const EdgeInsets.all(15.0),
-        child: SingleChildScrollView(
-          child: MarkdownBody(data: markdownData),
-        ));
+    if (markdownData == null) {
+      return Center(
+        child: new Container(
+          width: 140.0,
+          height: 140.0,
+          padding: new EdgeInsets.all(4.0),
+          child: new Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              new CircularProgressIndicator(),
+              new Container(width: 10.0),
+              new Container(
+                  child: new Text(WhgStrings.loading_text,
+                      style: WhgConstant.middleText)),
+            ],
+          ),
+        ),
+      );
+    }
+    return WhgMarkdownWidget(markdownData: markdownData);
   }
 
   @override

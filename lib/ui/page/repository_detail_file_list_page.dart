@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:whg_github/common/bean/file_item_view_model.dart';
 import 'package:whg_github/common/dao/repos_dao.dart';
 import 'package:whg_github/common/style/whg_style.dart';
+import 'package:whg_github/common/utils/commonutils.dart';
+import 'package:whg_github/common/utils/navigatorutils.dart';
 import 'package:whg_github/ui/base/whg_list_state.dart';
 import 'package:whg_github/ui/page/repository_detail_page.dart';
 import 'package:whg_github/ui/view/card_item.dart';
@@ -125,8 +127,12 @@ class RepositoryDetailFileListPageState
         : new Icon(WhgICons.REPOS_ITEM_NEXT, size: 12.0);
 
     return new WhgCardItem(
+      margin: EdgeInsets.only(left: 10.0, top: 5.0, right: 10.0, bottom: 5.0),
       child: new ListTile(
-        leading: new Icon(iconData),
+        leading: new Icon(
+          iconData,
+          size: 15.0,
+        ),
         trailing: trailing,
         title:
             new Text(fileItemViewModel.name, style: WhgConstant.subSmallText),
@@ -137,6 +143,7 @@ class RepositoryDetailFileListPageState
     );
   }
 
+  //item点击事件
   _resolveItemClick(FileItemViewModel fileItemViewModel) {
     if (fileItemViewModel.type == "dir") {
       this.setState(() {
@@ -147,6 +154,22 @@ class RepositoryDetailFileListPageState
         this.path = path;
       });
       this.showRefreshLoading();
+    } else {
+      String path = headerList.sublist(1, headerList.length).join("/") +
+          "/" +
+          fileItemViewModel.name;
+      if (CommonUtils.isImageEnd(fileItemViewModel.name)) {
+        //todo 图片
+      } else {
+        NavigatorUtils.gotoCodeDetailPage(
+          context,
+          title: fileItemViewModel.name,
+          reposName: reposName,
+          userName: userName,
+          path: path,
+          branch: branchControl.currentBranch,
+        );
+      }
     }
   }
 
