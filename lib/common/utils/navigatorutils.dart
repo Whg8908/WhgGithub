@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:whg_github/ui/base/common_list_page.dart';
@@ -5,6 +7,7 @@ import 'package:whg_github/ui/page/code_detail_page.dart';
 import 'package:whg_github/ui/page/home_page.dart';
 import 'package:whg_github/ui/page/issue_detail_page.dart';
 import 'package:whg_github/ui/page/login_page.dart';
+import 'package:whg_github/ui/page/notify_page.dart';
 import 'package:whg_github/ui/page/person_page.dart';
 import 'package:whg_github/ui/page/repository_detail_page.dart';
 
@@ -31,9 +34,9 @@ class NavigatorUtils {
   }
 
   ///仓库详情
-  static goReposDetail(
+  static Future<Null> goReposDetail(
       BuildContext context, String userName, String reposName) {
-    Navigator.push(
+    return Navigator.push(
         context,
         new MaterialPageRoute(
             builder: (context) =>
@@ -41,12 +44,13 @@ class NavigatorUtils {
   }
 
   ///issue详情
-  static goIssueDetail(
+  static Future<Null> goIssueDetail(
       BuildContext context, String userName, String reposName, String num) {
-    Navigator.push(
+    return Navigator.push(
         context,
         new MaterialPageRoute(
-            builder: (context) => IssueDetailPage(userName, reposName, num)));
+            builder: (context) =>
+                new IssueDetailPage(userName, reposName, num)));
   }
 
   ///通用列表
@@ -84,5 +88,11 @@ class NavigatorUtils {
                   data: data,
                   branch: branch,
                 )));
+  }
+
+  ///仓库详情通知
+  static Future<Null> goNotifyPage(BuildContext context) {
+    return Navigator.push(
+        context, new MaterialPageRoute(builder: (context) => new NotifyPage()));
   }
 }

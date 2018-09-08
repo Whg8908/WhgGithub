@@ -120,6 +120,15 @@ class WhgStrings {
   static const String trend_week = '本周';
   static const String trend_month = '本月';
   static const String trend_all = '全部';
+
+  static const String notify_title = "通知";
+  static const String notify_tab_all = "所有";
+  static const String notify_tab_part = "参与";
+  static const String notify_tab_unread = "未读";
+  static const String notify_unread = "未读";
+  static const String notify_readed = "已读";
+  static const String notify_status = "状态";
+  static const String notify_type = "类型";
 }
 
 class WhgConstant {
@@ -298,4 +307,7 @@ class WhgICons {
       const IconData(0xe6ba, fontFamily: WhgICons.FONT_FAMILY);
   static const IconData ISSUE_ITEM_ADD =
       const IconData(0xe662, fontFamily: WhgICons.FONT_FAMILY);
+
+  static const IconData USER_NOTIFY =
+      const IconData(0xe600, fontFamily: WhgICons.FONT_FAMILY);
 }

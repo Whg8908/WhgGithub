@@ -18,25 +18,38 @@ class WhgSelectItemWidget extends StatefulWidget
     implements PreferredSizeWidget {
   final SelectItemChanged selectItemChanged;
   final List<String> itemName;
+  final double elevation;
+  final double height;
+  final EdgeInsets margin;
 
-  WhgSelectItemWidget(this.itemName, this.selectItemChanged);
+  WhgSelectItemWidget(
+    this.itemName,
+    this.selectItemChanged, {
+    this.elevation = 5.0,
+    this.height = 50.0,
+    this.margin = const EdgeInsets.all(10.0),
+  });
 
   @override
   Size get preferredSize {
-    return new Size.fromHeight(50.0);
+    return new Size.fromHeight(height);
   }
 
   @override
   RepositoryIssueListHeaderState createState() =>
-      RepositoryIssueListHeaderState(this.itemName, this.selectItemChanged);
+      RepositoryIssueListHeaderState(
+          this.itemName, this.selectItemChanged, this.elevation, margin);
 }
 
 class RepositoryIssueListHeaderState extends State<WhgSelectItemWidget> {
   int selectIndex = 0;
   final SelectItemChanged selectItemChanged;
   final List<String> itemNames;
+  final double elevation;
+  final EdgeInsets margin;
 
-  RepositoryIssueListHeaderState(this.itemNames, this.selectItemChanged);
+  RepositoryIssueListHeaderState(
+      this.itemNames, this.selectItemChanged, this.elevation, this.margin);
 
   _renderList() {
     List<Widget> list = new List();
@@ -57,8 +70,9 @@ class RepositoryIssueListHeaderState extends State<WhgSelectItemWidget> {
   @override
   Widget build(BuildContext context) {
     return WhgCardItem(
+        elevation: elevation,
+        margin: margin,
         color: Color(WhgColors.primaryValue),
-        margin: EdgeInsets.all(6.0),
         shape: new RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(4.0)),
         ),

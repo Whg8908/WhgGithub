@@ -122,7 +122,7 @@ class ReposHeaderItem extends StatelessWidget {
       child: new Text(
           reposHeaderViewModel.repositoryDes == null
               ? reposHeaderViewModel.repositoryDes
-              : "",
+              : "---",
           style: WhgConstant.subSmallText),
       margin: new EdgeInsets.only(top: 6.0, bottom: 2.0),
       alignment: Alignment.topLeft);

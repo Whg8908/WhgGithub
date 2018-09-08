@@ -204,4 +204,19 @@ class Address {
         "readme" +
         ((curBranch == null) ? "" : ("?ref=" + curBranch));
   }
+
+  ///通知 get
+  static getNotifation(all, participating) {
+    if (all == null && participating == null) {
+      return "${host}notifications";
+    }
+    all ??= false;
+    participating ??= false;
+    return "${host}notifications?all=$all&participating=$participating";
+  }
+
+  ///patch
+  static setNotificationAsRead(threadId) {
+    return "${host}notifications/threads/$threadId";
+  }
 }

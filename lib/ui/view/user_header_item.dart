@@ -17,8 +17,12 @@ import 'package:whg_github/ui/view/whg_icon_text.dart';
 class UserHeaderItem extends StatelessWidget {
   final User userInfo;
   final String beSharedCount;
+  final Color notifyColor;
 
-  UserHeaderItem(this.userInfo, this.beSharedCount);
+  final VoidCallback refreshCallBack;
+
+  UserHeaderItem(this.userInfo, this.beSharedCount,
+      {this.notifyColor, this.refreshCallBack});
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +41,7 @@ class UserHeaderItem extends StatelessWidget {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                firstColumn(),
+                firstColumn(context),
                 secondColumn(),
                 SizedBox(
                   height: 10.0,
@@ -55,7 +59,7 @@ class UserHeaderItem extends StatelessWidget {
     );
   }
 
-  Widget firstColumn() => Row(
+  Widget firstColumn(BuildContext context) => Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           ClipOval(
@@ -74,8 +78,13 @@ class UserHeaderItem extends StatelessWidget {
             child: new Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                new Text(userInfo.login == null ? "" : userInfo.login,
-                    style: WhgConstant.largeTextWhiteBold),
+                new Row(
+                  children: <Widget>[
+                    new Text(userInfo.login == null ? "" : userInfo.login,
+                        style: WhgConstant.largeTextWhiteBold),
+                    _getNotifyIcon(context, notifyColor),
+                  ],
+                ),
                 userInfo.name != null
                     ? new Text(userInfo.name == null ? "" : userInfo.name,
                         style: WhgConstant.subLightSmallText)
@@ -105,6 +114,25 @@ class UserHeaderItem extends StatelessWidget {
           ),
         ],
       );
+
+  _getNotifyIcon(BuildContext context, Color color) {
+    if (notifyColor == null) {
+      return Container();
+    }
+    return new IconButton(
+        icon: new Icon(
+          WhgICons.USER_NOTIFY,
+          color: color,
+          size: 18.0,
+        ),
+        onPressed: () {
+          NavigatorUtils.goNotifyPage(context).then((res) {
+            if (refreshCallBack != null) {
+              refreshCallBack();
+            }
+          });
+        });
+  }
 
   Widget secondColumn() => Column(
         mainAxisAlignment: MainAxisAlignment.start,

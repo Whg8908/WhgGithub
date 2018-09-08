@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:whg_github/common/bean/User.dart';
+import 'package:whg_github/common/bean/event_view_model.dart';
 import 'package:whg_github/common/bean/user_item_view_model.dart';
 import 'package:whg_github/common/config/config.dart';
 import 'package:whg_github/common/local/local_storage.dart';
@@ -182,6 +183,39 @@ class UserDao {
     } else {
       return new DataResult(null, false);
     }
+  }
+
+  /**
+   * 获取用户相关通知
+   */
+  static getNotifyDao(bool all, bool participating, page) async {
+    String tag = (!all && !participating) ? '?' : "&";
+    String url = Address.getNotifation(all, participating) +
+        Address.getPageParams(tag, page);
+    var res = await HttpManager.fetch(url, null, null, null);
+    if (res != null && res.result) {
+      List<EventViewModel> list = new List();
+      var data = res.data;
+      if (data == null || data.length == 0) {
+        return new DataResult([], true);
+      }
+      for (int i = 0; i < data.length; i++) {
+        list.add(EventViewModel.fromNotify(data[i]));
+      }
+      return new DataResult(list, true);
+    } else {
+      return new DataResult(null, false);
+    }
+  }
+
+  /**
+   * 设置单个通知已读
+   */
+  static setNotificationAsReadDao(id) async {
+    String url = Address.setNotificationAsRead(id);
+    var res =
+        await HttpManager.fetch(url, null, null, new Options(method: "PATCH"));
+    return res;
   }
 
   //清除token和用户信息

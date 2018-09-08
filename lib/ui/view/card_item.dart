@@ -15,8 +15,14 @@ class WhgCardItem extends StatelessWidget {
   final EdgeInsets margin;
   final Color color;
   final RoundedRectangleBorder shape;
+  final double elevation;
 
-  WhgCardItem({@required this.child, this.margin, this.color, this.shape});
+  WhgCardItem(
+      {@required this.child,
+      this.margin,
+      this.color,
+      this.shape,
+      this.elevation = 5.0});
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +40,7 @@ class WhgCardItem extends StatelessWidget {
       color = new Color(WhgColors.cardWhite);
     }
     return new Card(
-        elevation: 5.0,
+        elevation: elevation,
         shape: shape,
         color: color,
         margin: margin,

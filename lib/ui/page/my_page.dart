@@ -6,6 +6,7 @@ import 'package:whg_github/common/dao/event_dao.dart';
 import 'package:whg_github/common/dao/repos_dao.dart';
 import 'package:whg_github/common/dao/user_dao.dart';
 import 'package:whg_github/common/redux/whg_state.dart';
+import 'package:whg_github/common/style/whg_style.dart';
 import 'package:whg_github/common/utils/eventutils.dart';
 import 'package:whg_github/ui/base/whg_list_state.dart';
 import 'package:whg_github/ui/view/event_item.dart';
@@ -30,6 +31,8 @@ class MyPage extends StatefulWidget {
 class MyPageState extends WhgListState<MyPage> {
   String beSharedCount = '---';
 
+  Color notifyColor = const Color(WhgColors.subTextColor);
+
   @override
   requestRefresh() async {
     UserDao.getUserInfo(null).then((res) {
@@ -41,10 +44,11 @@ class MyPageState extends WhgListState<MyPage> {
     ReposDao.getUserRepository100StatusDao(_getUserName()).then((res) {
       if (res != null && res.result) {
         setState(() {
-          beSharedCount = res.data;
+          beSharedCount = res.data.toString();
         });
       }
     });
+    _refreshNotify();
 
     return await EventDao.getEventDao(_getUserName(), page: page);
   }
@@ -60,9 +64,26 @@ class MyPageState extends WhgListState<MyPage> {
   @override
   bool get needHeader => true;
 
+  _refreshNotify() {
+    UserDao.getNotifyDao(false, false, 0).then((res) {
+      if (res != null && res.result && res.data.length > 0) {
+        notifyColor = Colors.blue;
+      } else {
+        notifyColor = Color(WhgColors.subTextColor);
+      }
+    });
+  }
+
   _renderEventItem(userInfo, index) {
     if (index == 0) {
-      return new UserHeaderItem(userInfo, beSharedCount);
+      return new UserHeaderItem(
+        userInfo,
+        beSharedCount,
+        notifyColor: notifyColor,
+        refreshCallBack: () {
+          _refreshNotify();
+        },
+      );
     }
 
     EventViewModel eventViewModel = pullLoadWidgetControl.dataList[index - 1];
