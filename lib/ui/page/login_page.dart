@@ -78,7 +78,7 @@ class LoginPageState extends State<LoginPage> {
                 ),
                 WhgInputWidget(
                   hintText: WhgStrings.login_username_hint_text,
-                  iconData: Icons.access_alarm,
+                  iconData: WhgICons.LOGIN_USER,
                   onChange: (String value) {
                     _userName = value;
                   },
@@ -90,7 +90,7 @@ class LoginPageState extends State<LoginPage> {
                 WhgInputWidget(
                   hintText: WhgStrings.login_password_hint_text,
                   obscureText: true,
-                  iconData: Icons.access_alarm,
+                  iconData: WhgICons.LOGIN_PW,
                   onChange: (String value) {
                     _passWord = value;
                   },

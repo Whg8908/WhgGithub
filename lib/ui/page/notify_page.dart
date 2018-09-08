@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:whg_github/common/bean/event_view_model.dart';
 import 'package:whg_github/common/dao/user_dao.dart';
 import 'package:whg_github/common/style/whg_style.dart';
+import 'package:whg_github/common/utils/navigatorutils.dart';
 import 'package:whg_github/ui/base/whg_list_state.dart';
 import 'package:whg_github/ui/view/event_item.dart';
 import 'package:whg_github/ui/view/repository_issue_list_header.dart';
@@ -27,11 +28,25 @@ class NotifyPageState extends WhgListState<NotifyPage> {
 
   _renderEventItem(index) {
     EventViewModel eventViewModel = pullLoadWidgetControl.dataList[index];
-    return new EventItem(
-      eventViewModel,
-      onPressed: () {},
-      needImage: false,
-    );
+    return new EventItem(eventViewModel, onPressed: () {
+      var eventMap = eventViewModel.eventMap;
+      if (eventMap["unread"]) {
+        UserDao.setNotificationAsReadDao(eventMap["id"].toString());
+      }
+      print(eventMap["id"]);
+      if (eventMap["subject"]["type"] == 'Issue') {
+        String url = eventMap["subject"]["url"];
+        List<String> tmp = url.split("/");
+        String number = tmp[tmp.length - 1];
+        String userName = eventMap["repository"]["owner"]["login"];
+        String reposName = eventMap["repository"]["name"];
+        NavigatorUtils.goIssueDetail(context, userName, reposName, number,
+                needRightIcon: true)
+            .then((res) {
+          showRefreshLoading();
+        });
+      }
+    }, needImage: false);
   }
 
   _resolveSelectIndex() {

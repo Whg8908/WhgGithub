@@ -33,7 +33,6 @@ class FlutterReduxApp extends StatelessWidget {
       store: store,
       child: new MaterialApp(
           debugShowCheckedModeBanner: false,
-          title: 'WhgGithub',
           theme: new ThemeData(
             primarySwatch: WhgColors.primarySwatch,
           ),

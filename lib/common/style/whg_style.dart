@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class WhgColors {
+  static const String primaryValueString = "#24292E";
   static const int primaryValue = 0xFF24292E;
   static const int primaryLightValue = 0xFF42464b;
   static const int primaryDarkValue = 0xFF121917;
@@ -129,6 +130,8 @@ class WhgStrings {
   static const String notify_readed = "已读";
   static const String notify_status = "状态";
   static const String notify_type = "类型";
+
+  static const String app_name = "WhgGithub";
 }
 
 class WhgConstant {
@@ -310,4 +313,15 @@ class WhgICons {
 
   static const IconData USER_NOTIFY =
       const IconData(0xe600, fontFamily: WhgICons.FONT_FAMILY);
+
+  static const IconData MAIN_SEARCH =
+      const IconData(0xe61c, fontFamily: WhgICons.FONT_FAMILY);
+
+  static const IconData LOGIN_USER =
+      const IconData(0xe666, fontFamily: WhgICons.FONT_FAMILY);
+  static const IconData LOGIN_PW =
+      const IconData(0xe60e, fontFamily: WhgICons.FONT_FAMILY);
+
+  static const IconData HOME =
+      const IconData(0xe624, fontFamily: WhgICons.FONT_FAMILY);
 }

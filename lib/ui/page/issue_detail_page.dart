@@ -4,11 +4,13 @@ import 'package:whg_github/common/bean/issue_item_view_model.dart';
 import 'package:whg_github/common/dao/issue_dao.dart';
 import 'package:whg_github/common/style/whg_style.dart';
 import 'package:whg_github/common/utils/commonutils.dart';
+import 'package:whg_github/common/utils/navigatorutils.dart';
 import 'package:whg_github/ui/base/whg_list_state.dart';
 import 'package:whg_github/ui/page/issue_header_view_model.dart';
 import 'package:whg_github/ui/view/issue_header_item.dart';
 import 'package:whg_github/ui/view/issue_item.dart';
 import 'package:whg_github/ui/view/whg_pullload_widget.dart';
+import 'package:whg_github/ui/view/whg_title_bar.dart';
 
 /**
  * @Author by whg
@@ -26,12 +28,14 @@ class IssueDetailPage extends StatefulWidget {
   final String reposName;
 
   final String issueNum;
+  final bool needRightIcon;
 
-  IssueDetailPage(this.userName, this.reposName, this.issueNum);
+  IssueDetailPage(this.userName, this.reposName, this.issueNum,
+      {this.needRightIcon = false});
 
   @override
-  IssueDetailPageState createState() =>
-      new IssueDetailPageState(this.userName, this.reposName, this.issueNum);
+  IssueDetailPageState createState() => new IssueDetailPageState(
+      this.userName, this.reposName, this.issueNum, this.needRightIcon);
 }
 
 class IssueDetailPageState extends WhgListState<IssueDetailPage> {
@@ -43,9 +47,12 @@ class IssueDetailPageState extends WhgListState<IssueDetailPage> {
 
   bool headerStatus = false;
 
+  bool needRightIcon = false;
+
   IssueHeaderViewModel issueHeaderViewModel = new IssueHeaderViewModel();
 
-  IssueDetailPageState(this.userName, this.reposName, this.issueNum);
+  IssueDetailPageState(
+      this.userName, this.reposName, this.issueNum, this.needRightIcon);
 
   TextEditingController issueInfoTitleControl = new TextEditingController();
 
@@ -265,11 +272,15 @@ class IssueDetailPageState extends WhgListState<IssueDetailPage> {
     return new Scaffold(
       persistentFooterButtons: _getBottomWidget(),
       appBar: new AppBar(
-          title: new Text(
-        reposName,
-        maxLines: 1,
-        overflow: TextOverflow.ellipsis,
-      )),
+        title: WhgTitleBar(
+          reposName,
+          needRightIcon: needRightIcon,
+          iconData: WhgICons.HOME,
+          onPressed: () {
+            NavigatorUtils.goReposDetail(context, userName, reposName);
+          },
+        ),
+      ),
       body: WhgPullLoadWidget(
         (BuildContext context, int index) => _renderEventItem(index),
         handleRefresh,

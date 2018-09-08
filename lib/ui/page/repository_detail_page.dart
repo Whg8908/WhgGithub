@@ -10,6 +10,7 @@ import 'package:whg_github/ui/page/repository_detail_issue_list_page.dart';
 import 'package:whg_github/ui/page/repository_detail_readme_page.dart';
 import 'package:whg_github/ui/view/whg_icon_text.dart';
 import 'package:whg_github/ui/view/whg_tabbar_widget.dart';
+import 'package:whg_github/ui/view/whg_title_bar.dart';
 
 class RepositoryDetailPage extends StatefulWidget {
   final String userName;
@@ -247,7 +248,7 @@ class RepositoryDetailPageState extends State<RepositoryDetailPage> {
         ],
         backgroundColor: WhgColors.primarySwatch,
         indicatorColor: Colors.white,
-        title: reposName);
+        title: WhgTitleBar(reposName));
   }
 }
 

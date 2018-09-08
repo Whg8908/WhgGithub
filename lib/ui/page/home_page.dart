@@ -5,6 +5,7 @@ import 'package:whg_github/ui/page/home_drawer.dart';
 import 'package:whg_github/ui/page/my_page.dart';
 import 'package:whg_github/ui/page/trend_page.dart';
 import 'package:whg_github/ui/view/whg_tabbar_widget.dart';
+import 'package:whg_github/ui/view/whg_title_bar.dart';
 
 class HomePage extends StatelessWidget {
   static const String sName = "home";
@@ -50,6 +51,11 @@ class HomePage extends StatelessWidget {
         ],
         backgroundColor: WhgColors.primarySwatch,
         indicatorColor: Colors.white,
-        title: WhgStrings.appName);
+        title: WhgTitleBar(
+          WhgStrings.app_name,
+          iconData: WhgICons.MAIN_SEARCH,
+          needRightIcon: true,
+          onPressed: () {},
+        ));
   }
 }

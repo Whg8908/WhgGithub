@@ -12,7 +12,7 @@ class WhgTabBarWidget extends StatefulWidget {
   final List<Widget> tabViews;
   final Color backgroundColor;
   final Color indicatorColor;
-  final String title;
+  final Widget title;
   final Widget drawer;
   final Widget floatingActionButton;
   final TarWidgetControl tarWidgetControl;
@@ -50,7 +50,7 @@ class WhgTabBarWidgetState extends State<WhgTabBarWidget>
   final List<Widget> tabViews;
   final Color backgroundColor;
   final Color indicatorColor;
-  final String title;
+  final Widget title;
   final Widget drawer;
   final Widget floatingActionButton;
 
@@ -89,7 +89,7 @@ class WhgTabBarWidgetState extends State<WhgTabBarWidget>
               tarWidgetControl == null ? [] : tarWidgetControl.footerButton,
           appBar: AppBar(
             backgroundColor: backgroundColor,
-            title: Text(title),
+            title: title,
             bottom: TabBar(
               tabs: tabItems,
               indicatorColor: indicatorColor,
@@ -102,14 +102,7 @@ class WhgTabBarWidgetState extends State<WhgTabBarWidget>
 
     return Scaffold(
       drawer: drawer,
-      appBar: AppBar(
-        backgroundColor: backgroundColor,
-        title: new Text(
-          title,
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
-        ),
-      ),
+      appBar: AppBar(backgroundColor: backgroundColor, title: title),
       body: TabBarView(
         children: tabViews,
         controller: _tabController,
