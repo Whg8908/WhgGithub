@@ -52,7 +52,7 @@ class WhgColors {
 }
 
 class WhgStrings {
-  static const String appName = "WhgGithub";
+  static const String app_name = "WhgGithub";
 
   static const String login_text = "登录";
   static const String Login_out = "退出登录";
@@ -131,7 +131,9 @@ class WhgStrings {
   static const String notify_status = "状态";
   static const String notify_type = "类型";
 
-  static const String app_name = "WhgGithub";
+  static const String search_title = "搜索";
+  static const String search_tab_repos = "仓库";
+  static const String search_tab_user = "用户";
 }
 
 class WhgConstant {

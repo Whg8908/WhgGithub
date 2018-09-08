@@ -10,6 +10,7 @@ import 'package:whg_github/ui/page/login_page.dart';
 import 'package:whg_github/ui/page/notify_page.dart';
 import 'package:whg_github/ui/page/person_page.dart';
 import 'package:whg_github/ui/page/repository_detail_page.dart';
+import 'package:whg_github/ui/page/search_page.dart';
 
 class NavigatorUtils {
   static pushReplacementNamed(BuildContext context, String routeName) {
@@ -99,5 +100,11 @@ class NavigatorUtils {
   static Future<Null> goNotifyPage(BuildContext context) {
     return Navigator.push(
         context, new MaterialPageRoute(builder: (context) => new NotifyPage()));
+  }
+
+  ///搜索
+  static Future<Null> goSearchPage(BuildContext context) {
+    return Navigator.push(
+        context, new MaterialPageRoute(builder: (context) => new SearchPage()));
   }
 }

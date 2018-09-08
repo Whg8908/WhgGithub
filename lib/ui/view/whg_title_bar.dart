@@ -27,7 +27,7 @@ class WhgTitleBar extends StatelessWidget {
         ? new IconButton(
             icon: new Icon(
               iconData,
-              size: 17.0,
+              size: 19.0,
             ),
             onPressed: onPressed)
         : new Container();

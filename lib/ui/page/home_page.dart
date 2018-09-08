@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:whg_github/common/style/whg_style.dart';
+import 'package:whg_github/common/utils/navigatorutils.dart';
 import 'package:whg_github/ui/page/dynamic_page.dart';
 import 'package:whg_github/ui/page/home_drawer.dart';
 import 'package:whg_github/ui/page/my_page.dart';
@@ -55,7 +56,9 @@ class HomePage extends StatelessWidget {
           WhgStrings.app_name,
           iconData: WhgICons.MAIN_SEARCH,
           needRightIcon: true,
-          onPressed: () {},
+          onPressed: () {
+            NavigatorUtils.goSearchPage(context);
+          },
         ));
   }
 }
