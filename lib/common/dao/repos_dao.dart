@@ -376,4 +376,20 @@ class ReposDao {
     }
     return new DataResult(null, false);
   }
+
+  /**
+   * 详情的remde数据
+   */
+  static getRepositoryDetailReadmeDao(userName, reposName, branch) async {
+    String url = Address.readmeFile(userName + '/' + reposName, branch);
+    var res = await HttpManager.fetch(
+        url,
+        null,
+        {"Accept": 'application/vnd.github.VERSION.raw'},
+        new Options(contentType: ContentType.TEXT));
+    if (res != null && res.result) {
+      return new DataResult(res.data, true);
+    }
+    return new DataResult(null, false);
+  }
 }

@@ -194,4 +194,14 @@ class Address {
   static getbranches(reposOwner, reposName) {
     return "${host}repos/$reposOwner/$reposName/branches";
   }
+
+  ///README 文件地址 get
+  static readmeFile(reposNameFullName, curBranch) {
+    return host +
+        "repos/" +
+        reposNameFullName +
+        "/" +
+        "readme" +
+        ((curBranch == null) ? "" : ("?ref=" + curBranch));
+  }
 }

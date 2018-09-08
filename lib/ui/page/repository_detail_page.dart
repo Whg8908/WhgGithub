@@ -40,6 +40,9 @@ class RepositoryDetailPageState extends State<RepositoryDetailPage> {
   final GlobalKey<RepositoryDetailInfoPageState> infoListKey =
       new GlobalKey<RepositoryDetailInfoPageState>();
 
+  GlobalKey<RepostroyDetailReadmePageState> readmeKey =
+      new GlobalKey<RepostroyDetailReadmePageState>();
+
   RepositoryDetailPageState(this.userName, this.reposName);
 
   String currentBranch = "master";
@@ -160,6 +163,10 @@ class RepositoryDetailPageState extends State<RepositoryDetailPage> {
                   fileListKey.currentState.mounted) {
                 fileListKey.currentState.showRefreshLoading();
               }
+              if (readmeKey.currentState != null &&
+                  readmeKey.currentState.mounted) {
+                readmeKey.currentState.refreshReadme();
+              }
             })
           ];
     return bottomWidget;
@@ -224,18 +231,19 @@ class RepositoryDetailPageState extends State<RepositoryDetailPage> {
         tarWidgetControl: tarBarControl,
         tabItems: [
           new Tab(text: WhgStrings.repos_tab_info),
+          new Tab(text: WhgStrings.repos_tab_readme),
           new Tab(text: WhgStrings.repos_tab_issue),
           new Tab(text: WhgStrings.repos_tab_file),
-          new Tab(text: WhgStrings.repos_tab_readme),
         ],
         tabViews: [
           RepositoryDetailInfoListPage(
               reposDetailInfoPageControl, userName, reposName, branchControl,
               key: infoListKey),
+          RepostroyDetailReadmePage(userName, reposName, branchControl,
+              key: readmeKey),
           RepositoryDetailIssueListPage(userName, reposName),
           RepositoryDetailFileListPage(userName, reposName, branchControl,
               key: fileListKey),
-          RepostroyDetailReadmePage(),
         ],
         backgroundColor: WhgColors.primarySwatch,
         indicatorColor: Colors.white,
