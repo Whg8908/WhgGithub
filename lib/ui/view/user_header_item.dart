@@ -16,8 +16,9 @@ import 'package:whg_github/ui/view/whg_icon_text.dart';
  */
 class UserHeaderItem extends StatelessWidget {
   final User userInfo;
+  final String beSharedCount;
 
-  UserHeaderItem(this.userInfo);
+  UserHeaderItem(this.userInfo, this.beSharedCount);
 
   @override
   Widget build(BuildContext context) {
@@ -142,17 +143,25 @@ class UserHeaderItem extends StatelessWidget {
               width: 0.3,
               height: 40.0,
               color: Color(WhgColors.subLightTextColor)),
-          _getBottomItem(WhgStrings.user_tab_fans, userInfo.followers, () {}),
+          _getBottomItem(WhgStrings.user_tab_fans, userInfo.followers, () {
+            NavigatorUtils.gotoCommonList(
+                context, userInfo.login, "user", "follower",
+                userName: userInfo.login);
+          }),
           new Container(
               width: 0.3,
               height: 40.0,
               color: Color(WhgColors.subLightTextColor)),
-          _getBottomItem(WhgStrings.user_tab_focus, userInfo.following, () {}),
+          _getBottomItem(WhgStrings.user_tab_focus, userInfo.following, () {
+            NavigatorUtils.gotoCommonList(
+                context, userInfo.login, "user", "followed",
+                userName: userInfo.login);
+          }),
           new Container(
               width: 0.3,
               height: 40.0,
               color: Color(WhgColors.subLightTextColor)),
-          _getBottomItem(WhgStrings.user_tab_star, "---", () {
+          _getBottomItem(WhgStrings.user_tab_star, userInfo.starred, () {
             NavigatorUtils.gotoCommonList(
                 context, userInfo.login, "repository", "user_star",
                 userName: userInfo.login);
@@ -161,7 +170,7 @@ class UserHeaderItem extends StatelessWidget {
               width: 0.3,
               height: 40.0,
               color: Color(WhgColors.subLightTextColor)),
-          _getBottomItem(WhgStrings.user_tab_honor, "---", () {}),
+          _getBottomItem(WhgStrings.user_tab_honor, beSharedCount, () {}),
         ],
       );
 

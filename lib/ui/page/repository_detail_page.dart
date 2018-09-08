@@ -32,10 +32,32 @@ class RepositoryDetailPageState extends State<RepositoryDetailPage> {
   final ReposDetailInfoPageControl reposDetailInfoPageControl =
       new ReposDetailInfoPageControl();
 
+  final BranchControl branchControl = new BranchControl("master");
+
+  final GlobalKey<RepositoryDetailFileListPageState> fileListKey =
+      new GlobalKey<RepositoryDetailFileListPageState>();
+
+  final GlobalKey<RepositoryDetailInfoPageState> infoListKey =
+      new GlobalKey<RepositoryDetailInfoPageState>();
+
   RepositoryDetailPageState(this.userName, this.reposName);
 
+  String currentBranch = "master";
+
+  List<String> branchList = new List();
+
+  _getBranchList() async {
+    var result = await ReposDao.getBranchesDao(userName, reposName);
+    if (result != null && result.result) {
+      setState(() {
+        branchList = result.data;
+      });
+    }
+  }
+
   _getReposDetail() async {
-    var result = await ReposDao.getRepositoryDetailDao(userName, reposName);
+    var result = await ReposDao.getRepositoryDetailDao(
+        userName, reposName, branchControl.currentBranch);
     if (result != null && result.result) {
       setState(() {
         reposDetailInfoPageControl.reposHeaderViewModel = result.data;
@@ -125,26 +147,62 @@ class RepositoryDetailPageState extends State<RepositoryDetailPage> {
                   padding: 2.0,
                   mainAxisAlignment: MainAxisAlignment.center,
                 )),
-            new FlatButton(
-                onPressed: () {},
-                color: Color(WhgColors.primaryValue),
-                child: new WhgIconText(
-                  Icons.arrow_drop_up,
-                  "master",
-                  WhgConstant.smallTextWhite,
-                  Color(WhgColors.white),
-                  30.0,
-                  padding: 2.0,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                ))
+            _renderBranchPopItem(currentBranch, branchList, (value) {
+              setState(() {
+                branchControl.currentBranch = value;
+              });
+              _getReposDetail();
+              infoListKey.currentState.showRefreshLoading();
+            })
           ];
     return bottomWidget;
+  }
+
+  _renderBranchPopItem(String data, List<String> list, selected) {
+    if (list == null && list.length == 0) {
+      return Container();
+    }
+
+    return Container(
+      height: 30.0,
+      child: PopupMenuButton<String>(
+        onSelected: selected,
+        child: FlatButton(
+            onPressed: null,
+            color: Color(WhgColors.primaryValue),
+            disabledColor: Color(WhgColors.primaryValue),
+            child: WhgIconText(
+              Icons.arrow_drop_up,
+              data,
+              WhgConstant.smallTextWhite,
+              Color(WhgColors.white),
+              30.0,
+              padding: 3.0,
+              mainAxisAlignment: MainAxisAlignment.center,
+            )),
+        itemBuilder: (BuildContext context) {
+          return _renderHeaderPopItemChild(list);
+        },
+      ),
+    );
+  }
+
+  _renderHeaderPopItemChild(List<String> data) {
+    List<PopupMenuEntry<String>> list = new List();
+    for (String item in data) {
+      list.add(PopupMenuItem<String>(
+        value: item,
+        child: new Text(item),
+      ));
+    }
+    return list;
   }
 
   @override
   void initState() {
     super.initState();
     _refresh();
+    _getBranchList();
   }
 
   _refresh() {
@@ -165,13 +223,21 @@ class RepositoryDetailPageState extends State<RepositoryDetailPage> {
         ],
         tabViews: [
           RepositoryDetailInfoListPage(
-              reposDetailInfoPageControl, userName, reposName),
+              reposDetailInfoPageControl, userName, reposName, branchControl,
+              key: infoListKey),
           RepositoryDetailIssueListPage(userName, reposName),
-          RepositoryDetailFileListPage(userName, reposName),
+          RepositoryDetailFileListPage(userName, reposName, branchControl,
+              key: fileListKey),
           RepostroyDetailReadmePage(),
         ],
         backgroundColor: WhgColors.primarySwatch,
         indicatorColor: Colors.white,
         title: reposName);
   }
+}
+
+class BranchControl {
+  String currentBranch;
+
+  BranchControl(this.currentBranch);
 }

@@ -134,13 +134,19 @@ class ReposHeaderItem extends StatelessWidget {
       alignment: Alignment.topRight);
 
   Widget icontitleColumn(BuildContext context) => new Padding(
-      padding: new EdgeInsets.all(5.0),
+      padding: new EdgeInsets.all(0.0),
       child: new Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          _getBottomItem(WhgICons.REPOS_ITEM_STAR,
-              reposHeaderViewModel.repositoryStar, () {}),
+          _getBottomItem(
+              WhgICons.REPOS_ITEM_STAR, reposHeaderViewModel.repositoryStar,
+              () {
+            NavigatorUtils.gotoCommonList(context,
+                reposHeaderViewModel.repositoryName, "user", "repo_star",
+                userName: reposHeaderViewModel.ownerName,
+                reposName: reposHeaderViewModel.repositoryName);
+          }),
           new Container(
               width: 0.3,
               height: 30.0,
@@ -157,8 +163,14 @@ class ReposHeaderItem extends StatelessWidget {
               width: 0.3,
               height: 30.0,
               color: Color(WhgColors.subLightTextColor)),
-          _getBottomItem(WhgICons.REPOS_ITEM_WATCH,
-              reposHeaderViewModel.repositoryWatch, () {}),
+          _getBottomItem(
+              WhgICons.REPOS_ITEM_WATCH, reposHeaderViewModel.repositoryWatch,
+              () {
+            NavigatorUtils.gotoCommonList(context,
+                reposHeaderViewModel.repositoryName, "user", "repo_watcher",
+                userName: reposHeaderViewModel.ownerName,
+                reposName: reposHeaderViewModel.repositoryName);
+          }),
           new Container(
               width: 0.3,
               height: 30.0,
@@ -172,10 +184,11 @@ class ReposHeaderItem extends StatelessWidget {
     return new Expanded(
       child: new FlatButton(
         onPressed: onPressed,
+        padding: new EdgeInsets.all(0.0),
         child: new WhgIconText(
           icon,
           text,
-          WhgConstant.middleSubText,
+          WhgConstant.subSmallText,
           Color(WhgColors.subTextColor),
           15.0,
           padding: 3.0,

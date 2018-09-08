@@ -1,10 +1,9 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:whg_github/common/bean/User.dart';
-import 'package:whg_github/common/config/config.dart';
 import 'package:whg_github/common/dao/event_dao.dart';
+import 'package:whg_github/common/dao/repos_dao.dart';
 import 'package:whg_github/common/dao/user_dao.dart';
+import 'package:whg_github/ui/base/whg_list_state.dart';
 import 'package:whg_github/ui/view/event_item.dart';
 import 'package:whg_github/ui/view/user_header_item.dart';
 import 'package:whg_github/ui/view/whg_pullload_widget.dart';
@@ -30,27 +29,22 @@ class PersonPage extends StatefulWidget {
   PersonPageState createState() => PersonPageState(userName);
 }
 
-class PersonPageState extends State<PersonPage>
-    with AutomaticKeepAliveClientMixin {
-  final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
-      new GlobalKey<RefreshIndicatorState>();
-
+class PersonPageState extends WhgListState<PersonPage> {
   final String userName;
   User userInfo = User.empty();
 
-  bool isLoading = false;
-
-  int page = 1;
-
-  final List dataList = new List();
-
-  final WhgPullLoadWidgetControl pullLoadWidgetControl =
-      new WhgPullLoadWidgetControl();
+  String beStaredCount = "---";
 
   PersonPageState(this.userName);
 
   @override
+  bool get isRefreshFirst => false;
+
+  @override
   bool get wantKeepAlive => true;
+
+  @override
+  bool get needHeader => true;
 
   @override
   void initState() {
@@ -59,22 +53,20 @@ class PersonPageState extends State<PersonPage>
   }
 
   @override
-  void didChangeDependencies() {
-    pullLoadWidgetControl.dataList = dataList;
-    if (pullLoadWidgetControl.dataList.length == 0) {
-      new Future.delayed(const Duration(seconds: 0), () {
-        _refreshIndicatorKey.currentState.show().then((e) {});
-      });
-    }
-    super.didChangeDependencies();
+  requestLoadMore() async {
+    return await EventDao.getEventDao(_getUserName(), page: page);
   }
 
-  Future<Null> _handleRefresh() async {
-    if (isLoading) {
-      return null;
-    }
-    isLoading = true;
-    page = 1;
+  @override
+  requestRefresh() async {
+    ReposDao.getUserRepository100StatusDao(_getUserName()).then((res) {
+      if (res != null && res.result) {
+        setState(() {
+          beStaredCount = res.data.toString();
+        });
+      }
+    });
+
     var userResult = await UserDao.getUserInfo(userName);
     if (userResult != null && userResult.result) {
       setState(() {
@@ -84,43 +76,12 @@ class PersonPageState extends State<PersonPage>
       return null;
     }
 
-    var result = await EventDao.getEventDao(_getUserName(), page: page);
-    if (result != null && result.length > 0) {
-      pullLoadWidgetControl.dataList.clear();
-      setState(() {
-        pullLoadWidgetControl.dataList.addAll(result);
-      });
-    }
-    setState(() {
-      pullLoadWidgetControl.needLoadMore =
-          (result != null && result.length == Config.PAGE_SIZE);
-    });
-    isLoading = false;
-    return null;
-  }
-
-  Future<Null> _onLoadMore() async {
-    if (isLoading) {
-      return null;
-    }
-    isLoading = true;
-    page++;
-    var result = await EventDao.getEventDao(_getUserName(), page: page);
-    if (result != null && result.length > 0) {
-      setState(() {
-        pullLoadWidgetControl.dataList.addAll(result);
-      });
-    }
-    setState(() {
-      pullLoadWidgetControl.needLoadMore = (result != null);
-    });
-    isLoading = false;
-    return null;
+    return await EventDao.getEventDao(_getUserName(), page: page);
   }
 
   _renderEventItem(index) {
     if (index == 0) {
-      return new UserHeaderItem(userInfo);
+      return new UserHeaderItem(userInfo, beStaredCount);
     }
     return new EventItem(pullLoadWidgetControl.dataList[index - 1]);
   }
@@ -142,10 +103,10 @@ class PersonPageState extends State<PersonPage>
         ),
         body: WhgPullLoadWidget(
           (BuildContext context, int index) => _renderEventItem(index),
-          _handleRefresh,
-          _onLoadMore,
+          handleRefresh,
+          onLoadMore,
           pullLoadWidgetControl,
-          refreshKey: _refreshIndicatorKey,
+          refreshKey: refreshIndicatorKey,
         ));
   }
 }

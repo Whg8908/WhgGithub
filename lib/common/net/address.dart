@@ -169,4 +169,29 @@ class Address {
 
     return "${host}users/$userName/starred?sort=$sort";
   }
+
+  ///仓库Watch get
+  static getReposWatcher(reposOwner, reposName) {
+    return "${host}repos/$reposOwner/$reposName/subscribers";
+  }
+
+  ///仓库Star get
+  static getReposStar(reposOwner, reposName) {
+    return "${host}repos/$reposOwner/$reposName/stargazers";
+  }
+
+  ///用户的关注者 get
+  static getUserFollower(userName) {
+    return "${host}users/$userName/followers";
+  }
+
+  ///用户关注 get
+  static getUserFollow(userName) {
+    return "${host}users/$userName/following";
+  }
+
+  ///branch get
+  static getbranches(reposOwner, reposName) {
+    return "${host}repos/$reposOwner/$reposName/branches";
+  }
 }

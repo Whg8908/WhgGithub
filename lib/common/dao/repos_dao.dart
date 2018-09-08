@@ -7,6 +7,7 @@ import 'package:whg_github/common/bean/file_item_view_model.dart';
 import 'package:whg_github/common/bean/repos_header_view_model.dart';
 import 'package:whg_github/common/bean/repos_view_model.dart';
 import 'package:whg_github/common/bean/trending_repo_model.dart';
+import 'package:whg_github/common/bean/user_item_view_model.dart';
 import 'package:whg_github/common/net/address.dart';
 import 'package:whg_github/common/net/data_result.dart';
 import 'package:whg_github/common/net/httpmanager.dart';
@@ -62,8 +63,8 @@ class ReposDao {
   /**
    * 仓库的详情数据
    */
-  static getRepositoryDetailDao(userName, reposName) async {
-    String url = Address.getReposDetail(userName, reposName);
+  static getRepositoryDetailDao(userName, reposName, branch) async {
+    String url = Address.getReposDetail(userName, reposName) + "?ref=" + branch;
     var res = await HttpManager.fetch(url, null,
         {"Accept": 'application/vnd.github.mercy-preview+json'}, null);
     if (res != null && res.result && res.data.length > 0) {
@@ -82,9 +83,12 @@ class ReposDao {
   /**
    * 仓库活动事件
    */
-  static getRepositoryEventDao(userName, reposName, {page = 0}) async {
+  static getRepositoryEventDao(userName, reposName,
+      {page = 0, branch = "master"}) async {
     String url = Address.getReposEvent(userName, reposName) +
-        Address.getPageParams("?", page);
+        Address.getPageParams("?", page) +
+        "&ref=" +
+        branch;
     var res = await HttpManager.fetch(url, null, null, null);
     if (res != null && res.result) {
       List<EventViewModel> list = new List();
@@ -120,9 +124,12 @@ class ReposDao {
   /**
    * 获取仓库的提交列表
    */
-  static getReposCommitsDao(userName, reposName, {page = 0}) async {
+  static getReposCommitsDao(userName, reposName,
+      {page = 0, branch = "master"}) async {
     String url = Address.getReposCommits(userName, reposName) +
-        Address.getPageParams("?", page);
+        Address.getPageParams("?", page) +
+        "&ref=" +
+        branch;
     var res = await HttpManager.fetch(url, null, null, null);
     if (res != null && res.result) {
       List<EventViewModel> list = new List();
@@ -219,12 +226,48 @@ class ReposDao {
   /**
    * 获取当前仓库所有订阅用户
    */
-  static getRepositoryWatcherDao(userName, reposName, page) async {}
+  static getRepositoryWatcherDao(userName, reposName, page) async {
+    String url = Address.getReposWatcher(userName, reposName) +
+        Address.getPageParams("?", page);
+    var res = await HttpManager.fetch(url, null, null, null);
+    if (res != null && res.result) {
+      List<UserItemViewModel> list = new List();
+      var data = res.data;
+      if (data == null || data.length == 0) {
+        return new DataResult(null, false);
+      }
+      for (int i = 0; i < data.length; i++) {
+        list.add(
+            new UserItemViewModel(data[i]['login'], data[i]["avatar_url"]));
+      }
+      return new DataResult(list, true);
+    } else {
+      return new DataResult(null, false);
+    }
+  }
 
   /**
    * 获取当前仓库所有star用户
    */
-  static getRepositoryStarDao(userName, reposName, page) async {}
+  static getRepositoryStarDao(userName, reposName, page) async {
+    String url = Address.getReposStar(userName, reposName) +
+        Address.getPageParams("?", page);
+    var res = await HttpManager.fetch(url, null, null, null);
+    if (res != null && res.result) {
+      List<UserItemViewModel> list = new List();
+      var data = res.data;
+      if (data == null || data.length == 0) {
+        return new DataResult(null, false);
+      }
+      for (int i = 0; i < data.length; i++) {
+        list.add(
+            new UserItemViewModel(data[i]['login'], data[i]["avatar_url"]));
+      }
+      return new DataResult(list, true);
+    } else {
+      return new DataResult(null, false);
+    }
+  }
 
   /**
    * 获取仓库的fork分支
@@ -298,5 +341,39 @@ class ReposDao {
   /**
    * 获取当前仓库所有分支
    */
-  static getBranchesDao(userName, reposName) async {}
+  static getBranchesDao(userName, reposName) async {
+    String url = Address.getbranches(userName, reposName);
+    var res = await HttpManager.fetch(url, null, null, null);
+    if (res != null && res.result && res.data.length > 0) {
+      List<String> list = new List();
+      var dataList = res.data;
+      if (dataList == null || dataList.length == 0) {
+        return new DataResult(null, false);
+      }
+      for (int i = 0; i < dataList.length; i++) {
+        var data = dataList[i];
+        list.add(data['name']);
+      }
+      return new DataResult(list, true);
+    } else {
+      return new DataResult(null, false);
+    }
+  }
+
+  /**
+   * 用户的前100仓库
+   */
+  static getUserRepository100StatusDao(userName) async {
+    String url = Address.userRepos(userName, 'pushed') + "&page=1&per_page=100";
+    var res = await HttpManager.fetch(url, null, null, null);
+    if (res != null && res.result && res.data.length > 0) {
+      int stared = 0;
+      for (int i = 0; i < res.data.length; i++) {
+        var data = res.data[i];
+        stared += data["watchers_count"];
+      }
+      return new DataResult(stared, true);
+    }
+    return new DataResult(null, false);
+  }
 }

@@ -4,6 +4,7 @@ import 'package:whg_github/common/bean/repos_header_view_model.dart';
 import 'package:whg_github/common/dao/repos_dao.dart';
 import 'package:whg_github/common/utils/eventutils.dart';
 import 'package:whg_github/ui/base/whg_list_state.dart';
+import 'package:whg_github/ui/page/repository_detail_page.dart';
 import 'package:whg_github/ui/view/event_item.dart';
 import 'package:whg_github/ui/view/repos_header_item.dart';
 import 'package:whg_github/ui/view/whg_pullload_widget.dart';
@@ -21,14 +22,17 @@ class RepositoryDetailInfoListPage extends StatefulWidget {
   final ReposDetailInfoPageControl reposDetailInfoPageControl;
   final String userName;
   final String reposName;
+  final BranchControl branchControl;
 
-  RepositoryDetailInfoListPage(
-      this.reposDetailInfoPageControl, this.userName, this.reposName);
+  RepositoryDetailInfoListPage(this.reposDetailInfoPageControl, this.userName,
+      this.reposName, this.branchControl,
+      {Key key})
+      : super(key: key);
 
   @override
   RepositoryDetailInfoPageState createState() =>
       new RepositoryDetailInfoPageState(
-          reposDetailInfoPageControl, userName, reposName);
+          reposDetailInfoPageControl, userName, reposName, this.branchControl);
 }
 
 class RepositoryDetailInfoPageState
@@ -36,10 +40,12 @@ class RepositoryDetailInfoPageState
   final ReposDetailInfoPageControl reposDetailInfoPageControl;
   final String userName;
   final String reposName;
+  final BranchControl branchControl;
+
   int selectIndex = 0;
 
-  RepositoryDetailInfoPageState(
-      this.reposDetailInfoPageControl, this.userName, this.reposName);
+  RepositoryDetailInfoPageState(this.reposDetailInfoPageControl, this.userName,
+      this.reposName, this.branchControl);
 
   @protected
   requestRefresh() async {
@@ -79,10 +85,11 @@ class RepositoryDetailInfoPageState
 
   _getDataLogic() async {
     if (selectIndex == 1) {
-      return await ReposDao.getReposCommitsDao(userName, reposName, page: page);
+      return await ReposDao.getReposCommitsDao(userName, reposName,
+          page: page, branch: branchControl.currentBranch);
     }
     return await ReposDao.getRepositoryEventDao(userName, reposName,
-        page: page);
+        page: page, branch: branchControl.currentBranch);
   }
 
   @override

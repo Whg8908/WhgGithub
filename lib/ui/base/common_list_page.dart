@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:whg_github/common/dao/repos_dao.dart';
+import 'package:whg_github/common/dao/user_dao.dart';
 import 'package:whg_github/common/utils/navigatorutils.dart';
 import 'package:whg_github/ui/base/whg_list_state.dart';
 import 'package:whg_github/ui/view/repos_item.dart';
+import 'package:whg_github/ui/view/user_item.dart';
 import 'package:whg_github/ui/view/whg_pullload_widget.dart';
 
 /**
@@ -51,7 +53,7 @@ class CommonListPageState extends WhgListState<CommonListPage> {
   bool get isRefreshFirst => true;
 
   @override
-  bool get needHeader => true;
+  bool get needHeader => false;
 
   @override
   bool get wantKeepAlive => true;
@@ -67,6 +69,10 @@ class CommonListPageState extends WhgListState<CommonListPage> {
   }
 
   _renderItem(index) {
+    if (pullLoadWidgetControl.dataList == 0) {
+      return null;
+    }
+
     var data = pullLoadWidgetControl.dataList[index];
     switch (showType) {
       case 'repository':
@@ -75,7 +81,9 @@ class CommonListPageState extends WhgListState<CommonListPage> {
               context, data.ownerName, data.repositoryName);
         });
       case 'user':
-        return null;
+        return new UserItem(data, onPressed: () {
+          NavigatorUtils.goPerson(context, data.userName);
+        });
       case 'org':
         return null;
       case 'issue':
@@ -90,17 +98,18 @@ class CommonListPageState extends WhgListState<CommonListPage> {
   _getDataLogic() async {
     switch (dataType) {
       case 'follower':
-        return null;
+        return await UserDao.getFollowerListDao(userName, page);
       case 'followed':
-        return null;
+        return await UserDao.getFollowedListDao(userName, page);
       case 'user_repos':
         return await ReposDao.getUserRepositoryDao(userName, page, null);
       case 'user_star':
         return await ReposDao.getStarRepositoryDao(userName, page, null);
       case 'repo_star':
-        return null;
+        return await ReposDao.getRepositoryStarDao(userName, reposName, page);
       case 'repo_watcher':
-        return null;
+        return await ReposDao.getRepositoryWatcherDao(
+            userName, reposName, page);
       case 'repo_fork':
         return await ReposDao.getRepositoryForksDao(userName, reposName, page);
       case 'repo_release':

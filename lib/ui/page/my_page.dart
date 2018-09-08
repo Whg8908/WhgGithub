@@ -3,6 +3,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 import 'package:whg_github/common/bean/event_view_model.dart';
 import 'package:whg_github/common/dao/event_dao.dart';
+import 'package:whg_github/common/dao/repos_dao.dart';
 import 'package:whg_github/common/redux/whg_state.dart';
 import 'package:whg_github/common/utils/eventutils.dart';
 import 'package:whg_github/ui/base/whg_list_state.dart';
@@ -26,8 +27,18 @@ class MyPage extends StatefulWidget {
 }
 
 class MyPageState extends WhgListState<MyPage> {
+  String beSharedCount = '---';
+
   @override
   requestRefresh() async {
+    ReposDao.getUserRepository100StatusDao(_getUserName()).then((res) {
+      if (res != null && res.result) {
+        setState(() {
+          beSharedCount = res.data;
+        });
+      }
+    });
+
     return await EventDao.getEventDao(_getUserName(), page: page);
   }
 
@@ -44,7 +55,7 @@ class MyPageState extends WhgListState<MyPage> {
 
   _renderEventItem(userInfo, index) {
     if (index == 0) {
-      return new UserHeaderItem(userInfo);
+      return new UserHeaderItem(userInfo, beSharedCount);
     }
 
     EventViewModel eventViewModel = pullLoadWidgetControl.dataList[index - 1];

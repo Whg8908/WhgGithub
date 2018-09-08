@@ -3,6 +3,7 @@ import 'package:whg_github/common/bean/file_item_view_model.dart';
 import 'package:whg_github/common/dao/repos_dao.dart';
 import 'package:whg_github/common/style/whg_style.dart';
 import 'package:whg_github/ui/base/whg_list_state.dart';
+import 'package:whg_github/ui/page/repository_detail_page.dart';
 import 'package:whg_github/ui/view/card_item.dart';
 import 'package:whg_github/ui/view/whg_pullload_widget.dart';
 
@@ -19,25 +20,32 @@ import 'package:whg_github/ui/view/whg_pullload_widget.dart';
 class RepositoryDetailFileListPage extends StatefulWidget {
   final String userName;
   final String reposName;
+  final BranchControl branchControl;
 
-  RepositoryDetailFileListPage(this.userName, this.reposName);
+  RepositoryDetailFileListPage(
+      this.userName, this.reposName, this.branchControl,
+      {Key key})
+      : super(key: key);
 
   @override
   RepositoryDetailFileListPageState createState() =>
-      new RepositoryDetailFileListPageState(this.userName, this.reposName);
+      new RepositoryDetailFileListPageState(
+          this.userName, this.reposName, branchControl);
 }
 
 class RepositoryDetailFileListPageState
     extends WhgListState<RepositoryDetailFileListPage> {
   final String userName;
   final String reposName;
-  String curBranch;
+  final BranchControl branchControl;
+
   String path = '';
 
   String searchText;
   String issueState;
 
-  RepositoryDetailFileListPageState(this.userName, this.reposName);
+  RepositoryDetailFileListPageState(
+      this.userName, this.reposName, this.branchControl);
 
   @override
   bool get wantKeepAlive => true;
@@ -60,7 +68,7 @@ class RepositoryDetailFileListPageState
 
   _getDataLogic(String searchString) async {
     return await ReposDao.getReposFileDirDao(userName, reposName,
-        path: path, branch: curBranch);
+        path: path, branch: branchControl.currentBranch);
   }
 
   @override
