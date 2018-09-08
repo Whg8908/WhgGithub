@@ -15,6 +15,8 @@ import 'package:whg_github/ui/view/whg_pullload_widget.dart';
 
 abstract class WhgListState<T extends StatefulWidget> extends State<T>
     with AutomaticKeepAliveClientMixin {
+  bool isShow = false;
+
   bool isLoading = false;
 
   int page = 1;
@@ -37,9 +39,11 @@ abstract class WhgListState<T extends StatefulWidget> extends State<T>
     var res = await requestRefresh();
     if (res != null && res.result) {
       pullLoadWidgetControl.dataList.clear();
-      setState(() {
-        pullLoadWidgetControl.dataList.addAll(res.data);
-      });
+      if (isShow) {
+        setState(() {
+          pullLoadWidgetControl.dataList.addAll(res.data);
+        });
+      }
     }
     resolveDataResult(res);
     isLoading = false;
@@ -55,9 +59,11 @@ abstract class WhgListState<T extends StatefulWidget> extends State<T>
     page++;
     var res = await requestLoadMore();
     if (res != null && res.result) {
-      setState(() {
-        pullLoadWidgetControl.dataList.addAll(res.data);
-      });
+      if (isShow) {
+        setState(() {
+          pullLoadWidgetControl.dataList.addAll(res.data);
+        });
+      }
     }
     resolveDataResult(res);
     isLoading = false;
@@ -66,11 +72,13 @@ abstract class WhgListState<T extends StatefulWidget> extends State<T>
 
   @protected
   resolveDataResult(res) {
-    setState(() {
-      pullLoadWidgetControl.needLoadMore = (res != null &&
-          res.data != null &&
-          res.data.length == Config.PAGE_SIZE);
-    });
+    if (isShow) {
+      setState(() {
+        pullLoadWidgetControl.needLoadMore = (res != null &&
+            res.data != null &&
+            res.data.length == Config.PAGE_SIZE);
+      });
+    }
   }
 
   @protected
@@ -82,9 +90,11 @@ abstract class WhgListState<T extends StatefulWidget> extends State<T>
 
   @protected
   clearData() {
-    setState(() {
-      pullLoadWidgetControl.dataList.clear();
-    });
+    if (isShow) {
+      setState(() {
+        pullLoadWidgetControl.dataList.clear();
+      });
+    }
   }
 
   @protected
@@ -107,6 +117,7 @@ abstract class WhgListState<T extends StatefulWidget> extends State<T>
 
   @override
   void initState() {
+    isShow = true;
     super.initState();
     pullLoadWidgetControl.needHeader = needHeader;
     if (isRefreshFirst) {
@@ -124,5 +135,11 @@ abstract class WhgListState<T extends StatefulWidget> extends State<T>
       showRefreshLoading();
     }
     super.didChangeDependencies();
+  }
+
+  @override
+  void dispose() {
+    isShow = false;
+    super.dispose();
   }
 }

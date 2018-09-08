@@ -152,7 +152,14 @@ class RepositoryDetailPageState extends State<RepositoryDetailPage> {
                 branchControl.currentBranch = value;
               });
               _getReposDetail();
-              infoListKey.currentState.showRefreshLoading();
+              if (infoListKey.currentState != null &&
+                  infoListKey.currentState.mounted) {
+                infoListKey.currentState.showRefreshLoading();
+              }
+              if (fileListKey.currentState != null &&
+                  fileListKey.currentState.mounted) {
+                fileListKey.currentState.showRefreshLoading();
+              }
             })
           ];
     return bottomWidget;

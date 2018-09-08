@@ -4,6 +4,7 @@ import 'package:redux/redux.dart';
 import 'package:whg_github/common/bean/event_view_model.dart';
 import 'package:whg_github/common/dao/event_dao.dart';
 import 'package:whg_github/common/dao/repos_dao.dart';
+import 'package:whg_github/common/dao/user_dao.dart';
 import 'package:whg_github/common/redux/whg_state.dart';
 import 'package:whg_github/common/utils/eventutils.dart';
 import 'package:whg_github/ui/base/whg_list_state.dart';
@@ -31,6 +32,12 @@ class MyPageState extends WhgListState<MyPage> {
 
   @override
   requestRefresh() async {
+    UserDao.getUserInfo(null).then((res) {
+      if (res != null && res.result) {
+        _getStore().dispatch(UserActions(res.data));
+      }
+    });
+
     ReposDao.getUserRepository100StatusDao(_getUserName()).then((res) {
       if (res != null && res.result) {
         setState(() {

@@ -74,7 +74,7 @@ class WhgTabBarWidgetState extends State<WhgTabBarWidget>
   void initState() {
     super.initState();
     if (this.type == WhgTabBarWidget.BOTTOM_TAB) {
-      _tabController = TabController(length: 3, vsync: this);
+      _tabController = TabController(length: tabItems.length, vsync: this);
     }
   }
 

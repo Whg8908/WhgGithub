@@ -86,9 +86,8 @@ class ReposDao {
   static getRepositoryEventDao(userName, reposName,
       {page = 0, branch = "master"}) async {
     String url = Address.getReposEvent(userName, reposName) +
-        Address.getPageParams("?", page) +
-        "&ref=" +
-        branch;
+        Address.getPageParams("?", page);
+
     var res = await HttpManager.fetch(url, null, null, null);
     if (res != null && res.result) {
       List<EventViewModel> list = new List();
@@ -128,8 +127,9 @@ class ReposDao {
       {page = 0, branch = "master"}) async {
     String url = Address.getReposCommits(userName, reposName) +
         Address.getPageParams("?", page) +
-        "&ref=" +
+        "&sha=" +
         branch;
+
     var res = await HttpManager.fetch(url, null, null, null);
     if (res != null && res.result) {
       List<EventViewModel> list = new List();
