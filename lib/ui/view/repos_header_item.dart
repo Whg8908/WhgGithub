@@ -36,26 +36,38 @@ class ReposHeaderItem extends StatelessWidget {
       children: <Widget>[
         WhgCardItem(
           color: Color(WhgColors.primaryValue),
-          child: Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                firstColumn(),
-                SizedBox(
-                  height: 5.0,
+          child: Container(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                  image: NetworkImage(reposHeaderViewModel.ownerPic),
+                  fit: BoxFit.fill),
+            ),
+            child: Container(
+              decoration: BoxDecoration(
+                color: Color(0x90000000),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    firstColumn(),
+                    SizedBox(
+                      height: 5.0,
+                    ),
+                    secondColumn(),
+                    SizedBox(
+                      height: 5.0,
+                    ),
+                    timeColumn(),
+                    pullinfoColumn(infoText),
+                    new Divider(
+                      color: Color(WhgColors.subTextColor),
+                    ),
+                    icontitleColumn(context),
+                  ],
                 ),
-                secondColumn(),
-                SizedBox(
-                  height: 5.0,
-                ),
-                timeColumn(),
-                pullinfoColumn(infoText),
-                new Divider(
-                  color: Color(WhgColors.subTextColor),
-                ),
-                icontitleColumn(context),
-              ],
+              ),
             ),
           ),
         ),
@@ -188,8 +200,8 @@ class ReposHeaderItem extends StatelessWidget {
         child: new WhgIconText(
           icon,
           text,
-          WhgConstant.subSmallText,
-          Color(WhgColors.subTextColor),
+          WhgConstant.subLightSmallText,
+          Color(WhgColors.subLightTextColor),
           15.0,
           padding: 3.0,
           mainAxisAlignment: MainAxisAlignment.center,

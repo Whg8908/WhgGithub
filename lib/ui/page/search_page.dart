@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:whg_github/common/bean/filter_model.dart';
 import 'package:whg_github/common/config/config.dart';
 import 'package:whg_github/common/dao/repos_dao.dart';
 import 'package:whg_github/common/style/whg_style.dart';
 import 'package:whg_github/common/utils/navigatorutils.dart';
 import 'package:whg_github/ui/base/whg_list_state.dart';
+import 'package:whg_github/ui/page/whg_search_drawer.dart';
 import 'package:whg_github/ui/view/repos_item.dart';
 import 'package:whg_github/ui/view/serach_bottom_widget.dart';
 import 'package:whg_github/ui/view/user_item.dart';
@@ -29,6 +31,10 @@ class SearchPageState extends WhgListState<SearchPage> {
 
   String searchText;
 
+  String type = searchFilterType[0].value;
+  String sort = sortType[0].value;
+  String language = searchLanguageType[0].value;
+
   _renderEventItem(index) {
     var data = pullLoadWidgetControl.dataList[index];
     if (selectIndex == 0) {
@@ -49,7 +55,7 @@ class SearchPageState extends WhgListState<SearchPage> {
   }
 
   _getDataLogic() async {
-    return await ReposDao.searchRepositoryDao(searchText, null, null, null,
+    return await ReposDao.searchRepositoryDao(searchText, language, type, sort,
         selectIndex == 0 ? null : 'user', page, Config.PAGE_SIZE);
   }
 
@@ -76,6 +82,23 @@ class SearchPageState extends WhgListState<SearchPage> {
   Widget build(BuildContext context) {
     super.build(context); // See AutomaticKeepAliveClientMixin.
     return new Scaffold(
+      endDrawer: new WhgSearchDrawer(
+        (String type) {
+          this.type = type;
+          Navigator.pop(context);
+          _resolveSelectIndex();
+        },
+        (String sort) {
+          this.sort = sort;
+          Navigator.pop(context);
+          _resolveSelectIndex();
+        },
+        (String language) {
+          this.language = language;
+          Navigator.pop(context);
+          _resolveSelectIndex();
+        },
+      ),
       backgroundColor: Color(WhgColors.mainBackgroundColor),
       appBar: new AppBar(
           title: new Text(WhgStrings.search_title),

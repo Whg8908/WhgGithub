@@ -154,6 +154,7 @@ class RepositoryDetailPageState extends State<RepositoryDetailPage> {
             _renderBranchPopItem(currentBranch, branchList, (value) {
               setState(() {
                 branchControl.currentBranch = value;
+                tarBarControl.footerButton = _getBottomWidget();
               });
               _getReposDetail();
               if (infoListKey.currentState != null &&
