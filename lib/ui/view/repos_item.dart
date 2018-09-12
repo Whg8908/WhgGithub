@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:whg_github/common/bean/repos_view_model.dart';
 import 'package:whg_github/common/style/whg_style.dart';
+import 'package:whg_github/common/utils/navigatorutils.dart';
 import 'package:whg_github/ui/view/card_item.dart';
 import 'package:whg_github/ui/view/whg_icon_text.dart';
 
@@ -21,7 +22,7 @@ class ReposItem extends StatelessWidget {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                firstColumn(),
+                firstColumn(context),
                 secondColumn(),
                 SizedBox(
                   height: 10.0,
@@ -36,17 +37,23 @@ class ReposItem extends StatelessWidget {
   }
 
   //第一行
-  Widget firstColumn() => Row(
+  Widget firstColumn(BuildContext context) => Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          ClipOval(
-            child: new FadeInImage.assetNetwork(
-              placeholder: "static/images/logo.png",
-              //预览图
-              fit: BoxFit.fitWidth,
-              image: reposViewModel.ownerPic,
-              width: 40.0,
-              height: 40.0,
+          RawMaterialButton(
+            constraints: new BoxConstraints(minWidth: 0.0, minHeight: 0.0),
+            onPressed: () {
+              NavigatorUtils.goPerson(context, reposViewModel.ownerName);
+            },
+            child: ClipOval(
+              child: new FadeInImage.assetNetwork(
+                placeholder: "static/images/logo.png",
+                //预览图
+                fit: BoxFit.fitWidth,
+                image: reposViewModel.ownerPic,
+                width: 40.0,
+                height: 40.0,
+              ),
             ),
           ),
           SizedBox(

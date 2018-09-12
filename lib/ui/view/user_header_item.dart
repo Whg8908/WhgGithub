@@ -204,7 +204,9 @@ class UserHeaderItem extends StatelessWidget {
 
   Widget userDynamicTitle() => Container(
       child: new Text(
-        WhgStrings.user_dynamic_title,
+        (userInfo.type == "Organization")
+            ? WhgStrings.user_dynamic_group
+            : WhgStrings.user_dynamic_title,
         style: WhgConstant.normalTextBold,
         overflow: TextOverflow.ellipsis,
       ),

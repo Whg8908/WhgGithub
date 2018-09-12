@@ -1,12 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:whg_github/common/bean/User.dart';
 import 'package:whg_github/common/dao/event_dao.dart';
 import 'package:whg_github/common/dao/repos_dao.dart';
 import 'package:whg_github/common/dao/user_dao.dart';
+import 'package:whg_github/common/style/whg_style.dart';
+import 'package:whg_github/common/utils/commonutils.dart';
+import 'package:whg_github/common/utils/navigatorutils.dart';
 import 'package:whg_github/ui/base/whg_list_state.dart';
 import 'package:whg_github/ui/view/event_item.dart';
 import 'package:whg_github/ui/view/user_header_item.dart';
+import 'package:whg_github/ui/view/user_item.dart';
+import 'package:whg_github/ui/view/whg_common_option_widget.dart';
 import 'package:whg_github/ui/view/whg_pullload_widget.dart';
+import 'package:whg_github/ui/view/whg_title_bar.dart';
 
 /**
  * @Author by whg
@@ -35,6 +42,10 @@ class PersonPageState extends WhgListState<PersonPage> {
 
   String beStaredCount = "---";
 
+  bool focusStatus = false;
+
+  String focus = "";
+
   PersonPageState(this.userName);
 
   @override
@@ -54,11 +65,35 @@ class PersonPageState extends WhgListState<PersonPage> {
 
   @override
   requestLoadMore() async {
-    return await EventDao.getEventDao(_getUserName(), page: page);
+    return await _getDataLogic();
   }
 
   @override
-  requestRefresh() async {
+  Future<Null> handleRefresh() async {
+    if (isLoading) {
+      return null;
+    }
+    isLoading = true;
+    page = 1;
+    var userResult = await UserDao.getUserInfo(userName);
+    if (userResult != null && userResult.result) {
+      userInfo = userResult.data;
+      setState(() {
+        userInfo = userResult.data;
+      });
+    } else {
+      return null;
+    }
+    var res = await _getDataLogic();
+    if (res != null && res.result) {
+      pullLoadWidgetControl.dataList.clear();
+      setState(() {
+        pullLoadWidgetControl.dataList.addAll(res.data);
+      });
+    }
+    resolveDataResult(res);
+    isLoading = false;
+    _getFocusStatus();
     ReposDao.getUserRepository100StatusDao(_getUserName()).then((res) {
       if (res != null && res.result) {
         setState(() {
@@ -66,24 +101,42 @@ class PersonPageState extends WhgListState<PersonPage> {
         });
       }
     });
+    return null;
+  }
 
-    var userResult = await UserDao.getUserInfo(userName);
-    if (userResult != null && userResult.result) {
-      setState(() {
-        userInfo = userResult.data;
-      });
-    } else {
-      return null;
+  @override
+  requestRefresh() async {}
+
+  _getDataLogic() async {
+    if (userInfo.type == "Organization") {
+      return await UserDao.getMemberDao(_getUserName(), page);
     }
-
     return await EventDao.getEventDao(_getUserName(), page: page);
+  }
+
+  _getFocusStatus() async {
+    var focusRes = await UserDao.checkFollowDao(userName);
+    setState(() {
+      focus = (focusRes != null && focusRes.result)
+          ? WhgStrings.user_focus
+          : WhgStrings.user_un_focus;
+      focusStatus = (focusRes != null && focusRes.result);
+    });
   }
 
   _renderEventItem(index) {
     if (index == 0) {
       return new UserHeaderItem(userInfo, beStaredCount);
     }
-    return new EventItem(pullLoadWidgetControl.dataList[index - 1]);
+    if (userInfo.type == "Organization") {
+      return new UserItem(pullLoadWidgetControl.dataList[index - 1],
+          onPressed: () {
+        NavigatorUtils.goPerson(
+            context, pullLoadWidgetControl.dataList[index - 1].userName);
+      });
+    } else {
+      return new EventItem(pullLoadWidgetControl.dataList[index - 1]);
+    }
   }
 
   _getUserName() {
@@ -97,9 +150,26 @@ class PersonPageState extends WhgListState<PersonPage> {
   Widget build(BuildContext context) {
     return new Scaffold(
         appBar: new AppBar(
-          title: new Text((userInfo != null && userInfo.login != null)
-              ? userInfo.login
-              : ""),
+            title: WhgTitleBar(
+          (userInfo != null && userInfo.login != null) ? userInfo.login : "",
+          rightWidget: WhgCommonOptionWidget(),
+        )),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            if (focus == '') {
+              return;
+            }
+            if (userInfo.type == "Organization") {
+              Fluttertoast.showToast(msg: WhgStrings.user_focus_no_support);
+              return;
+            }
+            CommonUtils.showLoadingDialog(context);
+            UserDao.doFollowDao(userName, focusStatus).then((res) {
+              Navigator.pop(context);
+              _getFocusStatus();
+            });
+          },
+          child: Text(focus),
         ),
         body: WhgPullLoadWidget(
           (BuildContext context, int index) => _renderEventItem(index),

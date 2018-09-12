@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:whg_github/common/bean/event_view_model.dart';
 import 'package:whg_github/common/dao/user_dao.dart';
 import 'package:whg_github/common/style/whg_style.dart';
+import 'package:whg_github/common/utils/commonutils.dart';
 import 'package:whg_github/common/utils/navigatorutils.dart';
 import 'package:whg_github/ui/base/whg_list_state.dart';
 import 'package:whg_github/ui/view/event_item.dart';
 import 'package:whg_github/ui/view/repository_issue_list_header.dart';
 import 'package:whg_github/ui/view/whg_pullload_widget.dart';
+import 'package:whg_github/ui/view/whg_title_bar.dart';
 
 /**
  * @Author by whg
@@ -83,7 +85,18 @@ class NotifyPageState extends WhgListState<NotifyPage> {
     return new Scaffold(
       backgroundColor: Color(WhgColors.mainBackgroundColor),
       appBar: new AppBar(
-        title: new Text(WhgStrings.notify_title),
+        title: WhgTitleBar(
+          WhgStrings.notify_title,
+          iconData: WhgICons.NOTIFY_ALL_READ,
+          needRightIcon: true,
+          onPressed: () {
+            CommonUtils.showLoadingDialog(context);
+            UserDao.setAllNotificationAsReadDao().then((res) {
+              Navigator.pop(context);
+              _resolveSelectIndex();
+            });
+          },
+        ),
         bottom: new WhgSelectItemWidget(
           [
             WhgStrings.notify_tab_unread,

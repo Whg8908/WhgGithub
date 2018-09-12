@@ -134,6 +134,14 @@ class WhgStrings {
   static const String search_title = "搜索";
   static const String search_tab_repos = "仓库";
   static const String search_tab_user = "用户";
+
+  static const String user_dynamic_group = "组织成员";
+  static const String user_focus = "已关注";
+  static const String user_un_focus = "关注";
+  static const String user_focus_no_support = "不支持关注组织。";
+
+  static const String home_reply = "问题反馈";
+  static const String home_about = "关于";
 }
 
 class WhgConstant {
@@ -326,4 +334,10 @@ class WhgICons {
 
   static const IconData HOME =
       const IconData(0xe624, fontFamily: WhgICons.FONT_FAMILY);
+
+  static const IconData NOTIFY_ALL_READ =
+      const IconData(0xe62f, fontFamily: WhgICons.FONT_FAMILY);
+
+  static const IconData MORE =
+      const IconData(0xe674, fontFamily: WhgICons.FONT_FAMILY);
 }

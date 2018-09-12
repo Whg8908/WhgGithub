@@ -44,14 +44,14 @@ class ReposHeaderItem extends StatelessWidget {
             ),
             child: Container(
               decoration: BoxDecoration(
-                color: Color(0x90000000),
+                color: Color(WhgColors.primaryDarkValue & 0xA0FFFFFF),
               ),
               child: Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
-                    firstColumn(),
+                    firstColumn(context),
                     SizedBox(
                       height: 5.0,
                     ),
@@ -80,12 +80,14 @@ class ReposHeaderItem extends StatelessWidget {
   }
 
   //第一行
-  Widget firstColumn() => Row(
+  Widget firstColumn(BuildContext context) => Row(
         children: <Widget>[
           RawMaterialButton(
             constraints: BoxConstraints(minHeight: 0.0, minWidth: 0.0),
             padding: const EdgeInsets.all(0.0),
-            onPressed: () {},
+            onPressed: () {
+              NavigatorUtils.goPerson(context, reposHeaderViewModel.ownerName);
+            },
             child: Text(
               reposHeaderViewModel.ownerName,
               style: WhgConstant.normalTextMitWhiteBold,

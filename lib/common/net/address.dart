@@ -231,4 +231,19 @@ class Address {
     pageSize ??= Config.PAGE_SIZE;
     return "${host}search/repositories?q=$q&sort=$sort&order=$order&page=$page&per_page=$pageSize";
   }
+
+  /// get 是否关注
+  static doFollow(name) {
+    return "${host}user/following/$name";
+  }
+
+  ///组织成员
+  static getMember(orgs) {
+    return "${host}orgs/$orgs/members";
+  }
+
+  ///put
+  static setAllNotificationAsRead() {
+    return "${host}notifications";
+  }
 }
