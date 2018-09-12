@@ -142,6 +142,11 @@ class WhgStrings {
 
   static const String home_reply = "问题反馈";
   static const String home_about = "关于";
+
+  static const String option_web = "浏览器打开";
+  static const String option_copy = "复制链接";
+  static const String option_share = "分享";
+  static const String option_web_launcher_error = "url异常";
 }
 
 class WhgConstant {

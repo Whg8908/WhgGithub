@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:whg_github/common/bean/whg_option_model.dart';
 import 'package:whg_github/common/style/whg_style.dart';
 
@@ -14,21 +15,38 @@ import 'package:whg_github/common/style/whg_style.dart';
  */
 
 class WhgCommonOptionWidget extends StatelessWidget {
-  List<WhgOptionModel> list = [
-    new WhgOptionModel("浏览器打开", "浏览器打开", (model) {
-      Fluttertoast.showToast(msg: model.name);
-    }),
-    new WhgOptionModel("复制链接", "复制链接", (model) {
-      Fluttertoast.showToast(msg: model.name);
-    }),
-    new WhgOptionModel("分享", "分享", (model) {
-      Fluttertoast.showToast(msg: model.name);
-    }),
-  ];
+  final List<WhgOptionModel> otherList;
+  final String url;
+
+  WhgCommonOptionWidget(this.url, {this.otherList});
 
   @override
   Widget build(BuildContext context) {
+    List<WhgOptionModel> list = [
+      new WhgOptionModel(WhgStrings.option_web, WhgStrings.option_web, (model) {
+        _launchURL();
+      }),
+      new WhgOptionModel(WhgStrings.option_copy, WhgStrings.option_copy,
+          (model) {
+        Fluttertoast.showToast(msg: model.name);
+      }),
+      new WhgOptionModel(WhgStrings.option_share, WhgStrings.option_share,
+          (model) {
+        Fluttertoast.showToast(msg: model.name);
+      }),
+    ];
     return _renderHeaderPopItem(list);
+  }
+
+  _launchURL() async {
+    //url_launcher
+    if (await canLaunch(url)) {
+      print(url);
+      await launch(url);
+    } else {
+      Fluttertoast.showToast(
+          msg: WhgStrings.option_web_launcher_error + ": " + url);
+    }
   }
 
   //item,data,select

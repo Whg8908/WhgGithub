@@ -4,6 +4,7 @@ import 'package:whg_github/common/bean/User.dart';
 import 'package:whg_github/common/dao/event_dao.dart';
 import 'package:whg_github/common/dao/repos_dao.dart';
 import 'package:whg_github/common/dao/user_dao.dart';
+import 'package:whg_github/common/net/address.dart';
 import 'package:whg_github/common/style/whg_style.dart';
 import 'package:whg_github/common/utils/commonutils.dart';
 import 'package:whg_github/common/utils/navigatorutils.dart';
@@ -45,6 +46,8 @@ class PersonPageState extends WhgListState<PersonPage> {
   bool focusStatus = false;
 
   String focus = "";
+
+  String launchUrl = "";
 
   PersonPageState(this.userName);
 
@@ -89,6 +92,7 @@ class PersonPageState extends WhgListState<PersonPage> {
       pullLoadWidgetControl.dataList.clear();
       setState(() {
         pullLoadWidgetControl.dataList.addAll(res.data);
+        launchUrl = Address.hostWeb + userInfo.login;
       });
     }
     resolveDataResult(res);
@@ -152,7 +156,7 @@ class PersonPageState extends WhgListState<PersonPage> {
         appBar: new AppBar(
             title: WhgTitleBar(
           (userInfo != null && userInfo.login != null) ? userInfo.login : "",
-          rightWidget: WhgCommonOptionWidget(),
+          rightWidget: WhgCommonOptionWidget(launchUrl),
         )),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
