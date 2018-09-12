@@ -110,6 +110,12 @@ class TrendPageState extends WhgListState<TrendPage> {
   }
 
   @override
+  void dispose() {
+    super.dispose();
+    clearData();
+  }
+
+  @override
   Widget build(BuildContext context) {
     super.build(context);
     return Scaffold(

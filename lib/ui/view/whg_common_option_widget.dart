@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:share/share.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:whg_github/common/bean/whg_option_model.dart';
 import 'package:whg_github/common/style/whg_style.dart';
@@ -22,6 +23,8 @@ class WhgCommonOptionWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String text = WhgStrings.option_share_title + url;
+
     List<WhgOptionModel> list = [
       new WhgOptionModel(WhgStrings.option_web, WhgStrings.option_web, (model) {
         _launchURL();
@@ -32,7 +35,7 @@ class WhgCommonOptionWidget extends StatelessWidget {
       }),
       new WhgOptionModel(WhgStrings.option_share, WhgStrings.option_share,
           (model) {
-        Fluttertoast.showToast(msg: model.name);
+        Share.share(text);
       }),
     ];
     return _renderHeaderPopItem(list);

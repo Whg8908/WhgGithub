@@ -147,6 +147,8 @@ class WhgStrings {
   static const String option_copy = "复制链接";
   static const String option_share = "分享";
   static const String option_web_launcher_error = "url异常";
+
+  static const String option_share_title = "分享自GitHubFlutterApp： ";
 }
 
 class WhgConstant {
