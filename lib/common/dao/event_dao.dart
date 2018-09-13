@@ -68,4 +68,9 @@ class EventDao {
       return null;
     }
   }
+
+  static clearEvent(Store store) {
+    store.state.eventList.clear();
+    store.dispatch(new RefreshEventAction([]));
+  }
 }

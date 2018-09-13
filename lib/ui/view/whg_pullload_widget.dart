@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:whg_github/common/style/whg_style.dart';
 /**
  * @Author by whg
@@ -102,7 +103,18 @@ class WhgPullLoadWidgetState extends State<WhgPullLoadWidget> {
   * */
   Widget _buildProgressIndicator() {
     Widget bottomWidget = (control.needLoadMore)
-        ? new CircularProgressIndicator()
+        ? new Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+                new SpinKitRotatingCircle(color: Color(WhgColors.primaryValue)),
+                new Container(
+                  width: 5.0,
+                ),
+                new Text(
+                  WhgStrings.load_more_text,
+                  style: WhgConstant.smallTextBold,
+                )
+              ])
         : new Text(WhgStrings.load_more_not);
     return new Padding(
       padding: const EdgeInsets.all(20.0),

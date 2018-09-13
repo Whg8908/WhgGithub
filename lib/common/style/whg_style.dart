@@ -149,6 +149,8 @@ class WhgStrings {
   static const String option_web_launcher_error = "url异常";
 
   static const String option_share_title = "分享自GitHubFlutterApp： ";
+
+  static const String load_more_text = "正在加载更多";
 }
 
 class WhgConstant {

@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:redux/redux.dart';
 import 'package:whg_github/common/bean/User.dart';
 import 'package:whg_github/common/bean/event_view_model.dart';
 import 'package:whg_github/common/bean/user_item_view_model.dart';
@@ -27,7 +28,7 @@ class UserDao {
   /**
    * 登录
    */
-  static void login(userName, passWord, callback) async {
+  static login(userName, passWord, store) async {
     String type = userName + ":" + passWord;
     var bytes = utf8.encode(type);
     var base64Str = base64.encode(bytes);
@@ -52,6 +53,7 @@ class UserDao {
     //主要获取token授权
     var res = await HttpManager.fetch(Address.getAuthorization(),
         json.encode(requestParams), null, new Options(method: "post"));
+    var resultData = null;
 
     if (res != null && res.result) {
       await LocalStorage.put(Config.PW_KEY, passWord); //存储密码
@@ -62,10 +64,9 @@ class UserDao {
         print(resultData.data);
         print(res.data.toString());
       }
+      store.dispatch(new UpdataUserAction(resultData.data));
     }
-    if (callback != null) {
-      callback(res);
-    }
+    return new DataResult(resultData, res.result);
   }
 
   ///初始化用户信息
@@ -255,9 +256,10 @@ class UserDao {
   }
 
   //清除token和用户信息
-  static clearAll() async {
+  static clearAll(Store store) async {
     HttpManager.clearAuthorization();
     LocalStorage.remove(Config.USER_INFO);
+    store.dispatch(new UpdataUserAction(User.empty()));
   }
 
   /**

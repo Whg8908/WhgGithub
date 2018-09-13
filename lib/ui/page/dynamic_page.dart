@@ -54,20 +54,6 @@ class DynamicPageState extends WhgListState<DynamicPage> {
   }
 
   @override
-  clearData() {
-    super.clearData();
-    if (_getStore().state.eventList != null) {
-      _getStore().state.eventList.clear();
-    }
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    clearData();
-  }
-
-  @override
   Widget build(BuildContext context) {
     super.build(context); // See AutomaticKeepAliveClientMixin.
     return StoreBuilder<WhgState>(

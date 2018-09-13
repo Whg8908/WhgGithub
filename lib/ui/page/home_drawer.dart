@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:whg_github/common/bean/User.dart';
+import 'package:whg_github/common/dao/event_dao.dart';
 import 'package:whg_github/common/dao/issue_dao.dart';
 import 'package:whg_github/common/dao/user_dao.dart';
 import 'package:whg_github/common/redux/whg_state.dart';
@@ -30,17 +31,20 @@ class HomeDrawer extends StatelessWidget {
             children: <Widget>[
               UserAccountsDrawerHeader(
                 accountName: Text(
-                  user.login,
+                  user.login != null ? user.login : "---",
                   style: WhgConstant.largeTextWhite,
                 ),
                 accountEmail: Text(
-                  user.email != null ? user.email : user.login,
+                  user.email != null
+                      ? user.email
+                      : user.name != null ? user.name : "---",
                   style: WhgConstant.subNormalText,
                 ),
                 currentAccountPicture: GestureDetector(
                   onTap: () {},
                   child: CircleAvatar(
-                    backgroundImage: NetworkImage(user.avatar_url),
+                    backgroundImage: new NetworkImage(
+                        user.avatar_url != null ? user.avatar_url : "---"),
                   ),
                 ),
                 decoration: BoxDecoration(color: Color(WhgColors.primaryValue)),
@@ -95,8 +99,9 @@ class HomeDrawer extends StatelessWidget {
                     color: Colors.red,
                     textColor: Colors.white,
                     onPress: () {
+                      UserDao.clearAll(store);
+                      EventDao.clearEvent(store);
                       NavigatorUtils.goLogin(context);
-                      UserDao.clearAll();
                     }),
               ),
             ],

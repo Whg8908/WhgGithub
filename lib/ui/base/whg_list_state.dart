@@ -140,6 +140,7 @@ abstract class WhgListState<T extends StatefulWidget> extends State<T>
   @override
   void dispose() {
     isShow = false;
+    isLoading = false;
     super.dispose();
   }
 }
