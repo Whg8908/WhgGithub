@@ -76,6 +76,8 @@ class WhgPullLoadWidgetState extends State<WhgPullLoadWidget> {
               index == _getListCount() - 1 &&
               control.dataList.length != 0) {
             return _buildProgressIndicator();
+          } else if (!control.needHeader && control.dataList.length == 0) {
+            return _buildEmpty();
           } else {
             return itemBuilder(context, index);
           }
@@ -86,12 +88,36 @@ class WhgPullLoadWidgetState extends State<WhgPullLoadWidget> {
     );
   }
 
+  Widget _buildEmpty() {
+    return new Container(
+      height: MediaQuery.of(context).size.height - 100,
+      child: new Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          FlatButton(
+            onPressed: () {},
+            child: new Image(
+                image: new AssetImage('static/images/logo.png'),
+                width: 70.0,
+                height: 70.0),
+          ),
+          Container(
+            child: Text(WhgStrings.app_empty, style: WhgConstant.normalText),
+          ),
+        ],
+      ),
+    );
+  }
+
   _getListCount() {
     if (control.needHeader) {
       return (control.dataList.length > 0)
           ? control.dataList.length + 2
           : control.dataList.length + 1;
     } else {
+      if (control.dataList.length == 0) {
+        return 1;
+      }
       return (control.dataList.length > 0)
           ? control.dataList.length + 1
           : control.dataList.length;
@@ -106,7 +132,10 @@ class WhgPullLoadWidgetState extends State<WhgPullLoadWidget> {
         ? new Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-                new SpinKitRotatingCircle(color: Color(WhgColors.primaryValue)),
+                new SpinKitWave(
+                  color: Color(WhgColors.primaryValue),
+                  size: 20.0,
+                ),
                 new Container(
                   width: 5.0,
                 ),

@@ -47,7 +47,7 @@ class NavigatorUtils {
   ///issue详情
   static Future<Null> goIssueDetail(
       BuildContext context, String userName, String reposName, String num,
-      {bool needRightIcon = false}) {
+      {bool needRightLocalIcon = false}) {
     return Navigator.push(
         context,
         new MaterialPageRoute(
@@ -55,7 +55,7 @@ class NavigatorUtils {
                   userName,
                   reposName,
                   num,
-                  needRightIcon: needRightIcon,
+                  needHomeIcon: needRightLocalIcon,
                 )));
   }
 

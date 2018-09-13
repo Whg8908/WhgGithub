@@ -26,7 +26,7 @@ class WhgSelectItemWidget extends StatefulWidget
     this.itemName,
     this.selectItemChanged, {
     this.elevation = 5.0,
-    this.height = 50.0,
+    this.height = 70.0,
     this.margin = const EdgeInsets.all(10.0),
   });
 

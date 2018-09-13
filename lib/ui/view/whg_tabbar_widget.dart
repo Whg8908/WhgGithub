@@ -16,6 +16,7 @@ class WhgTabBarWidget extends StatefulWidget {
   final Widget drawer;
   final Widget floatingActionButton;
   final TarWidgetControl tarWidgetControl;
+  final PageController topPageControl;
 
   WhgTabBarWidget(
       {Key key,
@@ -27,7 +28,8 @@ class WhgTabBarWidget extends StatefulWidget {
       this.title,
       this.drawer,
       this.floatingActionButton,
-      this.tarWidgetControl})
+      this.tarWidgetControl,
+      this.topPageControl})
       : super(key: key);
 
   @override
@@ -40,7 +42,8 @@ class WhgTabBarWidget extends StatefulWidget {
       this.title,
       this.drawer,
       this.floatingActionButton,
-      this.tarWidgetControl);
+      this.tarWidgetControl,
+      this.topPageControl);
 }
 
 class WhgTabBarWidgetState extends State<WhgTabBarWidget>
@@ -55,6 +58,7 @@ class WhgTabBarWidgetState extends State<WhgTabBarWidget>
   final Widget floatingActionButton;
 
   final TarWidgetControl tarWidgetControl;
+  final PageController _pageController;
 
   TabController _tabController;
 
@@ -67,15 +71,16 @@ class WhgTabBarWidgetState extends State<WhgTabBarWidget>
       this.title,
       this.drawer,
       this.floatingActionButton,
-      this.tarWidgetControl)
+      this.tarWidgetControl,
+      this._pageController)
       : super();
 
   @override
   void initState() {
     super.initState();
-    if (this.type == WhgTabBarWidget.BOTTOM_TAB) {
-      _tabController = TabController(length: tabItems.length, vsync: this);
-    }
+//    if (this.type == WhgTabBarWidget.BOTTOM_TAB) {
+    _tabController = TabController(length: tabItems.length, vsync: this);
+//    }
   }
 
   @override
@@ -91,11 +96,18 @@ class WhgTabBarWidgetState extends State<WhgTabBarWidget>
             backgroundColor: backgroundColor,
             title: title,
             bottom: TabBar(
+              controller: _tabController,
               tabs: tabItems,
               indicatorColor: indicatorColor,
             ),
           ),
-          body: TabBarView(children: tabViews),
+          body: PageView(
+            controller: _pageController,
+            children: tabViews,
+            onPageChanged: (index) {
+              _tabController.animateTo(index);
+            },
+          ),
         ),
       );
     }
@@ -121,9 +133,9 @@ class WhgTabBarWidgetState extends State<WhgTabBarWidget>
   @override
   void dispose() {
     super.dispose();
-    if (this.type == WhgTabBarWidget.BOTTOM_TAB && _tabController != null) {
-      _tabController.dispose();
-    }
+//    if (this.type == WhgTabBarWidget.BOTTOM_TAB && _tabController != null) {
+    _tabController.dispose();
+//    }
   }
 }
 

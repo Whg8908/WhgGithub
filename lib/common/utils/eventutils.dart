@@ -192,7 +192,7 @@ class EventUtils {
       case 'IssuesEvent':
         NavigatorUtils.goIssueDetail(context, owner, repositoryName,
             event["payload"]["issue"]["number"].toString(),
-            needRightIcon: true);
+            needRightLocalIcon: true);
         break;
       default:
         if (fullName.toLowerCase() == currentRepository.toLowerCase()) {

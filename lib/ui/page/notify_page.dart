@@ -43,7 +43,7 @@ class NotifyPageState extends WhgListState<NotifyPage> {
         String userName = eventMap["repository"]["owner"]["login"];
         String reposName = eventMap["repository"]["name"];
         NavigatorUtils.goIssueDetail(context, userName, reposName, number,
-                needRightIcon: true)
+                needRightLocalIcon: true)
             .then((res) {
           showRefreshLoading();
         });
@@ -88,7 +88,7 @@ class NotifyPageState extends WhgListState<NotifyPage> {
         title: WhgTitleBar(
           WhgStrings.notify_title,
           iconData: WhgICons.NOTIFY_ALL_READ,
-          needRightIcon: true,
+          needRightLocalIcon: true,
           onPressed: () {
             CommonUtils.showLoadingDialog(context);
             UserDao.setAllNotificationAsReadDao().then((res) {

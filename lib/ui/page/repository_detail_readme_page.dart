@@ -45,6 +45,7 @@ class RepostroyDetailReadmePageState extends State<RepostroyDetailReadmePage>
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     if (markdownData == null) {
       return Center(
         child: new Container(

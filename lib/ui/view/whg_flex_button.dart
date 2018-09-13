@@ -21,26 +21,23 @@ class WhgFlexButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: <Widget>[
-        Expanded(
-          child: RaisedButton(
-            onPressed: () {
-              if (this.onPress != null) {
-                this.onPress();
-              }
-            },
-            padding: const EdgeInsets.only(
-                left: 20.0, top: 12.0, right: 20.0, bottom: 12.0),
-            textColor: textColor,
-            color: color,
-            child: Text(
-              text,
-              style: TextStyle(fontSize: fontSize),
-            ),
-          ),
-        ),
-      ],
+    return RaisedButton(
+      onPressed: () {
+        if (this.onPress != null) {
+          this.onPress();
+        }
+      },
+      padding: const EdgeInsets.only(
+          left: 20.0, top: 12.0, right: 20.0, bottom: 12.0),
+      textColor: textColor,
+      color: color,
+      child: new Flex(
+        mainAxisAlignment: MainAxisAlignment.center,
+        direction: Axis.horizontal,
+        children: <Widget>[
+          new Text(text, style: new TextStyle(fontSize: 20.0))
+        ],
+      ),
     );
   }
 }

@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:whg_github/common/dao/repos_dao.dart';
+import 'package:whg_github/common/net/address.dart';
 import 'package:whg_github/common/style/whg_style.dart';
+import 'package:whg_github/ui/view/whg_common_option_widget.dart';
 import 'package:whg_github/ui/view/whg_markdown_widget.dart';
+import 'package:whg_github/ui/view/whg_title_bar.dart';
 
 /**
  * @Author by whg
@@ -54,6 +57,7 @@ class CodeDetailPageState extends State<CodeDetailPage> {
 
   CodeDetailPageState(this.userName, this.reposName, this.path, this.data,
       this.title, this.branch);
+
   @override
   void initState() {
     super.initState();
@@ -72,6 +76,15 @@ class CodeDetailPageState extends State<CodeDetailPage> {
 
   @override
   Widget build(BuildContext context) {
+    String currentBranch = ((branch == null) ? "" : ("/" + branch));
+    String url = Address.hostWeb +
+        userName +
+        "/" +
+        reposName +
+        "/blob" +
+        currentBranch +
+        path;
+
     Widget widget = (data == null)
         ? new Center(
             child: new Container(
@@ -93,11 +106,11 @@ class CodeDetailPageState extends State<CodeDetailPage> {
         : new WhgMarkdownWidget(markdownData: data);
 
     return new Scaffold(
-      appBar: new AppBar(
-        title: new Text(
+      appBar: AppBar(
+        title: new WhgTitleBar(
           title,
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
+          needRightLocalIcon: false,
+          rightWidget: WhgCommonOptionWidget(url),
         ),
       ),
       body: widget,

@@ -7,6 +7,7 @@ import 'package:whg_github/common/dao/user_dao.dart';
 import 'package:whg_github/common/net/address.dart';
 import 'package:whg_github/common/style/whg_style.dart';
 import 'package:whg_github/common/utils/commonutils.dart';
+import 'package:whg_github/common/utils/eventutils.dart';
 import 'package:whg_github/common/utils/navigatorutils.dart';
 import 'package:whg_github/ui/base/whg_list_state.dart';
 import 'package:whg_github/ui/view/event_item.dart';
@@ -139,7 +140,11 @@ class PersonPageState extends WhgListState<PersonPage> {
             context, pullLoadWidgetControl.dataList[index - 1].userName);
       });
     } else {
-      return new EventItem(pullLoadWidgetControl.dataList[index - 1]);
+      return new EventItem(pullLoadWidgetControl.dataList[index - 1],
+          onPressed: () {
+        EventUtils.ActionUtils(
+            context, pullLoadWidgetControl.dataList[index - 1].eventMap, "");
+      });
     }
   }
 

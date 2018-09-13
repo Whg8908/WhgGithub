@@ -44,11 +44,15 @@ class RepositoryDetailPageState extends State<RepositoryDetailPage> {
   GlobalKey<RepostroyDetailReadmePageState> readmeKey =
       new GlobalKey<RepostroyDetailReadmePageState>();
 
+  final PageController topPageControl = new PageController();
+
   RepositoryDetailPageState(this.userName, this.reposName);
 
   String currentBranch = "master";
 
   List<String> branchList = new List();
+
+  int initialIndex = 0;
 
   _getBranchList() async {
     var result = await ReposDao.getBranchesDao(userName, reposName);
@@ -232,10 +236,38 @@ class RepositoryDetailPageState extends State<RepositoryDetailPage> {
         type: WhgTabBarWidget.TOP_TAB,
         tarWidgetControl: tarBarControl,
         tabItems: [
-          new Tab(text: WhgStrings.repos_tab_info),
-          new Tab(text: WhgStrings.repos_tab_readme),
-          new Tab(text: WhgStrings.repos_tab_issue),
-          new Tab(text: WhgStrings.repos_tab_file),
+          new FlatButton(
+              onPressed: () {
+                topPageControl.jumpTo(0.0);
+              },
+              child: new Text(
+                WhgStrings.repos_tab_info,
+                style: WhgConstant.smallTextWhite,
+              )),
+          new FlatButton(
+              onPressed: () {
+                topPageControl.jumpTo(MediaQuery.of(context).size.width);
+              },
+              child: new Text(
+                WhgStrings.repos_tab_readme,
+                style: WhgConstant.smallTextWhite,
+              )),
+          new FlatButton(
+              onPressed: () {
+                topPageControl.jumpTo(MediaQuery.of(context).size.width * 2);
+              },
+              child: new Text(
+                WhgStrings.repos_tab_issue,
+                style: WhgConstant.smallTextWhite,
+              )),
+          new FlatButton(
+              onPressed: () {
+                topPageControl.jumpTo(MediaQuery.of(context).size.width * 3);
+              },
+              child: new Text(
+                WhgStrings.repos_tab_file,
+                style: WhgConstant.smallTextWhite,
+              )),
         ],
         tabViews: [
           RepositoryDetailInfoListPage(
@@ -247,6 +279,7 @@ class RepositoryDetailPageState extends State<RepositoryDetailPage> {
           RepositoryDetailFileListPage(userName, reposName, branchControl,
               key: fileListKey),
         ],
+        topPageControl: topPageControl,
         backgroundColor: WhgColors.primarySwatch,
         indicatorColor: Colors.white,
         title: WhgTitleBar(reposName));

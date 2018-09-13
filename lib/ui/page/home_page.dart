@@ -55,7 +55,7 @@ class HomePage extends StatelessWidget {
         title: WhgTitleBar(
           WhgStrings.app_name,
           iconData: WhgICons.MAIN_SEARCH,
-          needRightIcon: true,
+          needRightLocalIcon: true,
           onPressed: () {
             NavigatorUtils.goSearchPage(context);
           },

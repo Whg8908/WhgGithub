@@ -28,14 +28,14 @@ class IssueDetailPage extends StatefulWidget {
   final String reposName;
 
   final String issueNum;
-  final bool needRightIcon;
+  final bool needHomeIcon;
 
   IssueDetailPage(this.userName, this.reposName, this.issueNum,
-      {this.needRightIcon = false});
+      {this.needHomeIcon = false});
 
   @override
   IssueDetailPageState createState() => new IssueDetailPageState(
-      this.userName, this.reposName, this.issueNum, this.needRightIcon);
+      this.userName, this.reposName, this.issueNum, this.needHomeIcon);
 }
 
 class IssueDetailPageState extends WhgListState<IssueDetailPage> {
@@ -47,12 +47,12 @@ class IssueDetailPageState extends WhgListState<IssueDetailPage> {
 
   bool headerStatus = false;
 
-  bool needRightIcon = false;
+  bool needHomeIcon = false;
 
   IssueHeaderViewModel issueHeaderViewModel = new IssueHeaderViewModel();
 
   IssueDetailPageState(
-      this.userName, this.reposName, this.issueNum, this.needRightIcon);
+      this.userName, this.reposName, this.issueNum, this.needHomeIcon);
 
   TextEditingController issueInfoTitleControl = new TextEditingController();
 
@@ -274,7 +274,7 @@ class IssueDetailPageState extends WhgListState<IssueDetailPage> {
       appBar: new AppBar(
         title: WhgTitleBar(
           reposName,
-          needRightIcon: needRightIcon,
+          needRightLocalIcon: needHomeIcon,
           iconData: WhgICons.HOME,
           onPressed: () {
             NavigatorUtils.goReposDetail(context, userName, reposName);

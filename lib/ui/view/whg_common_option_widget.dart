@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:share/share.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -31,7 +32,8 @@ class WhgCommonOptionWidget extends StatelessWidget {
       }),
       new WhgOptionModel(WhgStrings.option_copy, WhgStrings.option_copy,
           (model) {
-        Fluttertoast.showToast(msg: model.name);
+        Clipboard.setData(new ClipboardData(text: url));
+        Fluttertoast.showToast(msg: WhgStrings.option_share_copy_success);
       }),
       new WhgOptionModel(WhgStrings.option_share, WhgStrings.option_share,
           (model) {

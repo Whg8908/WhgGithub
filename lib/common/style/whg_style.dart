@@ -151,6 +151,10 @@ class WhgStrings {
   static const String option_share_title = "分享自GitHubFlutterApp： ";
 
   static const String load_more_text = "正在加载更多";
+
+  static const String option_share_copy_success = "已经复制到粘贴板";
+
+  static const String app_empty = "目前什么也没有哟";
 }
 
 class WhgConstant {
