@@ -2,18 +2,18 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:whg_github/common/bean/event_view_model.dart';
-import 'package:whg_github/common/bean/file_item_view_model.dart';
-import 'package:whg_github/common/bean/push_code_item_view_model.dart';
-import 'package:whg_github/common/bean/push_header_view_model.dart';
-import 'package:whg_github/common/bean/repos_header_view_model.dart';
-import 'package:whg_github/common/bean/repos_view_model.dart';
-import 'package:whg_github/common/bean/trending_repo_model.dart';
-import 'package:whg_github/common/bean/user_item_view_model.dart';
-import 'package:whg_github/common/net/address.dart';
-import 'package:whg_github/common/net/data_result.dart';
-import 'package:whg_github/common/net/httpmanager.dart';
-import 'package:whg_github/common/net/trend/github_trend.dart';
+import 'package:github/common/bean/event_view_model.dart';
+import 'package:github/common/bean/file_item_view_model.dart';
+import 'package:github/common/bean/push_code_item_view_model.dart';
+import 'package:github/common/bean/push_header_view_model.dart';
+import 'package:github/common/bean/repos_header_view_model.dart';
+import 'package:github/common/bean/repos_view_model.dart';
+import 'package:github/common/bean/trending_repo_model.dart';
+import 'package:github/common/bean/user_item_view_model.dart';
+import 'package:github/common/net/address.dart';
+import 'package:github/common/net/data_result.dart';
+import 'package:github/common/net/httpmanager.dart';
+import 'package:github/common/net/trend/github_trend.dart';
 
 /**
  * @Author by whg
@@ -152,12 +152,12 @@ class ReposDao {
    * 获取仓库的文件列表
    */
   static getReposFileDirDao(userName, reposName,
-      {path = '', branch, text = false}) async {
+      {path = '', branch, text = false, isHtml = false}) async {
     String url = Address.reposDataDir(userName, reposName, path, branch);
     var res = await HttpManager.fetch(
       url,
       null,
-      text
+      isHtml
           ? {"Accept": 'application/vnd.github.html'}
           : {"Accept": 'application/vnd.github.VERSION.raw'},
       new Options(contentType: text ? ContentType.text : ContentType.json),

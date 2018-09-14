@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
-import 'package:whg_github/common/style/whg_style.dart';
-import 'package:whg_github/common/utils/commonutils.dart';
+import 'package:github/common/style/whg_style.dart';
+import 'package:github/common/utils/commonutils.dart';
 /**
  * @Author by whg
  * @Email ghw8908@163.com

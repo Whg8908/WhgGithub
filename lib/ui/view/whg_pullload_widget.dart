@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:whg_github/common/style/whg_style.dart';
+import 'package:github/common/style/whg_style.dart';
 /**
  * @Author by whg
  * @Email ghw8908@163.com

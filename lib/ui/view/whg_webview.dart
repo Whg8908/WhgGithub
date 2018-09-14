@@ -10,6 +10,7 @@ class WhgWebView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new WebviewScaffold(
+      withJavascript: true,
       url: url,
       withLocalUrl: true,
       appBar: new AppBar(

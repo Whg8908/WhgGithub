@@ -1,4 +1,4 @@
-import 'package:whg_github/common/style/whg_style.dart';
+import 'package:github/common/style/whg_style.dart';
 
 /**
  * @Author by whg
@@ -40,8 +40,8 @@ class HtmlUtils {
     RegExp exp = new RegExp("<code(([\\s\\S])*?)<\/code>");
     Iterable<Match> tags = exp.allMatches(mdData);
     String mdDataCode = mdData;
-    print("---------------------`--------------------------");
-    print(tags);
+//    print("---------------------`--------------------------");
+//    print(tags);
     for (Match m in tags) {
       print(m.group(0));
       String match = m.group(0).replaceAll(new RegExp("\n"), "\n\r<br>");

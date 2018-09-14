@@ -1,5 +1,5 @@
-name: whg_github
-description: A new Flutter application.
+name: github
+description: a github application
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -27,7 +27,7 @@ dependencies:
   url_launcher: ^3.0.3
   share: ^0.5.3
   flutter_spinkit: ^2.1.0
-  get_version: ^0.0.5
+  get_version: ^0.0.6
   flutter_localizations:
       sdk: flutter
   flutter_webview_plugin: ^0.2.1+2

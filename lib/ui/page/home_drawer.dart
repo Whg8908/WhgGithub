@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:whg_github/common/bean/User.dart';
-import 'package:whg_github/common/dao/event_dao.dart';
-import 'package:whg_github/common/dao/issue_dao.dart';
-import 'package:whg_github/common/dao/user_dao.dart';
-import 'package:whg_github/common/redux/whg_state.dart';
-import 'package:whg_github/common/style/whg_style.dart';
-import 'package:whg_github/common/utils/commonutils.dart';
-import 'package:whg_github/common/utils/navigatorutils.dart';
-import 'package:whg_github/ui/view/whg_flex_button.dart';
+import 'package:github/common/bean/User.dart';
+import 'package:github/common/dao/event_dao.dart';
+import 'package:github/common/dao/issue_dao.dart';
+import 'package:github/common/dao/user_dao.dart';
+import 'package:github/common/redux/whg_state.dart';
+import 'package:github/common/style/whg_style.dart';
+import 'package:github/common/utils/commonutils.dart';
+import 'package:github/common/utils/navigatorutils.dart';
+import 'package:github/ui/view/whg_flex_button.dart';
 
 /**
  * @Author by whg
@@ -65,7 +65,7 @@ class HomeDrawer extends StatelessWidget {
                         return;
                       }
                       CommonUtils.showLoadingDialog(context);
-                      IssueDao.createIssueDao("Whg8908", "whg_github",
+                      IssueDao.createIssueDao("Whg8908", "github",
                           {"title": "问题反馈", "body": content}).then((result) {
                         Navigator.pop(context);
                         Navigator.pop(context);

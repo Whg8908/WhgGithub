@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:whg_github/common/style/whg_style.dart';
-import 'package:whg_github/ui/view/card_item.dart';
-import 'package:whg_github/ui/view/whg_input_widget.dart';
+import 'package:github/common/style/whg_style.dart';
+import 'package:github/ui/view/card_item.dart';
+import 'package:github/ui/view/whg_input_widget.dart';
 
 /**
  * @Author by whg

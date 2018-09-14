@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
-import 'package:whg_github/common/utils/commonutils.dart';
-import 'package:whg_github/common/utils/navigatorutils.dart';
+import 'package:github/common/utils/commonutils.dart';
+import 'package:github/common/utils/navigatorutils.dart';
 
 /**
  * @Author by whg

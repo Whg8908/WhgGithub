@@ -1,6 +1,6 @@
-import 'package:whg_github/common/style/whg_style.dart';
-import 'package:whg_github/common/utils/commonutils.dart';
-import 'package:whg_github/common/utils/eventutils.dart';
+import 'package:github/common/style/whg_style.dart';
+import 'package:github/common/utils/commonutils.dart';
+import 'package:github/common/utils/eventutils.dart';
 
 class EventViewModel {
   String actionUser;

@@ -1,4 +1,4 @@
-import 'package:whg_github/common/style/whg_style.dart';
+import 'package:github/common/style/whg_style.dart';
 
 class TrendTypeModel {
   final String name;

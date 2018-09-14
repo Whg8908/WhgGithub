@@ -1,7 +1,7 @@
-import 'package:whg_github/common/bean/User.dart';
-import 'package:whg_github/common/bean/event_view_model.dart';
-import 'package:whg_github/common/redux/event_redux.dart';
-import 'package:whg_github/common/redux/user_redux.dart';
+import 'package:github/common/bean/User.dart';
+import 'package:github/common/bean/event_view_model.dart';
+import 'package:github/common/redux/event_redux.dart';
+import 'package:github/common/redux/user_redux.dart';
 
 class WhgState {
   User userInfo;

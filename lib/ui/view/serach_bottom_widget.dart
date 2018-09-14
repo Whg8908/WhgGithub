@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:whg_github/common/style/whg_style.dart';
-import 'package:whg_github/ui/view/repository_issue_list_header.dart';
-import 'package:whg_github/ui/view/whg_search_input_widget.dart';
+import 'package:github/common/style/whg_style.dart';
+import 'package:github/ui/view/repository_issue_list_header.dart';
+import 'package:github/ui/view/whg_search_input_widget.dart';
 
 class SearchBottom extends StatelessWidget implements PreferredSizeWidget {
   final ValueChanged<String> onChanged;

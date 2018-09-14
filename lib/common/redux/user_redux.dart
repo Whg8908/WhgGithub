@@ -1,5 +1,5 @@
+import 'package:github/common/bean/User.dart';
 import 'package:redux/redux.dart';
-import 'package:whg_github/common/bean/User.dart';
 
 final UserReducer = combineReducers<User>([
   TypedReducer<User, UpdataUserAction>(_updataLoaded),

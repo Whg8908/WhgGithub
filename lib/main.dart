@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:github/common/bean/User.dart';
+import 'package:github/common/delegate/material_localizations_delegate.dart';
+import 'package:github/common/redux/whg_state.dart';
+import 'package:github/common/style/whg_style.dart';
+import 'package:github/ui/page/home_page.dart';
+import 'package:github/ui/page/login_page.dart';
+import 'package:github/ui/page/welcome_page.dart';
 import 'package:redux/redux.dart';
-import 'package:whg_github/common/bean/User.dart';
-import 'package:whg_github/common/delegate/material_localizations_delegate.dart';
-import 'package:whg_github/common/redux/whg_state.dart';
-import 'package:whg_github/common/style/whg_style.dart';
-import 'package:whg_github/ui/page/home_page.dart';
-import 'package:whg_github/ui/page/login_page.dart';
-import 'package:whg_github/ui/page/welcome_page.dart';
 
 /**
  * @Author by whg

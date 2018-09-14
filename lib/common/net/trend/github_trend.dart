@@ -1,10 +1,10 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:whg_github/common/net/code.dart';
-import 'package:whg_github/common/net/httpmanager.dart';
-import 'package:whg_github/common/net/result_data.dart';
-import 'package:whg_github/common/utils/trendingutils.dart';
+import 'package:github/common/net/code.dart';
+import 'package:github/common/net/httpmanager.dart';
+import 'package:github/common/net/result_data.dart';
+import 'package:github/common/utils/trendingutils.dart';
 
 class GitHubTrending {
   static fetchTrending(url) async {

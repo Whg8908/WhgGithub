@@ -1,4 +1,4 @@
-import 'package:whg_github/common/config/config.dart';
+import 'package:github/common/config/config.dart';
 
 /**
  * @Author by whg

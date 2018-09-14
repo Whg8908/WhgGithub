@@ -1,18 +1,20 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
-import 'package:whg_github/common/bean/push_code_item_view_model.dart';
-import 'package:whg_github/common/bean/push_header_view_model.dart';
-import 'package:whg_github/common/dao/repos_dao.dart';
-import 'package:whg_github/common/net/address.dart';
-import 'package:whg_github/common/style/whg_style.dart';
-import 'package:whg_github/common/utils/commonutils.dart';
-import 'package:whg_github/common/utils/htmlutils.dart';
-import 'package:whg_github/common/utils/navigatorutils.dart';
-import 'package:whg_github/ui/base/whg_list_state.dart';
-import 'package:whg_github/ui/view/push_code_item.dart';
-import 'package:whg_github/ui/view/push_header.dart';
-import 'package:whg_github/ui/view/whg_common_option_widget.dart';
-import 'package:whg_github/ui/view/whg_pullload_widget.dart';
-import 'package:whg_github/ui/view/whg_title_bar.dart';
+import 'package:github/common/bean/push_code_item_view_model.dart';
+import 'package:github/common/bean/push_header_view_model.dart';
+import 'package:github/common/dao/repos_dao.dart';
+import 'package:github/common/net/address.dart';
+import 'package:github/common/style/whg_style.dart';
+import 'package:github/common/utils/commonutils.dart';
+import 'package:github/common/utils/htmlutils.dart';
+import 'package:github/common/utils/navigatorutils.dart';
+import 'package:github/ui/base/whg_list_state.dart';
+import 'package:github/ui/view/push_code_item.dart';
+import 'package:github/ui/view/push_header.dart';
+import 'package:github/ui/view/whg_common_option_widget.dart';
+import 'package:github/ui/view/whg_pullload_widget.dart';
+import 'package:github/ui/view/whg_title_bar.dart';
 /**
  * @Author by whg
  * @Email ghw8908@163.com
@@ -90,12 +92,23 @@ class PushDetailPageState extends WhgListState<PushDetailPage> {
     PushCodeItemViewModel itemViewModel =
         pullLoadWidgetControl.dataList[index - 1];
     return new PushCodeItem(itemViewModel, () {
-      String html = HtmlUtils.generateCode2HTml(
-          HtmlUtils.parseDiffSource(itemViewModel.patch, false),
-          backgroundColor: WhgColors.webDraculaBackgroundColorString,
-          lang: '',
-          userBR: false);
-      CommonUtils.launchWebView(context, itemViewModel.name, html);
+      if (Platform.isIOS) {
+        NavigatorUtils.gotoCodeDetailPage(
+          context,
+          title: itemViewModel.name,
+          userName: userName,
+          reposName: reposName,
+          data: itemViewModel.patch,
+          htmlUrl: itemViewModel.blob_url,
+        );
+      } else {
+        String html = HtmlUtils.generateCode2HTml(
+            HtmlUtils.parseDiffSource(itemViewModel.patch, false),
+            backgroundColor: WhgColors.webDraculaBackgroundColorString,
+            lang: '',
+            userBR: false);
+        CommonUtils.launchWebView(context, itemViewModel.name, html);
+      }
     });
   }
 

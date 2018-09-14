@@ -4,10 +4,10 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get_version/get_version.dart';
-import 'package:whg_github/common/style/whg_style.dart';
-import 'package:whg_github/common/utils/navigatorutils.dart';
-import 'package:whg_github/ui/view/issue_edit_dialog.dart';
-import 'package:whg_github/ui/view/whg_flex_button.dart';
+import 'package:github/common/style/whg_style.dart';
+import 'package:github/common/utils/navigatorutils.dart';
+import 'package:github/ui/view/issue_edit_dialog.dart';
+import 'package:github/ui/view/whg_flex_button.dart';
 
 /**
  * @Author by whg
@@ -232,6 +232,8 @@ class CommonUtils {
           );
         });
   }
+
+  static String versionName = "";
 
   //简介dialog
   static void showAboutDailog(BuildContext context) {

@@ -1,8 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:whg_github/common/config/config.dart';
-import 'package:whg_github/ui/view/whg_pullload_widget.dart';
+import 'package:github/common/config/config.dart';
+import 'package:github/ui/view/whg_pullload_widget.dart';
 /**
  * @Author by whg
  * @Email ghw8908@163.com

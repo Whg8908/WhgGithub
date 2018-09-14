@@ -2,10 +2,10 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:github/common/dao/user_dao.dart';
+import 'package:github/common/redux/whg_state.dart';
+import 'package:github/common/utils/navigatorutils.dart';
 import 'package:redux/redux.dart';
-import 'package:whg_github/common/dao/user_dao.dart';
-import 'package:whg_github/common/redux/whg_state.dart';
-import 'package:whg_github/common/utils/navigatorutils.dart';
 
 /**
  * @Author by whg

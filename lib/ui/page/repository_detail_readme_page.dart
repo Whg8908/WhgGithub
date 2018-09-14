@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:whg_github/common/dao/repos_dao.dart';
-import 'package:whg_github/common/style/whg_style.dart';
-import 'package:whg_github/ui/page/repository_detail_page.dart';
-import 'package:whg_github/ui/view/whg_markdown_widget.dart';
+import 'package:github/common/dao/repos_dao.dart';
+import 'package:github/common/style/whg_style.dart';
+import 'package:github/ui/page/repository_detail_page.dart';
+import 'package:github/ui/view/whg_markdown_widget.dart';
 
 /**
  * @Author by whg

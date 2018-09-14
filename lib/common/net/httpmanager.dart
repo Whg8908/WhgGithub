@@ -2,10 +2,10 @@ import 'dart:collection';
 
 import 'package:connectivity/connectivity.dart';
 import 'package:dio/dio.dart';
-import 'package:whg_github/common/config/config.dart';
-import 'package:whg_github/common/local/local_storage.dart';
-import 'package:whg_github/common/net/code.dart';
-import 'package:whg_github/common/net/result_data.dart';
+import 'package:github/common/config/config.dart';
+import 'package:github/common/local/local_storage.dart';
+import 'package:github/common/net/code.dart';
+import 'package:github/common/net/result_data.dart';
 /**
  * @Author by whg
  * @Email ghw8908@163.com

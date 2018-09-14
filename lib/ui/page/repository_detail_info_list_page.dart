@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:whg_github/common/bean/event_view_model.dart';
-import 'package:whg_github/common/bean/repos_header_view_model.dart';
-import 'package:whg_github/common/dao/repos_dao.dart';
-import 'package:whg_github/common/utils/eventutils.dart';
-import 'package:whg_github/common/utils/navigatorutils.dart';
-import 'package:whg_github/ui/base/whg_list_state.dart';
-import 'package:whg_github/ui/page/repository_detail_page.dart';
-import 'package:whg_github/ui/view/event_item.dart';
-import 'package:whg_github/ui/view/repos_header_item.dart';
-import 'package:whg_github/ui/view/whg_pullload_widget.dart';
+import 'package:github/common/bean/event_view_model.dart';
+import 'package:github/common/bean/repos_header_view_model.dart';
+import 'package:github/common/dao/repos_dao.dart';
+import 'package:github/common/utils/eventutils.dart';
+import 'package:github/common/utils/navigatorutils.dart';
+import 'package:github/ui/base/whg_list_state.dart';
+import 'package:github/ui/page/repository_detail_page.dart';
+import 'package:github/ui/view/event_item.dart';
+import 'package:github/ui/view/repos_header_item.dart';
+import 'package:github/ui/view/whg_pullload_widget.dart';
 
 /**
  * @Author by whg

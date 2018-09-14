@@ -1,4 +1,4 @@
-import 'package:whg_github/common/utils/commonutils.dart';
+import 'package:github/common/utils/commonutils.dart';
 
 class IssueItemViewModel {
   String actionTime = "---";

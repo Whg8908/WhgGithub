@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:github/common/bean/whg_option_model.dart';
+import 'package:github/common/style/whg_style.dart';
 import 'package:share/share.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:whg_github/common/bean/whg_option_model.dart';
-import 'package:whg_github/common/style/whg_style.dart';
 
 /**
  * @Author by whg

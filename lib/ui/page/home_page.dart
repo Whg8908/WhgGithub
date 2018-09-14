@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:whg_github/common/style/whg_style.dart';
-import 'package:whg_github/common/utils/navigatorutils.dart';
-import 'package:whg_github/ui/page/dynamic_page.dart';
-import 'package:whg_github/ui/page/home_drawer.dart';
-import 'package:whg_github/ui/page/my_page.dart';
-import 'package:whg_github/ui/page/trend_page.dart';
-import 'package:whg_github/ui/view/whg_tabbar_widget.dart';
-import 'package:whg_github/ui/view/whg_title_bar.dart';
+import 'package:github/common/style/whg_style.dart';
+import 'package:github/common/utils/navigatorutils.dart';
+import 'package:github/ui/page/dynamic_page.dart';
+import 'package:github/ui/page/home_drawer.dart';
+import 'package:github/ui/page/my_page.dart';
+import 'package:github/ui/page/trend_page.dart';
+import 'package:github/ui/view/whg_tabbar_widget.dart';
+import 'package:github/ui/view/whg_title_bar.dart';
 
 class HomePage extends StatelessWidget {
   static const String sName = "home";

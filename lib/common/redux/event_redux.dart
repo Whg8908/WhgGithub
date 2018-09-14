@@ -1,5 +1,5 @@
+import 'package:github/common/bean/event_view_model.dart';
 import 'package:redux/redux.dart';
-import 'package:whg_github/common/bean/event_view_model.dart';
 
 final EventReducer = combineReducers<List<EventViewModel>>([
   TypedReducer<List<EventViewModel>, RefreshEventAction>(_refresh),

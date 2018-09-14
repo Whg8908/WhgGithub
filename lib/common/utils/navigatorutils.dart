@@ -2,17 +2,17 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:whg_github/ui/base/common_list_page.dart';
-import 'package:whg_github/ui/page/code_detail_page.dart';
-import 'package:whg_github/ui/page/home_page.dart';
-import 'package:whg_github/ui/page/issue_detail_page.dart';
-import 'package:whg_github/ui/page/login_page.dart';
-import 'package:whg_github/ui/page/notify_page.dart';
-import 'package:whg_github/ui/page/person_page.dart';
-import 'package:whg_github/ui/page/push_detail_page.dart';
-import 'package:whg_github/ui/page/repository_detail_page.dart';
-import 'package:whg_github/ui/page/search_page.dart';
-import 'package:whg_github/ui/view/whg_webview.dart';
+import 'package:github/ui/base/common_list_page.dart';
+import 'package:github/ui/page/code_detail_page.dart';
+import 'package:github/ui/page/home_page.dart';
+import 'package:github/ui/page/issue_detail_page.dart';
+import 'package:github/ui/page/login_page.dart';
+import 'package:github/ui/page/notify_page.dart';
+import 'package:github/ui/page/person_page.dart';
+import 'package:github/ui/page/push_detail_page.dart';
+import 'package:github/ui/page/repository_detail_page.dart';
+import 'package:github/ui/page/search_page.dart';
+import 'package:github/ui/view/whg_webview.dart';
 
 class NavigatorUtils {
   static pushReplacementNamed(BuildContext context, String routeName) {

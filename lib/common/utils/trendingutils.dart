@@ -1,4 +1,4 @@
-import 'package:whg_github/common/bean/trending_repo_model.dart';
+import 'package:github/common/bean/trending_repo_model.dart';
 
 /**
  * @Author by whg

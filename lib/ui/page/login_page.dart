@@ -2,15 +2,15 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:whg_github/common/config/config.dart';
-import 'package:whg_github/common/dao/user_dao.dart';
-import 'package:whg_github/common/local/local_storage.dart';
-import 'package:whg_github/common/redux/whg_state.dart';
-import 'package:whg_github/common/style/whg_style.dart';
-import 'package:whg_github/common/utils/commonutils.dart';
-import 'package:whg_github/common/utils/navigatorutils.dart';
-import 'package:whg_github/ui/view/whg_flex_button.dart';
-import 'package:whg_github/ui/view/whg_input_widget.dart';
+import 'package:github/common/config/config.dart';
+import 'package:github/common/dao/user_dao.dart';
+import 'package:github/common/local/local_storage.dart';
+import 'package:github/common/redux/whg_state.dart';
+import 'package:github/common/style/whg_style.dart';
+import 'package:github/common/utils/commonutils.dart';
+import 'package:github/common/utils/navigatorutils.dart';
+import 'package:github/ui/view/whg_flex_button.dart';
+import 'package:github/ui/view/whg_input_widget.dart';
 
 /**
  * @Author by whg

@@ -1,6 +1,6 @@
-# whg_github
+# github
 
-A new Flutter application.
+a github application
 
 ## Getting Started
 

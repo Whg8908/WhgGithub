@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:whg_github/common/bean/User.dart';
-import 'package:whg_github/common/dao/event_dao.dart';
-import 'package:whg_github/common/dao/repos_dao.dart';
-import 'package:whg_github/common/dao/user_dao.dart';
-import 'package:whg_github/common/net/address.dart';
-import 'package:whg_github/common/style/whg_style.dart';
-import 'package:whg_github/common/utils/commonutils.dart';
-import 'package:whg_github/common/utils/eventutils.dart';
-import 'package:whg_github/common/utils/navigatorutils.dart';
-import 'package:whg_github/ui/base/whg_list_state.dart';
-import 'package:whg_github/ui/view/event_item.dart';
-import 'package:whg_github/ui/view/user_header_item.dart';
-import 'package:whg_github/ui/view/user_item.dart';
-import 'package:whg_github/ui/view/whg_common_option_widget.dart';
-import 'package:whg_github/ui/view/whg_pullload_widget.dart';
-import 'package:whg_github/ui/view/whg_title_bar.dart';
+import 'package:github/common/bean/User.dart';
+import 'package:github/common/dao/event_dao.dart';
+import 'package:github/common/dao/repos_dao.dart';
+import 'package:github/common/dao/user_dao.dart';
+import 'package:github/common/net/address.dart';
+import 'package:github/common/style/whg_style.dart';
+import 'package:github/common/utils/commonutils.dart';
+import 'package:github/common/utils/eventutils.dart';
+import 'package:github/common/utils/navigatorutils.dart';
+import 'package:github/ui/base/whg_list_state.dart';
+import 'package:github/ui/view/event_item.dart';
+import 'package:github/ui/view/user_header_item.dart';
+import 'package:github/ui/view/user_item.dart';
+import 'package:github/ui/view/whg_common_option_widget.dart';
+import 'package:github/ui/view/whg_pullload_widget.dart';
+import 'package:github/ui/view/whg_title_bar.dart';
 
 /**
  * @Author by whg
