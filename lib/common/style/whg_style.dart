@@ -155,6 +155,10 @@ class WhgStrings {
   static const String option_share_copy_success = "已经复制到粘贴板";
 
   static const String app_empty = "目前什么也没有哟";
+
+  static const String app_licenses = "协议";
+  static const String app_close = "关闭";
+  static const String app_version = "版本";
 }
 
 class WhgConstant {

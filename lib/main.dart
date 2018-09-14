@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 import 'package:whg_github/common/bean/User.dart';
+import 'package:whg_github/common/delegate/material_localizations_delegate.dart';
 import 'package:whg_github/common/redux/whg_state.dart';
 import 'package:whg_github/common/style/whg_style.dart';
 import 'package:whg_github/ui/page/home_page.dart';
@@ -32,6 +34,15 @@ class FlutterReduxApp extends StatelessWidget {
     return StoreProvider(
       store: store,
       child: new MaterialApp(
+          localizationsDelegates: [
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            MaterialLocalizationsDelegate(),
+          ],
+          supportedLocales: [
+            const Locale('zh', 'CH'),
+            const Locale('en', 'US'),
+          ],
           debugShowCheckedModeBanner: false,
           theme: new ThemeData(
             primarySwatch: WhgColors.primarySwatch,

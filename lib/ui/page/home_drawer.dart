@@ -78,18 +78,7 @@ class HomeDrawer extends StatelessWidget {
                     style: WhgConstant.normalText,
                   ),
                   onTap: () {
-                    showDialog(
-                        context: context,
-                        builder: (BuildContext context) => AboutDialog(
-                              applicationName: WhgStrings.app_name,
-                              applicationVersion: "1.0.0",
-                              applicationIcon: new Image(
-                                  image:
-                                      new AssetImage('static/images/logo.png'),
-                                  width: 50.0,
-                                  height: 50.0),
-                              applicationLegalese: null,
-                            ));
+                    CommonUtils.showAboutDailog(context);
                   }),
               new ListTile(
                   title: new WhgFlexButton(

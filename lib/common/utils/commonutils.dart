@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:get_version/get_version.dart';
 import 'package:whg_github/common/style/whg_style.dart';
 import 'package:whg_github/ui/view/issue_edit_dialog.dart';
 import 'package:whg_github/ui/view/whg_flex_button.dart';
@@ -228,5 +229,25 @@ class CommonUtils {
             ),
           );
         });
+  }
+
+  //简介dialog
+  static void showAboutDailog(BuildContext context) {
+    GetVersion.projectVersion.then((versionName) {
+      if (versionName == null) {
+        versionName = "Null";
+      }
+      showDialog(
+          context: context,
+          builder: (BuildContext context) => AboutDialog(
+                applicationName: WhgStrings.app_name,
+                applicationVersion: WhgStrings.app_version + ": " + versionName,
+                applicationIcon: new Image(
+                    image: new AssetImage('static/images/logo.png'),
+                    width: 50.0,
+                    height: 50.0),
+                applicationLegalese: "http://github.com/Whg8908",
+              ));
+    });
   }
 }
