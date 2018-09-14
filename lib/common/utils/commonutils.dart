@@ -1,9 +1,11 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get_version/get_version.dart';
 import 'package:whg_github/common/style/whg_style.dart';
+import 'package:whg_github/common/utils/navigatorutils.dart';
 import 'package:whg_github/ui/view/issue_edit_dialog.dart';
 import 'package:whg_github/ui/view/whg_flex_button.dart';
 
@@ -249,5 +251,48 @@ class CommonUtils {
                 applicationLegalese: "http://github.com/Whg8908",
               ));
     });
+  }
+
+  static launchUrl(context, String url) {
+    if (url == null && url.length == 0) return;
+    Uri parseUrl = Uri.parse(url);
+    if (isImageEnd(parseUrl.toString())) {
+      return;
+    }
+
+    if (parseUrl != null &&
+        parseUrl.host == "github.com" &&
+        parseUrl.path.length > 0) {
+      List<String> pathnames = parseUrl.path.split("/");
+      if (pathnames.length == 2) {
+        //解析人
+        String userName = pathnames[1];
+        NavigatorUtils.goPerson(context, userName);
+      } else if (pathnames.length >= 3) {
+        String userName = pathnames[1];
+        String repoName = pathnames[2];
+        //解析仓库
+        if (pathnames.length == 3) {
+          NavigatorUtils.goReposDetail(context, userName, repoName);
+        } else {
+          launchWebView(context, "", url);
+        }
+      }
+    } else {
+      launchWebView(context, "", url);
+    }
+  }
+
+  static void launchWebView(BuildContext context, String title, String url) {
+    if (url.startsWith("http")) {
+      NavigatorUtils.goWhgWebView(context, url, title);
+    } else {
+      NavigatorUtils.goWhgWebView(
+          context,
+          new Uri.dataFromString(url,
+                  mimeType: 'text/html', encoding: Encoding.getByName("utf-8"))
+              .toString(),
+          title);
+    }
   }
 }

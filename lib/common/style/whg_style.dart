@@ -2,6 +2,12 @@ import 'package:flutter/material.dart';
 
 class WhgColors {
   static const String primaryValueString = "#24292E";
+  static const String primaryLightValueString = "#42464b";
+  static const String primaryDarkValueString = "#121917";
+  static const String miWhiteString = "#ececec";
+  static const String actionBlueString = "#267aff";
+  static const String webDraculaBackgroundColorString = "#282a36";
+
   static const int primaryValue = 0xFF24292E;
   static const int primaryLightValue = 0xFF42464b;
   static const int primaryDarkValue = 0xFF121917;
@@ -290,6 +296,16 @@ class WhgConstant {
       color: Color(WhgColors.miWhite),
       fontSize: normalTextSize,
       fontWeight: FontWeight.bold);
+
+  static const largeLargeTextWhite = TextStyle(
+    color: Color(WhgColors.TextColorWhite),
+    fontSize: largetTextSize,
+  );
+
+  static const largeLargeText = TextStyle(
+    color: Color(WhgColors.primaryValue),
+    fontSize: largetTextSize,
+  );
 }
 
 class WhgICons {

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:whg_github/common/dao/repos_dao.dart';
 import 'package:whg_github/common/style/whg_style.dart';
 import 'package:whg_github/ui/page/repository_detail_page.dart';
@@ -55,7 +56,7 @@ class RepostroyDetailReadmePageState extends State<RepostroyDetailReadmePage>
           child: new Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              new CircularProgressIndicator(),
+              new SpinKitDoubleBounce(color: Color(WhgColors.primaryValue)),
               new Container(width: 10.0),
               new Container(
                   child: new Text(WhgStrings.loading_text,

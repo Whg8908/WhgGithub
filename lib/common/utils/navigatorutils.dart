@@ -12,6 +12,7 @@ import 'package:whg_github/ui/page/person_page.dart';
 import 'package:whg_github/ui/page/push_detail_page.dart';
 import 'package:whg_github/ui/page/repository_detail_page.dart';
 import 'package:whg_github/ui/page/search_page.dart';
+import 'package:whg_github/ui/view/whg_webview.dart';
 
 class NavigatorUtils {
   static pushReplacementNamed(BuildContext context, String routeName) {
@@ -123,5 +124,15 @@ class NavigatorUtils {
                   reposName,
                   needHomeIcon: needHomeIcon,
                 )));
+  }
+
+  static Future<Null> goWhgWebView(
+      BuildContext context, String url, String title) {
+    return Navigator.push(
+      context,
+      new MaterialPageRoute(
+        builder: (context) => new WhgWebView(url, title),
+      ),
+    );
   }
 }

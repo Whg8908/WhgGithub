@@ -223,13 +223,13 @@ class RepositoryDetailPageState extends State<RepositoryDetailPage> {
   @override
   void initState() {
     super.initState();
-    _refresh();
     _getBranchList();
+    _refresh();
   }
 
   _refresh() {
-    this._getReposDetail();
     this._getReposStatus();
+    this._getReposDetail();
   }
 
   @override
@@ -241,36 +241,44 @@ class RepositoryDetailPageState extends State<RepositoryDetailPage> {
         tarWidgetControl: tarBarControl,
         tabItems: [
           new FlatButton(
+              padding: EdgeInsets.all(0.0),
               onPressed: () {
                 topPageControl.jumpTo(0.0);
               },
               child: new Text(
                 WhgStrings.repos_tab_info,
                 style: WhgConstant.smallTextWhite,
+                maxLines: 1,
               )),
           new FlatButton(
+              padding: EdgeInsets.all(0.0),
               onPressed: () {
                 topPageControl.jumpTo(MediaQuery.of(context).size.width);
               },
               child: new Text(
                 WhgStrings.repos_tab_readme,
                 style: WhgConstant.smallTextWhite,
+                maxLines: 1,
               )),
           new FlatButton(
+              padding: EdgeInsets.all(0.0),
               onPressed: () {
                 topPageControl.jumpTo(MediaQuery.of(context).size.width * 2);
               },
               child: new Text(
                 WhgStrings.repos_tab_issue,
                 style: WhgConstant.smallTextWhite,
+                maxLines: 1,
               )),
           new FlatButton(
+              padding: EdgeInsets.all(0.0),
               onPressed: () {
                 topPageControl.jumpTo(MediaQuery.of(context).size.width * 3);
               },
               child: new Text(
                 WhgStrings.repos_tab_file,
                 style: WhgConstant.smallTextWhite,
+                maxLines: 1,
               )),
         ],
         tabViews: [

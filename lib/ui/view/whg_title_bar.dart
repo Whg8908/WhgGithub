@@ -40,6 +40,7 @@ class WhgTitleBar extends StatelessWidget {
           : new Container();
     }
     return Container(
+      padding: EdgeInsets.all(0.0),
       child: new Row(
         children: <Widget>[
           new Expanded(

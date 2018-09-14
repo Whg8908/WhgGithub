@@ -158,9 +158,9 @@ class ReposDao {
       url,
       null,
       text
-          ? {"Accept": 'application/vnd.github.VERSION.raw'}
-          : {"Accept": 'application/vnd.github.html'},
-      new Options(contentType: text ? ContentType.TEXT : ContentType.JSON),
+          ? {"Accept": 'application/vnd.github.html'}
+          : {"Accept": 'application/vnd.github.VERSION.raw'},
+      new Options(contentType: text ? ContentType.text : ContentType.json),
     );
     if (res != null && res.result) {
       if (text) {

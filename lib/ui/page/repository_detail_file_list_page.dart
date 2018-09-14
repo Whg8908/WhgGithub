@@ -3,7 +3,7 @@ import 'package:whg_github/common/bean/file_item_view_model.dart';
 import 'package:whg_github/common/dao/repos_dao.dart';
 import 'package:whg_github/common/style/whg_style.dart';
 import 'package:whg_github/common/utils/commonutils.dart';
-import 'package:whg_github/common/utils/navigatorutils.dart';
+import 'package:whg_github/common/utils/htmlutils.dart';
 import 'package:whg_github/ui/base/whg_list_state.dart';
 import 'package:whg_github/ui/page/repository_detail_page.dart';
 import 'package:whg_github/ui/view/card_item.dart';
@@ -161,14 +161,16 @@ class RepositoryDetailFileListPageState
       if (CommonUtils.isImageEnd(fileItemViewModel.name)) {
         //todo 图片
       } else {
-        NavigatorUtils.gotoCodeDetailPage(
-          context,
-          title: fileItemViewModel.name,
-          reposName: reposName,
-          userName: userName,
-          path: path,
-          branch: branchControl.currentBranch,
-        );
+        CommonUtils.showLoadingDialog(context);
+        ReposDao.getReposFileDirDao(userName, reposName,
+                path: path, branch: branchControl.currentBranch, text: true)
+            .then((res) {
+          if (res != null && res.result) {
+            Navigator.pop(context);
+            String data = HtmlUtils.resolveHtmlFile(res, "java");
+            CommonUtils.launchWebView(context, fileItemViewModel.name, data);
+          }
+        });
       }
     }
   }

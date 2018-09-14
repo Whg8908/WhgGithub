@@ -4,6 +4,8 @@ import 'package:whg_github/common/bean/push_header_view_model.dart';
 import 'package:whg_github/common/dao/repos_dao.dart';
 import 'package:whg_github/common/net/address.dart';
 import 'package:whg_github/common/style/whg_style.dart';
+import 'package:whg_github/common/utils/commonutils.dart';
+import 'package:whg_github/common/utils/htmlutils.dart';
 import 'package:whg_github/common/utils/navigatorutils.dart';
 import 'package:whg_github/ui/base/whg_list_state.dart';
 import 'package:whg_github/ui/view/push_code_item.dart';
@@ -88,14 +90,12 @@ class PushDetailPageState extends WhgListState<PushDetailPage> {
     PushCodeItemViewModel itemViewModel =
         pullLoadWidgetControl.dataList[index - 1];
     return new PushCodeItem(itemViewModel, () {
-      NavigatorUtils.gotoCodeDetailPage(
-        context,
-        title: itemViewModel.name,
-        userName: userName,
-        reposName: reposName,
-        data: itemViewModel.patch,
-        htmlUrl: itemViewModel.blob_url,
-      );
+      String html = HtmlUtils.generateCode2HTml(
+          HtmlUtils.parseDiffSource(itemViewModel.patch, false),
+          backgroundColor: WhgColors.webDraculaBackgroundColorString,
+          lang: '',
+          userBR: false);
+      CommonUtils.launchWebView(context, itemViewModel.name, html);
     });
   }
 
