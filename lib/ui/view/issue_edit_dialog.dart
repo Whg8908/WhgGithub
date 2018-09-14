@@ -80,7 +80,7 @@ class IssueEditDialogState extends State<IssueEditDialog> {
             ))
         : new Container();
     return new WhgCardItem(
-      margin: EdgeInsets.all(30.0),
+      margin: EdgeInsets.all(50.0),
       shape: new RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(10.0))),
       child: new Padding(
@@ -92,7 +92,7 @@ class IssueEditDialogState extends State<IssueEditDialog> {
                 padding: new EdgeInsets.all(5.0),
                 child: new Center(
                   child:
-                      new Text(dialogTitle, style: WhgConstant.smallTextBold),
+                      new Text(dialogTitle, style: WhgConstant.normalTextBold),
                 )),
             title,
             new Container(height: 10.0),
@@ -108,7 +108,7 @@ class IssueEditDialogState extends State<IssueEditDialog> {
                 borderRadius: BorderRadius.all(Radius.circular(4.0)),
                 color: Colors.white,
                 border: new Border.all(
-                    color: Color(WhgColors.subTextColor), width: 1.0),
+                    color: Color(WhgColors.subTextColor), width: .3),
               ),
               padding: new EdgeInsets.only(
                   left: 20.0, top: 12.0, right: 20.0, bottom: 12.0),
@@ -129,7 +129,8 @@ class IssueEditDialogState extends State<IssueEditDialog> {
               children: <Widget>[
                 new Expanded(
                     child: new FlatButton(
-                        child: new Text(WhgStrings.app_cancel),
+                        child: new Text(WhgStrings.app_cancel,
+                            style: WhgConstant.subNormalText),
                         onPressed: () {
                           Navigator.pop(context);
                         })),
@@ -139,7 +140,9 @@ class IssueEditDialogState extends State<IssueEditDialog> {
                     color: Color(WhgColors.subTextColor)),
                 new Expanded(
                     child: new FlatButton(
-                        child: new Text(WhgStrings.app_ok), onPressed: () {})),
+                        child: new Text(WhgStrings.app_ok,
+                            style: WhgConstant.normalTextBold),
+                        onPressed: () {})),
               ],
             )
           ],

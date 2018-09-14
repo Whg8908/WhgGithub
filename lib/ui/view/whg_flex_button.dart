@@ -9,6 +9,9 @@ class WhgFlexButton extends StatelessWidget {
   final Color textColor;
   final VoidCallback onPress;
   final double fontSize;
+  final int maxLines;
+
+  final MainAxisAlignment mainAxisAlignment;
 
   WhgFlexButton(
       {Key key,
@@ -16,7 +19,9 @@ class WhgFlexButton extends StatelessWidget {
       this.color,
       this.textColor,
       this.onPress,
-      this.fontSize = 20.0})
+      this.fontSize = 20.0,
+      this.mainAxisAlignment = MainAxisAlignment.center,
+      this.maxLines = 1})
       : super(key: key);
 
   @override
@@ -32,10 +37,13 @@ class WhgFlexButton extends StatelessWidget {
       textColor: textColor,
       color: color,
       child: new Flex(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: mainAxisAlignment,
         direction: Axis.horizontal,
         children: <Widget>[
-          new Text(text, style: new TextStyle(fontSize: 20.0))
+          new Text(text,
+              style: new TextStyle(fontSize: fontSize),
+              maxLines: maxLines,
+              overflow: TextOverflow.ellipsis)
         ],
       ),
     );

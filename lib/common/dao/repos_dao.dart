@@ -4,6 +4,8 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:whg_github/common/bean/event_view_model.dart';
 import 'package:whg_github/common/bean/file_item_view_model.dart';
+import 'package:whg_github/common/bean/push_code_item_view_model.dart';
+import 'package:whg_github/common/bean/push_header_view_model.dart';
 import 'package:whg_github/common/bean/repos_header_view_model.dart';
 import 'package:whg_github/common/bean/repos_view_model.dart';
 import 'package:whg_github/common/bean/trending_repo_model.dart';
@@ -444,6 +446,25 @@ class ReposDao {
       } else {
         return new DataResult(null, false);
       }
+    }
+  }
+
+  /**
+   * 获取仓库的单个提交详情
+   */
+  static getReposCommitsInfoDao(userName, reposName, sha) async {
+    String url = Address.getReposCommitsInfo(userName, reposName, sha);
+    var res = await HttpManager.fetch(url, null, null, null);
+    if (res != null && res.result) {
+      PushHeaderViewModel pushHeaderViewModel =
+          PushHeaderViewModel.forMap(res.data);
+      var files = res.data["files"];
+      for (int i = 0; i < files.length; i++) {
+        pushHeaderViewModel.files.add(PushCodeItemViewModel.fromMap(files[i]));
+      }
+      return new DataResult(pushHeaderViewModel, true);
+    } else {
+      return new DataResult(null, false);
     }
   }
 }

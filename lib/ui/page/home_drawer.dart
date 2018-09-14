@@ -91,19 +91,18 @@ class HomeDrawer extends StatelessWidget {
                               applicationLegalese: null,
                             ));
                   }),
-              Container(
-                margin: const EdgeInsets.only(
-                    left: 15.0, right: 15.0, top: 10.0, bottom: 10.0),
-                child: WhgFlexButton(
+              new ListTile(
+                  title: new WhgFlexButton(
                     text: WhgStrings.Login_out,
-                    color: Colors.red,
-                    textColor: Colors.white,
+                    color: Colors.redAccent,
+                    textColor: Color(WhgColors.textWhite),
                     onPress: () {
                       UserDao.clearAll(store);
                       EventDao.clearEvent(store);
                       NavigatorUtils.goLogin(context);
-                    }),
-              ),
+                    },
+                  ),
+                  onTap: () {}),
             ],
           ),
         );

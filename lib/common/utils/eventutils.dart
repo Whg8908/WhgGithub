@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:whg_github/common/utils/commonutils.dart';
 import 'package:whg_github/common/utils/navigatorutils.dart';
 
 /**
@@ -179,9 +180,14 @@ class EventUtils {
           }
           NavigatorUtils.goReposDetail(context, owner, repositoryName);
         } else if (event["payload"]["commits"].length == 1) {
-          //goToPush(repositoryName, owner, event.payload.commits[0].sha)
+          NavigatorUtils.goPushDetailPage(context, owner, repositoryName,
+              event["payload"]["commits"][0]["sha"], true);
         } else {
-          //Actions.OptionModal({dataList: getOptionItem(repositoryName, owner, event.payload.commits)});
+          CommonUtils.showCommitOptionDialog(
+              context, event["payload"]["commits"], (index) {
+            NavigatorUtils.goPushDetailPage(context, owner, repositoryName,
+                event["payload"]["commits"][index]["sha"], true);
+          });
         }
         break;
       case 'ReleaseEvent':

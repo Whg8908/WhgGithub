@@ -188,4 +188,45 @@ class CommonUtils {
           );
         });
   }
+
+  static Future<Null> showCommitOptionDialog(
+      BuildContext context, List commitMaps, ValueChanged<int> onTap) {
+    print(commitMaps.length);
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return Center(
+            child: new Container(
+              width: 250.0,
+              height: 400.0,
+              padding: new EdgeInsets.all(4.0),
+              margin: new EdgeInsets.all(20.0),
+              decoration: new BoxDecoration(
+                color: Colors.white,
+                //用一个BoxDecoration装饰器提供背景图片
+                borderRadius: BorderRadius.all(Radius.circular(4.0)),
+              ),
+              child: new ListView.builder(
+                  itemCount: commitMaps.length,
+                  itemBuilder: (context, index) {
+                    String itemName = commitMaps[index]["message"] +
+                        " " +
+                        commitMaps[index]["sha"].substring(0, 4);
+                    return WhgFlexButton(
+                      maxLines: 2,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      fontSize: 14.0,
+                      color: Color(WhgColors.primaryValue),
+                      text: itemName,
+                      textColor: Color(WhgColors.white),
+                      onPress: () {
+                        Navigator.pop(context);
+                        onTap(index);
+                      },
+                    );
+                  }),
+            ),
+          );
+        });
+  }
 }

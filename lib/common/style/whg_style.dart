@@ -353,4 +353,8 @@ class WhgICons {
 
   static const IconData MORE =
       const IconData(0xe674, fontFamily: WhgICons.FONT_FAMILY);
+
+  static const IconData PUSH_ITEM_EDIT = Icons.mode_edit;
+  static const IconData PUSH_ITEM_ADD = Icons.add_box;
+  static const IconData PUSH_ITEM_MIN = Icons.indeterminate_check_box;
 }

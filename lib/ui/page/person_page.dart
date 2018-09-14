@@ -157,6 +157,7 @@ class PersonPageState extends WhgListState<PersonPage> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return new Scaffold(
         appBar: new AppBar(
             title: WhgTitleBar(

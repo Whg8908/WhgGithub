@@ -9,6 +9,7 @@ import 'package:whg_github/ui/page/issue_detail_page.dart';
 import 'package:whg_github/ui/page/login_page.dart';
 import 'package:whg_github/ui/page/notify_page.dart';
 import 'package:whg_github/ui/page/person_page.dart';
+import 'package:whg_github/ui/page/push_detail_page.dart';
 import 'package:whg_github/ui/page/repository_detail_page.dart';
 import 'package:whg_github/ui/page/search_page.dart';
 
@@ -106,5 +107,19 @@ class NavigatorUtils {
   static Future<Null> goSearchPage(BuildContext context) {
     return Navigator.push(
         context, new MaterialPageRoute(builder: (context) => new SearchPage()));
+  }
+
+  ///提交详情
+  static Future<Null> goPushDetailPage(BuildContext context, String userName,
+      String reposName, String sha, bool needHomeIcon) {
+    return Navigator.push(
+        context,
+        new MaterialPageRoute(
+            builder: (context) => new PushDetailPage(
+                  sha,
+                  userName,
+                  reposName,
+                  needHomeIcon: needHomeIcon,
+                )));
   }
 }

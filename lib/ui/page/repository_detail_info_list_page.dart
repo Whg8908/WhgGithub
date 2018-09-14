@@ -3,6 +3,7 @@ import 'package:whg_github/common/bean/event_view_model.dart';
 import 'package:whg_github/common/bean/repos_header_view_model.dart';
 import 'package:whg_github/common/dao/repos_dao.dart';
 import 'package:whg_github/common/utils/eventutils.dart';
+import 'package:whg_github/common/utils/navigatorutils.dart';
 import 'package:whg_github/ui/base/whg_list_state.dart';
 import 'package:whg_github/ui/page/repository_detail_page.dart';
 import 'package:whg_github/ui/view/event_item.dart';
@@ -72,7 +73,12 @@ class RepositoryDetailInfoPageState
     if (selectIndex == 1) {
       return new EventItem(
         eventViewModel,
-        onPressed: () {},
+        onPressed: () {
+          EventViewModel model = pullLoadWidgetControl.dataList[index - 1];
+          var map = model.eventMap;
+          NavigatorUtils.goPushDetailPage(
+              context, userName, reposName, map["sha"], false);
+        },
         needImage: false,
       );
     }
