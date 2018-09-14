@@ -1,4 +1,3 @@
-
 /**
  * @Author by whg
  * @Email ghw8908@163.com
@@ -11,6 +10,9 @@
 class PushCodeItemViewModel {
   String path;
   String name;
+  String patch;
+
+  String blob_url;
 
   PushCodeItemViewModel();
 
@@ -19,5 +21,7 @@ class PushCodeItemViewModel {
     List<String> nameSplit = filename.split("/");
     name = nameSplit[nameSplit.length - 1];
     path = filename;
+    patch = map["patch"];
+    blob_url = map["blob_url"];
   }
 }

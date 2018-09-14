@@ -18,8 +18,9 @@ class WhgMarkdownWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+        padding: EdgeInsets.all(5.0),
         child: SingleChildScrollView(
-      child: MarkdownBody(data: markdownData),
-    ));
+          child: MarkdownBody(data: markdownData),
+        ));
   }
 }

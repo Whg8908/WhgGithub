@@ -29,17 +29,26 @@ class CodeDetailPage extends StatefulWidget {
 
   final String branch;
 
+  final String htmlUrl;
+
   CodeDetailPage(
       {this.userName,
       this.reposName,
       this.path,
       this.data,
       this.title,
-      this.branch});
+      this.branch,
+      this.htmlUrl});
 
   @override
-  CodeDetailPageState createState() => new CodeDetailPageState(this.userName,
-      this.reposName, this.path, this.data, this.title, this.branch);
+  CodeDetailPageState createState() => new CodeDetailPageState(
+      this.userName,
+      this.reposName,
+      this.path,
+      this.data,
+      this.title,
+      this.branch,
+      this.htmlUrl);
 }
 
 class CodeDetailPageState extends State<CodeDetailPage> {
@@ -55,8 +64,10 @@ class CodeDetailPageState extends State<CodeDetailPage> {
 
   final String branch;
 
+  final String htmlUrl;
+
   CodeDetailPageState(this.userName, this.reposName, this.path, this.data,
-      this.title, this.branch);
+      this.title, this.branch, this.htmlUrl);
 
   @override
   void initState() {
@@ -77,13 +88,16 @@ class CodeDetailPageState extends State<CodeDetailPage> {
   @override
   Widget build(BuildContext context) {
     String currentBranch = ((branch == null) ? "" : ("/" + branch));
-    String url = Address.hostWeb +
-        userName +
-        "/" +
-        reposName +
-        "/blob" +
-        currentBranch +
-        path;
+    String url = htmlUrl;
+    if (data == null) {
+      url = Address.hostWeb +
+          userName +
+          "/" +
+          reposName +
+          "/blob" +
+          currentBranch +
+          path;
+    }
 
     Widget widget = (data == null)
         ? new Center(

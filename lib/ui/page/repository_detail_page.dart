@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:whg_github/common/bean/bottom_status_view_model.dart';
 import 'package:whg_github/common/config/config.dart';
 import 'package:whg_github/common/dao/repos_dao.dart';
+import 'package:whg_github/common/net/address.dart';
 import 'package:whg_github/common/style/whg_style.dart';
 import 'package:whg_github/common/utils/commonutils.dart';
 import 'package:whg_github/ui/page/repository_detail_file_list_page.dart';
 import 'package:whg_github/ui/page/repository_detail_info_list_page.dart';
 import 'package:whg_github/ui/page/repository_detail_issue_list_page.dart';
 import 'package:whg_github/ui/page/repository_detail_readme_page.dart';
+import 'package:whg_github/ui/view/whg_common_option_widget.dart';
 import 'package:whg_github/ui/view/whg_icon_text.dart';
 import 'package:whg_github/ui/view/whg_tabbar_widget.dart';
 import 'package:whg_github/ui/view/whg_title_bar.dart';
@@ -232,6 +234,8 @@ class RepositoryDetailPageState extends State<RepositoryDetailPage> {
 
   @override
   Widget build(BuildContext context) {
+    String url = Address.hostWeb + userName + "/" + reposName;
+    Widget rightWidget = new WhgCommonOptionWidget(url);
     return new WhgTabBarWidget(
         type: WhgTabBarWidget.TOP_TAB,
         tarWidgetControl: tarBarControl,
@@ -282,7 +286,10 @@ class RepositoryDetailPageState extends State<RepositoryDetailPage> {
         topPageControl: topPageControl,
         backgroundColor: WhgColors.primarySwatch,
         indicatorColor: Colors.white,
-        title: WhgTitleBar(reposName));
+        title: WhgTitleBar(
+          reposName,
+          rightWidget: rightWidget,
+        ));
   }
 }
 

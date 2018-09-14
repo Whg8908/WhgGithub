@@ -83,7 +83,8 @@ class NavigatorUtils {
       String reposName,
       String path,
       String data,
-      String branch}) {
+      String branch,
+      String htmlUrl}) {
     Navigator.push(
         context,
         new MaterialPageRoute(
@@ -94,6 +95,7 @@ class NavigatorUtils {
                   path: path,
                   data: data,
                   branch: branch,
+                  htmlUrl: htmlUrl,
                 )));
   }
 
