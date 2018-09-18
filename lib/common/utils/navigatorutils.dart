@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:github/ui/base/common_list_page.dart';
 import 'package:github/ui/page/code_detail_page.dart';
+import 'package:github/ui/page/code_detail_page_web.dart';
 import 'package:github/ui/page/home_page.dart';
 import 'package:github/ui/page/issue_detail_page.dart';
 import 'package:github/ui/page/login_page.dart';
@@ -134,5 +135,26 @@ class NavigatorUtils {
         builder: (context) => new WhgWebView(url, title),
       ),
     );
+  }
+
+  static gotoCodeDetailPageWeb(BuildContext context,
+      {String title,
+      String userName,
+      String repoName,
+      String path,
+      String data,
+      String branch,
+      String htmlUrl}) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => CodeDetailPageWeb(
+                title: title,
+                userName: userName,
+                repoName: repoName,
+                path: path,
+                data: data,
+                branch: branch,
+                htmlUrl: htmlUrl)));
   }
 }
