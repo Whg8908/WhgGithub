@@ -1,6 +1,6 @@
 # github
 
-a github application
+A new Flutter application.
 
 ## Getting Started
 
