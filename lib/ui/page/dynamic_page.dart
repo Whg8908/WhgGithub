@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:github/common/bean/event_view_model.dart';
+import 'package:github/common/bean/Event.dart';
 import 'package:github/common/dao/event_dao.dart';
 import 'package:github/common/redux/whg_state.dart';
 import 'package:github/common/utils/eventutils.dart';
+import 'package:github/common/viewmodel/event_view_model.dart';
 import 'package:github/ui/base/whg_list_state.dart';
 import 'package:github/ui/view/event_item.dart';
 import 'package:github/ui/view/whg_pullload_widget.dart';
@@ -44,11 +45,13 @@ class DynamicPageState extends WhgListState<DynamicPage> {
   @override
   List get getDataList => _getStore().state.eventList;
 
-  _renderEventItem(EventViewModel e) {
+  _renderEventItem(Event e) {
+    EventViewModel eventViewModel = EventViewModel.fromEventMap(e);
+
     return new EventItem(
-      e,
+      eventViewModel,
       onPressed: () {
-        EventUtils.ActionUtils(context, e.eventMap, "");
+        EventUtils.ActionUtils(context, e, "");
       },
     );
   }

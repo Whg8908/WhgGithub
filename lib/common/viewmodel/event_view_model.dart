@@ -1,3 +1,5 @@
+import 'package:github/common/bean/Event.dart';
+import 'package:github/common/bean/RepoCommit.dart';
 import 'package:github/common/style/whg_style.dart';
 import 'package:github/common/utils/commonutils.dart';
 import 'package:github/common/utils/eventutils.dart';
@@ -10,24 +12,20 @@ class EventViewModel {
   String actionTarget;
   var eventMap;
 
-  EventViewModel.fromEventMap(eventMap) {
-    actionTime =
-        CommonUtils.getNewsTimeStr(DateTime.parse(eventMap["created_at"]));
-    actionUser = eventMap["actor"]["display_login"];
-    actionUserPic = eventMap["actor"]["avatar_url"];
-    var other = EventUtils.getActionAndDes(eventMap);
+  EventViewModel.fromEventMap(Event event) {
+    actionTime = CommonUtils.getNewsTimeStr(event.createdAt);
+    actionUser = event.actor.login;
+    actionUserPic = event.actor.avatar_url;
+    var other = EventUtils.getActionAndDes(event);
     actionDes = other["des"];
     actionTarget = other["actionStr"];
-    this.eventMap = eventMap;
   }
 
-  EventViewModel.fromCommitMap(eventMap) {
-    actionTime = CommonUtils.getNewsTimeStr(
-        DateTime.parse(eventMap["commit"]["committer"]["date"]));
-    actionUser = eventMap["commit"]["committer"]["name"];
-    actionDes = "sha:" + eventMap["sha"];
-    actionTarget = eventMap["commit"]["message"];
-    this.eventMap = eventMap;
+  EventViewModel.fromCommitMap(RepoCommit eventMap) {
+    actionTime = CommonUtils.getNewsTimeStr(eventMap.commit.committer.date);
+    actionUser = eventMap.commit.committer.name;
+    actionDes = "sha:" + eventMap.sha;
+    actionTarget = eventMap.commit.message;
   }
 
   EventViewModel.fromNotify(eventMap) {

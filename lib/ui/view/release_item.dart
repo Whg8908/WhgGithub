@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:github/common/bean/release_view_model.dart';
 import 'package:github/common/style/whg_style.dart';
+import 'package:github/common/viewmodel/release_view_model.dart';
 import 'package:github/ui/view/card_item.dart';
 
 class ReleaseItem extends StatelessWidget {
@@ -18,10 +18,10 @@ class ReleaseItem extends StatelessWidget {
       child: new WhgCardItem(
         child: new InkWell(
           onTap: onPressed,
-          onLongPress: () {},
+          onLongPress: onLongPress,
           child: new Padding(
             padding: new EdgeInsets.only(
-                left: 0.0, top: 5.0, right: 0.0, bottom: 10.0),
+                left: 10.0, top: 15.0, right: 10.0, bottom: 15.0),
             child: new Row(
               children: <Widget>[
                 new Expanded(

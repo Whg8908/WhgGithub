@@ -67,7 +67,7 @@ class IssueHeaderItem extends StatelessWidget {
                 children: <Widget>[
                   new WhgUserIconWidget(
                       padding: const EdgeInsets.only(
-                          top: 0.0, right: 5.0, left: 0.0),
+                          top: 0.0, right: 10.0, left: 0.0),
                       width: 50.0,
                       height: 50.0,
                       image: issueHeaderViewModel.actionUserPic,

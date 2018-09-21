@@ -1,10 +1,10 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:github/common/bean/issue_item_view_model.dart';
 import 'package:github/common/net/address.dart';
 import 'package:github/common/net/data_result.dart';
 import 'package:github/common/net/httpmanager.dart';
+import 'package:github/common/viewmodel/issue_item_view_model.dart';
 import 'package:github/ui/page/issue_header_view_model.dart';
 
 /**

@@ -19,8 +19,10 @@ class ReleaseItemViewModel {
   ReleaseItemViewModel();
 
   ReleaseItemViewModel.fromMap(map) {
-    actionTime =
-        CommonUtils.getNewsTimeStr(DateTime.parse(map["published_at"]));
+    if (map["published_at"] != null) {
+      actionTime =
+          CommonUtils.getNewsTimeStr(DateTime.parse(map["published_at"]));
+    }
     actionTitle = map["name"] ?? map["tag_name"];
     actionTarget = map["target_commitish"];
     actionTargetHtml = map["body_html"];

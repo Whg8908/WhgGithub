@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:github/common/bean/filter_model.dart';
 import 'package:github/common/style/whg_style.dart';
+import 'package:github/common/viewmodel/filter_model.dart';
 
 /**
  * @Author by whg

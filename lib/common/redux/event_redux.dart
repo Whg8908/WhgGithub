@@ -1,13 +1,13 @@
-import 'package:github/common/bean/event_view_model.dart';
+import 'package:github/common/bean/Event.dart';
 import 'package:redux/redux.dart';
 
-final EventReducer = combineReducers<List<EventViewModel>>([
-  TypedReducer<List<EventViewModel>, RefreshEventAction>(_refresh),
-  TypedReducer<List<EventViewModel>, LoadMoreEventAction>(_loadMore),
+final EventReducer = combineReducers<List<Event>>([
+  TypedReducer<List<Event>, RefreshEventAction>(_refresh),
+  TypedReducer<List<Event>, LoadMoreEventAction>(_loadMore),
 ]);
 
 //刷新
-List<EventViewModel> _refresh(List<EventViewModel> list, action) {
+List<Event> _refresh(List<Event> list, action) {
   list.clear();
   if (action.list == null) {
     return list;
@@ -18,7 +18,7 @@ List<EventViewModel> _refresh(List<EventViewModel> list, action) {
 }
 
 //加载更多
-List<EventViewModel> _loadMore(List<EventViewModel> list, action) {
+List<Event> _loadMore(List<Event> list, action) {
   if (action.list != null) {
     list.addAll(action.list);
   }
@@ -26,13 +26,13 @@ List<EventViewModel> _loadMore(List<EventViewModel> list, action) {
 }
 
 class RefreshEventAction {
-  final List<EventViewModel> list;
+  final List<Event> list;
 
   RefreshEventAction(this.list);
 }
 
 class LoadMoreEventAction {
-  final List<EventViewModel> list;
+  final List<Event> list;
 
   LoadMoreEventAction(this.list);
 }

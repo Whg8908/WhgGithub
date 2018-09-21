@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:github/common/bean/repos_header_view_model.dart';
 import 'package:github/common/style/whg_style.dart';
 import 'package:github/common/utils/navigatorutils.dart';
+import 'package:github/common/viewmodel/repos_header_view_model.dart';
 import 'package:github/ui/view/card_item.dart';
 import 'package:github/ui/view/repository_issue_list_header.dart';
 import 'package:github/ui/view/whg_icon_text.dart';

@@ -1,5 +1,5 @@
-import 'package:github/common/bean/push_code_item_view_model.dart';
 import 'package:github/common/utils/commonutils.dart';
+import 'package:github/common/viewmodel/push_code_item_view_model.dart';
 
 /**
  * @Author by whg

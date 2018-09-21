@@ -28,7 +28,6 @@ class User extends Object with _$UserSerializerMixin {
       this.blog,
       this.location,
       this.email,
-      this.hireable,
       this.starred,
       this.bio,
       this.public_repos,
@@ -67,7 +66,6 @@ class User extends Object with _$UserSerializerMixin {
   String blog;
   String location;
   String email;
-  String hireable;
   String starred;
   String bio;
   int public_repos;
@@ -90,4 +88,5 @@ class User extends Object with _$UserSerializerMixin {
 
   // 命名构造函数
   User.empty();
+
 }

@@ -1,14 +1,14 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:github/common/bean/push_code_item_view_model.dart';
-import 'package:github/common/bean/push_header_view_model.dart';
 import 'package:github/common/dao/repos_dao.dart';
 import 'package:github/common/net/address.dart';
 import 'package:github/common/style/whg_style.dart';
 import 'package:github/common/utils/commonutils.dart';
 import 'package:github/common/utils/htmlutils.dart';
 import 'package:github/common/utils/navigatorutils.dart';
+import 'package:github/common/viewmodel/push_code_item_view_model.dart';
+import 'package:github/common/viewmodel/push_header_view_model.dart';
 import 'package:github/ui/base/whg_list_state.dart';
 import 'package:github/ui/view/push_code_item.dart';
 import 'package:github/ui/view/push_header.dart';

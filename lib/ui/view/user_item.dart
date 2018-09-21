@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:github/common/bean/user_item_view_model.dart';
 import 'package:github/common/style/whg_style.dart';
+import 'package:github/common/viewmodel/user_item_view_model.dart';
 import 'package:github/ui/view/card_item.dart';
 /**
  * @Author by whg
@@ -25,7 +25,7 @@ class UserItem extends StatelessWidget {
         padding: EdgeInsets.only(right: 10.0),
         icon: ClipOval(
           child: new FadeInImage.assetNetwork(
-            placeholder: "static/images/logo.png",
+            placeholder: WhgICons.DEFAULT_USER_ICON,
             //预览图
             fit: BoxFit.fitWidth,
             image: userItemViewModel.userPic,

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:github/common/bean/push_code_item_view_model.dart';
 import 'package:github/common/style/whg_style.dart';
+import 'package:github/common/viewmodel/push_code_item_view_model.dart';
 import 'package:github/ui/view/card_item.dart';
 
 /**

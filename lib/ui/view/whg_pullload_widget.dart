@@ -97,7 +97,7 @@ class WhgPullLoadWidgetState extends State<WhgPullLoadWidget> {
           FlatButton(
             onPressed: () {},
             child: new Image(
-                image: new AssetImage('static/images/logo.png'),
+                image: new AssetImage(WhgICons.DEFAULT_USER_ICON),
                 width: 70.0,
                 height: 70.0),
           ),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:github/common/bean/push_header_view_model.dart';
 import 'package:github/common/style/whg_style.dart';
 import 'package:github/common/utils/navigatorutils.dart';
+import 'package:github/common/viewmodel/push_header_view_model.dart';
 import 'package:github/ui/view/card_item.dart';
 import 'package:github/ui/view/whg_icon_text.dart';
 
@@ -35,7 +35,7 @@ class PushHeader extends StatelessWidget {
                     new IconButton(
                         icon: new ClipOval(
                           child: new FadeInImage.assetNetwork(
-                            placeholder: "static/images/logo.png",
+                            placeholder: WhgICons.DEFAULT_USER_ICON,
                             //预览图
                             fit: BoxFit.fitWidth,
                             image: pushHeaderViewModel.actionUserPic,

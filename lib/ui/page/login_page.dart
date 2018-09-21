@@ -57,73 +57,79 @@ class LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return StoreBuilder<WhgState>(builder: (context, store) {
-      return Container(
-        color: Color(WhgColors.primaryValue),
-        child: Center(
-          child: Card(
-            color: Color(WhgColors.cardWhite),
-            margin: const EdgeInsets.all(30.0),
-            child: Padding(
-              padding: const EdgeInsets.only(
-                  left: 20.0, top: 60.0, right: 30.0, bottom: 80.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  Image(
-                    image: AssetImage('static/images/logo.png'),
-                    width: 80.0,
-                    height: 80.0,
-                  ),
-                  SizedBox(
-                    height: 10.0,
-                  ),
-                  WhgInputWidget(
-                    hintText: WhgStrings.login_username_hint_text,
-                    iconData: WhgICons.LOGIN_USER,
-                    onChange: (String value) {
-                      _userName = value;
-                    },
-                    controller: _userNameController,
-                  ),
-                  SizedBox(
-                    height: 10.0,
-                  ),
-                  WhgInputWidget(
-                    hintText: WhgStrings.login_password_hint_text,
-                    obscureText: true,
-                    iconData: WhgICons.LOGIN_PW,
-                    onChange: (String value) {
-                      _passWord = value;
-                    },
-                    controller: _passWordController,
-                  ),
-                  SizedBox(
-                    height: 30.0,
-                  ),
-                  WhgFlexButton(
-                    text: WhgStrings.login_text,
-                    color: Color(WhgColors.primaryValue),
-                    textColor: Color(WhgColors.textWhite),
-                    onPress: () {
-                      if (_userName == null || _userName.length == 0) {
-                        return;
-                      }
-                      if (_passWord == null || _passWord.length == 0) {
-                        return;
-                      }
-                      CommonUtils.showLoadingDialog(context);
-                      UserDao.login(_userName, _passWord, store).then((res) {
-                        Navigator.pop(context);
-                        if (res != null && res.result) {
-                          new Future.delayed(const Duration(seconds: 1), () {
-                            NavigatorUtils.goHome(context);
-                          });
+      return new GestureDetector(
+        behavior: HitTestBehavior.translucent,
+        onTap: () {
+          FocusScope.of(context).requestFocus(new FocusNode());
+        },
+        child: Container(
+          color: Color(WhgColors.primaryValue),
+          child: Center(
+            child: Card(
+              color: Color(WhgColors.cardWhite),
+              margin: const EdgeInsets.all(30.0),
+              child: Padding(
+                padding: const EdgeInsets.only(
+                    left: 20.0, top: 60.0, right: 30.0, bottom: 80.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Image(
+                      image: AssetImage(WhgICons.DEFAULT_USER_ICON),
+                      width: 80.0,
+                      height: 80.0,
+                    ),
+                    SizedBox(
+                      height: 10.0,
+                    ),
+                    WhgInputWidget(
+                      hintText: WhgStrings.login_username_hint_text,
+                      iconData: WhgICons.LOGIN_USER,
+                      onChange: (String value) {
+                        _userName = value;
+                      },
+                      controller: _userNameController,
+                    ),
+                    SizedBox(
+                      height: 10.0,
+                    ),
+                    WhgInputWidget(
+                      hintText: WhgStrings.login_password_hint_text,
+                      obscureText: true,
+                      iconData: WhgICons.LOGIN_PW,
+                      onChange: (String value) {
+                        _passWord = value;
+                      },
+                      controller: _passWordController,
+                    ),
+                    SizedBox(
+                      height: 30.0,
+                    ),
+                    WhgFlexButton(
+                      text: WhgStrings.login_text,
+                      color: Color(WhgColors.primaryValue),
+                      textColor: Color(WhgColors.textWhite),
+                      onPress: () {
+                        if (_userName == null || _userName.length == 0) {
+                          return;
                         }
-                      });
-                    },
-                  ),
-                ],
+                        if (_passWord == null || _passWord.length == 0) {
+                          return;
+                        }
+                        CommonUtils.showLoadingDialog(context);
+                        UserDao.login(_userName, _passWord, store).then((res) {
+                          Navigator.pop(context);
+                          if (res != null && res.result) {
+                            new Future.delayed(const Duration(seconds: 1), () {
+                              NavigatorUtils.goHome(context);
+                            });
+                          }
+                        });
+                      },
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

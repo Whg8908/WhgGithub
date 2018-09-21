@@ -64,7 +64,7 @@ class UserHeaderItem extends StatelessWidget {
         children: <Widget>[
           ClipOval(
             child: FadeInImage.assetNetwork(
-              placeholder: "static/images/logo.png",
+              placeholder: WhgICons.DEFAULT_USER_ICON,
               image: userInfo.avatar_url == null ? "" : userInfo.avatar_url,
               fit: BoxFit.fitWidth,
               width: 80.0,

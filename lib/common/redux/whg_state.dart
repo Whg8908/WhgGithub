@@ -1,11 +1,11 @@
+import 'package:github/common/bean/Event.dart';
 import 'package:github/common/bean/User.dart';
-import 'package:github/common/bean/event_view_model.dart';
 import 'package:github/common/redux/event_redux.dart';
 import 'package:github/common/redux/user_redux.dart';
 
 class WhgState {
   User userInfo;
-  List<EventViewModel> eventList = new List();
+  List<Event> eventList = new List();
   WhgState({this.userInfo, this.eventList});
 }
 

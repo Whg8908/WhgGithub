@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:github/common/bean/bottom_status_view_model.dart';
-import 'package:github/common/bean/whg_option_model.dart';
 import 'package:github/common/config/config.dart';
 import 'package:github/common/dao/repos_dao.dart';
 import 'package:github/common/net/address.dart';
 import 'package:github/common/style/whg_style.dart';
 import 'package:github/common/utils/commonutils.dart';
 import 'package:github/common/utils/navigatorutils.dart';
+import 'package:github/common/viewmodel/bottom_status_view_model.dart';
+import 'package:github/common/viewmodel/whg_option_model.dart';
 import 'package:github/ui/page/repository_detail_file_list_page.dart';
 import 'package:github/ui/page/repository_detail_info_list_page.dart';
 import 'package:github/ui/page/repository_detail_issue_list_page.dart';

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:github/common/bean/issue_item_view_model.dart';
 import 'package:github/common/dao/issue_dao.dart';
 import 'package:github/common/style/whg_style.dart';
 import 'package:github/common/utils/commonutils.dart';
 import 'package:github/common/utils/navigatorutils.dart';
+import 'package:github/common/viewmodel/issue_item_view_model.dart';
 import 'package:github/ui/base/whg_list_state.dart';
 import 'package:github/ui/view/issue_item.dart';
 import 'package:github/ui/view/repository_issue_list_header.dart';

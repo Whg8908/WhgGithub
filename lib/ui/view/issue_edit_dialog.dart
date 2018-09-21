@@ -79,81 +79,90 @@ class IssueEditDialogState extends State<IssueEditDialog> {
               obscureText: false,
             ))
         : new Container();
-    return new WhgCardItem(
-      margin: EdgeInsets.all(50.0),
-      shape: new RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(10.0))),
-      child: new Padding(
-        padding: new EdgeInsets.all(12.0),
-        child: new Column(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            new Padding(
-                padding: new EdgeInsets.only(top: 5.0, bottom: 15.0),
-                child: new Center(
-                  child:
-                      new Text(dialogTitle, style: WhgConstant.normalTextBold),
-                )),
-            title,
-            new Container(height: 10.0),
-            new Center(child: new Text("Title")),
-            new WhgInputWidget(
-              hintText: WhgStrings.issue_edit_issue_content_tip,
-              obscureText: false,
-            ),
-            new Container(height: 10.0),
-            new Container(
-              height: MediaQuery.of(context).size.width * 3 / 4,
-              decoration: new BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(4.0)),
-                color: Colors.white,
-                border: new Border.all(
-                    color: Color(WhgColors.subTextColor), width: .3),
-              ),
-              padding: new EdgeInsets.only(
-                  left: 20.0, top: 12.0, right: 20.0, bottom: 12.0),
-              child: new TextField(
-                autofocus: false,
-                onChanged: onContentChanged,
-                controller: valueController,
-                decoration: new InputDecoration.collapsed(
-                  hintText: WhgStrings.repos_issue_search,
-                  hintStyle: WhgConstant.middleSubText,
-                ),
-                style: WhgConstant.middleText,
-              ),
-            ),
-            new Container(height: 10.0),
-            new Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                new Expanded(
-                    child: RawMaterialButton(
-                        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                        padding: EdgeInsets.all(4.0),
-                        constraints:
-                            const BoxConstraints(minWidth: 0.0, minHeight: 0.0),
-                        child: new Text(WhgStrings.app_cancel,
-                            style: WhgConstant.subNormalText),
-                        onPressed: () {
-                          Navigator.pop(context);
-                        })),
-                new Container(
-                    width: 0.3,
-                    height: 25.0,
-                    color: Color(WhgColors.subTextColor)),
-                new Expanded(
-                    child: RawMaterialButton(
-                        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                        padding: EdgeInsets.all(4.0),
-                        constraints:
-                            const BoxConstraints(minWidth: 0.0, minHeight: 0.0),
-                        child: new Text(WhgStrings.app_ok,
+    return new Container(
+      height: MediaQuery.of(context).size.height,
+      width: MediaQuery.of(context).size.width,
+      color: Colors.black12,
+      child: new GestureDetector(
+        behavior: HitTestBehavior.translucent,
+        onTap: () {
+          FocusScope.of(context).requestFocus(new FocusNode());
+        },
+        child: new Center(
+          child: new WhgCardItem(
+            margin: EdgeInsets.all(50.0),
+            shape: new RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(10.0))),
+            child: new Padding(
+              padding: new EdgeInsets.all(12.0),
+              child: new Column(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  new Padding(
+                      padding: new EdgeInsets.only(top: 5.0, bottom: 15.0),
+                      child: new Center(
+                        child: new Text(dialogTitle,
                             style: WhgConstant.normalTextBold),
-                        onPressed: () {})),
-              ],
-            )
-          ],
+                      )),
+                  title,
+                  new Container(
+                    height: MediaQuery.of(context).size.width * 3 / 4,
+                    decoration: new BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(4.0)),
+                      color: Colors.white,
+                      border: new Border.all(
+                          color: Color(WhgColors.subTextColor), width: .3),
+                    ),
+                    padding: new EdgeInsets.only(
+                        left: 20.0, top: 12.0, right: 20.0, bottom: 12.0),
+                    child: new TextField(
+                      autofocus: false,
+                      maxLines: 999,
+                      onChanged: onContentChanged,
+                      controller: valueController,
+                      decoration: new InputDecoration.collapsed(
+                        hintText: WhgStrings.issue_edit_issue_title_tip,
+                        hintStyle: WhgConstant.middleSubText,
+                      ),
+                      style: WhgConstant.middleText,
+                    ),
+                  ),
+                  new Container(height: 10.0),
+                  new Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      new Expanded(
+                          child: new RawMaterialButton(
+                              materialTapTargetSize:
+                                  MaterialTapTargetSize.shrinkWrap,
+                              padding: EdgeInsets.all(4.0),
+                              constraints: const BoxConstraints(
+                                  minWidth: 0.0, minHeight: 0.0),
+                              child: new Text(WhgStrings.app_cancel,
+                                  style: WhgConstant.subNormalText),
+                              onPressed: () {
+                                Navigator.pop(context);
+                              })),
+                      new Container(
+                          width: 0.3,
+                          height: 25.0,
+                          color: Color(WhgColors.subTextColor)),
+                      new Expanded(
+                          child: new RawMaterialButton(
+                              materialTapTargetSize:
+                                  MaterialTapTargetSize.shrinkWrap,
+                              padding: EdgeInsets.all(4.0),
+                              constraints: const BoxConstraints(
+                                  minWidth: 0.0, minHeight: 0.0),
+                              child: new Text(WhgStrings.app_ok,
+                                  style: WhgConstant.normalTextBold),
+                              onPressed: onPressed)),
+                    ],
+                  )
+                ],
+              ),
+            ),
+          ),
         ),
       ),
     );

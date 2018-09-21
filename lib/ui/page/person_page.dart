@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:github/common/bean/Event.dart';
 import 'package:github/common/bean/User.dart';
 import 'package:github/common/dao/event_dao.dart';
 import 'package:github/common/dao/repos_dao.dart';
@@ -9,6 +10,7 @@ import 'package:github/common/style/whg_style.dart';
 import 'package:github/common/utils/commonutils.dart';
 import 'package:github/common/utils/eventutils.dart';
 import 'package:github/common/utils/navigatorutils.dart';
+import 'package:github/common/viewmodel/event_view_model.dart';
 import 'package:github/ui/base/whg_list_state.dart';
 import 'package:github/ui/view/event_item.dart';
 import 'package:github/ui/view/user_header_item.dart';
@@ -140,10 +142,9 @@ class PersonPageState extends WhgListState<PersonPage> {
             context, pullLoadWidgetControl.dataList[index - 1].userName);
       });
     } else {
-      return new EventItem(pullLoadWidgetControl.dataList[index - 1],
-          onPressed: () {
-        EventUtils.ActionUtils(
-            context, pullLoadWidgetControl.dataList[index - 1].eventMap, "");
+      Event event = pullLoadWidgetControl.dataList[index - 1];
+      return new EventItem(EventViewModel.fromEventMap(event), onPressed: () {
+        EventUtils.ActionUtils(context, event, "");
       });
     }
   }

@@ -84,33 +84,34 @@ class CommonUtils {
     return showDialog(
         context: context,
         builder: (BuildContext context) {
-          return Material(
-            color: Colors.transparent,
-            child: Center(
-              child: new Container(
-                width: 200.0,
-                height: 200.0,
-                padding: new EdgeInsets.all(4.0),
-                decoration: new BoxDecoration(
-                  color: Colors.transparent,
-                  //用一个BoxDecoration装饰器提供背景图片
-                  borderRadius: BorderRadius.all(Radius.circular(4.0)),
-                ),
-                child: new Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    SpinKitCubeGrid(
-                      color: Colors.white,
+          return new Material(
+              color: Colors.transparent,
+              child: WillPopScope(
+                onWillPop: () => new Future.value(false),
+                child: Center(
+                  child: new Container(
+                    width: 200.0,
+                    height: 200.0,
+                    padding: new EdgeInsets.all(4.0),
+                    decoration: new BoxDecoration(
+                      color: Colors.transparent,
+                      //用一个BoxDecoration装饰器提供背景图片
+                      borderRadius: BorderRadius.all(Radius.circular(4.0)),
                     ),
-                    new Container(height: 10.0),
-                    new Container(
-                        child: new Text(WhgStrings.loading_text,
-                            style: WhgConstant.middleTextWhite)),
-                  ],
+                    child: new Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        new Container(
+                            child: SpinKitCubeGrid(color: Colors.white)),
+                        new Container(height: 10.0),
+                        new Container(
+                            child: new Text(WhgStrings.loading_text,
+                                style: WhgConstant.normalTextWhite)),
+                      ],
+                    ),
+                  ),
                 ),
-              ),
-            ),
-          );
+              ));
         });
   }
 
@@ -248,7 +249,7 @@ class CommonUtils {
                 applicationName: WhgStrings.app_name,
                 applicationVersion: WhgStrings.app_version + ": " + versionName,
                 applicationIcon: new Image(
-                    image: new AssetImage('static/images/logo.png'),
+                    image: new AssetImage(WhgICons.DEFAULT_USER_ICON),
                     width: 50.0,
                     height: 50.0),
                 applicationLegalese: "http://github.com/Whg8908",
@@ -297,5 +298,24 @@ class CommonUtils {
               .toString(),
           title);
     }
+  }
+
+  /// 单击提示退出
+  static Future<bool> dialogExitApp(BuildContext context) {
+    return showDialog(
+        context: context,
+        builder: (context) => new AlertDialog(
+              content: new Text(WhgStrings.app_back_tip),
+              actions: <Widget>[
+                new FlatButton(
+                    onPressed: () => Navigator.of(context).pop(false),
+                    child: new Text(WhgStrings.app_cancel)),
+                new FlatButton(
+                    onPressed: () {
+                      Navigator.of(context).pop(true);
+                    },
+                    child: new Text(WhgStrings.app_ok))
+              ],
+            ));
   }
 }

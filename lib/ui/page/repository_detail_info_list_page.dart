@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:github/common/bean/event_view_model.dart';
-import 'package:github/common/bean/repos_header_view_model.dart';
+import 'package:github/common/bean/RepoCommit.dart';
 import 'package:github/common/dao/repos_dao.dart';
 import 'package:github/common/utils/eventutils.dart';
 import 'package:github/common/utils/navigatorutils.dart';
+import 'package:github/common/viewmodel/event_view_model.dart';
+import 'package:github/common/viewmodel/repos_header_view_model.dart';
 import 'package:github/ui/base/whg_list_state.dart';
 import 'package:github/ui/page/repository_detail_page.dart';
 import 'package:github/ui/view/event_item.dart';
@@ -68,25 +69,26 @@ class RepositoryDetailInfoPageState
       });
     }
 
-    EventViewModel eventViewModel = pullLoadWidgetControl.dataList[index - 1];
-
     if (selectIndex == 1) {
       return new EventItem(
-        eventViewModel,
+        EventViewModel.fromCommitMap(pullLoadWidgetControl.dataList[index - 1]),
         onPressed: () {
-          EventViewModel model = pullLoadWidgetControl.dataList[index - 1];
-          var map = model.eventMap;
+          RepoCommit model = pullLoadWidgetControl.dataList[index - 1];
           NavigatorUtils.goPushDetailPage(
-              context, userName, reposName, map["sha"], false);
+              context, userName, reposName, model.sha, false);
         },
         needImage: false,
       );
     }
-
-    return new EventItem(eventViewModel, onPressed: () {
-      EventUtils.ActionUtils(
-          context, eventViewModel.eventMap, userName + "/" + reposName);
-    }, needImage: true);
+    return new EventItem(
+      EventViewModel.fromEventMap(pullLoadWidgetControl.dataList[index - 1]),
+      onPressed: () {
+        EventUtils.ActionUtils(
+            context,
+            pullLoadWidgetControl.dataList[index - 1],
+            userName + "/" + reposName);
+      },
+    );
   }
 
   _getDataLogic() async {

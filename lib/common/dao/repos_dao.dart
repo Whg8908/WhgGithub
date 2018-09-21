@@ -2,19 +2,20 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:github/common/bean/event_view_model.dart';
-import 'package:github/common/bean/file_item_view_model.dart';
-import 'package:github/common/bean/push_code_item_view_model.dart';
-import 'package:github/common/bean/push_header_view_model.dart';
-import 'package:github/common/bean/release_view_model.dart';
-import 'package:github/common/bean/repos_header_view_model.dart';
-import 'package:github/common/bean/repos_view_model.dart';
-import 'package:github/common/bean/trending_repo_model.dart';
-import 'package:github/common/bean/user_item_view_model.dart';
+import 'package:github/common/bean/Event.dart';
+import 'package:github/common/bean/RepoCommit.dart';
 import 'package:github/common/net/address.dart';
 import 'package:github/common/net/data_result.dart';
 import 'package:github/common/net/httpmanager.dart';
 import 'package:github/common/net/trend/github_trend.dart';
+import 'package:github/common/viewmodel/file_item_view_model.dart';
+import 'package:github/common/viewmodel/push_code_item_view_model.dart';
+import 'package:github/common/viewmodel/push_header_view_model.dart';
+import 'package:github/common/viewmodel/release_view_model.dart';
+import 'package:github/common/viewmodel/repos_header_view_model.dart';
+import 'package:github/common/viewmodel/repos_view_model.dart';
+import 'package:github/common/viewmodel/trending_repo_model.dart';
+import 'package:github/common/viewmodel/user_item_view_model.dart';
 
 /**
  * @Author by whg
@@ -93,13 +94,13 @@ class ReposDao {
 
     var res = await HttpManager.fetch(url, null, null, null);
     if (res != null && res.result) {
-      List<EventViewModel> list = new List();
+      List<Event> list = new List();
       var data = res.data;
       if (data == null || data.length == 0) {
         return new DataResult(null, false);
       }
       for (int i = 0; i < data.length; i++) {
-        list.add(EventViewModel.fromEventMap(data[i]));
+        list.add(Event.fromJson(data[i]));
       }
       return new DataResult(list, true);
     } else {
@@ -135,13 +136,13 @@ class ReposDao {
 
     var res = await HttpManager.fetch(url, null, null, null);
     if (res != null && res.result) {
-      List<EventViewModel> list = new List();
+      List<RepoCommit> list = new List();
       var data = res.data;
       if (data == null || data.length == 0) {
         return new DataResult(null, false);
       }
       for (int i = 0; i < data.length; i++) {
-        list.add(EventViewModel.fromCommitMap(data[i]));
+        list.add(RepoCommit.fromJson(data[i]));
       }
       return new DataResult(list, true);
     } else {

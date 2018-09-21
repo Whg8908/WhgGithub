@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:github/common/bean/repos_view_model.dart';
-import 'package:github/common/bean/trend_type_model.dart';
 import 'package:github/common/dao/repos_dao.dart';
 import 'package:github/common/style/whg_style.dart';
 import 'package:github/common/utils/navigatorutils.dart';
+import 'package:github/common/viewmodel/repos_view_model.dart';
+import 'package:github/common/viewmodel/trend_type_model.dart';
 import 'package:github/ui/base/whg_list_state.dart';
 import 'package:github/ui/view/card_item.dart';
 import 'package:github/ui/view/repos_item.dart';

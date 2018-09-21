@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:github/common/bean/event_view_model.dart';
+import 'package:github/common/bean/Event.dart';
 import 'package:github/common/dao/event_dao.dart';
 import 'package:github/common/dao/repos_dao.dart';
 import 'package:github/common/dao/user_dao.dart';
 import 'package:github/common/redux/whg_state.dart';
 import 'package:github/common/style/whg_style.dart';
 import 'package:github/common/utils/eventutils.dart';
+import 'package:github/common/viewmodel/event_view_model.dart';
 import 'package:github/ui/base/whg_list_state.dart';
 import 'package:github/ui/view/event_item.dart';
 import 'package:github/ui/view/user_header_item.dart';
@@ -86,14 +87,12 @@ class MyPageState extends WhgListState<MyPage> {
       );
     }
 
-    EventViewModel eventViewModel = pullLoadWidgetControl.dataList[index - 1];
-
+    Event event = pullLoadWidgetControl.dataList[index - 1];
     return new EventItem(
-      eventViewModel,
-      onPressed: () {
-        EventUtils.ActionUtils(context, eventViewModel.eventMap, "");
-      },
-    );
+        EventViewModel.fromEventMap(pullLoadWidgetControl.dataList[index - 1]),
+        onPressed: () {
+      EventUtils.ActionUtils(context, event, "");
+    });
   }
 
   _getUserName() {

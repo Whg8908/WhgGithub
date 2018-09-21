@@ -1,14 +1,21 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
-import 'package:github/common/bean/release_view_model.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:github/common/dao/repos_dao.dart';
 import 'package:github/common/net/address.dart';
 import 'package:github/common/style/whg_style.dart';
+import 'package:github/common/utils/commonutils.dart';
+import 'package:github/common/utils/htmlutils.dart';
+import 'package:github/common/utils/navigatorutils.dart';
+import 'package:github/common/viewmodel/release_view_model.dart';
 import 'package:github/ui/base/whg_list_state.dart';
 import 'package:github/ui/view/release_item.dart';
 import 'package:github/ui/view/repository_issue_list_header.dart';
 import 'package:github/ui/view/whg_common_option_widget.dart';
 import 'package:github/ui/view/whg_pullload_widget.dart';
 import 'package:github/ui/view/whg_title_bar.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ReleasePage extends StatefulWidget {
   final String userName;
@@ -37,9 +44,42 @@ class _ReleasePageState extends WhgListState<ReleasePage> {
         pullLoadWidgetControl.dataList[index];
     return new ReleaseItem(
       releaseItemViewModel,
-      onPressed: () {},
-      onLongPress: () {},
+      onPressed: () {
+        if (selectIndex == 0) {
+          if (Platform.isIOS) {
+            NavigatorUtils.gotoCodeDetailPage(
+              context,
+              title: releaseItemViewModel.actionTitle,
+              userName: userName,
+              reposName: reposName,
+              data: HtmlUtils.generateHtml(
+                  releaseItemViewModel.actionTargetHtml,
+                  backgroundColor: WhgColors.webDraculaBackgroundColorString),
+            );
+          } else {
+            String html = HtmlUtils.generateHtml(
+                releaseItemViewModel.actionTargetHtml,
+                backgroundColor: WhgColors.miWhiteString,
+                userBR: false);
+            CommonUtils.launchWebView(
+                context, releaseItemViewModel.actionTitle, html);
+          }
+        }
+      },
+      onLongPress: () {
+        _launchURL();
+      },
     );
+  }
+
+  _launchURL() async {
+    String url = _getUrl();
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      Fluttertoast.showToast(
+          msg: WhgStrings.option_web_launcher_error + ": " + url);
+    }
   }
 
   _resolveSelectIndex() {
@@ -71,10 +111,16 @@ class _ReleasePageState extends WhgListState<ReleasePage> {
     return await _getDataLogic();
   }
 
+  _getUrl() {
+    return selectIndex == 0
+        ? Address.hostWeb + userName + "/" + reposName + "/releases"
+        : Address.hostWeb + userName + "/" + reposName + "/tags";
+  }
+
   @override
   Widget build(BuildContext context) {
     super.build(context); // See AutomaticKeepAliveClientMixin.
-    String url = Address.hostWeb + userName + "/" + reposName + "/releases";
+    String url = _getUrl();
     return new Scaffold(
       backgroundColor: Color(WhgColors.mainBackgroundColor),
       appBar: new AppBar(

@@ -3,14 +3,14 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:github/common/bean/User.dart';
-import 'package:github/common/bean/event_view_model.dart';
-import 'package:github/common/bean/user_item_view_model.dart';
 import 'package:github/common/config/config.dart';
 import 'package:github/common/local/local_storage.dart';
 import 'package:github/common/net/address.dart';
 import 'package:github/common/net/data_result.dart';
 import 'package:github/common/net/httpmanager.dart';
 import 'package:github/common/redux/user_redux.dart';
+import 'package:github/common/viewmodel/event_view_model.dart';
+import 'package:github/common/viewmodel/user_item_view_model.dart';
 import 'package:github/net_config.dart';
 import 'package:redux/redux.dart';
 

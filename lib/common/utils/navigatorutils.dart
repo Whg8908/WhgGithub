@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -168,5 +169,35 @@ class NavigatorUtils {
         context,
         new MaterialPageRoute(
             builder: (context) => new ReleasePage(userName, reposName)));
+  }
+
+  ///根据平台跳转文件代码详情Web
+  static gotoCodeDetailPlatform(BuildContext context,
+      {String title,
+      String userName,
+      String reposName,
+      String path,
+      String data,
+      String branch,
+      String htmlUrl}) {
+    if (Platform.isIOS) {
+      NavigatorUtils.gotoCodeDetailPage(
+        context,
+        title: title,
+        reposName: reposName,
+        userName: userName,
+        path: path,
+        branch: branch,
+      );
+    } else {
+      NavigatorUtils.gotoCodeDetailPageWeb(
+        context,
+        title: title,
+        repoName: reposName,
+        userName: userName,
+        path: path,
+        branch: branch,
+      );
+    }
   }
 }

@@ -170,6 +170,8 @@ class WhgStrings {
 
   static const String release_tab_release = "版本";
   static const String release_tab_tag = "标记";
+
+  static const String app_back_tip = "确定要退出应用？";
 }
 
 class WhgConstant {
@@ -385,4 +387,6 @@ class WhgICons {
 
   static const IconData SEARCH =
       const IconData(0xe61c, fontFamily: WhgICons.FONT_FAMILY);
+
+  static const String DEFAULT_USER_ICON = 'static/images/logo.png';
 }

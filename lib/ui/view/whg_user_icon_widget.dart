@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:github/common/style/whg_style.dart';
 
 /**
  * @Author by whg
@@ -32,7 +33,7 @@ class WhgUserIconWidget extends StatelessWidget {
         constraints: const BoxConstraints(minWidth: 0.0, minHeight: 0.0),
         child: new ClipOval(
           child: new FadeInImage.assetNetwork(
-            placeholder: "static/images/logo.png",
+            placeholder: WhgICons.DEFAULT_USER_ICON,
             //预览图
             fit: BoxFit.fitWidth,
             image: image,
