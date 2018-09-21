@@ -8,15 +8,18 @@ class SearchBottom extends StatelessWidget implements PreferredSizeWidget {
 
   final ValueChanged<String> onSubmitted;
 
+  final VoidCallback onSubmitPressed;
+
   final SelectItemChanged selectItemChanged;
 
-  SearchBottom(this.onChanged, this.onSubmitted, this.selectItemChanged);
+  SearchBottom(this.onChanged, this.onSubmitted, this.onSubmitPressed,
+      this.selectItemChanged);
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        WhgSearchInputWidget(onChanged, onSubmitted),
+        WhgSearchInputWidget(onChanged, onSubmitted, onSubmitPressed),
         new WhgSelectItemWidget(
           [
             WhgStrings.search_tab_repos,

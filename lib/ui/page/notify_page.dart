@@ -107,6 +107,7 @@ class NotifyPageState extends WhgListState<NotifyPage> {
             this.selectIndex = selectIndex;
             _resolveSelectIndex();
           },
+          height: 30.0,
           elevation: 0.0,
           margin: const EdgeInsets.all(0.0),
         ),

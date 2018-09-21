@@ -159,6 +159,8 @@ class RepositoryDetailIssuePageState
           this.searchText = value;
         }, (value) {
           _resolveSelectIndex();
+        }, () {
+          _resolveSelectIndex();
         }),
         elevation: 0.0,
         backgroundColor: Color(WhgColors.mainBackgroundColor),

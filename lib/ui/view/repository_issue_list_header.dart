@@ -91,7 +91,10 @@ class RepositoryIssueListHeaderState extends State<WhgSelectItemWidget> {
         : WhgConstant.middleSubText;
 
     return Expanded(
-        child: FlatButton(
+        child: RawMaterialButton(
+            materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+            constraints: const BoxConstraints(minWidth: 0.0, minHeight: 0.0),
+            padding: EdgeInsets.all(10.0),
             onPressed: () {
               if (selectItemChanged != null) {
                 if (selectIndex != index) {

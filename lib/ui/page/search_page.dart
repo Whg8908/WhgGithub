@@ -102,8 +102,15 @@ class SearchPageState extends WhgListState<SearchPage> {
       backgroundColor: Color(WhgColors.mainBackgroundColor),
       appBar: new AppBar(
           title: new Text(WhgStrings.search_title),
-          bottom: new SearchBottom((value) {}, (value) {
+          bottom: new SearchBottom((value) {
             searchText = value;
+          }, (value) {
+            searchText = value;
+            if (searchText == null || searchText.trim().length == 0) {
+              return;
+            }
+            _resolveSelectIndex();
+          }, () {
             if (searchText == null || searchText.trim().length == 0) {
               return;
             }

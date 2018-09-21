@@ -6,6 +6,7 @@ import 'package:github/common/bean/event_view_model.dart';
 import 'package:github/common/bean/file_item_view_model.dart';
 import 'package:github/common/bean/push_code_item_view_model.dart';
 import 'package:github/common/bean/push_header_view_model.dart';
+import 'package:github/common/bean/release_view_model.dart';
 import 'package:github/common/bean/repos_header_view_model.dart';
 import 'package:github/common/bean/repos_view_model.dart';
 import 'package:github/common/bean/trending_repo_model.dart';
@@ -463,6 +464,43 @@ class ReposDao {
         pushHeaderViewModel.files.add(PushCodeItemViewModel.fromMap(files[i]));
       }
       return new DataResult(pushHeaderViewModel, true);
+    } else {
+      return new DataResult(null, false);
+    }
+  }
+
+  /**
+   * 获取仓库的release列表
+   */
+  static getRepositoryReleaseDao(userName, reposName, page,
+      {needHtml = true, release = true}) async {
+    String url = release
+        ? Address.getReposRelease(userName, reposName) +
+            Address.getPageParams("?", page)
+        : Address.getReposTag(userName, reposName) +
+            Address.getPageParams("?", page);
+
+    var res = await HttpManager.fetch(
+      url,
+      null,
+      {
+        "Accept": (needHtml
+            ? 'application/vnd.github.html,application/vnd.github.VERSION.raw'
+            : "")
+      },
+      null,
+    );
+    if (res != null && res.result && res.data.length > 0) {
+      List<ReleaseItemViewModel> list = new List();
+      var dataList = res.data;
+      if (dataList == null || dataList.length == 0) {
+        return new DataResult(null, false);
+      }
+      for (int i = 0; i < dataList.length; i++) {
+        var data = dataList[i];
+        list.add(ReleaseItemViewModel.fromMap(data));
+      }
+      return new DataResult(list, true);
     } else {
       return new DataResult(null, false);
     }

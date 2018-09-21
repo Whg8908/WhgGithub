@@ -40,6 +40,10 @@ class WhgCommonOptionWidget extends StatelessWidget {
         Share.share(text);
       }),
     ];
+
+    if (otherList != null && otherList.length > 0) {
+      list.addAll(otherList);
+    }
     return _renderHeaderPopItem(list);
   }
 

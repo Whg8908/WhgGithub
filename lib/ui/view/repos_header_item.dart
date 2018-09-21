@@ -40,14 +40,15 @@ class ReposHeaderItem extends StatelessWidget {
             decoration: BoxDecoration(
               image: DecorationImage(
                   image: NetworkImage(reposHeaderViewModel.ownerPic),
-                  fit: BoxFit.fill),
+                  fit: BoxFit.cover),
             ),
             child: Container(
               decoration: BoxDecoration(
                 color: Color(WhgColors.primaryDarkValue & 0xA0FFFFFF),
               ),
               child: Padding(
-                padding: const EdgeInsets.all(10.0),
+                padding: new EdgeInsets.only(
+                    left: 10.0, top: 0.0, right: 10.0, bottom: 10.0),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
@@ -156,7 +157,7 @@ class ReposHeaderItem extends StatelessWidget {
           }),
           new Container(
               width: 0.3,
-              height: 30.0,
+              height: 25.0,
               color: Color(WhgColors.subLightTextColor)),
           _getBottomItem(
               WhgICons.REPOS_ITEM_FORK, reposHeaderViewModel.repositoryFork,
@@ -168,7 +169,7 @@ class ReposHeaderItem extends StatelessWidget {
           }),
           new Container(
               width: 0.3,
-              height: 30.0,
+              height: 25.0,
               color: Color(WhgColors.subLightTextColor)),
           _getBottomItem(
               WhgICons.REPOS_ITEM_WATCH, reposHeaderViewModel.repositoryWatch,
@@ -180,7 +181,7 @@ class ReposHeaderItem extends StatelessWidget {
           }),
           new Container(
               width: 0.3,
-              height: 30.0,
+              height: 25.0,
               color: Color(WhgColors.subLightTextColor)),
           _getBottomItem(WhgICons.REPOS_ITEM_ISSUE,
               reposHeaderViewModel.repositoryIssue, () {}),

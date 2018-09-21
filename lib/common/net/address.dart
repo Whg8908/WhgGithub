@@ -246,4 +246,14 @@ class Address {
   static setAllNotificationAsRead() {
     return "${host}notifications";
   }
+
+  ///仓release get
+  static getReposRelease(reposOwner, reposName) {
+    return "${host}repos/$reposOwner/$reposName/releases";
+  }
+
+  ///仓Tag get
+  static getReposTag(reposOwner, reposName) {
+    return "${host}repos/$reposOwner/$reposName/tags";
+  }
 }

@@ -15,7 +15,9 @@ class WhgSearchInputWidget extends StatelessWidget {
   final ValueChanged<String> onSubmitted;
   final ValueChanged<String> onChanged;
 
-  WhgSearchInputWidget(this.onChanged, this.onSubmitted);
+  final VoidCallback onSubmitPressed;
+
+  WhgSearchInputWidget(this.onChanged, this.onSubmitted, this.onSubmitPressed);
 
   @override
   Widget build(BuildContext context) {
@@ -27,16 +29,24 @@ class WhgSearchInputWidget extends StatelessWidget {
               new Border.all(color: Color(WhgColors.subTextColor), width: 0.3)),
       padding:
           new EdgeInsets.only(left: 20.0, top: 8.0, right: 20.0, bottom: 8.0),
-      child: new TextField(
-        autofocus: false,
-        decoration: new InputDecoration.collapsed(
-          hintText: WhgStrings.repos_issue_search,
-          hintStyle: WhgConstant.subSmallText,
-        ),
-        style: WhgConstant.middleText,
-        onChanged: onChanged,
-        onSubmitted: onSubmitted,
-      ),
+      child: new Row(children: <Widget>[
+        new Expanded(
+            child: new TextField(
+                autofocus: false,
+                decoration: new InputDecoration.collapsed(
+                  hintText: WhgStrings.repos_issue_search,
+                  hintStyle: WhgConstant.middleSubText,
+                ),
+                style: WhgConstant.middleText,
+                onChanged: onChanged,
+                onSubmitted: onSubmitted)),
+        new RawMaterialButton(
+            materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+            padding: const EdgeInsets.only(right: 5.0, left: 10.0),
+            constraints: const BoxConstraints(minWidth: 0.0, minHeight: 0.0),
+            child: new Icon(WhgICons.SEARCH, size: 15.0),
+            onPressed: onSubmitPressed)
+      ]),
     );
   }
 }

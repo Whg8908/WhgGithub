@@ -89,7 +89,7 @@ class IssueEditDialogState extends State<IssueEditDialog> {
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             new Padding(
-                padding: new EdgeInsets.all(5.0),
+                padding: new EdgeInsets.only(top: 5.0, bottom: 15.0),
                 child: new Center(
                   child:
                       new Text(dialogTitle, style: WhgConstant.normalTextBold),
@@ -103,7 +103,7 @@ class IssueEditDialogState extends State<IssueEditDialog> {
             ),
             new Container(height: 10.0),
             new Container(
-              height: 300.0,
+              height: MediaQuery.of(context).size.width * 3 / 4,
               decoration: new BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(4.0)),
                 color: Colors.white,
@@ -128,7 +128,11 @@ class IssueEditDialogState extends State<IssueEditDialog> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 new Expanded(
-                    child: new FlatButton(
+                    child: RawMaterialButton(
+                        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                        padding: EdgeInsets.all(4.0),
+                        constraints:
+                            const BoxConstraints(minWidth: 0.0, minHeight: 0.0),
                         child: new Text(WhgStrings.app_cancel,
                             style: WhgConstant.subNormalText),
                         onPressed: () {
@@ -136,10 +140,14 @@ class IssueEditDialogState extends State<IssueEditDialog> {
                         })),
                 new Container(
                     width: 0.3,
-                    height: 30.0,
+                    height: 25.0,
                     color: Color(WhgColors.subTextColor)),
                 new Expanded(
-                    child: new FlatButton(
+                    child: RawMaterialButton(
+                        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                        padding: EdgeInsets.all(4.0),
+                        constraints:
+                            const BoxConstraints(minWidth: 0.0, minHeight: 0.0),
                         child: new Text(WhgStrings.app_ok,
                             style: WhgConstant.normalTextBold),
                         onPressed: () {})),

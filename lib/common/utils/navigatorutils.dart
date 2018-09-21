@@ -11,6 +11,7 @@ import 'package:github/ui/page/login_page.dart';
 import 'package:github/ui/page/notify_page.dart';
 import 'package:github/ui/page/person_page.dart';
 import 'package:github/ui/page/push_detail_page.dart';
+import 'package:github/ui/page/release_page.dart';
 import 'package:github/ui/page/repository_detail_page.dart';
 import 'package:github/ui/page/search_page.dart';
 import 'package:github/ui/view/whg_webview.dart';
@@ -158,5 +159,14 @@ class NavigatorUtils {
                 data: data,
                 branch: branch,
                 htmlUrl: htmlUrl)));
+  }
+
+  ///仓库版本列表
+  static Future<Null> goReleasePage(
+      BuildContext context, String userName, String reposName) {
+    return Navigator.push(
+        context,
+        new MaterialPageRoute(
+            builder: (context) => new ReleasePage(userName, reposName)));
   }
 }

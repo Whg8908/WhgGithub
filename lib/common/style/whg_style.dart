@@ -165,6 +165,11 @@ class WhgStrings {
   static const String app_licenses = "协议";
   static const String app_close = "关闭";
   static const String app_version = "版本";
+
+  static const String repos_option_release = "版本";
+
+  static const String release_tab_release = "版本";
+  static const String release_tab_tag = "标记";
 }
 
 class WhgConstant {
@@ -377,4 +382,7 @@ class WhgICons {
   static const IconData PUSH_ITEM_EDIT = Icons.mode_edit;
   static const IconData PUSH_ITEM_ADD = Icons.add_box;
   static const IconData PUSH_ITEM_MIN = Icons.indeterminate_check_box;
+
+  static const IconData SEARCH =
+      const IconData(0xe61c, fontFamily: WhgICons.FONT_FAMILY);
 }

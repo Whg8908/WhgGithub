@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:github/common/bean/bottom_status_view_model.dart';
+import 'package:github/common/bean/whg_option_model.dart';
 import 'package:github/common/config/config.dart';
 import 'package:github/common/dao/repos_dao.dart';
 import 'package:github/common/net/address.dart';
 import 'package:github/common/style/whg_style.dart';
 import 'package:github/common/utils/commonutils.dart';
+import 'package:github/common/utils/navigatorutils.dart';
 import 'package:github/ui/page/repository_detail_file_list_page.dart';
 import 'package:github/ui/page/repository_detail_info_list_page.dart';
 import 'package:github/ui/page/repository_detail_issue_list_page.dart';
@@ -97,66 +99,51 @@ class RepositoryDetailPageState extends State<RepositoryDetailPage> {
     });
   }
 
+  _renderBottomItem(var text, var icon, var onPressed) {
+    return new FlatButton(
+        onPressed: onPressed,
+        child: new WhgIconText(
+          icon,
+          text,
+          WhgConstant.smallText,
+          Color(WhgColors.primaryValue),
+          15.0,
+          padding: 5.0,
+          mainAxisAlignment: MainAxisAlignment.center,
+        ));
+  }
+
   _getBottomWidget() {
     List<Widget> bottomWidget = (bottomStatusModel == null)
         ? []
         : <Widget>[
-            new FlatButton(
-                onPressed: () {
-                  CommonUtils.showLoadingDialog(context);
-                  return ReposDao.doRepositoryStarDao(
-                          userName, reposName, bottomStatusModel.star)
-                      .then((result) {
-                    _refresh();
-                    Navigator.pop(context);
-                  });
-                },
-                child: new WhgIconText(
-                  bottomStatusModel.starIcon,
-                  bottomStatusModel.starText,
-                  WhgConstant.smallText,
-                  Color(WhgColors.primaryValue),
-                  15.0,
-                  padding: 2.0,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                )),
-            new FlatButton(
-                onPressed: () {
-                  CommonUtils.showLoadingDialog(context);
-                  return ReposDao.doRepositoryWatchDao(
-                          userName, reposName, bottomStatusModel.watch)
-                      .then((result) {
-                    _refresh();
-                    Navigator.pop(context);
-                  });
-                },
-                child: new WhgIconText(
-                  bottomStatusModel.watchIcon,
-                  bottomStatusModel.watchText,
-                  WhgConstant.smallText,
-                  Color(WhgColors.primaryValue),
-                  15.0,
-                  padding: 2.0,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                )),
-            new FlatButton(
-                onPressed: () {
-                  CommonUtils.showLoadingDialog(context);
-                  return ReposDao.createForkDao(userName, reposName)
-                      .then((result) {
-                    _refresh();
-                    Navigator.pop(context);
-                  });
-                },
-                child: new WhgIconText(
-                  WhgICons.REPOS_ITEM_FORK,
-                  "fork",
-                  WhgConstant.smallText,
-                  Color(WhgColors.primaryValue),
-                  15.0,
-                  padding: 2.0,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                )),
+            _renderBottomItem(
+                bottomStatusModel.starText, bottomStatusModel.starIcon, () {
+              CommonUtils.showLoadingDialog(context);
+              return ReposDao.doRepositoryStarDao(
+                      userName, reposName, bottomStatusModel.star)
+                  .then((result) {
+                _refresh();
+                Navigator.pop(context);
+              });
+            }),
+            _renderBottomItem(
+                bottomStatusModel.watchText, bottomStatusModel.watchIcon, () {
+              CommonUtils.showLoadingDialog(context);
+              return ReposDao.doRepositoryWatchDao(
+                      userName, reposName, bottomStatusModel.watch)
+                  .then((result) {
+                _refresh();
+                Navigator.pop(context);
+              });
+            }),
+            _renderBottomItem("fork", WhgICons.REPOS_ITEM_FORK, () {
+              CommonUtils.showLoadingDialog(context);
+              return ReposDao.createForkDao(userName, reposName).then((result) {
+                _refresh();
+                Navigator.pop(context);
+              });
+            }),
             _renderBranchPopItem(currentBranch, branchList, (value) {
               setState(() {
                 branchControl.currentBranch = value;
@@ -232,55 +219,54 @@ class RepositoryDetailPageState extends State<RepositoryDetailPage> {
     this._getReposDetail();
   }
 
+  ///无奈之举，只能pageView配合tabbar，通过control同步
+  ///TabView 配合tabbar 在四个页面上问题太多
+  _renderTabItem() {
+    var itemList = [
+      WhgStrings.repos_tab_info,
+      WhgStrings.repos_tab_readme,
+      WhgStrings.repos_tab_issue,
+      WhgStrings.repos_tab_file,
+    ];
+    renderItem(String item, int i) {
+      return new FlatButton(
+          padding: EdgeInsets.all(0.0),
+          onPressed: () {
+            topPageControl.jumpTo(MediaQuery.of(context).size.width * i);
+          },
+          child: new Text(
+            item,
+            style: WhgConstant.smallTextWhite,
+            maxLines: 1,
+          ));
+    }
+
+    List<Widget> list = new List();
+    for (int i = 0; i < itemList.length; i++) {
+      list.add(renderItem(itemList[i], i));
+    }
+    return list;
+  }
+
+  _getMoreOtherItem() {
+    return [
+      new WhgOptionModel(
+          WhgStrings.repos_option_release, WhgStrings.repos_option_release,
+          (model) {
+        NavigatorUtils.goReleasePage(context, userName, reposName);
+      }),
+    ];
+  }
+
   @override
   Widget build(BuildContext context) {
     String url = Address.hostWeb + userName + "/" + reposName;
-    Widget rightWidget = new WhgCommonOptionWidget(url);
+    Widget widget =
+        new WhgCommonOptionWidget(url, otherList: _getMoreOtherItem());
     return new WhgTabBarWidget(
         type: WhgTabBarWidget.TOP_TAB,
         tarWidgetControl: tarBarControl,
-        tabItems: [
-          new FlatButton(
-              padding: EdgeInsets.all(0.0),
-              onPressed: () {
-                topPageControl.jumpTo(0.0);
-              },
-              child: new Text(
-                WhgStrings.repos_tab_info,
-                style: WhgConstant.smallTextWhite,
-                maxLines: 1,
-              )),
-          new FlatButton(
-              padding: EdgeInsets.all(0.0),
-              onPressed: () {
-                topPageControl.jumpTo(MediaQuery.of(context).size.width);
-              },
-              child: new Text(
-                WhgStrings.repos_tab_readme,
-                style: WhgConstant.smallTextWhite,
-                maxLines: 1,
-              )),
-          new FlatButton(
-              padding: EdgeInsets.all(0.0),
-              onPressed: () {
-                topPageControl.jumpTo(MediaQuery.of(context).size.width * 2);
-              },
-              child: new Text(
-                WhgStrings.repos_tab_issue,
-                style: WhgConstant.smallTextWhite,
-                maxLines: 1,
-              )),
-          new FlatButton(
-              padding: EdgeInsets.all(0.0),
-              onPressed: () {
-                topPageControl.jumpTo(MediaQuery.of(context).size.width * 3);
-              },
-              child: new Text(
-                WhgStrings.repos_tab_file,
-                style: WhgConstant.smallTextWhite,
-                maxLines: 1,
-              )),
-        ],
+        tabItems: _renderTabItem(),
         tabViews: [
           RepositoryDetailInfoListPage(
               reposDetailInfoPageControl, userName, reposName, branchControl,
@@ -296,7 +282,7 @@ class RepositoryDetailPageState extends State<RepositoryDetailPage> {
         indicatorColor: Colors.white,
         title: WhgTitleBar(
           reposName,
-          rightWidget: rightWidget,
+          rightWidget: widget,
         ));
   }
 }
