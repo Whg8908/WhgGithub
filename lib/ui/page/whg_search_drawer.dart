@@ -100,23 +100,6 @@ class WhgSearchDrawerState extends State<WhgSearchDrawer> {
     );
   }
 
-  _clearSelect(List<FilterModel> list) {
-    for (FilterModel model in list) {
-      model.select = false;
-    }
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    _clearSelect(sortType);
-    sortType[0].select = true;
-    _clearSelect(searchLanguageType);
-    searchLanguageType[0].select = true;
-    _clearSelect(searchFilterType);
-    searchFilterType[0].select = true;
-  }
-
   _renderItem(FilterModel model, List<FilterModel> list, int index,
       SearchSelectItemChanged<String> select) {
     return new Container(

@@ -127,6 +127,7 @@ class NavigatorUtils {
                 )));
   }
 
+  ///全屏Web页面
   static Future<Null> goWhgWebView(
       BuildContext context, String url, String title) {
     return Navigator.push(
@@ -137,6 +138,7 @@ class NavigatorUtils {
     );
   }
 
+  ///文件代码详情Web
   static gotoCodeDetailPageWeb(BuildContext context,
       {String title,
       String userName,

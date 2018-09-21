@@ -4,6 +4,7 @@ import 'package:github/common/style/whg_style.dart';
 import 'package:github/common/utils/navigatorutils.dart';
 import 'package:github/ui/view/card_item.dart';
 import 'package:github/ui/view/whg_icon_text.dart';
+import 'package:github/ui/view/whg_user_icon_widget.dart';
 
 class ReposItem extends StatelessWidget {
   final ReposViewModel reposViewModel;
@@ -40,22 +41,14 @@ class ReposItem extends StatelessWidget {
   Widget firstColumn(BuildContext context) => Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          RawMaterialButton(
-            constraints: new BoxConstraints(minWidth: 0.0, minHeight: 0.0),
-            onPressed: () {
-              NavigatorUtils.goPerson(context, reposViewModel.ownerName);
-            },
-            child: ClipOval(
-              child: new FadeInImage.assetNetwork(
-                placeholder: "static/images/logo.png",
-                //预览图
-                fit: BoxFit.fitWidth,
-                image: reposViewModel.ownerPic,
-                width: 40.0,
-                height: 40.0,
-              ),
-            ),
-          ),
+          new WhgUserIconWidget(
+              padding: const EdgeInsets.only(top: 0.0, right: 5.0, left: 0.0),
+              width: 40.0,
+              height: 40.0,
+              image: reposViewModel.ownerPic,
+              onPressed: () {
+                NavigatorUtils.goPerson(context, reposViewModel.ownerName);
+              }),
           SizedBox(
             width: 10.0,
           ),

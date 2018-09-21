@@ -121,4 +121,21 @@ class SearchPageState extends WhgListState<SearchPage> {
       ),
     );
   }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _clearSelect(sortType);
+    sortType[0].select = true;
+    _clearSelect(searchLanguageType);
+    searchLanguageType[0].select = true;
+    _clearSelect(searchFilterType);
+    searchFilterType[0].select = true;
+  }
+
+  _clearSelect(List<FilterModel> list) {
+    for (FilterModel model in list) {
+      model.select = false;
+    }
+  }
 }

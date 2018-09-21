@@ -29,16 +29,13 @@ class WhgCardItem extends StatelessWidget {
     EdgeInsets margin = this.margin;
     RoundedRectangleBorder shape = this.shape;
     Color color = this.color;
-    if (margin == null) {
-      margin = EdgeInsets.all(10.0);
-    }
-    if (shape == null) {
-      shape = new RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(4.0)));
-    }
-    if (color == null) {
-      color = new Color(WhgColors.cardWhite);
-    }
+
+    margin ??=
+        EdgeInsets.only(left: 10.0, top: 10.0, right: 10.0, bottom: 10.0);
+    shape ??= new RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(Radius.circular(4.0)));
+    color ??= new Color(WhgColors.cardWhite);
+
     return new Card(
         elevation: elevation,
         shape: shape,

@@ -4,6 +4,7 @@ import 'package:github/common/style/whg_style.dart';
 import 'package:github/common/utils/navigatorutils.dart';
 import 'package:github/ui/view/card_item.dart';
 import 'package:github/ui/view/whg_icon_text.dart';
+import 'package:github/ui/view/whg_user_icon_widget.dart';
 /**
  * @Author by whg
  * @Email ghw8908@163.com
@@ -40,17 +41,10 @@ class IssueItem extends StatelessWidget {
           child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                new IconButton(
-                    icon: new ClipOval(
-                      child: new FadeInImage.assetNetwork(
-                        placeholder: "static/images/logo.png",
-                        //预览图
-                        fit: BoxFit.fitWidth,
-                        image: issueItemViewModel.actionUserPic,
-                        width: 30.0,
-                        height: 30.0,
-                      ),
-                    ),
+                new WhgUserIconWidget(
+                    width: 30.0,
+                    height: 30.0,
+                    image: issueItemViewModel.actionUserPic,
                     onPressed: () {
                       NavigatorUtils.goPerson(
                           context, issueItemViewModel.actionUser);

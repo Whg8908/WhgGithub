@@ -24,7 +24,7 @@ class IssueHeaderViewModel {
         issueMap["closed_by"] != null ? issueMap["closed_by"]["login"] : "";
     locked = issueMap["locked"];
     issueComment = issueMap["title"];
-    issueDesHtml = issueMap["body_html"] != null ? issueMap["body_html"] : "";
+    issueDesHtml = issueMap["body_html"] ?? "";
     commentCount = issueMap["comments"].toString() + "";
     state = issueMap["state"];
     issueDes = issueMap["body"] != null ? ": \n" + issueMap["body"] : '';

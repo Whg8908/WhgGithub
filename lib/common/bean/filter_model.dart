@@ -23,7 +23,7 @@ var searchLanguageType = [
   FilterModel(name: "Swift", value: 'Swift', select: false),
   FilterModel(name: "JavaScript", value: 'JavaScript', select: false),
   FilterModel(name: "PHP", value: 'PHP', select: false),
-  FilterModel(name: "C__", value: 'C__', select: false),
+  FilterModel(name: "C__", value: 'C++', select: false),
   FilterModel(name: "C", value: 'C', select: false),
   FilterModel(name: "HTML", value: 'HTML', select: false),
   FilterModel(name: "CSS", value: 'CSS', select: false),

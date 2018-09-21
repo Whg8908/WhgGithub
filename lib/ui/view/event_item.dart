@@ -3,6 +3,7 @@ import 'package:github/common/bean/event_view_model.dart';
 import 'package:github/common/style/whg_style.dart';
 import 'package:github/common/utils/navigatorutils.dart';
 import 'package:github/ui/view/card_item.dart';
+import 'package:github/ui/view/whg_user_icon_widget.dart';
 
 /**
  * @Author by whg
@@ -29,7 +30,7 @@ class EventItem extends StatelessWidget {
           onPressed: onPressed,
           child: Padding(
             padding: new EdgeInsets.only(
-                left: 0.0, top: 5.0, right: 0.0, bottom: 10.0),
+                left: 0.0, top: 10.0, right: 0.0, bottom: 10.0),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
@@ -84,23 +85,14 @@ class EventItem extends StatelessWidget {
 
   imageRow(BuildContext context) {
     if (needImage) {
-      return IconButton(
-        padding: EdgeInsets.only(top: 0.0, left: 0.0, bottom: 0.0, right: 10.0),
-        icon: new ClipOval(
-          //有placeholder
-          child: new FadeInImage.assetNetwork(
-            placeholder: "static/images/logo.png",
-            //预览图
-            fit: BoxFit.fitWidth,
-            image: eventViewModel.actionUserPic,
-            width: 30.0,
-            height: 30.0,
-          ),
-        ),
-        onPressed: () {
-          NavigatorUtils.goPerson(context, eventViewModel.actionUser);
-        },
-      );
+      return new WhgUserIconWidget(
+          padding: const EdgeInsets.only(top: 0.0, right: 5.0, left: 0.0),
+          width: 30.0,
+          height: 30.0,
+          image: eventViewModel.actionUserPic,
+          onPressed: () {
+            NavigatorUtils.goPerson(context, eventViewModel.actionUser);
+          });
     } else {
       return Container();
     }

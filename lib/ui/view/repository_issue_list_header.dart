@@ -60,7 +60,7 @@ class RepositoryIssueListHeaderState extends State<WhgSelectItemWidget> {
         list.add(_renderItem(itemNames[i], i));
         list.add(new Container(
             width: 1.0,
-            height: 26.0,
+            height: 25.0,
             color: Color(WhgColors.subLightTextColor)));
       }
     }

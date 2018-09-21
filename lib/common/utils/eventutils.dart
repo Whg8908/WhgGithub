@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 import 'package:github/common/utils/commonutils.dart';
 import 'package:github/common/utils/navigatorutils.dart';
 
@@ -193,8 +192,7 @@ class EventUtils {
         break;
       case 'ReleaseEvent':
         String url = event["payload"]["release"]["html_url"];
-        final flutterWebviewPlugin = new FlutterWebviewPlugin();
-        flutterWebviewPlugin.launch(url, hidden: true);
+        CommonUtils.launchWebView(context, repositoryName, url);
         break;
       case 'IssueCommentEvent':
       case 'IssuesEvent':

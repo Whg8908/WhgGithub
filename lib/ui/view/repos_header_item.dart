@@ -116,16 +116,12 @@ class ReposHeaderItem extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(left: 5.0, right: 5.0),
             child: Text(
-              reposHeaderViewModel.repositorySize != null
-                  ? reposHeaderViewModel.repositorySize
-                  : "--",
+              reposHeaderViewModel.repositorySize ?? "--",
               style: WhgConstant.subLightSmallText,
             ),
           ),
           Text(
-            reposHeaderViewModel.license != null
-                ? reposHeaderViewModel.license
-                : "--",
+            reposHeaderViewModel.license ?? "--",
             style: WhgConstant.subLightSmallText,
           )
         ],
@@ -133,10 +129,7 @@ class ReposHeaderItem extends StatelessWidget {
 
   //第三行
   Widget timeColumn() => new Container(
-      child: new Text(
-          reposHeaderViewModel.repositoryDes == null
-              ? reposHeaderViewModel.repositoryDes
-              : "---",
+      child: new Text(reposHeaderViewModel.repositoryDes ?? "---",
           style: WhgConstant.subSmallText),
       margin: new EdgeInsets.only(top: 6.0, bottom: 2.0),
       alignment: Alignment.topLeft);
