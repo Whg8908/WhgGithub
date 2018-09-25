@@ -123,6 +123,7 @@ class RepositoryDetailFileListPageState
     IconData iconData = (fileItemViewModel.type == "file")
         ? WhgICons.REPOS_ITEM_FILE
         : WhgICons.REPOS_ITEM_DIR;
+
     Widget trailing = (fileItemViewModel.type == "file")
         ? null
         : new Icon(WhgICons.REPOS_ITEM_NEXT, size: 12.0);
@@ -132,7 +133,7 @@ class RepositoryDetailFileListPageState
       child: new ListTile(
         leading: new Icon(
           iconData,
-          size: 15.0,
+          size: 16.0,
         ),
         trailing: trailing,
         title:

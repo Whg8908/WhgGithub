@@ -340,8 +340,7 @@ class WhgICons {
       const IconData(0xe681, fontFamily: WhgICons.FONT_FAMILY);
   static const IconData REPOS_ITEM_WATCHED =
       const IconData(0xe629, fontFamily: WhgICons.FONT_FAMILY);
-  static const IconData REPOS_ITEM_DIR =
-      const IconData(0xe793, fontFamily: WhgICons.FONT_FAMILY);
+
   static const IconData REPOS_ITEM_FILE =
       const IconData(0xea77, fontFamily: WhgICons.FONT_FAMILY);
   static const IconData REPOS_ITEM_NEXT =
@@ -389,4 +388,6 @@ class WhgICons {
       const IconData(0xe61c, fontFamily: WhgICons.FONT_FAMILY);
 
   static const String DEFAULT_USER_ICON = 'static/images/logo.png';
+
+  static const IconData REPOS_ITEM_DIR = Icons.folder;
 }

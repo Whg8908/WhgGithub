@@ -23,30 +23,33 @@ class WhgSearchInputWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: new BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(4.0)),
-          color: Colors.white,
           border:
-              new Border.all(color: Color(WhgColors.subTextColor), width: 0.3)),
+              new Border.all(color: Color(WhgColors.primaryValue), width: 0.3),
+          boxShadow: [
+            BoxShadow(color: Color(WhgColors.primaryDarkValue), blurRadius: 4.0)
+          ]),
       padding:
           new EdgeInsets.only(left: 20.0, top: 8.0, right: 20.0, bottom: 8.0),
-      child: new Row(children: <Widget>[
-        new Expanded(
-            child: new TextField(
-                autofocus: false,
-                decoration: new InputDecoration.collapsed(
-                  hintText: WhgStrings.repos_issue_search,
-                  hintStyle: WhgConstant.middleSubText,
-                ),
-                style: WhgConstant.middleText,
-                onChanged: onChanged,
-                onSubmitted: onSubmitted)),
-        new RawMaterialButton(
-            materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-            padding: const EdgeInsets.only(right: 5.0, left: 10.0),
-            constraints: const BoxConstraints(minWidth: 0.0, minHeight: 0.0),
-            child: new Icon(WhgICons.SEARCH, size: 15.0),
-            onPressed: onSubmitPressed)
-      ]),
+      child: new Row(
+        children: <Widget>[
+          new Expanded(
+              child: new TextField(
+                  autofocus: false,
+                  decoration: new InputDecoration.collapsed(
+                    hintText: WhgStrings.repos_issue_search,
+                    hintStyle: WhgConstant.middleSubText,
+                  ),
+                  style: WhgConstant.middleText,
+                  onChanged: onChanged,
+                  onSubmitted: onSubmitted)),
+          new RawMaterialButton(
+              materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              padding: const EdgeInsets.only(right: 5.0, left: 10.0),
+              constraints: const BoxConstraints(minWidth: 0.0, minHeight: 0.0),
+              child: new Icon(WhgICons.SEARCH, size: 15.0),
+              onPressed: onSubmitPressed)
+        ],
+      ),
     );
   }
 }

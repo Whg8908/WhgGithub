@@ -108,7 +108,7 @@ class IssueDetailPageState extends WhgListState<IssueDetailPage> {
             context,
             WhgStrings.issue_edit_issue_edit_commit,
             WhgStrings.issue_edit_issue_delete_commit, () {
-          _editCommit(issue.id.toString(), issue.title);
+          _editCommit(issue.id.toString(), issue.body);
         }, () {
           _deleteCommit(issue.id.toString());
         });
