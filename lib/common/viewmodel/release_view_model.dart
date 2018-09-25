@@ -1,3 +1,4 @@
+import 'package:github/common/bean/Release.dart';
 import 'package:github/common/utils/commonutils.dart';
 
 /**
@@ -15,16 +16,17 @@ class ReleaseItemViewModel {
   String actionMode;
   String actionTarget;
   String actionTargetHtml;
+  String body;
 
   ReleaseItemViewModel();
 
-  ReleaseItemViewModel.fromMap(map) {
-    if (map["published_at"] != null) {
-      actionTime =
-          CommonUtils.getNewsTimeStr(DateTime.parse(map["published_at"]));
+  ReleaseItemViewModel.fromMap(Release map) {
+    if (map.publishedAt != null) {
+      actionTime = CommonUtils.getNewsTimeStr(map.publishedAt);
     }
-    actionTitle = map["name"] ?? map["tag_name"];
-    actionTarget = map["target_commitish"];
-    actionTargetHtml = map["body_html"];
+    actionTitle = map.name ?? map.tagName;
+    actionTarget = map.targetCommitish;
+    actionTargetHtml = map.bodyHtml;
+    body = map.body ?? "";
   }
 }

@@ -68,7 +68,8 @@ class RepositoryDetailIssuePageState
 
   _renderEventItem(index) {
     IssueItemViewModel issueItemViewModel =
-        pullLoadWidgetControl.dataList[index];
+        IssueItemViewModel.fromMap(pullLoadWidgetControl.dataList[index]);
+
     return new IssueItem(
       issueItemViewModel,
       onPressed: () {

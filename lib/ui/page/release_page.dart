@@ -41,7 +41,7 @@ class _ReleasePageState extends WhgListState<ReleasePage> {
 
   _renderEventItem(index) {
     ReleaseItemViewModel releaseItemViewModel =
-        pullLoadWidgetControl.dataList[index];
+        ReleaseItemViewModel.fromMap(pullLoadWidgetControl.dataList[index]);
     return new ReleaseItem(
       releaseItemViewModel,
       onPressed: () {

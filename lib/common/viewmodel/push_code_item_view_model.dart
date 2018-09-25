@@ -1,3 +1,5 @@
+import 'package:github/common/bean/CommitFile.dart';
+
 /**
  * @Author by whg
  * @Email ghw8908@163.com
@@ -16,12 +18,12 @@ class PushCodeItemViewModel {
 
   PushCodeItemViewModel();
 
-  PushCodeItemViewModel.fromMap(map) {
-    String filename = map["filename"];
+  PushCodeItemViewModel.fromMap(CommitFile map) {
+    String filename = map.fileName;
     List<String> nameSplit = filename.split("/");
     name = nameSplit[nameSplit.length - 1];
     path = filename;
-    patch = map["patch"];
-    blob_url = map["blob_url"];
+    patch = map.patch;
+    blob_url = map.blobUrl;
   }
 }

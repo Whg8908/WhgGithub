@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:github/common/bean/Notification.dart';
 import 'package:github/common/bean/User.dart';
 import 'package:github/common/config/config.dart';
 import 'package:github/common/local/local_storage.dart';
@@ -9,8 +10,6 @@ import 'package:github/common/net/address.dart';
 import 'package:github/common/net/data_result.dart';
 import 'package:github/common/net/httpmanager.dart';
 import 'package:github/common/redux/user_redux.dart';
-import 'package:github/common/viewmodel/event_view_model.dart';
-import 'package:github/common/viewmodel/user_item_view_model.dart';
 import 'package:github/net_config.dart';
 import 'package:redux/redux.dart';
 
@@ -151,14 +150,13 @@ class UserDao {
         Address.getUserFollower(userName) + Address.getPageParams("?", page);
     var res = await HttpManager.fetch(url, null, null, null);
     if (res != null && res.result) {
-      List<UserItemViewModel> list = new List();
+      List<User> list = new List();
       var data = res.data;
       if (data == null || data.length == 0) {
         return new DataResult(null, false);
       }
       for (int i = 0; i < data.length; i++) {
-        list.add(
-            new UserItemViewModel(data[i]['login'], data[i]["avatar_url"]));
+        list.add(new User.fromJson(data[i]));
       }
       return new DataResult(list, true);
     } else {
@@ -174,14 +172,13 @@ class UserDao {
         Address.getUserFollow(userName) + Address.getPageParams("?", page);
     var res = await HttpManager.fetch(url, null, null, null);
     if (res != null && res.result) {
-      List<UserItemViewModel> list = new List();
+      List<User> list = new List();
       var data = res.data;
       if (data == null || data.length == 0) {
         return new DataResult(null, false);
       }
       for (int i = 0; i < data.length; i++) {
-        list.add(
-            new UserItemViewModel(data[i]['login'], data[i]["avatar_url"]));
+        list.add(new User.fromJson(data[i]));
       }
       return new DataResult(list, true);
     } else {
@@ -198,13 +195,13 @@ class UserDao {
         Address.getPageParams(tag, page);
     var res = await HttpManager.fetch(url, null, null, null);
     if (res != null && res.result) {
-      List<EventViewModel> list = new List();
+      List<Notification> list = new List();
       var data = res.data;
       if (data == null || data.length == 0) {
         return new DataResult([], true);
       }
       for (int i = 0; i < data.length; i++) {
-        list.add(EventViewModel.fromNotify(data[i]));
+        list.add(Notification.fromJson(data[i]));
       }
       return new DataResult(list, true);
     } else {
@@ -269,14 +266,13 @@ class UserDao {
     String url = Address.getMember(userName) + Address.getPageParams("?", page);
     var res = await HttpManager.fetch(url, null, null, null);
     if (res != null && res.result) {
-      List<UserItemViewModel> list = new List();
+      List<User> list = new List();
       var data = res.data;
       if (data == null || data.length == 0) {
         return new DataResult(null, false);
       }
       for (int i = 0; i < data.length; i++) {
-        list.add(
-            new UserItemViewModel(data[i]['login'], data[i]["avatar_url"]));
+        list.add(new User.fromJson(data[i]));
       }
       return new DataResult(list, true);
     } else {

@@ -72,7 +72,7 @@ class RepositoryDetailPageState extends State<RepositoryDetailPage> {
         userName, reposName, branchControl.currentBranch);
     if (result != null && result.result) {
       setState(() {
-        reposDetailInfoPageControl.reposHeaderViewModel = result.data;
+        reposDetailInfoPageControl.repository = result.data;
       });
     }
   }
@@ -215,8 +215,8 @@ class RepositoryDetailPageState extends State<RepositoryDetailPage> {
   }
 
   _refresh() {
-    this._getReposStatus();
     this._getReposDetail();
+    this._getReposStatus();
   }
 
   ///无奈之举，只能pageView配合tabbar，通过control同步

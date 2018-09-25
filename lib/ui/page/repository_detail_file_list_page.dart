@@ -118,7 +118,8 @@ class RepositoryDetailFileListPageState
   }
 
   _renderEventItem(index) {
-    FileItemViewModel fileItemViewModel = pullLoadWidgetControl.dataList[index];
+    FileItemViewModel fileItemViewModel =
+        FileItemViewModel.fromMap(pullLoadWidgetControl.dataList[index]);
     IconData iconData = (fileItemViewModel.type == "file")
         ? WhgICons.REPOS_ITEM_FILE
         : WhgICons.REPOS_ITEM_DIR;

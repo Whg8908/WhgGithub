@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:github/common/bean/Notification.dart' as Model;
 import 'package:github/common/dao/user_dao.dart';
 import 'package:github/common/style/whg_style.dart';
 import 'package:github/common/utils/commonutils.dart';
@@ -29,19 +30,18 @@ class NotifyPageState extends WhgListState<NotifyPage> {
   int selectIndex;
 
   _renderEventItem(index) {
-    EventViewModel eventViewModel = pullLoadWidgetControl.dataList[index];
+    Model.Notification notification = pullLoadWidgetControl.dataList[index];
+    EventViewModel eventViewModel = EventViewModel.fromNotify(notification);
     return new EventItem(eventViewModel, onPressed: () {
-      var eventMap = eventViewModel.eventMap;
-      if (eventMap["unread"]) {
-        UserDao.setNotificationAsReadDao(eventMap["id"].toString());
+      if (notification.unread) {
+        UserDao.setNotificationAsReadDao(notification.id.toString());
       }
-      print(eventMap["id"]);
-      if (eventMap["subject"]["type"] == 'Issue') {
-        String url = eventMap["subject"]["url"];
+      if (notification.subject.type == 'Issue') {
+        String url = notification.subject.url;
         List<String> tmp = url.split("/");
         String number = tmp[tmp.length - 1];
-        String userName = eventMap["repository"]["owner"]["login"];
-        String reposName = eventMap["repository"]["name"];
+        String userName = notification.repository.owner.login;
+        String reposName = notification.repository.name;
         NavigatorUtils.goIssueDetail(context, userName, reposName, number,
                 needRightLocalIcon: true)
             .then((res) {

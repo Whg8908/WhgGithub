@@ -1,11 +1,10 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:github/common/bean/Issue.dart';
 import 'package:github/common/net/address.dart';
 import 'package:github/common/net/data_result.dart';
 import 'package:github/common/net/httpmanager.dart';
-import 'package:github/common/viewmodel/issue_item_view_model.dart';
-import 'package:github/ui/page/issue_header_view_model.dart';
 
 /**
  * @Author by whg
@@ -41,13 +40,13 @@ class IssueDao {
         },
         null);
     if (res != null && res.result) {
-      List<IssueItemViewModel> list = new List();
+      List<Issue> list = new List();
       var data = res.data;
       if (data == null || data.length == 0) {
         return new DataResult(null, false);
       }
       for (int i = 0; i < data.length; i++) {
-        list.add(IssueItemViewModel.fromMap(data[i]));
+        list.add(Issue.fromJson(data[i]));
       }
       return new DataResult(list, true);
     } else {
@@ -74,13 +73,13 @@ class IssueDao {
         Address.repositoryIssueSearch(qu) + Address.getPageParams("&", page);
     var res = await HttpManager.fetch(url, null, null, null);
     if (res != null && res.result) {
-      List<IssueItemViewModel> list = new List();
+      List<Issue> list = new List();
       var data = res.data["items"];
       if (data == null || data.length == 0) {
         return new DataResult(null, false);
       }
       for (int i = 0; i < data.length; i++) {
-        list.add(IssueItemViewModel.fromMap(data[i]));
+        list.add(Issue.fromJson(data[i]));
       }
       return new DataResult(list, true);
     } else {
@@ -96,7 +95,7 @@ class IssueDao {
     //{"Accept": 'application/vnd.github.html,application/vnd.github.VERSION.raw'}
     var res = await HttpManager.fetch(url, null, null, null);
     if (res != null && res.result) {
-      return new DataResult(IssueHeaderViewModel.fromMap(res.data), true);
+      return new DataResult(Issue.fromJson(res.data), true);
     } else {
       return new DataResult(null, false);
     }
@@ -111,13 +110,13 @@ class IssueDao {
     //{"Accept": 'application/vnd.github.html,application/vnd.github.VERSION.raw'}
     var res = await HttpManager.fetch(url, null, null, null);
     if (res != null && res.result) {
-      List<IssueItemViewModel> list = new List();
+      List<Issue> list = new List();
       var data = res.data;
       if (data == null || data.length == 0) {
         return new DataResult(null, false);
       }
       for (int i = 0; i < data.length; i++) {
-        list.add(IssueItemViewModel.fromMap(data[i], needTitle: false));
+        list.add(Issue.fromJson(data[i]));
       }
       return new DataResult(list, true);
     } else {

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:github/common/dao/repos_dao.dart';
 import 'package:github/common/dao/user_dao.dart';
 import 'package:github/common/utils/navigatorutils.dart';
+import 'package:github/common/viewmodel/repos_view_model.dart';
+import 'package:github/common/viewmodel/user_item_view_model.dart';
 import 'package:github/ui/base/whg_list_state.dart';
 import 'package:github/ui/view/repos_item.dart';
 import 'package:github/ui/view/user_item.dart';
@@ -76,12 +78,13 @@ class CommonListPageState extends WhgListState<CommonListPage> {
     var data = pullLoadWidgetControl.dataList[index];
     switch (showType) {
       case 'repository':
-        return new ReposItem(data, onPressed: () {
+        ReposViewModel reposViewModel = ReposViewModel.fromMap(data);
+        return new ReposItem(reposViewModel, onPressed: () {
           NavigatorUtils.goReposDetail(
-              context, data.ownerName, data.repositoryName);
+              context, reposViewModel.ownerName, reposViewModel.repositoryName);
         });
       case 'user':
-        return new UserItem(data, onPressed: () {
+        return new UserItem(UserItemViewModel.fromMap(data), onPressed: () {
           NavigatorUtils.goPerson(context, data.userName);
         });
       case 'org':

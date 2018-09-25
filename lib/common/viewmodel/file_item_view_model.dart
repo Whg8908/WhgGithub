@@ -1,3 +1,5 @@
+import 'package:github/common/bean/FileModel.dart';
+
 /**
  * @Author by whg
  * @Email ghw8908@163.com
@@ -14,8 +16,8 @@ class FileItemViewModel {
 
   FileItemViewModel();
 
-  FileItemViewModel.fromMap(map) {
-    name = map["name"];
-    type = map["type"];
+  FileItemViewModel.fromMap(FileModel map) {
+    name = map.name;
+    type = map.type;
   }
 }

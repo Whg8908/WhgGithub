@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:github/common/bean/RepoCommit.dart';
+import 'package:github/common/bean/Repository.dart';
 import 'package:github/common/dao/repos_dao.dart';
 import 'package:github/common/utils/eventutils.dart';
 import 'package:github/common/utils/navigatorutils.dart';
@@ -62,7 +63,9 @@ class RepositoryDetailInfoPageState
   _renderEventItem(index) {
     if (index == 0) {
       return new ReposHeaderItem(
-          reposDetailInfoPageControl.reposHeaderViewModel, (index) {
+          ReposHeaderViewModel.fromHttpMap(
+              userName, reposName, reposDetailInfoPageControl.repository),
+          (index) {
         selectIndex = index;
         clearData();
         showRefreshLoading();
@@ -123,5 +126,5 @@ class RepositoryDetailInfoPageState
 }
 
 class ReposDetailInfoPageControl {
-  ReposHeaderViewModel reposHeaderViewModel = new ReposHeaderViewModel();
+  Repository repository = Repository.empty();
 }

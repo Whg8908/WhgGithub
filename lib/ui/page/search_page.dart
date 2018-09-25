@@ -4,6 +4,8 @@ import 'package:github/common/dao/repos_dao.dart';
 import 'package:github/common/style/whg_style.dart';
 import 'package:github/common/utils/navigatorutils.dart';
 import 'package:github/common/viewmodel/filter_model.dart';
+import 'package:github/common/viewmodel/repos_view_model.dart';
+import 'package:github/common/viewmodel/user_item_view_model.dart';
 import 'package:github/ui/base/whg_list_state.dart';
 import 'package:github/ui/page/whg_search_drawer.dart';
 import 'package:github/ui/view/repos_item.dart';
@@ -38,13 +40,15 @@ class SearchPageState extends WhgListState<SearchPage> {
   _renderEventItem(index) {
     var data = pullLoadWidgetControl.dataList[index];
     if (selectIndex == 0) {
-      return new ReposItem(data, onPressed: () {
+      ReposViewModel reposViewModel = ReposViewModel.fromMap(data);
+      return new ReposItem(reposViewModel, onPressed: () {
         NavigatorUtils.goReposDetail(
-            context, data.ownerName, data.repositoryName);
+            context, reposViewModel.ownerName, reposViewModel.repositoryName);
       });
     } else if (selectIndex == 1) {
-      return new UserItem(data, onPressed: () {
-        NavigatorUtils.goPerson(context, data.userName);
+      return new UserItem(UserItemViewModel.fromMap(data), onPressed: () {
+        NavigatorUtils.goPerson(
+            context, UserItemViewModel.fromMap(data).userName);
       });
     }
   }

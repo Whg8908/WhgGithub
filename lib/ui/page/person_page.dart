@@ -11,6 +11,7 @@ import 'package:github/common/utils/commonutils.dart';
 import 'package:github/common/utils/eventutils.dart';
 import 'package:github/common/utils/navigatorutils.dart';
 import 'package:github/common/viewmodel/event_view_model.dart';
+import 'package:github/common/viewmodel/user_item_view_model.dart';
 import 'package:github/ui/base/whg_list_state.dart';
 import 'package:github/ui/view/event_item.dart';
 import 'package:github/ui/view/user_header_item.dart';
@@ -136,10 +137,13 @@ class PersonPageState extends WhgListState<PersonPage> {
       return new UserHeaderItem(userInfo, beStaredCount);
     }
     if (userInfo.type == "Organization") {
-      return new UserItem(pullLoadWidgetControl.dataList[index - 1],
+      return new UserItem(
+          UserItemViewModel.fromMap(pullLoadWidgetControl.dataList[index - 1]),
           onPressed: () {
         NavigatorUtils.goPerson(
-            context, pullLoadWidgetControl.dataList[index - 1].userName);
+            context,
+            UserItemViewModel.fromMap(pullLoadWidgetControl.dataList[index - 1])
+                .userName);
       });
     } else {
       Event event = pullLoadWidgetControl.dataList[index - 1];

@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:github/common/bean/PushCommit.dart';
 import 'package:github/common/dao/repos_dao.dart';
 import 'package:github/common/net/address.dart';
 import 'package:github/common/style/whg_style.dart';
@@ -71,12 +72,12 @@ class PushDetailPageState extends WhgListState<PushDetailPage> {
     page = 1;
     var res = await _getDataLogic();
     if (res != null && res.result) {
-      PushHeaderViewModel headerViewModel = res.data;
+      PushCommit pushCommit = res.data;
       pullLoadWidgetControl.dataList.clear();
       if (isShow) {
         setState(() {
-          pushHeaderViewModel = headerViewModel;
-          pullLoadWidgetControl.dataList.addAll(pushHeaderViewModel.files);
+          pushHeaderViewModel = PushHeaderViewModel.forMap(pushCommit);
+          pullLoadWidgetControl.dataList.addAll(pushCommit.files);
           pullLoadWidgetControl.needLoadMore = false;
         });
       }
@@ -89,8 +90,8 @@ class PushDetailPageState extends WhgListState<PushDetailPage> {
     if (index == 0) {
       return new PushHeader(pushHeaderViewModel);
     }
-    PushCodeItemViewModel itemViewModel =
-        pullLoadWidgetControl.dataList[index - 1];
+    PushCodeItemViewModel itemViewModel = PushCodeItemViewModel.fromMap(
+        pullLoadWidgetControl.dataList[index - 1]);
     return new PushCodeItem(itemViewModel, () {
       if (Platform.isIOS) {
         NavigatorUtils.gotoCodeDetailPage(

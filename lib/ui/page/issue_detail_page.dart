@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:github/common/bean/Issue.dart';
 import 'package:github/common/dao/issue_dao.dart';
 import 'package:github/common/style/whg_style.dart';
 import 'package:github/common/utils/commonutils.dart';
@@ -86,7 +87,7 @@ class IssueDetailPageState extends WhgListState<IssueDetailPage> {
     var res = await IssueDao.getIssueInfoDao(userName, reposName, issueNum);
     if (res != null && res.result) {
       setState(() {
-        issueHeaderViewModel = res.data;
+        issueHeaderViewModel = IssueHeaderViewModel.fromMap(res.data);
         headerStatus = true;
       });
     }
@@ -96,10 +97,10 @@ class IssueDetailPageState extends WhgListState<IssueDetailPage> {
     if (index == 0) {
       return new IssueHeaderItem(issueHeaderViewModel, onPressed: () {});
     }
-    IssueItemViewModel issueItemViewModel =
-        pullLoadWidgetControl.dataList[index - 1];
+    Issue issue = pullLoadWidgetControl.dataList[index - 1];
+
     return new IssueItem(
-      issueItemViewModel,
+      IssueItemViewModel.fromMap(issue, needTitle: false),
       hideBottom: true,
       limitComment: false,
       onPressed: () {
@@ -107,9 +108,9 @@ class IssueDetailPageState extends WhgListState<IssueDetailPage> {
             context,
             WhgStrings.issue_edit_issue_edit_commit,
             WhgStrings.issue_edit_issue_delete_commit, () {
-          Navigator.pop(context);
+          _editCommit(issue.id.toString(), issue.title);
         }, () {
-          _deleteCommit(issueItemViewModel.id);
+          _deleteCommit(issue.id.toString());
         });
       },
     );
@@ -125,6 +126,39 @@ class IssueDetailPageState extends WhgListState<IssueDetailPage> {
       Navigator.pop(context);
       Navigator.pop(context);
     });
+  }
+
+  _editCommit(id, content) {
+    Navigator.pop(context);
+    String contentData = content;
+    issueInfoValueControl = new TextEditingController(text: contentData);
+    //编译Issue Info
+    CommonUtils.showEditDialog(
+      context,
+      WhgStrings.issue_edit_issue,
+      null,
+      (contentValue) {
+        contentData = contentValue;
+      },
+      () {
+        if (contentData == null || contentData.trim().length == 0) {
+          Fluttertoast.showToast(
+              msg: WhgStrings.issue_edit_issue_content_not_be_null);
+          return;
+        }
+        CommonUtils.showLoadingDialog(context);
+        //提交修改
+        IssueDao.editCommentDao(
+                userName, reposName, issueNum, id, {"body": contentData})
+            .then((result) {
+          showRefreshLoading();
+          Navigator.pop(context);
+          Navigator.pop(context);
+        });
+      },
+      valueController: issueInfoValueControl,
+      needTitle: false,
+    );
   }
 
   _editIssue() {

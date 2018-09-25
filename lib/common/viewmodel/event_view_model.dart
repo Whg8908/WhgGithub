@@ -1,4 +1,5 @@
 import 'package:github/common/bean/Event.dart';
+import 'package:github/common/bean/Notification.dart' as Model;
 import 'package:github/common/bean/RepoCommit.dart';
 import 'package:github/common/style/whg_style.dart';
 import 'package:github/common/utils/commonutils.dart';
@@ -28,17 +29,14 @@ class EventViewModel {
     actionTarget = eventMap.commit.message;
   }
 
-  EventViewModel.fromNotify(eventMap) {
-    actionTime =
-        CommonUtils.getNewsTimeStr(DateTime.parse(eventMap["updated_at"]));
-    actionUser = eventMap["repository"]["full_name"];
-    String type = eventMap["subject"]["type"];
-    String status = eventMap["unread"]
-        ? WhgStrings.notify_unread
-        : WhgStrings.notify_readed;
-    actionDes = eventMap["reason"] +
+  EventViewModel.fromNotify(Model.Notification eventMap) {
+    actionTime = CommonUtils.getNewsTimeStr(eventMap.updateAt);
+    actionUser = eventMap.repository.fullName;
+    String type = eventMap.subject.type;
+    String status =
+        eventMap.unread ? WhgStrings.notify_unread : WhgStrings.notify_readed;
+    actionDes = eventMap.reason +
         "${WhgStrings.notify_type}：$type，${WhgStrings.notify_status}：$status";
-    actionTarget = eventMap["subject"]["title"];
-    this.eventMap = eventMap;
+    actionTarget = eventMap.subject.title;
   }
 }
