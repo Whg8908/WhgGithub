@@ -4,6 +4,7 @@ import 'package:github/common/utils/navigatorutils.dart';
 import 'package:github/ui/page/issue_header_view_model.dart';
 import 'package:github/ui/view/card_item.dart';
 import 'package:github/ui/view/whg_icon_text.dart';
+import 'package:github/ui/view/whg_markdown_widget.dart';
 import 'package:github/ui/view/whg_user_icon_widget.dart';
 
 /**
@@ -22,10 +23,10 @@ class IssueHeaderItem extends StatelessWidget {
 
   IssueHeaderItem(this.issueHeaderViewModel, {this.onPressed});
 
-  @override
-  Widget build(BuildContext context) {
+  _renderBottomContainer() {
     Color issueStateColor =
         issueHeaderViewModel.state == "open" ? Colors.green : Colors.red;
+
     Widget bottomContainer = new Row(
       children: <Widget>[
         new WhgIconText(
@@ -53,6 +54,11 @@ class IssueHeaderItem extends StatelessWidget {
         ),
       ],
     );
+    return bottomContainer;
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return new WhgCardItem(
       color: Color(WhgColors.primaryValue),
       child: new FlatButton(
@@ -93,7 +99,7 @@ class IssueHeaderItem extends StatelessWidget {
                           ],
                         ),
                         new Padding(padding: new EdgeInsets.all(2.0)),
-                        bottomContainer,
+                        _renderBottomContainer(),
                         new Container(
                             child: new Text(
                               issueHeaderViewModel.issueComment,
@@ -111,18 +117,31 @@ class IssueHeaderItem extends StatelessWidget {
                   ),
                 ],
               ),
-              new Container(
-                  child: new Text(
-                    issueHeaderViewModel.issueDesHtml,
-                    style: WhgConstant.smallTextWhite,
-                    maxLines: 2,
-                  ),
-                  margin: new EdgeInsets.all(10.0),
-                  alignment: Alignment.topLeft)
+
+              ///评论内容
+              WhgMarkdownWidget(
+                  markdownData: issueHeaderViewModel.issueDesHtml,
+                  style: WhgMarkdownWidget.DARK_THEME),
+
+              ///close 用户
+              _renderCloseByText()
             ],
           ),
         ),
       ),
     );
+  }
+
+  ///关闭操作人
+  _renderCloseByText() {
+    return (issueHeaderViewModel.closed_by == null)
+        ? new Container()
+        : new Container(
+            child: new Text(
+              "Close By " + issueHeaderViewModel.closed_by,
+              style: WhgConstant.subSmallText,
+            ),
+            margin: new EdgeInsets.only(right: 5.0, top: 10.0, bottom: 10.0),
+            alignment: Alignment.topRight);
   }
 }

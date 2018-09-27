@@ -4,6 +4,7 @@ import 'package:github/common/utils/navigatorutils.dart';
 import 'package:github/common/viewmodel/issue_item_view_model.dart';
 import 'package:github/ui/view/card_item.dart';
 import 'package:github/ui/view/whg_icon_text.dart';
+import 'package:github/ui/view/whg_markdown_widget.dart';
 import 'package:github/ui/view/whg_user_icon_widget.dart';
 /**
  * @Author by whg
@@ -28,9 +29,6 @@ class IssueItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Color issueStateColor =
-        issueItemViewModel.state == "open" ? Colors.green : Colors.red;
-
     return WhgCardItem(
       child: FlatButton(
         padding: new EdgeInsets.all(0.0),
@@ -70,19 +68,12 @@ class IssueItem extends StatelessWidget {
                         padding: new EdgeInsets.only(
                             left: 0.0, top: 2.0, right: 0.0, bottom: 0.0),
                       ),
-                      new Container(
-                          child: new Text(
-                            issueItemViewModel.issueComment,
-                            style: WhgConstant.subSmallText,
-                            maxLines: limitComment ? 2 : 1000,
-                          ),
-                          margin: new EdgeInsets.only(top: 6.0, bottom: 2.0),
-                          alignment: Alignment.topLeft),
+                      _renderCommentText(),
                       new Padding(
                         padding: new EdgeInsets.only(
                             left: 0.0, top: 2.0, right: 0.0, bottom: 0.0),
                       ),
-                      buttomContainer(issueStateColor),
+                      buttomContainer(),
                     ],
                   ),
                 ),
@@ -92,7 +83,25 @@ class IssueItem extends StatelessWidget {
     );
   }
 
-  buttomContainer(Color issueStateColor) {
+  ///评论内容
+  _renderCommentText() {
+    return (limitComment)
+        ? new Container(
+            child: new Text(
+              issueItemViewModel.issueComment,
+              style: WhgConstant.subSmallText,
+              maxLines: limitComment ? 2 : 1000,
+            ),
+            margin: new EdgeInsets.only(top: 6.0, bottom: 2.0),
+            alignment: Alignment.topLeft,
+          )
+        : WhgMarkdownWidget(markdownData: issueItemViewModel.issueComment);
+  }
+
+  buttomContainer() {
+    Color issueStateColor =
+        issueItemViewModel.state == "open" ? Colors.green : Colors.red;
+
     if (hideBottom) {
       return Container();
     } else {

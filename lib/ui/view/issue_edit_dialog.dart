@@ -104,7 +104,7 @@ class IssueEditDialogState extends State<IssueEditDialog> {
                         child: new Text(dialogTitle,
                             style: WhgConstant.normalTextBold),
                       )),
-                  title,
+                  renderTitleInput(),
                   new Container(
                     height: MediaQuery.of(context).size.width * 3 / 4,
                     decoration: new BoxDecoration(
@@ -115,16 +115,25 @@ class IssueEditDialogState extends State<IssueEditDialog> {
                     ),
                     padding: new EdgeInsets.only(
                         left: 20.0, top: 12.0, right: 20.0, bottom: 12.0),
-                    child: new TextField(
-                      autofocus: false,
-                      maxLines: 999,
-                      onChanged: onContentChanged,
-                      controller: valueController,
-                      decoration: new InputDecoration.collapsed(
-                        hintText: WhgStrings.issue_edit_issue_title_tip,
-                        hintStyle: WhgConstant.middleSubText,
-                      ),
-                      style: WhgConstant.middleText,
+                    child: new Column(
+                      children: <Widget>[
+                        new Expanded(
+                          child: new TextField(
+                            autofocus: false,
+                            maxLines: 999,
+                            onChanged: onContentChanged,
+                            controller: valueController,
+                            decoration: new InputDecoration.collapsed(
+                              hintText: WhgStrings.issue_edit_issue_title_tip,
+                              hintStyle: WhgConstant.middleSubText,
+                            ),
+                            style: WhgConstant.middleText,
+                          ),
+                        ),
+
+                        ///快速输入框
+                        _renderFastInputContainer(),
+                      ],
                     ),
                   ),
                   new Container(height: 10.0),
@@ -167,4 +176,70 @@ class IssueEditDialogState extends State<IssueEditDialog> {
       ),
     );
   }
+
+  ///标题输入框
+  renderTitleInput() {
+    return (needTitle)
+        ? new Padding(
+            padding: new EdgeInsets.all(5.0),
+            child: new WhgInputWidget(
+              onChange: onTitleChanged,
+              controller: titleController,
+              hintText: WhgStrings.issue_edit_issue_title_tip,
+              obscureText: false,
+            ))
+        : new Container();
+  }
+
+  ///快速输入框
+  _renderFastInputContainer() {
+    ///因为是Column下包含了ListView，所以需要设置高度
+    return new Container(
+      height: 30.0,
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemBuilder: (context, index) {
+          return new RawMaterialButton(
+              materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              padding:
+                  EdgeInsets.only(left: 8.0, right: 8.0, top: 5.0, bottom: 5.0),
+              constraints: const BoxConstraints(minWidth: 0.0, minHeight: 0.0),
+              child: Icon(FAST_INPUT_LIST[index].iconData, size: 16.0),
+              onPressed: () {
+                String text = FAST_INPUT_LIST[index].content;
+                String newText = "";
+                if (valueController.value != null) {
+                  newText = valueController.value.text;
+                }
+                newText = newText + text;
+                setState(() {
+                  valueController.value = new TextEditingValue(text: newText);
+                });
+                if (onContentChanged != null) {
+                  onContentChanged(newText);
+                }
+              });
+        },
+        itemCount: FAST_INPUT_LIST.length,
+      ),
+    );
+  }
+}
+
+var FAST_INPUT_LIST = [
+  FastInputIconModel(WhgICons.ISSUE_EDIT_H1, "\n# "),
+  FastInputIconModel(WhgICons.ISSUE_EDIT_H2, "\n## "),
+  FastInputIconModel(WhgICons.ISSUE_EDIT_H3, "\n### "),
+  FastInputIconModel(WhgICons.ISSUE_EDIT_BOLD, "****"),
+  FastInputIconModel(WhgICons.ISSUE_EDIT_ITALIC, "__"),
+  FastInputIconModel(WhgICons.ISSUE_EDIT_QUOTE, "` `"),
+  FastInputIconModel(WhgICons.ISSUE_EDIT_CODE, " \n``` \n\n``` \n"),
+  FastInputIconModel(WhgICons.ISSUE_EDIT_LINK, "[](url)"),
+];
+
+class FastInputIconModel {
+  final IconData iconData;
+  final String content;
+
+  FastInputIconModel(this.iconData, this.content);
 }

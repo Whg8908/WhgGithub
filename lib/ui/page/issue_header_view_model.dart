@@ -14,6 +14,7 @@ class IssueHeaderViewModel {
   String state = "---";
   String issueDes = "---";
   String issueTag = "---";
+  String closed_by = "---";
 
   IssueHeaderViewModel();
 
@@ -21,7 +22,7 @@ class IssueHeaderViewModel {
     actionTime = CommonUtils.getNewsTimeStr(issueMap.createdAt);
     actionUser = issueMap.user.login;
     actionUserPic = issueMap.user.avatar_url;
-    //closed_by = issueMap.closed_by != null ? issueMap["closed_by"]["login"] : "";
+    closed_by = issueMap.closeBy != null ? issueMap.closeBy.login : "";
     locked = issueMap.locked;
     issueComment = issueMap.title;
     issueDesHtml = issueMap.bodyHtml != null

@@ -17,6 +17,7 @@ var TrendType = [
   TrendTypeModel(WhgStrings.trend_all, null),
   TrendTypeModel("Java", "Java"),
   TrendTypeModel("Kotlin", "Kotlin"),
+  TrendTypeModel("Dart", "Dart"),
   TrendTypeModel("Objective-C", "Objective-C"),
   TrendTypeModel("Swift", "Swift"),
   TrendTypeModel("JavaScript", "JavaScript"),

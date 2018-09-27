@@ -24,7 +24,8 @@ class DynamicPage extends StatefulWidget {
   DynamicPageState createState() => DynamicPageState();
 }
 
-class DynamicPageState extends WhgListState<DynamicPage> {
+class DynamicPageState extends WhgListState<DynamicPage>
+    with WidgetsBindingObserver {
   Store<WhgState> _getStore() {
     return StoreProvider.of(context);
   }
@@ -44,6 +45,27 @@ class DynamicPageState extends WhgListState<DynamicPage> {
 
   @override
   List get getDataList => _getStore().state.eventList;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      if (pullLoadWidgetControl.dataList.length != 0) {
+        showRefreshLoading();
+      }
+    }
+  }
 
   _renderEventItem(Event e) {
     EventViewModel eventViewModel = EventViewModel.fromEventMap(e);

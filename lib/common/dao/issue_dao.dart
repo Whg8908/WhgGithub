@@ -93,7 +93,8 @@ class IssueDao {
   static getIssueInfoDao(userName, repository, number) async {
     String url = Address.getIssueInfo(userName, repository, number);
     //{"Accept": 'application/vnd.github.html,application/vnd.github.VERSION.raw'}
-    var res = await HttpManager.fetch(url, null, null, null);
+    var res = await HttpManager.fetch(
+        url, null, {"Accept": 'application/vnd.github.VERSION.raw'}, null);
     if (res != null && res.result) {
       return new DataResult(Issue.fromJson(res.data), true);
     } else {
@@ -108,7 +109,8 @@ class IssueDao {
     String url = Address.getIssueComment(userName, repository, number) +
         Address.getPageParams("?", page);
     //{"Accept": 'application/vnd.github.html,application/vnd.github.VERSION.raw'}
-    var res = await HttpManager.fetch(url, null, null, null);
+    var res = await HttpManager.fetch(
+        url, null, {"Accept": 'application/vnd.github.VERSION.raw'}, null);
     if (res != null && res.result) {
       List<Issue> list = new List();
       var data = res.data;

@@ -118,7 +118,8 @@ class CodeDetailPageState extends State<CodeDetailPage> {
               ),
             ),
           )
-        : new WhgMarkdownWidget(markdownData: data, style: 1);
+        : new WhgMarkdownWidget(
+            markdownData: data, style: WhgMarkdownWidget.DARK_LIGHT);
 
     return new Scaffold(
       appBar: AppBar(

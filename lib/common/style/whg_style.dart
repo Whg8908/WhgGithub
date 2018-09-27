@@ -172,6 +172,8 @@ class WhgStrings {
   static const String release_tab_tag = "标记";
 
   static const String app_back_tip = "确定要退出应用？";
+
+  static const String issue_edit_issue_copy_commit = "复制";
 }
 
 class WhgConstant {
@@ -313,6 +315,11 @@ class WhgConstant {
     color: Color(WhgColors.primaryValue),
     fontSize: largetTextSize,
   );
+
+  static const minSmallText = TextStyle(
+    color: Color(WhgColors.subTextColor),
+    fontSize: minTextSize,
+  );
 }
 
 class WhgICons {
@@ -390,4 +397,13 @@ class WhgICons {
   static const String DEFAULT_USER_ICON = 'static/images/logo.png';
 
   static const IconData REPOS_ITEM_DIR = Icons.folder;
+
+  static const IconData ISSUE_EDIT_H1 = Icons.filter_1;
+  static const IconData ISSUE_EDIT_H2 = Icons.filter_2;
+  static const IconData ISSUE_EDIT_H3 = Icons.filter_3;
+  static const IconData ISSUE_EDIT_BOLD = Icons.format_bold;
+  static const IconData ISSUE_EDIT_ITALIC = Icons.format_italic;
+  static const IconData ISSUE_EDIT_QUOTE = Icons.format_quote;
+  static const IconData ISSUE_EDIT_CODE = Icons.format_shapes;
+  static const IconData ISSUE_EDIT_LINK = Icons.insert_link;
 }

@@ -70,7 +70,10 @@ class HomeDrawer extends StatelessWidget {
                         Navigator.pop(context);
                         Navigator.pop(context);
                       });
-                    }, needTitle: false);
+                    },
+                        titleController: new TextEditingController(),
+                        valueController: new TextEditingController(),
+                        needTitle: false);
                   }),
               new ListTile(
                   title: new Text(

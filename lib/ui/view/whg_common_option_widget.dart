@@ -18,6 +18,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 class WhgCommonOptionWidget extends StatelessWidget {
   final List<WhgOptionModel> otherList;
+
   final String url;
 
   WhgCommonOptionWidget(this.url, {this.otherList});

@@ -2,7 +2,9 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get_version/get_version.dart';
 import 'package:github/common/style/whg_style.dart';
 import 'package:github/common/utils/navigatorutils.dart';
@@ -282,7 +284,7 @@ class CommonUtils {
           launchWebView(context, "", url);
         }
       }
-    } else {
+    } else if (url != null && url.startsWith("http")) {
       launchWebView(context, "", url);
     }
   }
@@ -317,5 +319,10 @@ class CommonUtils {
                     child: new Text(WhgStrings.app_ok))
               ],
             ));
+  }
+
+  static copy(String data) {
+    Clipboard.setData(new ClipboardData(text: data));
+    Fluttertoast.showToast(msg: WhgStrings.option_share_copy_success);
   }
 }

@@ -214,14 +214,23 @@ class UserHeaderItem extends StatelessWidget {
       alignment: Alignment.topLeft);
 
   Widget _getBottomItem(String title, var value, onPressed) {
+    String data = value == null ? "" : value.toString();
+    TextStyle valueStyle = (value != null && value.toString().length > 4)
+        ? WhgConstant.minSmallText
+        : WhgConstant.subSmallText;
+
     return new Expanded(
       child: new Center(
         child: new FlatButton(
           onPressed: onPressed,
-          child: new Text(
-              title + "\n" + (value == null ? "" : value.toString()),
-              textAlign: TextAlign.center,
-              style: WhgConstant.subSmallText),
+          child: RichText(
+            textAlign: TextAlign.center,
+            text: TextSpan(
+              style: WhgConstant.subSmallText,
+              text: title + "\n",
+              children: [TextSpan(text: data, style: valueStyle)],
+            ),
+          ),
         ),
       ),
     );
