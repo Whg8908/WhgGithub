@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
+import 'package:github/ui/view/whg_common_option_widget.dart';
 
 class WhgWebView extends StatelessWidget {
   final String url;
@@ -14,8 +15,18 @@ class WhgWebView extends StatelessWidget {
       url: url,
       withLocalUrl: true,
       appBar: new AppBar(
-        title: new Text(title),
+        title: _renderTitle(),
       ),
     );
+  }
+
+  _renderTitle() {
+    if (url == null || url.length == 0) {
+      return new Text(title);
+    }
+    return new Row(children: [
+      new Expanded(child: new Container()),
+      WhgCommonOptionWidget(url),
+    ]);
   }
 }

@@ -320,6 +320,12 @@ class WhgConstant {
     color: Color(WhgColors.subTextColor),
     fontSize: minTextSize,
   );
+
+  static const largeTextBold = TextStyle(
+    color: Color(WhgColors.mainTextColor),
+    fontSize: bigTextSize,
+    fontWeight: FontWeight.bold,
+  );
 }
 
 class WhgICons {
