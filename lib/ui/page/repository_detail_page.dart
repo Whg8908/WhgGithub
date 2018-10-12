@@ -37,7 +37,8 @@ class RepositoryDetailPageState extends State<RepositoryDetailPage> {
   final ReposDetailInfoPageControl reposDetailInfoPageControl =
       new ReposDetailInfoPageControl();
 
-  final BranchControl branchControl = new BranchControl("master");
+  final ReposDetailParentControl reposDetailParentControl =
+      new ReposDetailParentControl("master");
 
   final GlobalKey<RepositoryDetailFileListPageState> fileListKey =
       new GlobalKey<RepositoryDetailFileListPageState>();
@@ -59,7 +60,8 @@ class RepositoryDetailPageState extends State<RepositoryDetailPage> {
   int initialIndex = 0;
 
   _getBranchList() async {
-    var result = await ReposDao.getBranchesDao(userName, reposName);
+    var result = await ReposDao.getRepositoryDetailDao(
+        userName, reposName, reposDetailParentControl.currentBranch);
     if (result != null && result.result) {
       setState(() {
         branchList = result.data;
@@ -69,7 +71,7 @@ class RepositoryDetailPageState extends State<RepositoryDetailPage> {
 
   _getReposDetail() async {
     var result = await ReposDao.getRepositoryDetailDao(
-        userName, reposName, branchControl.currentBranch);
+        userName, reposName, reposDetailParentControl.currentBranch);
     if (result != null && result.result) {
       setState(() {
         reposDetailInfoPageControl.repository = result.data;
@@ -144,9 +146,10 @@ class RepositoryDetailPageState extends State<RepositoryDetailPage> {
                 Navigator.pop(context);
               });
             }),
-            _renderBranchPopItem(currentBranch, branchList, (value) {
+            _renderBranchPopItem(
+                reposDetailParentControl.currentBranch, branchList, (value) {
               setState(() {
-                branchControl.currentBranch = value;
+                reposDetailParentControl.currentBranch = value;
                 tarBarControl.footerButton = _getBottomWidget();
               });
               _getReposDetail();
@@ -232,6 +235,7 @@ class RepositoryDetailPageState extends State<RepositoryDetailPage> {
       return new FlatButton(
           padding: EdgeInsets.all(0.0),
           onPressed: () {
+            reposDetailParentControl.currentIndex = i;
             topPageControl.jumpTo(MediaQuery.of(context).size.width * i);
           },
           child: new Text(
@@ -264,31 +268,38 @@ class RepositoryDetailPageState extends State<RepositoryDetailPage> {
     Widget widget =
         new WhgCommonOptionWidget(url, otherList: _getMoreOtherItem());
     return new WhgTabBarWidget(
-        type: WhgTabBarWidget.TOP_TAB,
-        tarWidgetControl: tarBarControl,
-        tabItems: _renderTabItem(),
-        tabViews: [
-          RepositoryDetailInfoListPage(
-              reposDetailInfoPageControl, userName, reposName, branchControl,
-              key: infoListKey),
-          RepostroyDetailReadmePage(userName, reposName, branchControl,
-              key: readmeKey),
-          RepositoryDetailIssueListPage(userName, reposName),
-          RepositoryDetailFileListPage(userName, reposName, branchControl,
-              key: fileListKey),
-        ],
-        topPageControl: topPageControl,
-        backgroundColor: WhgColors.primarySwatch,
-        indicatorColor: Colors.white,
-        title: WhgTitleBar(
-          reposName,
-          rightWidget: widget,
-        ));
+      type: WhgTabBarWidget.TOP_TAB,
+      tarWidgetControl: tarBarControl,
+      tabItems: _renderTabItem(),
+      tabViews: [
+        RepositoryDetailInfoListPage(reposDetailInfoPageControl, userName,
+            reposName, reposDetailParentControl,
+            key: infoListKey),
+        RepostroyDetailReadmePage(userName, reposName, reposDetailParentControl,
+            key: readmeKey),
+        RepositoryDetailIssueListPage(userName, reposName),
+        RepositoryDetailFileListPage(
+            userName, reposName, reposDetailParentControl,
+            key: fileListKey),
+      ],
+      topPageControl: topPageControl,
+      backgroundColor: WhgColors.primarySwatch,
+      indicatorColor: Colors.white,
+      title: WhgTitleBar(
+        reposName,
+        rightWidget: widget,
+      ),
+      onPageChanged: (index) {
+        reposDetailParentControl.currentIndex = index;
+      },
+    );
   }
 }
 
-class BranchControl {
+class ReposDetailParentControl {
+  int currentIndex = 0;
+
   String currentBranch;
 
-  BranchControl(this.currentBranch);
+  ReposDetailParentControl(this.currentBranch);
 }

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:github/common/bean/Event.dart';
 import 'package:github/common/bean/User.dart';
 import 'package:github/common/dao/event_dao.dart';
@@ -9,6 +8,7 @@ import 'package:github/common/net/address.dart';
 import 'package:github/common/style/whg_style.dart';
 import 'package:github/common/utils/commonutils.dart';
 import 'package:github/common/utils/eventutils.dart';
+import 'package:github/common/utils/fluttertoast.dart';
 import 'package:github/common/utils/navigatorutils.dart';
 import 'package:github/common/viewmodel/event_view_model.dart';
 import 'package:github/common/viewmodel/user_item_view_model.dart';

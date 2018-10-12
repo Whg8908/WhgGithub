@@ -1,5 +1,5 @@
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:github/common/style/whg_style.dart';
+import 'package:github/common/utils/fluttertoast.dart';
 
 /**
  * @Author by whg

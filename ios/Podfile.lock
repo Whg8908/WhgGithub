@@ -7,8 +7,6 @@ PODS:
   - Flutter (1.0.0)
   - flutter_webview_plugin (0.0.1):
     - Flutter
-  - fluttertoast (0.0.2):
-    - Flutter
   - get_version (0.0.1):
     - Flutter
   - package_info (0.0.1):
@@ -26,7 +24,6 @@ DEPENDENCIES:
   - device_info (from `.symlinks/plugins/device_info/ios`)
   - Flutter (from `.symlinks/flutter/ios`)
   - flutter_webview_plugin (from `.symlinks/plugins/flutter_webview_plugin/ios`)
-  - fluttertoast (from `.symlinks/plugins/fluttertoast/ios`)
   - get_version (from `.symlinks/plugins/get_version/ios`)
   - package_info (from `.symlinks/plugins/package_info/ios`)
   - share (from `.symlinks/plugins/share/ios`)
@@ -46,8 +43,6 @@ EXTERNAL SOURCES:
     :path: ".symlinks/flutter/ios"
   flutter_webview_plugin:
     :path: ".symlinks/plugins/flutter_webview_plugin/ios"
-  fluttertoast:
-    :path: ".symlinks/plugins/fluttertoast/ios"
   get_version:
     :path: ".symlinks/plugins/get_version/ios"
   package_info:
@@ -64,7 +59,6 @@ SPEC CHECKSUMS:
   device_info: 76ce0b32e13034d1883be4a382433648f9dcee63
   Flutter: 9d0fac939486c9aba2809b7982dfdbb47a7b0296
   flutter_webview_plugin: 116575b48572029304775b768e9f15ebfc316274
-  fluttertoast: ad0527b15297baf11349f3f581dae4d40f24f340
   get_version: a59b7bd8fbf7543739bd853218b6685899419d05
   package_info: d7c98b64f60add4c2908b9d94d82a45d3c8827ad
   Reachability: 33e18b67625424e47b6cde6d202dce689ad7af96

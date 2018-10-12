@@ -22,24 +22,24 @@ import 'package:github/ui/view/whg_pullload_widget.dart';
 class RepositoryDetailFileListPage extends StatefulWidget {
   final String userName;
   final String reposName;
-  final BranchControl branchControl;
+  final ReposDetailParentControl reposDetailParentControl;
 
   RepositoryDetailFileListPage(
-      this.userName, this.reposName, this.branchControl,
+      this.userName, this.reposName, this.reposDetailParentControl,
       {Key key})
       : super(key: key);
 
   @override
   RepositoryDetailFileListPageState createState() =>
       new RepositoryDetailFileListPageState(
-          this.userName, this.reposName, branchControl);
+          this.userName, this.reposName, reposDetailParentControl);
 }
 
 class RepositoryDetailFileListPageState
     extends WhgListState<RepositoryDetailFileListPage> {
   final String userName;
   final String reposName;
-  final BranchControl branchControl;
+  final ReposDetailParentControl reposDetailParentControl;
 
   String path = '';
 
@@ -47,7 +47,7 @@ class RepositoryDetailFileListPageState
   String issueState;
 
   RepositoryDetailFileListPageState(
-      this.userName, this.reposName, this.branchControl);
+      this.userName, this.reposName, this.reposDetailParentControl);
 
   @override
   bool get wantKeepAlive => true;
@@ -70,28 +70,44 @@ class RepositoryDetailFileListPageState
 
   _getDataLogic(String searchString) async {
     return await ReposDao.getReposFileDirDao(userName, reposName,
-        path: path, branch: branchControl.currentBranch);
+        path: path, branch: reposDetailParentControl.currentBranch);
+  }
+
+  /// 返回按键逻辑
+  Future<bool> _dialogExitApp(BuildContext context) {
+    if (reposDetailParentControl.currentIndex != 3) {
+      return Future.value(true);
+    }
+    if (headerList.length == 1) {
+      return Future.value(true);
+    } else {
+      _resolveHeaderClick(headerList.length - 2);
+      return Future.value(false);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     super.build(context); // See AutomaticKeepAliveClientMixin.
     return new Scaffold(
-      backgroundColor: Color(WhgColors.mainBackgroundColor),
-      appBar: new AppBar(
-        flexibleSpace: _renderHeader(),
         backgroundColor: Color(WhgColors.mainBackgroundColor),
-        leading: new Container(),
-        elevation: 0.0,
-      ),
-      body: WhgPullLoadWidget(
-        (BuildContext context, int index) => _renderEventItem(index),
-        handleRefresh,
-        onLoadMore,
-        pullLoadWidgetControl,
-        refreshKey: refreshIndicatorKey,
-      ),
-    );
+        appBar: new AppBar(
+          flexibleSpace: _renderHeader(),
+          backgroundColor: Color(WhgColors.mainBackgroundColor),
+          leading: new Container(),
+          elevation: 0.0,
+        ),
+        body: WillPopScope(
+            child: WhgPullLoadWidget(
+              (BuildContext context, int index) => _renderEventItem(index),
+              handleRefresh,
+              onLoadMore,
+              pullLoadWidgetControl,
+              refreshKey: refreshIndicatorKey,
+            ),
+            onWillPop: () {
+              return _dialogExitApp(context);
+            }));
   }
 
   List<String> headerList = ["."];
@@ -169,7 +185,7 @@ class RepositoryDetailFileListPageState
           reposName: reposName,
           userName: userName,
           path: path,
-          branch: branchControl.currentBranch,
+          branch: reposDetailParentControl.currentBranch,
         );
       }
     }

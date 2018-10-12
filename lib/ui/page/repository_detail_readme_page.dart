@@ -17,23 +17,24 @@ import 'package:github/ui/view/whg_markdown_widget.dart';
 class RepostroyDetailReadmePage extends StatefulWidget {
   final String userName;
   final String reposName;
-  final BranchControl branchControl;
+  final ReposDetailParentControl reposDetailParentControl;
 
-  RepostroyDetailReadmePage(this.userName, this.reposName, this.branchControl,
+  RepostroyDetailReadmePage(
+      this.userName, this.reposName, this.reposDetailParentControl,
       {Key key})
       : super(key: key);
 
   @override
   RepostroyDetailReadmePageState createState() =>
       new RepostroyDetailReadmePageState(
-          this.userName, this.reposName, this.branchControl);
+          this.userName, this.reposName, this.reposDetailParentControl);
 }
 
 class RepostroyDetailReadmePageState extends State<RepostroyDetailReadmePage>
     with AutomaticKeepAliveClientMixin {
   final String userName;
   final String reposName;
-  final BranchControl branchControl;
+  final ReposDetailParentControl reposDetailParentControl;
 
   bool isShow = false;
   String markdownData;
@@ -42,7 +43,7 @@ class RepostroyDetailReadmePageState extends State<RepostroyDetailReadmePage>
   bool get wantKeepAlive => true;
 
   RepostroyDetailReadmePageState(
-      this.userName, this.reposName, this.branchControl);
+      this.userName, this.reposName, this.reposDetailParentControl);
 
   @override
   Widget build(BuildContext context) {
@@ -84,7 +85,7 @@ class RepostroyDetailReadmePageState extends State<RepostroyDetailReadmePage>
 
   refreshReadme() {
     ReposDao.getRepositoryDetailReadmeDao(
-            userName, reposName, branchControl.currentBranch)
+            userName, reposName, reposDetailParentControl.currentBranch)
         .then((res) {
       if (res != null && res.result) {
         if (isShow) {

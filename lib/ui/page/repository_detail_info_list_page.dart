@@ -25,17 +25,17 @@ class RepositoryDetailInfoListPage extends StatefulWidget {
   final ReposDetailInfoPageControl reposDetailInfoPageControl;
   final String userName;
   final String reposName;
-  final BranchControl branchControl;
+  final ReposDetailParentControl reposDetailParentControl;
 
   RepositoryDetailInfoListPage(this.reposDetailInfoPageControl, this.userName,
-      this.reposName, this.branchControl,
+      this.reposName, this.reposDetailParentControl,
       {Key key})
       : super(key: key);
 
   @override
   RepositoryDetailInfoPageState createState() =>
-      new RepositoryDetailInfoPageState(
-          reposDetailInfoPageControl, userName, reposName, this.branchControl);
+      new RepositoryDetailInfoPageState(reposDetailInfoPageControl, userName,
+          reposName, this.reposDetailParentControl);
 }
 
 class RepositoryDetailInfoPageState
@@ -43,12 +43,12 @@ class RepositoryDetailInfoPageState
   final ReposDetailInfoPageControl reposDetailInfoPageControl;
   final String userName;
   final String reposName;
-  final BranchControl branchControl;
+  final ReposDetailParentControl reposDetailParentControl;
 
   int selectIndex = 0;
 
   RepositoryDetailInfoPageState(this.reposDetailInfoPageControl, this.userName,
-      this.reposName, this.branchControl);
+      this.reposName, this.reposDetailParentControl);
 
   @protected
   requestRefresh() async {
@@ -97,10 +97,10 @@ class RepositoryDetailInfoPageState
   _getDataLogic() async {
     if (selectIndex == 1) {
       return await ReposDao.getReposCommitsDao(userName, reposName,
-          page: page, branch: branchControl.currentBranch);
+          page: page, branch: reposDetailParentControl.currentBranch);
     }
     return await ReposDao.getRepositoryEventDao(userName, reposName,
-        page: page, branch: branchControl.currentBranch);
+        page: page, branch: reposDetailParentControl.currentBranch);
   }
 
   @override

@@ -17,20 +17,22 @@ class WhgTabBarWidget extends StatefulWidget {
   final Widget floatingActionButton;
   final TarWidgetControl tarWidgetControl;
   final PageController topPageControl;
+  final ValueChanged<int> onPageChanged;
 
-  WhgTabBarWidget(
-      {Key key,
-      this.type,
-      this.tabItems,
-      this.tabViews,
-      this.backgroundColor,
-      this.indicatorColor,
-      this.title,
-      this.drawer,
-      this.floatingActionButton,
-      this.tarWidgetControl,
-      this.topPageControl})
-      : super(key: key);
+  WhgTabBarWidget({
+    Key key,
+    this.type,
+    this.tabItems,
+    this.tabViews,
+    this.backgroundColor,
+    this.indicatorColor,
+    this.title,
+    this.drawer,
+    this.floatingActionButton,
+    this.tarWidgetControl,
+    this.topPageControl,
+    this.onPageChanged,
+  }) : super(key: key);
 
   @override
   WhgTabBarWidgetState createState() => new WhgTabBarWidgetState(
@@ -43,7 +45,8 @@ class WhgTabBarWidget extends StatefulWidget {
       this.drawer,
       this.floatingActionButton,
       this.tarWidgetControl,
-      this.topPageControl);
+      this.topPageControl,
+      this.onPageChanged);
 }
 
 class WhgTabBarWidgetState extends State<WhgTabBarWidget>
@@ -56,6 +59,7 @@ class WhgTabBarWidgetState extends State<WhgTabBarWidget>
   final Widget title;
   final Widget drawer;
   final Widget floatingActionButton;
+  final ValueChanged<int> _onPageChanged;
 
   final TarWidgetControl tarWidgetControl;
   final PageController _pageController;
@@ -72,15 +76,14 @@ class WhgTabBarWidgetState extends State<WhgTabBarWidget>
       this.drawer,
       this.floatingActionButton,
       this.tarWidgetControl,
-      this._pageController)
+      this._pageController,
+      this._onPageChanged)
       : super();
 
   @override
   void initState() {
     super.initState();
-//    if (this.type == WhgTabBarWidget.BOTTOM_TAB) {
     _tabController = TabController(length: tabItems.length, vsync: this);
-//    }
   }
 
   @override
@@ -106,6 +109,9 @@ class WhgTabBarWidgetState extends State<WhgTabBarWidget>
             children: tabViews,
             onPageChanged: (index) {
               _tabController.animateTo(index);
+              if (_onPageChanged != null) {
+                _onPageChanged(index);
+              }
             },
           ),
         ),
@@ -133,9 +139,7 @@ class WhgTabBarWidgetState extends State<WhgTabBarWidget>
   @override
   void dispose() {
     super.dispose();
-//    if (this.type == WhgTabBarWidget.BOTTOM_TAB && _tabController != null) {
     _tabController.dispose();
-//    }
   }
 }
 
