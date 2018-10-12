@@ -51,7 +51,7 @@ class MyPageState extends WhgListState<MyPage> {
     });
     _refreshNotify();
 
-    return await EventDao.getEventDao(_getUserName(), page: page);
+    return await EventDao.getEventDao(_getUserName(), page: page, needDb: true);
   }
 
   @override

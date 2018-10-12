@@ -37,15 +37,13 @@ abstract class WhgListState<T extends StatefulWidget> extends State<T>
     isLoading = true;
     page = 1;
     var res = await requestRefresh();
-    if (res != null && res.result) {
-      pullLoadWidgetControl.dataList.clear();
-      if (isShow) {
-        setState(() {
-          pullLoadWidgetControl.dataList.addAll(res.data);
-        });
-      }
-    }
+    resolveRefreshResult(res);
     resolveDataResult(res);
+    if (res.next != null) {
+      var resNext = await res.next;
+      resolveRefreshResult(resNext);
+      resolveDataResult(resNext);
+    }
     isLoading = false;
     return null;
   }
@@ -78,6 +76,18 @@ abstract class WhgListState<T extends StatefulWidget> extends State<T>
             res.data != null &&
             res.data.length == Config.PAGE_SIZE);
       });
+    }
+  }
+
+  @protected
+  resolveRefreshResult(res) {
+    if (res != null && res.result) {
+      pullLoadWidgetControl.dataList.clear();
+      if (isShow) {
+        setState(() {
+          pullLoadWidgetControl.dataList.addAll(res.data);
+        });
+      }
     }
   }
 

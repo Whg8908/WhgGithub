@@ -32,7 +32,8 @@ class DynamicPageState extends WhgListState<DynamicPage>
 
   @override
   requestRefresh() async {
-    return await EventDao.getEventReceived(_getStore(), page: page);
+    return await EventDao.getEventReceived(_getStore(),
+        page: page, needDb: true);
   }
 
   @override

@@ -4,7 +4,6 @@ import 'package:github/common/bean/User.dart';
 import 'package:github/common/dao/event_dao.dart';
 import 'package:github/common/dao/repos_dao.dart';
 import 'package:github/common/dao/user_dao.dart';
-import 'package:github/common/net/address.dart';
 import 'package:github/common/style/whg_style.dart';
 import 'package:github/common/utils/commonutils.dart';
 import 'package:github/common/utils/eventutils.dart';
@@ -82,24 +81,31 @@ class PersonPageState extends WhgListState<PersonPage> {
     }
     isLoading = true;
     page = 1;
-    var userResult = await UserDao.getUserInfo(userName);
+
+    ///从Dao中获取数据
+    ///如果第一次返回的是网络数据，next为空
+    ///如果返回的是数据库数据，next不为空
+    ///这样数据库返回数据较快，马上显示
+    ///next异步再请求后，再更新
+    var userResult = await UserDao.getUserInfo(userName, needDb: true);
     if (userResult != null && userResult.result) {
-      userInfo = userResult.data;
-      setState(() {
-        userInfo = userResult.data;
-      });
+      _resolveUserInfo(userResult);
+      if (userResult.next != null) {
+        userResult.next.then((resNext) {
+          _resolveUserInfo(resNext);
+        });
+      }
     } else {
       return null;
     }
     var res = await _getDataLogic();
-    if (res != null && res.result) {
-      pullLoadWidgetControl.dataList.clear();
-      setState(() {
-        pullLoadWidgetControl.dataList.addAll(res.data);
-        launchUrl = Address.hostWeb + userInfo.login;
-      });
-    }
+    resolveRefreshResult(res);
     resolveDataResult(res);
+    if (res.next != null) {
+      var resNext = await res.next;
+      resolveRefreshResult(resNext);
+      resolveDataResult(resNext);
+    }
     isLoading = false;
     _getFocusStatus();
     ReposDao.getUserRepository100StatusDao(_getUserName()).then((res) {
@@ -112,6 +118,12 @@ class PersonPageState extends WhgListState<PersonPage> {
     return null;
   }
 
+  _resolveUserInfo(res) {
+    setState(() {
+      userInfo = res.data;
+    });
+  }
+
   @override
   requestRefresh() async {}
 
@@ -119,7 +131,8 @@ class PersonPageState extends WhgListState<PersonPage> {
     if (userInfo.type == "Organization") {
       return await UserDao.getMemberDao(_getUserName(), page);
     }
-    return await EventDao.getEventDao(_getUserName(), page: page);
+    return await EventDao.getEventDao(_getUserName(),
+        page: page, needDb: page <= 1);
   }
 
   _getFocusStatus() async {

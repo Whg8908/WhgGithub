@@ -21,22 +21,25 @@ import 'package:redux/redux.dart';
  */
 
 class EventDao {
-  static getEventReceived(Store<WhgState> store, {page = 1}) async {
+  static getEventReceived(Store<WhgState> store,
+      {page = 1, bool needDb = false}) async {
     User user = store.state.userInfo;
     if (user == null || user.login == null) {
       return null;
     }
 
+    ReceivedEventDbProvider provider = new ReceivedEventDbProvider();
+
+    if (needDb) {
+      List<Event> dbList = await provider.getEvents();
+      if (dbList.length > 0) {
+        store.dispatch(new RefreshEventAction(dbList));
+      }
+    }
+
     String userName = user.login;
     String url =
         Address.getEventReceived(userName) + Address.getPageParams("?", page);
-
-    ReceivedEventDbProvider provider = new ReceivedEventDbProvider();
-
-    List<Event> dbList = await provider.getEvents();
-    if (dbList.length > 0) {
-      store.dispatch(new RefreshEventAction(dbList));
-    }
 
     var res = await HttpManager.fetch(url, null, null, null);
     if (res != null && res.result) {
@@ -46,8 +49,9 @@ class EventDao {
         return null;
       }
 
-      await provider.insert(json.encode(data));
-
+      if (needDb) {
+        await provider.insert(json.encode(data));
+      }
       for (int i = 0; i < data.length; i++) {
         list.add(Event.fromJson(data[i]));
       }
@@ -65,24 +69,40 @@ class EventDao {
   /**
    * 用户行为事件
    */
-  static getEventDao(userName, {page = 0}) async {
-    new UserEventDbProvider().open();
+  static getEventDao(userName, {page = 0, bool needDb = false}) async {
+    UserEventDbProvider provider = new UserEventDbProvider();
 
-    String url = Address.getEvent(userName) + Address.getPageParams("?", page);
-    var res = await HttpManager.fetch(url, null, null, null);
-    if (res != null && res.result) {
-      List<Event> list = new List();
-      var data = res.data;
-      if (data == null || data.length == 0) {
+    next() async {
+      String url =
+          Address.getEvent(userName) + Address.getPageParams("?", page);
+      var res = await HttpManager.fetch(url, null, null, null);
+      if (res != null && res.result) {
+        List<Event> list = new List();
+        var data = res.data;
+        if (data == null || data.length == 0) {
+          return null;
+        }
+        if (needDb) {
+          provider.insert(userName, json.encode(data));
+        }
+        for (int i = 0; i < data.length; i++) {
+          list.add(Event.fromJson(data[i]));
+        }
+        return new DataResult(list, true);
+      } else {
         return null;
       }
-      for (int i = 0; i < data.length; i++) {
-        list.add(Event.fromJson(data[i]));
-      }
-      return new DataResult(list, true);
-    } else {
-      return null;
     }
+
+    if (needDb) {
+      List<Event> dbList = await provider.getEvents();
+      if (dbList == null && dbList.length == 0) {
+        return await next();
+      }
+      DataResult dataResult = new DataResult(dbList, true, next: next());
+      return dataResult;
+    }
+    return await next();
   }
 
   static clearEvent(Store store) {

@@ -5,6 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:github/common/bean/Notification.dart';
 import 'package:github/common/bean/User.dart';
 import 'package:github/common/config/config.dart';
+import 'package:github/common/db/sql_provider.dart';
 import 'package:github/common/local/local_storage.dart';
 import 'package:github/common/net/address.dart';
 import 'package:github/common/net/data_result.dart';
@@ -91,31 +92,49 @@ class UserDao {
   }
 
   ///获取用户详细信息
-  static getUserInfo(userName) async {
-    var res;
-    if (userName == null) {
-      res = await HttpManager.fetch(Address.getMyUserInfo(), null, null, null);
-    } else {
-      res = await HttpManager.fetch(
-          Address.getUserInfo(userName), null, null, null);
-    }
-    if (res != null && res.result) {
-      String starred = "---";
-      if (res.data["type"] != "Organization") {
-        var countRes = await getUserStaredCountNet(res.data["login"]);
-        if (countRes.result) {
-          starred = countRes.data;
-        }
-      }
-      User user = User.fromJson(res.data);
-      user.starred = starred;
+  static getUserInfo(userName, {needDb = false}) async {
+    UserInfoDbProvider provider = new UserInfoDbProvider();
+    next() async {
+      var res;
       if (userName == null) {
-        LocalStorage.put(Config.USER_INFO, json.encode(user.toJson()));
+        res =
+            await HttpManager.fetch(Address.getMyUserInfo(), null, null, null);
+      } else {
+        res = await HttpManager.fetch(
+            Address.getUserInfo(userName), null, null, null);
       }
-      return new DataResult(user, true);
-    } else {
-      return new DataResult(res.data, false);
+      if (res != null && res.result) {
+        String starred = "---";
+        if (res.data["type"] != "Organization") {
+          var countRes = await getUserStaredCountNet(res.data["login"]);
+          if (countRes.result) {
+            starred = countRes.data;
+          }
+        }
+        User user = User.fromJson(res.data);
+        user.starred = starred;
+        if (userName == null) {
+          LocalStorage.put(Config.USER_INFO, json.encode(res.data));
+        } else {
+          if (needDb) {
+            provider.insert(userName, json.encode(user.toJson()));
+          }
+        }
+        return new DataResult(user, true);
+      } else {
+        return new DataResult(res.data, false);
+      }
     }
+
+    if (needDb) {
+      User user = await provider.getUserInfo(userName);
+      if (user == null) {
+        return await next();
+      }
+      DataResult dataResult = new DataResult(user, true, next: next());
+      return dataResult;
+    }
+    return await next();
   }
 
   /**
