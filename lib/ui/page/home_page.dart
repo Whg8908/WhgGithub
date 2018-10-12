@@ -9,6 +9,16 @@ import 'package:github/ui/page/trend_page.dart';
 import 'package:github/ui/view/whg_tabbar_widget.dart';
 import 'package:github/ui/view/whg_title_bar.dart';
 
+/**
+ * @Author by whg
+ * @Email ghw8908@163.com
+ * @Date on 2018/10/12
+ *
+ * @Description 主页面
+ *
+ * PS: Stay hungry,Stay foolish.
+ */
+
 class HomePage extends StatelessWidget {
   static const String sName = "home";
 
@@ -19,6 +29,7 @@ class HomePage extends StatelessWidget {
           return CommonUtils.dialogExitApp(context);
         },
         child: WhgTabBarWidget(
+            //tabview+viewpager组合(上/下)
             drawer: HomeDrawer(),
             type: WhgTabBarWidget.BOTTOM_TAB,
             tabItems: [
@@ -51,13 +62,14 @@ class HomePage extends StatelessWidget {
               ),
             ],
             tabViews: [
-              DynamicPage(),
-              TrendPage(),
-              MyPage(),
+              DynamicPage(), //动态页面
+              TrendPage(), //趋势页面
+              MyPage(), //我的页面
             ],
             backgroundColor: WhgColors.primarySwatch,
             indicatorColor: Colors.white,
             title: WhgTitleBar(
+              //自定义titlebar
               WhgStrings.app_name,
               iconData: WhgICons.MAIN_SEARCH,
               needRightLocalIcon: true,

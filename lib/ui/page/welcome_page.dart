@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:github/common/dao/user_dao.dart';
@@ -18,6 +16,7 @@ import 'package:redux/redux.dart';
  */
 
 class WelComePage extends StatelessWidget {
+  //默认的跳转路径
   static const String sName = "/";
 
   @override

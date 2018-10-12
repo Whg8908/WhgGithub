@@ -115,6 +115,7 @@ abstract class WhgListState<T extends StatefulWidget> extends State<T>
   @override
   List get getDataList => dataList;
 
+  //当插入渲染树的时候调用，这个函数在生命周期中只调用一次。这里可以做一些初始化工作，比如初始化State的变量。
   @override
   void initState() {
     isShow = true;
@@ -128,6 +129,7 @@ abstract class WhgListState<T extends StatefulWidget> extends State<T>
     }
   }
 
+  //这个函数会紧跟在initState之后调用,可以跨组件拿到数据。
   @override
   void didChangeDependencies() {
     pullLoadWidgetControl.dataList = getDataList;

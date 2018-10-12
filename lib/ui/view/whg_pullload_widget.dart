@@ -88,6 +88,7 @@ class WhgPullLoadWidgetState extends State<WhgPullLoadWidget> {
     );
   }
 
+  //空白页面
   Widget _buildEmpty() {
     return new Container(
       height: MediaQuery.of(context).size.height - 100,
@@ -109,6 +110,7 @@ class WhgPullLoadWidgetState extends State<WhgPullLoadWidget> {
     );
   }
 
+  //listview个数
   _getListCount() {
     if (control.needHeader) {
       return (control.dataList.length > 0)

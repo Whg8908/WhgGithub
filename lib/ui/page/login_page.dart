@@ -34,6 +34,7 @@ class LoginPageState extends State<LoginPage> {
   var _userName = "";
   var _passWord = "";
 
+  //edittext控制器
   TextEditingController _userNameController = TextEditingController();
   TextEditingController _passWordController = TextEditingController();
 
@@ -58,6 +59,7 @@ class LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return StoreBuilder<WhgState>(builder: (context, store) {
       return new GestureDetector(
+        //手势控制
         behavior: HitTestBehavior.translucent,
         onTap: () {
           FocusScope.of(context).requestFocus(new FocusNode());
@@ -84,6 +86,7 @@ class LoginPageState extends State<LoginPage> {
                       height: 10.0,
                     ),
                     WhgInputWidget(
+                      //自定义的带有图片的edittext
                       hintText: WhgStrings.login_username_hint_text,
                       iconData: WhgICons.LOGIN_USER,
                       onChange: (String value) {
@@ -107,6 +110,7 @@ class LoginPageState extends State<LoginPage> {
                       height: 30.0,
                     ),
                     WhgFlexButton(
+                      //自适应屏幕宽的按钮
                       text: WhgStrings.login_text,
                       color: Color(WhgColors.primaryValue),
                       textColor: Color(WhgColors.textWhite),

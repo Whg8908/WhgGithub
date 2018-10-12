@@ -35,6 +35,7 @@ class FlutterReduxApp extends StatelessWidget {
       store: store,
       child: new MaterialApp(
           localizationsDelegates: [
+            //类似于国际化
             GlobalMaterialLocalizations.delegate,
             GlobalWidgetsLocalizations.delegate,
             MaterialLocalizationsDelegate(),
@@ -43,10 +44,12 @@ class FlutterReduxApp extends StatelessWidget {
             const Locale('zh', 'CH'),
             const Locale('en', 'US'),
           ],
+          //去掉右上角debug图标
           debugShowCheckedModeBanner: false,
           theme: new ThemeData(
             primarySwatch: WhgColors.primarySwatch,
           ),
+          //注册页面,类似于在androidmanifest注册是一样
           routes: {
             WelComePage.sName: (context) {
               return WelComePage();

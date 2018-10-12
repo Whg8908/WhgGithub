@@ -83,6 +83,7 @@ class TrendPageState extends WhgListState<TrendPage> {
     );
   }
 
+  //下拉菜单列表
   _renderHeaderPopItem(String data, List<TrendTypeModel> list,
       PopupMenuItemSelected<TrendTypeModel> onSelected) {
     return new Expanded(
@@ -97,6 +98,7 @@ class TrendPageState extends WhgListState<TrendPage> {
     );
   }
 
+  //下拉菜单item
   _renderHeaderPopItemChild(List<TrendTypeModel> data) {
     List<PopupMenuEntry<TrendTypeModel>> list = new List();
     for (TrendTypeModel item in data) {

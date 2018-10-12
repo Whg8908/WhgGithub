@@ -67,6 +67,7 @@ class DynamicPageState extends WhgListState<DynamicPage>
     }
   }
 
+  //listview的item
   _renderEventItem(Event e) {
     EventViewModel eventViewModel = EventViewModel.fromEventMap(e);
 

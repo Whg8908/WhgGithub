@@ -105,6 +105,7 @@ class WhgTabBarWidgetState extends State<WhgTabBarWidget>
             ),
           ),
           body: PageView(
+            //类似于viewpager
             controller: _pageController,
             children: tabViews,
             onPageChanged: (index) {
