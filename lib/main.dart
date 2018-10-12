@@ -22,7 +22,8 @@ import 'package:redux/redux.dart';
 void main() => runApp(new FlutterReduxApp());
 
 class FlutterReduxApp extends StatelessWidget {
-  //全局store
+  /// 创建Store，引用 GSYState 中的 appReducer 创建 Reducer
+  /// initialState 初始化 State
   final store = new Store<WhgState>(appReducer,
       initialState:
           new WhgState(userInfo: User.empty(), eventList: new List()));
@@ -31,6 +32,7 @@ class FlutterReduxApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    /// 通过 StoreProvider 应用 store
     return StoreProvider(
       store: store,
       child: new MaterialApp(

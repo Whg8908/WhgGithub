@@ -1,4 +1,4 @@
-import 'package:github/common/viewmodel/trending_repo_model.dart';
+import 'package:github/common/bean/TrendingRepoModel.dart';
 
 /**
  * @Author by whg
@@ -18,7 +18,7 @@ class TrendingUtil {
     var splitWithH3 = responseData.split('<h3');
     splitWithH3.removeAt(0);
     for (var i = 0; i < splitWithH3.length; i++) {
-      var repo = new TrendingRepoModel();
+      var repo = TrendingRepoModel.empty();
       var html = splitWithH3[i];
 
       parseRepoBaseInfo(repo, html);

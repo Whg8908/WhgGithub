@@ -69,14 +69,24 @@ class RepositoryDetailPageState extends State<RepositoryDetailPage> {
     }
   }
 
-  _getReposDetail() async {
-    var result = await ReposDao.getRepositoryDetailDao(
-        userName, reposName, reposDetailParentControl.currentBranch);
-    if (result != null && result.result) {
-      setState(() {
-        reposDetailInfoPageControl.repository = result.data;
-      });
-    }
+  _getReposDetail() {
+    ReposDao.getRepositoryDetailDao(
+            userName, reposName, reposDetailParentControl.currentBranch)
+        .then((result) {
+      if (result != null && result.result) {
+        setState(() {
+          reposDetailInfoPageControl.repository = result.data;
+        });
+        return result.next;
+      }
+      return new Future.value(null);
+    }).then((result) {
+      if (result != null && result.result) {
+        setState(() {
+          reposDetailInfoPageControl.repository = result.data;
+        });
+      }
+    });
   }
 
   _getReposStatus() async {

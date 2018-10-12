@@ -5,7 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:github/common/bean/Notification.dart';
 import 'package:github/common/bean/User.dart';
 import 'package:github/common/config/config.dart';
-import 'package:github/common/db/sql_provider.dart';
+import 'package:github/common/db/provider/user/UserInfoDbProvider.dart';
 import 'package:github/common/local/local_storage.dart';
 import 'package:github/common/net/address.dart';
 import 'package:github/common/net/data_result.dart';

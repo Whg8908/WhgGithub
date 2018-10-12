@@ -63,9 +63,11 @@ class WhgPullLoadWidgetState extends State<WhgPullLoadWidget> {
   @override
   Widget build(BuildContext context) {
     return RefreshIndicator(
+      //GlobalKey，用户外部获取RefreshIndicator的State，做显示刷新
       key: refreshKey,
       onRefresh: onRefresh,
       child: ListView.builder(
+        //保持ListView任何情况都能滚动，解决在RefreshIndicator的兼容问题。
         physics: const AlwaysScrollableScrollPhysics(),
         itemBuilder: (context, index) {
           if (!control.needHeader &&

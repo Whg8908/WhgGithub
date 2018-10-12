@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
@@ -8,13 +9,15 @@ import 'package:github/common/bean/PushCommit.dart';
 import 'package:github/common/bean/Release.dart';
 import 'package:github/common/bean/RepoCommit.dart';
 import 'package:github/common/bean/Repository.dart';
+import 'package:github/common/bean/TrendingRepoModel.dart';
 import 'package:github/common/bean/User.dart';
+import 'package:github/common/db/provider/repos/RepositoryDetailDbProvider.dart';
+import 'package:github/common/db/provider/repos/RepositoryDetailReadmeDbProvider.dart';
+import 'package:github/common/db/provider/repos/TrendRepositoryDbProvider.dart';
 import 'package:github/common/net/address.dart';
 import 'package:github/common/net/data_result.dart';
 import 'package:github/common/net/httpmanager.dart';
 import 'package:github/common/net/trend/github_trend.dart';
-import 'package:github/common/viewmodel/repos_header_view_model.dart';
-import 'package:github/common/viewmodel/trending_repo_model.dart';
 import 'package:github/common/viewmodel/user_item_view_model.dart';
 
 /**
@@ -34,44 +37,81 @@ class ReposDao {
    * @param since 数据时长， 本日，本周，本月
    * @param languageType 语言
    */
-  static getTrendDao({since = "daily", languageType, page = 0}) async {
-//    String localLanguage = (languageType != null) ? languageType : "*";
-    String url = Address.trending(since, languageType);
-
-    var res = await GitHubTrending.fetchTrending(url);
-    if (res != null && res.result && res.data.length > 0) {
-      List<TrendingRepoModel> list = new List();
-      var data = res.data;
-      if (data == null || data.length == 0) {
+  static getTrendDao(
+      {since = 'daily', languageType, page = 0, needDb = true}) async {
+    TrendRepositoryDbProvider provider = new TrendRepositoryDbProvider();
+    String languageTypeDb = languageType ?? "*";
+    await provider.getData(languageTypeDb, since);
+    next() async {
+      String url = Address.trending(since, languageType);
+      var res = await new GitHubTrending().fetchTrending(url);
+      if (res != null && res.result && res.data.length > 0) {
+        List<TrendingRepoModel> list = new List();
+        var data = res.data;
+        if (data == null || data.length == 0) {
+          return new DataResult(null, false);
+        }
+        if (needDb) {
+          provider.insert(languageTypeDb, since, json.encode(data));
+        }
+        for (int i = 0; i < data.length; i++) {
+          TrendingRepoModel model = data[i];
+          list.add(model);
+        }
+        return new DataResult(list, true);
+      } else {
         return new DataResult(null, false);
       }
-      for (int i = 0; i < data.length; i++) {
-        TrendingRepoModel model = data[i];
-        list.add(model);
-      }
-      return new DataResult(list, true);
-    } else {
-      return new DataResult(null, false);
     }
+
+    if (needDb) {
+      List<TrendingRepoModel> list =
+          await provider.getData(languageTypeDb, since);
+      if (list == null) {
+        return await next();
+      }
+      DataResult dataResult = new DataResult(list, true, next: next());
+      return dataResult;
+    }
+    return await next();
   }
 
   /**
    * 仓库的详情数据
    */
-  static getRepositoryDetailDao(userName, reposName, branch) async {
-    String url = Address.getReposDetail(userName, reposName) + "?ref=" + branch;
-    var res = await HttpManager.fetch(url, null,
-        {"Accept": 'application/vnd.github.mercy-preview+json'}, null);
-    if (res != null && res.result && res.data.length > 0) {
-      List<ReposHeaderViewModel> list = new List();
-      var data = res.data;
-      if (data == null || data.length == 0) {
+  static getRepositoryDetailDao(userName, reposName, branch,
+      {needDb = true}) async {
+    String fullName = userName + "/" + reposName;
+    RepositoryDetailDbProvider provider = new RepositoryDetailDbProvider();
+
+    next() async {
+      String url =
+          Address.getReposDetail(userName, reposName) + "?ref=" + branch;
+      var res = await HttpManager.fetch(url, null,
+          {"Accept": 'application/vnd.github.mercy-preview+json'}, null);
+      if (res != null && res.result && res.data.length > 0) {
+        var data = res.data;
+        if (data == null || data.length == 0) {
+          return new DataResult(null, false);
+        }
+        if (needDb) {
+          provider.insert(fullName, json.encode(data));
+        }
+        return new DataResult(Repository.fromJson(data), true);
+      } else {
         return new DataResult(null, false);
       }
-      return new DataResult(Repository.fromJson(data), true);
-    } else {
-      return new DataResult(null, false);
     }
+
+    if (needDb) {
+      Repository repository = await provider.getRepository(fullName);
+      if (repository == null) {
+        return await next();
+      }
+      DataResult dataResult = new DataResult(repository, true, next: next());
+      return dataResult;
+    }
+    return await next();
   }
 
   /**
@@ -378,17 +418,38 @@ class ReposDao {
   /**
    * 详情的remde数据
    */
-  static getRepositoryDetailReadmeDao(userName, reposName, branch) async {
-    String url = Address.readmeFile(userName + '/' + reposName, branch);
-    var res = await HttpManager.fetch(
-        url,
-        null,
-        {"Accept": 'application/vnd.github.VERSION.raw'},
-        new Options(contentType: ContentType.TEXT));
-    if (res != null && res.result) {
-      return new DataResult(res.data, true);
+  static getRepositoryDetailReadmeDao(userName, reposName, branch,
+      {needDb = true}) async {
+    String fullName = userName + "/" + reposName;
+    RepositoryDetailReadmeDbProvider provider =
+        new RepositoryDetailReadmeDbProvider();
+
+    next() async {
+      String url = Address.readmeFile(userName + '/' + reposName, branch);
+      var res = await HttpManager.fetch(
+          url,
+          null,
+          {"Accept": 'application/vnd.github.VERSION.raw'},
+          new Options(contentType: ContentType.TEXT));
+      //var res = await HttpManager.netFetch(url, null, {"Accept": 'application/vnd.github.html'}, new Options(contentType: ContentType.TEXT));
+      if (res != null && res.result) {
+        if (needDb) {
+          provider.insert(fullName, branch, res.data);
+        }
+        return new DataResult(res.data, true);
+      }
+      return new DataResult(null, false);
     }
-    return new DataResult(null, false);
+
+    if (needDb) {
+      String readme = await provider.getRepositoryReadme(fullName, branch);
+      if (readme == null) {
+        return await next();
+      }
+      DataResult dataResult = new DataResult(readme, true, next: next());
+      return dataResult;
+    }
+    return await next();
   }
 
   /**

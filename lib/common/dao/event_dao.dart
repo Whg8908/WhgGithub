@@ -2,7 +2,8 @@ import 'dart:convert';
 
 import 'package:github/common/bean/Event.dart';
 import 'package:github/common/bean/User.dart';
-import 'package:github/common/db/sql_provider.dart';
+import 'package:github/common/db/provider/event/ReceivedEventDbProvider.dart';
+import 'package:github/common/db/provider/event/UserEventDbProvider.dart';
 import 'package:github/common/net/address.dart';
 import 'package:github/common/net/data_result.dart';
 import 'package:github/common/net/httpmanager.dart';
@@ -95,8 +96,8 @@ class EventDao {
     }
 
     if (needDb) {
-      List<Event> dbList = await provider.getEvents();
-      if (dbList == null && dbList.length == 0) {
+      List<Event> dbList = await provider.getEvents(userName);
+      if (dbList == null || dbList.length == 0) {
         return await next();
       }
       DataResult dataResult = new DataResult(dbList, true, next: next());

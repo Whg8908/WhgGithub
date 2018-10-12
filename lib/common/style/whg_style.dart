@@ -174,6 +174,8 @@ class WhgStrings {
   static const String app_back_tip = "确定要退出应用？";
 
   static const String issue_edit_issue_copy_commit = "复制";
+
+  static const String user_create_at = "创建于：";
 }
 
 class WhgConstant {

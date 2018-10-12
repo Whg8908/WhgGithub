@@ -52,7 +52,28 @@ class RepositoryDetailInfoPageState
 
   @protected
   requestRefresh() async {
+    _getReposDetail();
     return await _getDataLogic();
+  }
+
+  _getReposDetail() {
+    ReposDao.getRepositoryDetailDao(
+            userName, reposName, reposDetailParentControl.currentBranch)
+        .then((result) {
+      if (result != null && result.result) {
+        setState(() {
+          reposDetailInfoPageControl.repository = result.data;
+        });
+        return result.next;
+      }
+      return new Future.value(null);
+    }).then((result) {
+      if (result != null && result.result) {
+        setState(() {
+          reposDetailInfoPageControl.repository = result.data;
+        });
+      }
+    });
   }
 
   @protected

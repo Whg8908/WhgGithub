@@ -92,6 +92,16 @@ class RepostroyDetailReadmePageState extends State<RepostroyDetailReadmePage>
           setState(() {
             markdownData = res.data;
           });
+          return res.next;
+        }
+      }
+      return new Future.value(null);
+    }).then((res) {
+      if (res != null && res.result) {
+        if (isShow) {
+          setState(() {
+            markdownData = res.data;
+          });
         }
       }
     });

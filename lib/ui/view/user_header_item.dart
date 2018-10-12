@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:github/common/bean/User.dart';
 import 'package:github/common/style/whg_style.dart';
+import 'package:github/common/utils/commonutils.dart';
 import 'package:github/common/utils/navigatorutils.dart';
 import 'package:github/ui/view/card_item.dart';
 import 'package:github/ui/view/whg_icon_text.dart';
@@ -44,7 +45,7 @@ class UserHeaderItem extends StatelessWidget {
                 firstColumn(context),
                 secondColumn(),
                 SizedBox(
-                  height: 10.0,
+                  height: 5.0,
                 ),
                 Divider(
                   color: Color(WhgColors.subLightTextColor),
@@ -119,11 +120,16 @@ class UserHeaderItem extends StatelessWidget {
     if (notifyColor == null) {
       return Container();
     }
-    return new IconButton(
-        icon: new Icon(
-          WhgICons.USER_NOTIFY,
-          color: color,
-          size: 18.0,
+    return RawMaterialButton(
+        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+        padding: const EdgeInsets.only(top: 0.0, right: 5.0, left: 5.0),
+        constraints: const BoxConstraints(minWidth: 0.0, minHeight: 0.0),
+        child: new ClipOval(
+          child: new Icon(
+            WhgICons.USER_NOTIFY,
+            color: color,
+            size: 18.0,
+          ),
         ),
         onPressed: () {
           NavigatorUtils.goNotifyPage(context).then((res) {
@@ -150,7 +156,13 @@ class UserHeaderItem extends StatelessWidget {
               alignment: Alignment.topLeft),
           new Container(
               child: new Text(
-                userInfo.bio == null ? WhgStrings.nothing_now : userInfo.bio,
+                userInfo.bio == null
+                    ? WhgStrings.user_create_at +
+                        CommonUtils.getDateStr(userInfo.created_at)
+                    : userInfo.bio +
+                        "\n" +
+                        WhgStrings.user_create_at +
+                        CommonUtils.getDateStr(userInfo.created_at),
                 style: WhgConstant.subLightSmallText,
                 maxLines: 3,
               ),
