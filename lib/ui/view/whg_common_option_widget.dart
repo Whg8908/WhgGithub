@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:github/common/style/whg_style.dart';
+import 'package:github/common/utils/commonutils.dart';
 import 'package:github/common/utils/fluttertoast.dart';
 import 'package:github/common/viewmodel/whg_option_model.dart';
 import 'package:share/share.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 /**
  * @Author by whg
@@ -29,7 +29,7 @@ class WhgCommonOptionWidget extends StatelessWidget {
 
     List<WhgOptionModel> list = [
       new WhgOptionModel(WhgStrings.option_web, WhgStrings.option_web, (model) {
-        _launchURL();
+        CommonUtils.launchOutURL(url);
       }),
       new WhgOptionModel(WhgStrings.option_copy, WhgStrings.option_copy,
           (model) {
@@ -46,17 +46,6 @@ class WhgCommonOptionWidget extends StatelessWidget {
       list.addAll(otherList);
     }
     return _renderHeaderPopItem(list);
-  }
-
-  _launchURL() async {
-    //url_launcher
-    if (await canLaunch(url)) {
-      print(url);
-      await launch(url);
-    } else {
-      Fluttertoast.showToast(
-          msg: WhgStrings.option_web_launcher_error + ": " + url);
-    }
   }
 
   //item,data,select

@@ -29,6 +29,9 @@ class ReposHeaderViewModel {
   String created_at = "";
   String push_at = "";
   String license = "";
+  String repositoryParentUser = "";
+  int allIssueCount = 0;
+  int openIssuesCount = 0;
   bool repositoryStared = false;
   bool repositoryForked = false;
   bool repositoryWatched = false;
@@ -43,6 +46,8 @@ class ReposHeaderViewModel {
     }
     this.ownerPic = map.owner.avatar_url;
     this.repositoryName = reposName;
+    this.allIssueCount = map.allIssueCount;
+    this.openIssuesCount = map.openIssuesCount;
     this.repositoryStar =
         map.watchersCount != null ? map.watchersCount.toString() : "";
     this.repositoryFork =
@@ -60,6 +65,8 @@ class ReposHeaderViewModel {
     this.repositoryIsFork = map.fork;
     this.license = map.license != null ? map.license.name : "";
     this.repositoryParentName = map.parent != null ? map.parent.fullName : null;
+    this.repositoryParentUser =
+        map.parent != null ? map.parent.owner.login : null;
     this.created_at = CommonUtils.getNewsTimeStr(map.createdAt);
     this.push_at = CommonUtils.getNewsTimeStr(map.pushedAt);
   }

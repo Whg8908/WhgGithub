@@ -106,9 +106,7 @@ class UserHeaderItem extends StatelessWidget {
                     : Container(),
                 new WhgIconText(
                   WhgICons.USER_ITEM_COMPANY,
-                  userInfo.company == null
-                      ? WhgStrings.nothing_now
-                      : userInfo.company,
+                  userInfo.company ?? WhgStrings.nothing_now,
                   WhgConstant.subLightSmallText,
                   Color(WhgColors.subLightTextColor),
                   10.0,
@@ -116,9 +114,7 @@ class UserHeaderItem extends StatelessWidget {
                 ),
                 new WhgIconText(
                   WhgICons.USER_ITEM_LOCATION,
-                  userInfo.location == null
-                      ? WhgStrings.nothing_now
-                      : userInfo.location,
+                  userInfo.location ?? WhgStrings.nothing_now,
                   WhgConstant.subLightSmallText,
                   Color(WhgColors.subLightTextColor),
                   10.0,
@@ -158,13 +154,26 @@ class UserHeaderItem extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
           new Container(
-              child: new WhgIconText(
-                WhgICons.USER_ITEM_LINK,
-                userInfo.blog == null ? WhgStrings.nothing_now : userInfo.blog,
-                WhgConstant.subLightSmallText,
-                Color(WhgColors.subLightTextColor),
-                10.0,
-                padding: 3.0,
+
+              ///用户博客
+              child: new RawMaterialButton(
+                onPressed: () {
+                  if (userInfo.blog != null) {
+                    CommonUtils.launchOutURL(userInfo.blog);
+                  }
+                },
+                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                padding: const EdgeInsets.all(0.0),
+                constraints:
+                    const BoxConstraints(minWidth: 0.0, minHeight: 0.0),
+                child: new WhgIconText(
+                  WhgICons.USER_ITEM_LINK,
+                  userInfo.blog ?? WhgStrings.nothing_now,
+                  (userInfo.blog == null) ? WhgConstant.subLightSmallText : WhgConstant.actionLightSmallText,
+                  Color(WhgColors.subLightTextColor),
+                  10.0,
+                  padding: 3.0,
+                ),
               ),
               margin: new EdgeInsets.only(top: 6.0, bottom: 2.0),
               alignment: Alignment.topLeft),

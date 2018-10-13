@@ -97,10 +97,18 @@ class ReposDao {
         if (data == null || data.length == 0) {
           return new DataResult(null, false);
         }
-        if (needDb) {
-          provider.insert(fullName, json.encode(data));
+        Repository repository = Repository.fromJson(data);
+        var issueResult =
+            await ReposDao.getRepositoryIssueStatusDao(userName, reposName);
+        if (issueResult != null && issueResult.result) {
+          repository.allIssueCount = int.parse(issueResult.data);
         }
-        return new DataResult(Repository.fromJson(data), true);
+        if (needDb) {
+          provider.insert(fullName, json.encode(repository.toJson()));
+        }
+        saveHistoryDao(
+            fullName, DateTime.now(), json.encode(repository.toJson()));
+        return new DataResult(repository, true);
       } else {
         return new DataResult(null, false);
       }
@@ -115,6 +123,31 @@ class ReposDao {
       return dataResult;
     }
     return await next();
+  }
+
+  /**
+   * 获取issue总数
+   */
+  static getRepositoryIssueStatusDao(userName, repository) async {
+    String url = Address.getReposIssue(userName, repository, null, null, null) +
+        "&per_page=1";
+    var res = await HttpManager.fetch(url, null, null, null);
+    if (res != null && res.result && res.headers != null) {
+      try {
+        List<String> link = res.headers['link'];
+        if (link != null) {
+          int indexStart = link[0].lastIndexOf("page=") + 5;
+          int indexEnd = link[0].lastIndexOf(">");
+          if (indexStart >= 0 && indexEnd >= 0) {
+            String count = link[0].substring(indexStart, indexEnd);
+            return new DataResult(count, true);
+          }
+        }
+      } catch (e) {
+        print(e);
+      }
+    }
+    return new DataResult(null, false);
   }
 
   /**

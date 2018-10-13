@@ -177,6 +177,23 @@ class WhgStrings {
 
   static const String user_create_at = "创建于：";
   static const String home_history = "阅读历史";
+
+  static const String home_user_info = "个人信息";
+
+  static const String user_profile_name = "名字";
+  static const String user_profile_email = "邮箱";
+  static const String user_profile_link = "链接";
+  static const String user_profile_org = "公司";
+  static const String user_profile_location = "位置";
+  static const String user_profile_info = "简介";
+
+  static const String repos_all_issue_count = "所有Issue数：";
+  static const String repos_open_issue_count = "开启Issue数：";
+  static const String repos_close_issue_count = "关闭Issue数：";
+
+  static const String repos_fork_at = "Fork于 ";
+  static const String repos_create_at = "创建于 ";
+  static const String repos_last_commit = "最后提交于 ";
 }
 
 class WhgConstant {
@@ -328,6 +345,11 @@ class WhgConstant {
     color: Color(WhgColors.mainTextColor),
     fontSize: bigTextSize,
     fontWeight: FontWeight.bold,
+  );
+
+  static const actionLightSmallText = TextStyle(
+    color: Color(WhgColors.actionBlue),
+    fontSize: smallTextSize,
   );
 }
 

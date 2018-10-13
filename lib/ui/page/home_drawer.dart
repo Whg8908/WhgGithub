@@ -95,6 +95,14 @@ class HomeDrawer extends StatelessWidget {
                         }),
                     new ListTile(
                         title: new Text(
+                          WhgStrings.home_user_info,
+                          style: WhgConstant.normalText,
+                        ),
+                        onTap: () {
+                          NavigatorUtils.gotoUserProfileInfo(context);
+                        }),
+                    new ListTile(
+                        title: new Text(
                           WhgStrings.home_about,
                           style: WhgConstant.normalText,
                         ),

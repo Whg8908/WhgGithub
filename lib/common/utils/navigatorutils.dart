@@ -16,6 +16,7 @@ import 'package:github/ui/page/push_detail_page.dart';
 import 'package:github/ui/page/release_page.dart';
 import 'package:github/ui/page/repository_detail_page.dart';
 import 'package:github/ui/page/search_page.dart';
+import 'package:github/ui/page/user_profile_page.dart';
 import 'package:github/ui/view/whg_webview.dart';
 
 class NavigatorUtils {
@@ -206,5 +207,11 @@ class NavigatorUtils {
   static gotoPhotoViewPage(BuildContext context, String url) {
     Navigator.push(context,
         new MaterialPageRoute(builder: (context) => new PhotoViewPage(url)));
+  }
+
+  ///用户配置
+  static gotoUserProfileInfo(BuildContext context) {
+    Navigator.push(context,
+        new MaterialPageRoute(builder: (context) => new UserProfileInfo()));
   }
 }

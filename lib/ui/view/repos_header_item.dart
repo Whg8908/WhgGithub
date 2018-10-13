@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:github/common/style/whg_style.dart';
+import 'package:github/common/utils/commonutils.dart';
 import 'package:github/common/utils/navigatorutils.dart';
 import 'package:github/common/viewmodel/repos_header_view_model.dart';
 import 'package:github/ui/view/card_item.dart';
@@ -24,10 +25,13 @@ class ReposHeaderItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String createStr = reposHeaderViewModel.repositoryIsFork
-        ? "Frok at " + " " + reposHeaderViewModel.repositoryParentName + '\n'
-        : "Create at " + " " + reposHeaderViewModel.created_at + "\n";
+        ? WhgStrings.repos_fork_at +
+            reposHeaderViewModel.repositoryParentName +
+            '\n'
+        : WhgStrings.repos_create_at + reposHeaderViewModel.created_at + "\n";
 
-    String updateStr = "Last commit at " + reposHeaderViewModel.push_at;
+    String updateStr =
+        WhgStrings.repos_last_commit + reposHeaderViewModel.push_at;
 
     String infoText =
         createStr + ((reposHeaderViewModel.push_at != null) ? updateStr : '');
@@ -61,7 +65,7 @@ class ReposHeaderItem extends StatelessWidget {
                       height: 5.0,
                     ),
                     timeColumn(),
-                    pullinfoColumn(infoText),
+                    pullinfoColumn(context, infoText),
                     new Divider(
                       color: Color(WhgColors.subTextColor),
                     ),
@@ -136,10 +140,27 @@ class ReposHeaderItem extends StatelessWidget {
       alignment: Alignment.topLeft);
 
   //第四行
-  Widget pullinfoColumn(String infoText) => new Container(
-      child: new Text(infoText, style: WhgConstant.subSmallText),
-      margin: new EdgeInsets.only(top: 6.0, bottom: 2.0, right: 5.0),
-      alignment: Alignment.topRight);
+  Widget pullinfoColumn(BuildContext context, String infoText) => new Container(
+        margin: new EdgeInsets.only(top: 6.0, bottom: 2.0, right: 5.0),
+        alignment: Alignment.topRight,
+        child: new RawMaterialButton(
+          onPressed: () {
+            if (reposHeaderViewModel.repositoryIsFork) {
+              NavigatorUtils.goReposDetail(
+                  context,
+                  reposHeaderViewModel.repositoryParentUser,
+                  reposHeaderViewModel.repositoryName);
+            }
+          },
+          materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+          padding: const EdgeInsets.all(0.0),
+          constraints: const BoxConstraints(minWidth: 0.0, minHeight: 0.0),
+          child: new Text(infoText,
+              style: reposHeaderViewModel.repositoryIsFork
+                  ? WhgConstant.actionLightSmallText
+                  : WhgConstant.subLightSmallText),
+        ),
+      );
 
   Widget icontitleColumn(BuildContext context) => new Padding(
       padding: new EdgeInsets.all(0.0),
@@ -183,8 +204,26 @@ class ReposHeaderItem extends StatelessWidget {
               width: 0.3,
               height: 25.0,
               color: Color(WhgColors.subLightTextColor)),
-          _getBottomItem(WhgICons.REPOS_ITEM_ISSUE,
-              reposHeaderViewModel.repositoryIssue, () {}),
+          _getBottomItem(
+              WhgICons.REPOS_ITEM_ISSUE, reposHeaderViewModel.repositoryIssue,
+              () {
+            if (reposHeaderViewModel.allIssueCount == null ||
+                reposHeaderViewModel.allIssueCount <= 0) {
+              return;
+            }
+            List<String> list = [
+              WhgStrings.repos_all_issue_count +
+                  reposHeaderViewModel.allIssueCount.toString(),
+              WhgStrings.repos_open_issue_count +
+                  reposHeaderViewModel.openIssuesCount.toString(),
+              WhgStrings.repos_close_issue_count +
+                  (reposHeaderViewModel.allIssueCount -
+                          reposHeaderViewModel.openIssuesCount)
+                      .toString(),
+            ];
+            CommonUtils.showCommitOptionDialog(context, list, (index) {},
+                height: 150.0);
+          }),
         ],
       ));
 
