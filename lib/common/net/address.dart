@@ -256,4 +256,9 @@ class Address {
   static getReposTag(reposOwner, reposName) {
     return "${host}repos/$reposOwner/$reposName/tags";
   }
+
+  ///搜索topic tag
+  static searchTopic(topic) {
+    return "${host}search/repositories?q=topic:$topic&sort=stars&order=desc";
+  }
 }

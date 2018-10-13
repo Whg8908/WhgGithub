@@ -169,7 +169,9 @@ class UserHeaderItem extends StatelessWidget {
                 child: new WhgIconText(
                   WhgICons.USER_ITEM_LINK,
                   userInfo.blog ?? WhgStrings.nothing_now,
-                  (userInfo.blog == null) ? WhgConstant.subLightSmallText : WhgConstant.actionLightSmallText,
+                  (userInfo.blog == null)
+                      ? WhgConstant.subLightSmallText
+                      : WhgConstant.actionLightSmallText,
                   Color(WhgColors.subLightTextColor),
                   10.0,
                   padding: 3.0,

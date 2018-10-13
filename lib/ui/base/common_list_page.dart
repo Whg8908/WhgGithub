@@ -130,7 +130,7 @@ class CommonListPageState extends WhgListState<CommonListPage> {
       case 'history':
         return await ReposDao.getHistoryDao(page);
       case 'topics':
-        return null;
+        return await ReposDao.searchTopicRepositoryDao(userName, page: page);
       case 'user_be_stared':
         return null;
       case 'user_orgs':

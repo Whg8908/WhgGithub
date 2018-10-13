@@ -24,18 +24,6 @@ class ReposHeaderItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String createStr = reposHeaderViewModel.repositoryIsFork
-        ? WhgStrings.repos_fork_at +
-            reposHeaderViewModel.repositoryParentName +
-            '\n'
-        : WhgStrings.repos_create_at + reposHeaderViewModel.created_at + "\n";
-
-    String updateStr =
-        WhgStrings.repos_last_commit + reposHeaderViewModel.push_at;
-
-    String infoText =
-        createStr + ((reposHeaderViewModel.push_at != null) ? updateStr : '');
-
     return Column(
       children: <Widget>[
         WhgCardItem(
@@ -65,11 +53,12 @@ class ReposHeaderItem extends StatelessWidget {
                       height: 5.0,
                     ),
                     timeColumn(),
-                    pullinfoColumn(context, infoText),
+                    pullinfoColumn(context, _getInfoText()),
                     new Divider(
                       color: Color(WhgColors.subTextColor),
                     ),
                     icontitleColumn(context),
+                    _renderTopicGroup(context),
                   ],
                 ),
               ),
@@ -82,6 +71,21 @@ class ReposHeaderItem extends StatelessWidget {
         ], selectItemChanged)
       ],
     );
+  }
+
+  ///仓库创建和提交状态信息
+  _getInfoText() {
+    String createStr = reposHeaderViewModel.repositoryIsFork
+        ? WhgStrings.repos_fork_at +
+            reposHeaderViewModel.repositoryParentName +
+            '\n'
+        : WhgStrings.repos_create_at + reposHeaderViewModel.created_at + "\n";
+
+    String updateStr =
+        WhgStrings.repos_last_commit + reposHeaderViewModel.push_at;
+
+    return createStr +
+        ((reposHeaderViewModel.push_at != null) ? updateStr : '');
   }
 
   //第一行
@@ -241,6 +245,50 @@ class ReposHeaderItem extends StatelessWidget {
           padding: 3.0,
           mainAxisAlignment: MainAxisAlignment.center,
         ),
+      ),
+    );
+  }
+
+  _renderTopicItem(BuildContext context, String item) {
+    return new RawMaterialButton(
+        onPressed: () {
+          NavigatorUtils.gotoCommonList(context, item, "repository", "topics",
+              userName: item, reposName: "");
+        },
+        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+        padding: const EdgeInsets.all(0.0),
+        constraints: const BoxConstraints(minWidth: 0.0, minHeight: 0.0),
+        child: new Container(
+          padding:
+              EdgeInsets.only(left: 5.0, right: 5.0, top: 2.5, bottom: 2.5),
+          decoration: new BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(4.0)),
+            color: Colors.white30,
+            border: new Border.all(color: Colors.white30, width: 0.0),
+          ),
+          child: new Text(
+            item,
+            style: WhgConstant.subLightSmallText,
+          ),
+        ));
+  }
+
+  ///话题组控件
+  _renderTopicGroup(BuildContext context) {
+    if (reposHeaderViewModel.topics == null ||
+        reposHeaderViewModel.topics.length == 0) {
+      return Container();
+    }
+    List<Widget> list = new List();
+    for (String item in reposHeaderViewModel.topics) {
+      list.add(_renderTopicItem(context, item));
+    }
+    return new Container(
+      alignment: Alignment.topLeft,
+      child: Wrap(
+        spacing: 10.0,
+        runSpacing: 5.0,
+        children: list,
       ),
     );
   }

@@ -727,4 +727,30 @@ class ReposDao {
     ReadHistoryDbProvider provider = new ReadHistoryDbProvider();
     provider.insert(fullName, dateTime, data);
   }
+
+  /**
+   * 搜索话题
+   */
+  static searchTopicRepositoryDao(searchTopic, {page = 0}) async {
+    String url =
+        Address.searchTopic(searchTopic) + Address.getPageParams("&", page);
+    var res = await HttpManager.fetch(url, null, null, null);
+    var data = (res.data != null && res.data["items"] != null)
+        ? res.data["items"]
+        : res.data;
+    if (res != null && res.result && data != null && data.length > 0) {
+      List<Repository> list = new List();
+      var dataList = data;
+      if (dataList == null || dataList.length == 0) {
+        return new DataResult(null, false);
+      }
+      for (int i = 0; i < dataList.length; i++) {
+        var data = dataList[i];
+        list.add(Repository.fromJson(data));
+      }
+      return new DataResult(list, true);
+    } else {
+      return new DataResult(null, false);
+    }
+  }
 }

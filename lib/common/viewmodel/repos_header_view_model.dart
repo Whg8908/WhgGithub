@@ -36,6 +36,7 @@ class ReposHeaderViewModel {
   bool repositoryForked = false;
   bool repositoryWatched = false;
   bool repositoryIsFork = false;
+  List<String> topics;
 
   ReposHeaderViewModel();
 
@@ -48,6 +49,7 @@ class ReposHeaderViewModel {
     this.repositoryName = reposName;
     this.allIssueCount = map.allIssueCount;
     this.openIssuesCount = map.openIssuesCount;
+    this.topics = map.topics;
     this.repositoryStar =
         map.watchersCount != null ? map.watchersCount.toString() : "";
     this.repositoryFork =
