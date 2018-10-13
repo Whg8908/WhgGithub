@@ -95,6 +95,7 @@ abstract class WhgListState<T extends StatefulWidget> extends State<T>
   showRefreshLoading() {
     new Future.delayed(const Duration(seconds: 0), () {
       refreshIndicatorKey.currentState.show().then((e) {});
+      return true;
     });
   }
 

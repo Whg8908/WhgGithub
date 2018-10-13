@@ -27,7 +27,7 @@ class ReposHeaderItem extends StatelessWidget {
     return Column(
       children: <Widget>[
         WhgCardItem(
-          color: Color(WhgColors.primaryValue),
+          color: Theme.of(context).primaryColorDark,
           child: Container(
             decoration: BoxDecoration(
               image: DecorationImage(

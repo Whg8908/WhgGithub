@@ -88,16 +88,17 @@ class MyPageState extends WhgListState<MyPage> {
       if (res != null && res.result && res.data.length > 0) {
         notifyColor = Colors.blue;
       } else {
-        notifyColor = Color(WhgColors.subTextColor);
+        notifyColor = Color(WhgColors.subLightTextColor);
       }
     });
   }
 
-  _renderEventItem(userInfo, index) {
+  _renderEventItem(Store<WhgState> store, userInfo, index) {
     if (index == 0) {
       return new UserHeaderItem(
         userInfo,
         beSharedCount,
+        store.state.themeData.primaryColor,
         notifyColor: notifyColor,
         refreshCallBack: () {
           _refreshNotify();
@@ -173,7 +174,7 @@ class MyPageState extends WhgListState<MyPage> {
       builder: (context, store) {
         return WhgPullLoadWidget(
           (BuildContext context, int index) =>
-              _renderEventItem(store.state.userInfo, index),
+              _renderEventItem(store, store.state.userInfo, index),
           handleRefresh,
           onLoadMore,
           pullLoadWidgetControl,

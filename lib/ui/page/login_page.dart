@@ -61,7 +61,7 @@ class LoginPageState extends State<LoginPage> {
           FocusScope.of(context).requestFocus(new FocusNode());
         },
         child: Container(
-          color: Color(WhgColors.primaryValue),
+          color: Theme.of(context).primaryColor,
           child: Center(
             child: Card(
               color: Color(WhgColors.cardWhite),
@@ -108,7 +108,7 @@ class LoginPageState extends State<LoginPage> {
                     WhgFlexButton(
                       //自适应屏幕宽的按钮
                       text: WhgStrings.login_text,
-                      color: Color(WhgColors.primaryValue),
+                      color: Theme.of(context).primaryColor,
                       textColor: Color(WhgColors.textWhite),
                       onPress: () {
                         if (_userName == null || _userName.length == 0) {
@@ -118,11 +118,13 @@ class LoginPageState extends State<LoginPage> {
                           return;
                         }
                         CommonUtils.showLoadingDialog(context);
-                        UserDao.login(_userName, _passWord, store).then((res) {
+                        UserDao.login(_userName.trim(), _passWord.trim(), store)
+                            .then((res) {
                           Navigator.pop(context);
                           if (res != null && res.result) {
                             new Future.delayed(const Duration(seconds: 1), () {
                               NavigatorUtils.goHome(context);
+                              return true;
                             });
                           }
                         });

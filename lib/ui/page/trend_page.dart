@@ -28,8 +28,8 @@ class TrendPage extends StatefulWidget {
 }
 
 class TrendPageState extends WhgListState<TrendPage> {
-  TrendTypeModel selectTime = TrendTime[0];
-  TrendTypeModel selectType = TrendType[0];
+  static TrendTypeModel selectTime = TrendTime[0];
+  static TrendTypeModel selectType = TrendType[0];
 
   @override
   Future<Null> handleRefresh() async {
@@ -81,9 +81,9 @@ class TrendPageState extends WhgListState<TrendPage> {
     });
   }
 
-  _renderHeader() {
+  _renderHeader(Store<WhgState> store) {
     return new WhgCardItem(
-      color: Color(WhgColors.primaryValue),
+      color: store.state.themeData.primaryColor,
       margin: EdgeInsets.all(10.0),
       shape: new RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(4.0)),
@@ -156,7 +156,7 @@ class TrendPageState extends WhgListState<TrendPage> {
         return Scaffold(
           backgroundColor: Color(WhgColors.mainBackgroundColor),
           appBar: new AppBar(
-            flexibleSpace: _renderHeader(),
+            flexibleSpace: _renderHeader(store),
             backgroundColor: Color(WhgColors.mainBackgroundColor),
             leading: new Container(),
             elevation: 0.0,

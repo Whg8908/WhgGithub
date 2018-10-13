@@ -137,7 +137,7 @@ class WhgPullLoadWidgetState extends State<WhgPullLoadWidget> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
                 new SpinKitWave(
-                  color: Color(WhgColors.primaryValue),
+                  color: Theme.of(context).primaryColor,
                   size: 20.0,
                 ),
                 new Container(

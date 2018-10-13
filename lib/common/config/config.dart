@@ -19,4 +19,5 @@ class Config {
   static const String USER_BASIC_CODE = "user_basic_code";
 
   static const String USER_INFO = "user_info";
+  static const THEME_COLOR = "theme-color";
 }

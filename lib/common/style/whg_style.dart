@@ -179,6 +179,16 @@ class WhgStrings {
   static const String user_orgs_title = "所在组织";
 
   static const String load_more_text = "加载中···";
+
+  static const String home_change_theme = "切换主题";
+
+  static const String home_theme_default = "默认主题";
+  static const String home_theme_1 = "主题1";
+  static const String home_theme_2 = "主题2";
+  static const String home_theme_3 = "主题3";
+  static const String home_theme_4 = "主题4";
+  static const String home_theme_5 = "主题5";
+  static const String home_theme_6 = "主题6";
 }
 
 class WhgConstant {
@@ -333,6 +343,11 @@ class WhgConstant {
     color: Color(WhgColors.primaryValue),
     fontSize: lagerTextSize,
     fontWeight: FontWeight.bold,
+  );
+
+  static const middleSubLightText = TextStyle(
+    color: Color(WhgColors.subLightTextColor),
+    fontSize: middleTextWhiteSize,
   );
 }
 

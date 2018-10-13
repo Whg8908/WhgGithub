@@ -7,11 +7,13 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_statusbar/flutter_statusbar.dart';
 import 'package:get_version/get_version.dart';
 import 'package:github/common/net/address.dart';
+import 'package:github/common/redux/themedata_redux.dart';
 import 'package:github/common/style/whg_style.dart';
 import 'package:github/common/utils/fluttertoast.dart';
 import 'package:github/common/utils/navigatorutils.dart';
 import 'package:github/ui/view/issue_edit_dialog.dart';
 import 'package:github/ui/view/whg_flex_button.dart';
+import 'package:redux/redux.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 /**
@@ -222,8 +224,13 @@ class CommonUtils {
   }
 
   static Future<Null> showCommitOptionDialog(
-      BuildContext context, List commitMaps, ValueChanged<int> onTap,
-      {width = 250.0, height = 400.0}) {
+    BuildContext context,
+    List commitMaps,
+    ValueChanged<int> onTap, {
+    width = 250.0,
+    height = 400.0,
+    List<Color> colorList,
+  }) {
     print(commitMaps.length);
     return showDialog(
         context: context,
@@ -246,9 +253,11 @@ class CommonUtils {
                       maxLines: 2,
                       mainAxisAlignment: MainAxisAlignment.start,
                       fontSize: 14.0,
-                      color: Color(WhgColors.primaryValue),
+                      color: colorList != null
+                          ? colorList[index]
+                          : Theme.of(context).primaryColor,
                       text: commitMaps[index],
-                      textColor: Color(WhgColors.white),
+                      textColor: Theme.of(context).primaryColor,
                       onPress: () {
                         Navigator.pop(context);
                         onTap(index);
@@ -359,5 +368,24 @@ class CommonUtils {
       Fluttertoast.showToast(
           msg: WhgStrings.option_web_launcher_error + ": " + url);
     }
+  }
+
+  static pushTheme(Store store, int index) {
+    ThemeData themeData;
+    List<Color> colors = getThemeListColor();
+    themeData = new ThemeData(primarySwatch: colors[index]);
+    store.dispatch(new RefreshThemeDataAction(themeData));
+  }
+
+  static List<Color> getThemeListColor() {
+    return [
+      WhgColors.primarySwatch,
+      Colors.brown,
+      Colors.blue,
+      Colors.teal,
+      Colors.amber,
+      Colors.blueGrey,
+      Colors.deepOrange,
+    ];
   }
 }

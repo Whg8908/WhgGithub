@@ -26,9 +26,13 @@ class FlutterReduxApp extends StatelessWidget {
   /// initialState 初始化 State
   final store = new Store<WhgState>(appReducer,
       initialState: new WhgState(
-          userInfo: User.empty(),
-          eventList: new List(),
-          trendList: new List()));
+        userInfo: User.empty(),
+        eventList: new List(),
+        trendList: new List(),
+        themeData: new ThemeData(
+          primarySwatch: WhgColors.primarySwatch,
+        ),
+      ));
 
   FlutterReduxApp({Key key}) : super(key: key);
 
@@ -50,9 +54,7 @@ class FlutterReduxApp extends StatelessWidget {
           ],
           //去掉右上角debug图标
           debugShowCheckedModeBanner: false,
-          theme: new ThemeData(
-            primarySwatch: WhgColors.primarySwatch,
-          ),
+          theme: store.state.themeData,
           //注册页面,类似于在androidmanifest注册是一样
           routes: {
             WelComePage.sName: (context) {

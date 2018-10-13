@@ -96,7 +96,7 @@ class WhgTabBarWidgetState extends State<WhgTabBarWidget>
           persistentFooterButtons:
               tarWidgetControl == null ? [] : tarWidgetControl.footerButton,
           appBar: AppBar(
-            backgroundColor: backgroundColor,
+            backgroundColor: Theme.of(context).primaryColor,
             title: title,
             bottom: TabBar(
               controller: _tabController,
@@ -121,13 +121,14 @@ class WhgTabBarWidgetState extends State<WhgTabBarWidget>
 
     return Scaffold(
       drawer: drawer,
-      appBar: AppBar(backgroundColor: backgroundColor, title: title),
+      appBar:
+          AppBar(backgroundColor: Theme.of(context).primaryColor, title: title),
       body: TabBarView(
         children: tabViews,
         controller: _tabController,
       ),
       bottomNavigationBar: Material(
-        color: backgroundColor,
+        color: Theme.of(context).primaryColor,
         child: TabBar(
           tabs: tabItems,
           controller: _tabController,

@@ -17,26 +17,41 @@ import 'package:redux/redux.dart';
  * PS: Stay hungry,Stay foolish.
  */
 
-class WelComePage extends StatelessWidget {
-  //默认的跳转路径
-  static const String sName = "/";
+class WelComePage extends StatefulWidget {
+  static final String sName = "/";
 
   @override
-  Widget build(BuildContext context) {
-    //获取全局的store
+  _WelcomePageState createState() => _WelcomePageState();
+}
+
+class _WelcomePageState extends State<WelComePage> {
+  bool hadInit = false;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (hadInit) {
+      return;
+    }
+    hadInit = true;
+
+    ///防止多次进入
     Store<WhgState> store = StoreProvider.of(context);
     CommonUtils.initStatusBarHeight(context);
-
-    new Future.delayed(const Duration(seconds: 1), () {
+    new Future.delayed(const Duration(seconds: 2), () {
       UserDao.initUserInfo(store).then((res) {
         if (res != null && res.result) {
           NavigatorUtils.goHome(context);
         } else {
           NavigatorUtils.goLogin(context);
         }
+        return true;
       });
     });
+  }
 
+  @override
+  Widget build(BuildContext context) {
     return StoreBuilder<WhgState>(
       builder: (context, store) {
         return Container(

@@ -60,7 +60,7 @@ class IssueHeaderItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new WhgCardItem(
-      color: Color(WhgColors.primaryValue),
+      color: Theme.of(context).primaryColor,
       child: new FlatButton(
         padding: new EdgeInsets.all(0.0),
         onPressed: onPressed,
@@ -89,7 +89,7 @@ class IssueHeaderItem extends StatelessWidget {
                           children: <Widget>[
                             new Expanded(
                                 child: new Text(issueHeaderViewModel.actionUser,
-                                    style: WhgConstant.normalTextWhite)),
+                                    style: WhgConstant.smallSubLightText)),
                             new Text(
                               issueHeaderViewModel.actionTime,
                               style: WhgConstant.smallSubText,
@@ -140,7 +140,7 @@ class IssueHeaderItem extends StatelessWidget {
         : new Container(
             child: new Text(
               "Close By " + issueHeaderViewModel.closedBy,
-              style: WhgConstant.smallSubText,
+              style: WhgConstant.smallSubLightText,
             ),
             margin: new EdgeInsets.only(right: 5.0, top: 10.0, bottom: 10.0),
             alignment: Alignment.topRight);

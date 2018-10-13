@@ -109,7 +109,8 @@ class CodeDetailPageState extends State<CodeDetailPage> {
               child: new Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  new SpinKitDoubleBounce(color: Color(WhgColors.primaryValue)),
+                  new SpinKitDoubleBounce(
+                      color: Theme.of(context).primaryColor),
                   new Container(width: 10.0),
                   new Container(
                       child: new Text(WhgStrings.loading_text,

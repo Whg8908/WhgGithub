@@ -184,7 +184,9 @@ class PersonPageState extends WhgListState<PersonPage> {
 
   _renderEventItem(index) {
     if (index == 0) {
-      return new UserHeaderItem(userInfo, beStaredCount, orgList: orgList);
+      return new UserHeaderItem(
+          userInfo, beStaredCount, Theme.of(context).primaryColor,
+          orgList: orgList);
     }
     if (userInfo.type == "Organization") {
       return new UserItem(

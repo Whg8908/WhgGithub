@@ -191,8 +191,8 @@ class RepositoryDetailPageState extends State<RepositoryDetailPage> {
         onSelected: selected,
         child: FlatButton(
             onPressed: null,
-            color: Color(WhgColors.primaryValue),
-            disabledColor: Color(WhgColors.primaryValue),
+            color: Theme.of(context).primaryColorDark,
+            disabledColor: Theme.of(context).primaryColorDark,
             child: WhgIconText(
               Icons.arrow_drop_up,
               data,

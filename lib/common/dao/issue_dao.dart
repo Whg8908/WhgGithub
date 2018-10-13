@@ -231,7 +231,7 @@ class IssueDao {
         null,
         {"Accept": 'application/vnd.github.VERSION.full+json'},
         new Options(
-            method: locked ? "DELETE" : 'PUT', contentType: ContentType.TEXT),
+            method: locked ? "DELETE" : 'PUT', contentType: ContentType.text),
         noTip: true);
     if (res != null && res.result) {
       return new DataResult(res.data, true);

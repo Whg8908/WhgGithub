@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:github/common/bean/User.dart';
+import 'package:github/common/config/config.dart';
 import 'package:github/common/dao/event_dao.dart';
 import 'package:github/common/dao/issue_dao.dart';
 import 'package:github/common/dao/user_dao.dart';
+import 'package:github/common/db/sql_manager.dart';
+import 'package:github/common/local/local_storage.dart';
+import 'package:github/common/redux/themedata_redux.dart';
 import 'package:github/common/redux/whg_state.dart';
 import 'package:github/common/style/whg_style.dart';
 import 'package:github/common/utils/commonutils.dart';
 import 'package:github/common/utils/navigatorutils.dart';
 import 'package:github/ui/view/whg_flex_button.dart';
+import 'package:redux/redux.dart';
 
 /**
  * @Author by whg
@@ -28,7 +33,7 @@ class HomeDrawer extends StatelessWidget {
         User user = store.state.userInfo;
         return Drawer(
           child: Container(
-            color: Color(WhgColors.primaryValue),
+            color: store.state.themeData.primaryColor,
             child: new SingleChildScrollView(
               child: new Container(
                 height: MediaQuery.of(context).size.height,
@@ -42,7 +47,7 @@ class HomeDrawer extends StatelessWidget {
                       ),
                       accountEmail: Text(
                         user.email ?? user.name ?? "---",
-                        style: WhgConstant.normalSubText,
+                        style: WhgConstant.normalTextLight,
                       ),
                       currentAccountPicture: GestureDetector(
                         onTap: () {},
@@ -51,8 +56,8 @@ class HomeDrawer extends StatelessWidget {
                               new NetworkImage(user.avatar_url ?? "---"),
                         ),
                       ),
-                      decoration:
-                          BoxDecoration(color: Color(WhgColors.primaryValue)),
+                      decoration: BoxDecoration(
+                          color: store.state.themeData.primaryColor),
                     ),
                     new ListTile(
                         //第一个功能项
@@ -103,11 +108,22 @@ class HomeDrawer extends StatelessWidget {
                         }),
                     new ListTile(
                         title: new Text(
+                          WhgStrings.home_change_theme,
+                          style: WhgConstant.normalText,
+                        ),
+                        onTap: () {
+                          showThemeDialog(context, store);
+                        }),
+                    new ListTile(
+                        title: new Text(
                           WhgStrings.home_about,
                           style: WhgConstant.normalText,
                         ),
                         onTap: () {
                           CommonUtils.showAboutDailog(context);
+
+                          store.dispatch(new RefreshThemeDataAction(
+                              new ThemeData(primarySwatch: Colors.blue)));
                         }),
                     new ListTile(
                         title: new WhgFlexButton(
@@ -117,6 +133,7 @@ class HomeDrawer extends StatelessWidget {
                           onPress: () {
                             UserDao.clearAll(store);
                             EventDao.clearEvent(store);
+                            SqlManager.close();
                             NavigatorUtils.goLogin(context);
                           },
                         ),
@@ -129,5 +146,21 @@ class HomeDrawer extends StatelessWidget {
         );
       },
     );
+  }
+
+  showThemeDialog(BuildContext context, Store store) {
+    List<String> list = [
+      WhgStrings.home_theme_default,
+      WhgStrings.home_theme_1,
+      WhgStrings.home_theme_2,
+      WhgStrings.home_theme_3,
+      WhgStrings.home_theme_4,
+      WhgStrings.home_theme_5,
+      WhgStrings.home_theme_6,
+    ];
+    CommonUtils.showCommitOptionDialog(context, list, (index) {
+      CommonUtils.pushTheme(store, index);
+      LocalStorage.put(Config.THEME_COLOR, index.toString());
+    }, colorList: CommonUtils.getThemeListColor());
   }
 }

@@ -22,7 +22,7 @@ class PushHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return WhgCardItem(
-      color: Color(WhgColors.primaryValue),
+      color: Theme.of(context).primaryColor,
       child: FlatButton(
         onPressed: () {},
         child: Padding(
@@ -100,8 +100,8 @@ class PushHeader extends StatelessWidget {
     return new WhgIconText(
       icon,
       text,
-      WhgConstant.smallSubText,
-      Color(WhgColors.subTextColor),
+      WhgConstant.smallSubLightText,
+      Color(WhgColors.subLightTextColor),
       15.0,
       padding: 0.0,
     );

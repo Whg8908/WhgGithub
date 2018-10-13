@@ -24,9 +24,10 @@ class WhgSearchInputWidget extends StatelessWidget {
     return Container(
       decoration: new BoxDecoration(
           border:
-              new Border.all(color: Color(WhgColors.primaryValue), width: 0.3),
+              new Border.all(color: Theme.of(context).primaryColor, width: 0.3),
           boxShadow: [
-            BoxShadow(color: Color(WhgColors.primaryDarkValue), blurRadius: 4.0)
+            BoxShadow(
+                color: Theme.of(context).primaryColorDark, blurRadius: 4.0)
           ]),
       padding:
           new EdgeInsets.only(left: 20.0, top: 8.0, right: 20.0, bottom: 8.0),
@@ -46,7 +47,11 @@ class WhgSearchInputWidget extends StatelessWidget {
               materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
               padding: const EdgeInsets.only(right: 5.0, left: 10.0),
               constraints: const BoxConstraints(minWidth: 0.0, minHeight: 0.0),
-              child: new Icon(WhgICons.SEARCH, size: 15.0),
+              child: new Icon(
+                WhgICons.SEARCH,
+                size: 15.0,
+                color: Theme.of(context).primaryColorDark,
+              ),
               onPressed: onSubmitPressed)
         ],
       ),

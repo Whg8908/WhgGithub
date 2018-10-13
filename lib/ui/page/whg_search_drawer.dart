@@ -40,7 +40,7 @@ class WhgSearchDrawerState extends State<WhgSearchDrawer> {
   @override
   Widget build(BuildContext context) {
     return new Container(
-      color: Color(WhgColors.primaryValue),
+      color: Theme.of(context).primaryColor,
       padding: EdgeInsets.only(top: CommonUtils.sStaticBarHeight),
       child: Container(
         color: Color(WhgColors.white),
@@ -84,7 +84,7 @@ class WhgSearchDrawerState extends State<WhgSearchDrawer> {
 
   _renderTitle(String title) {
     return new Container(
-      color: Color(WhgColors.primaryValue),
+      color: Theme.of(context).primaryColor,
       width: itemWidth + 50,
       height: 50.0,
       child: new Center(

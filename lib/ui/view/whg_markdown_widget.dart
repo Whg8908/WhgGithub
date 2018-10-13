@@ -27,7 +27,7 @@ class WhgMarkdownWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        color: _getBackgroundColor(),
+        color: _getBackgroundColor(context),
         child: SingleChildScrollView(
           child: MarkdownBody(
             styleSheet: _getStyle(context),
@@ -107,14 +107,14 @@ class WhgMarkdownWidget extends StatelessWidget {
     );
   }
 
-  _getBackgroundColor() {
+  _getBackgroundColor(BuildContext context) {
     Color background = Color(WhgColors.white);
     switch (style) {
       case DARK_LIGHT:
         background = Color(WhgColors.primaryLightValue);
         break;
       case DARK_THEME:
-        background = Color(WhgColors.primaryValue);
+        background = Theme.of(context).primaryColor;
         break;
     }
     return background;

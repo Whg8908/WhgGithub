@@ -198,10 +198,10 @@ class ReposDao {
     String urls = Address.resolveStarRepos(userName, reposName);
     String urlw = Address.resolveWatcherRepos(userName, reposName);
     var resS = await HttpManager.fetch(
-        urls, null, null, new Options(contentType: ContentType.TEXT),
+        urls, null, null, new Options(contentType: ContentType.text),
         noTip: true);
     var resW = await HttpManager.fetch(
-        urlw, null, null, new Options(contentType: ContentType.TEXT),
+        urlw, null, null, new Options(contentType: ContentType.text),
         noTip: true);
     var data = {"star": resS.result, "watch": resW.result};
     return new DataResult(data, true);
@@ -319,7 +319,7 @@ class ReposDao {
         null,
         null,
         new Options(
-            method: !watch ? 'PUT' : 'DELETE', contentType: ContentType.TEXT));
+            method: !watch ? 'PUT' : 'DELETE', contentType: ContentType.text));
     return new DataResult(null, res.result);
   }
 
@@ -587,7 +587,7 @@ class ReposDao {
           url,
           null,
           {"Accept": 'application/vnd.github.VERSION.raw'},
-          new Options(contentType: ContentType.TEXT));
+          new Options(contentType: ContentType.text));
       //var res = await HttpManager.netFetch(url, null, {"Accept": 'application/vnd.github.html'}, new Options(contentType: ContentType.TEXT));
       if (res != null && res.result) {
         if (needDb) {

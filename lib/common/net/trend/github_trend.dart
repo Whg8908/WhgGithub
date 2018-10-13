@@ -9,7 +9,7 @@ import 'package:github/common/utils/trendingutils.dart';
 class GitHubTrending {
   fetchTrending(url) async {
     var res = await HttpManager.fetch(
-        url, null, null, new Options(contentType: ContentType.TEXT));
+        url, null, null, new Options(contentType: ContentType.text));
     if (res != null && res.result && res.data != null) {
       return new ResultData(
           TrendingUtil.htmlToRepo(res.data), true, Code.SUCCESS);

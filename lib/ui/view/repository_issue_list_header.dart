@@ -72,7 +72,7 @@ class RepositoryIssueListHeaderState extends State<WhgSelectItemWidget> {
     return WhgCardItem(
         elevation: elevation,
         margin: margin,
-        color: Color(WhgColors.primaryValue),
+        color: Theme.of(context).primaryColor,
         shape: new RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(4.0)),
         ),
@@ -88,7 +88,7 @@ class RepositoryIssueListHeaderState extends State<WhgSelectItemWidget> {
   Widget _renderItem(String name, int index) {
     var style = index == selectIndex
         ? WhgConstant.middleTextWhite
-        : WhgConstant.middleSubText;
+        : WhgConstant.middleSubLightText;
 
     return Expanded(
         child: RawMaterialButton(

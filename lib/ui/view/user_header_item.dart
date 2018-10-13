@@ -24,11 +24,13 @@ class UserHeaderItem extends StatelessWidget {
   final String beSharedCount;
   final Color notifyColor;
 
+  final Color themeColor;
+
   final VoidCallback refreshCallBack;
 
   final List<UserOrg> orgList;
 
-  UserHeaderItem(this.userInfo, this.beSharedCount,
+  UserHeaderItem(this.userInfo, this.beSharedCount, this.themeColor,
       {this.notifyColor, this.refreshCallBack, this.orgList});
 
   @override
@@ -37,7 +39,7 @@ class UserHeaderItem extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
         WhgCardItem(
-          color: Color(WhgColors.primaryValue),
+          color: themeColor,
           margin: EdgeInsets.all(0.0),
           shape: new RoundedRectangleBorder(
               borderRadius: BorderRadius.only(
@@ -306,8 +308,8 @@ class UserHeaderItem extends StatelessWidget {
   Widget _getBottomItem(String title, var value, onPressed) {
     String data = value == null ? "" : value.toString();
     TextStyle valueStyle = (value != null && value.toString().length > 4)
-        ? WhgConstant.smallMiLightText
-        : WhgConstant.smallSubText;
+        ? WhgConstant.minText
+        : WhgConstant.smallSubLightText;
 
     return new Expanded(
       child: new Center(
@@ -316,7 +318,7 @@ class UserHeaderItem extends StatelessWidget {
           child: RichText(
             textAlign: TextAlign.center,
             text: TextSpan(
-              style: WhgConstant.smallSubText,
+              style: WhgConstant.smallSubLightText,
               text: title + "\n",
               children: [TextSpan(text: data, style: valueStyle)],
             ),

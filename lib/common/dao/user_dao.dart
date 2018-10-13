@@ -15,6 +15,7 @@ import 'package:github/common/net/address.dart';
 import 'package:github/common/net/data_result.dart';
 import 'package:github/common/net/httpmanager.dart';
 import 'package:github/common/redux/user_redux.dart';
+import 'package:github/common/utils/commonutils.dart';
 import 'package:github/net_config.dart';
 import 'package:redux/redux.dart';
 
@@ -80,6 +81,13 @@ class UserDao {
     if (res != null && res.result && token != null) {
       store.dispatch(UpdataUserAction(res.data));
     }
+
+    ///读取主题
+    String themeIndex = await LocalStorage.get(Config.THEME_COLOR);
+    if (themeIndex != null && themeIndex.length != 0) {
+      CommonUtils.pushTheme(store, int.parse(themeIndex));
+    }
+
     return new DataResult(res.data, (res.result && (token != null)));
   }
 
@@ -282,7 +290,7 @@ class UserDao {
   static setAllNotificationAsReadDao() async {
     String url = Address.setAllNotificationAsRead();
     var res = await HttpManager.fetch(url, null, null,
-        new Options(method: "PUT", contentType: ContentType.TEXT));
+        new Options(method: "PUT", contentType: ContentType.text));
     return new DataResult(res.data, res.result);
   }
 
@@ -292,7 +300,7 @@ class UserDao {
   static checkFollowDao(name) async {
     String url = Address.doFollow(name);
     var res = await HttpManager.fetch(
-        url, null, null, new Options(contentType: ContentType.TEXT),
+        url, null, null, new Options(contentType: ContentType.text),
         noTip: true);
     return new DataResult(res.data, res.result);
   }
