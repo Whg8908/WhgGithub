@@ -109,7 +109,7 @@ class IssueEditDialogState extends State<IssueEditDialog> {
                     height: MediaQuery.of(context).size.width * 3 / 4,
                     decoration: new BoxDecoration(
                       borderRadius: BorderRadius.all(Radius.circular(4.0)),
-                      color: Colors.white,
+                      color: Color(WhgColors.white),
                       border: new Border.all(
                           color: Color(WhgColors.subTextColor), width: .3),
                     ),

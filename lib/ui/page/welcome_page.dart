@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:github/common/dao/user_dao.dart';
 import 'package:github/common/redux/whg_state.dart';
+import 'package:github/common/style/whg_style.dart';
 import 'package:github/common/utils/commonutils.dart';
 import 'package:github/common/utils/navigatorutils.dart';
 import 'package:redux/redux.dart';
@@ -39,7 +40,7 @@ class WelComePage extends StatelessWidget {
     return StoreBuilder<WhgState>(
       builder: (context, store) {
         return Container(
-            color: Colors.white,
+            color: Color(WhgColors.white),
             child: Image(
                 fit: BoxFit.cover,
                 image: AssetImage("static/images/welcome.png")));

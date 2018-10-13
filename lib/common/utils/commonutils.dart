@@ -126,7 +126,7 @@ class CommonUtils {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         new Container(
-                            child: SpinKitCubeGrid(color: Colors.white)),
+                            child: SpinKitCubeGrid(color: Color(WhgColors.white))),
                         new Container(height: 10.0),
                         new Container(
                             child: new Text(WhgStrings.loading_text,
@@ -203,7 +203,7 @@ class CommonUtils {
                     height: 0.5,
                   ),
                   new WhgFlexButton(
-                    color: Colors.white,
+                    color: Color(WhgColors.white),
                     fontSize: 18.0,
                     text: rightTile,
                     textColor: Color(WhgColors.subTextColor),
@@ -234,7 +234,7 @@ class CommonUtils {
               padding: new EdgeInsets.all(4.0),
               margin: new EdgeInsets.all(20.0),
               decoration: new BoxDecoration(
-                color: Colors.white,
+                color: Color(WhgColors.white),
                 //用一个BoxDecoration装饰器提供背景图片
                 borderRadius: BorderRadius.all(Radius.circular(4.0)),
               ),

@@ -67,7 +67,7 @@ class HomePage extends StatelessWidget {
               MyPage(), //我的页面
             ],
             backgroundColor: WhgColors.primarySwatch,
-            indicatorColor: Colors.white,
+            indicatorColor: Color(WhgColors.white),
             title: WhgTitleBar(
               //自定义titlebar
               WhgStrings.app_name,
