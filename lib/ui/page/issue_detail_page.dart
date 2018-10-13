@@ -217,24 +217,32 @@ class IssueDetailPageState extends WhgListState<IssueDetailPage> {
   _replyIssue() {
     //回复 Info
     String content = "";
-    CommonUtils.showEditDialog(context, WhgStrings.issue_reply_issue, null,
-        (replyContent) {
-      content = replyContent;
-    }, () {
-      if (content == null || content.trim().length == 0) {
-        Fluttertoast.showToast(
-            msg: WhgStrings.issue_edit_issue_content_not_be_null);
-        return;
-      }
-      CommonUtils.showLoadingDialog(context);
-      //提交评论
-      IssueDao.addIssueCommentDao(userName, reposName, issueNum, content)
-          .then((result) {
-        showRefreshLoading();
-        Navigator.pop(context);
-        Navigator.pop(context);
-      });
-    }, needTitle: false);
+    CommonUtils.showEditDialog(
+      context,
+      WhgStrings.issue_reply_issue,
+      null,
+      (replyContent) {
+        content = replyContent;
+      },
+      () {
+        if (content == null || content.trim().length == 0) {
+          Fluttertoast.showToast(
+              msg: WhgStrings.issue_edit_issue_content_not_be_null);
+          return;
+        }
+        CommonUtils.showLoadingDialog(context);
+        //提交评论
+        IssueDao.addIssueCommentDao(userName, reposName, issueNum, content)
+            .then((result) {
+          showRefreshLoading();
+          Navigator.pop(context);
+          Navigator.pop(context);
+        });
+      },
+      needTitle: false,
+      titleController: issueInfoTitleControl,
+      valueController: issueInfoValueControl,
+    );
   }
 
   _getBottomWidget() {

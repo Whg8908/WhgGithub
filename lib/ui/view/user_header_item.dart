@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:github/common/bean/User.dart';
+import 'package:github/common/bean/UserOrg.dart';
 import 'package:github/common/style/whg_style.dart';
 import 'package:github/common/utils/commonutils.dart';
 import 'package:github/common/utils/navigatorutils.dart';
 import 'package:github/ui/view/card_item.dart';
 import 'package:github/ui/view/whg_icon_text.dart';
+import 'package:github/ui/view/whg_user_icon_widget.dart';
 
 /**
  * @Author by whg
@@ -24,8 +26,10 @@ class UserHeaderItem extends StatelessWidget {
 
   final VoidCallback refreshCallBack;
 
+  final List<UserOrg> orgList;
+
   UserHeaderItem(this.userInfo, this.beSharedCount,
-      {this.notifyColor, this.refreshCallBack});
+      {this.notifyColor, this.refreshCallBack, this.orgList});
 
   @override
   Widget build(BuildContext context) {
@@ -45,6 +49,7 @@ class UserHeaderItem extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 firstColumn(context),
+                _renderOrgs(context, orgList),
                 secondColumn(),
                 SizedBox(
                   height: 5.0,
@@ -125,6 +130,54 @@ class UserHeaderItem extends StatelessWidget {
           ),
         ],
       );
+
+  ///用户组织
+  _renderOrgs(BuildContext context, List<UserOrg> orgList) {
+    if (orgList == null || orgList.length == 0) {
+      return new Container();
+    }
+    List<Widget> list = new List();
+
+    renderOrgsItem(UserOrg orgs) {
+      return WhgUserIconWidget(
+          padding: const EdgeInsets.only(right: 5.0, left: 5.0),
+          width: 30.0,
+          height: 30.0,
+          image: orgs.avatarUrl ?? WhgICons.DEFAULT_IMAGE,
+          onPressed: () {
+            NavigatorUtils.goPerson(context, orgs.login);
+          });
+    }
+
+    int length = orgList.length > 3 ? 3 : orgList.length;
+
+    list.add(new Text(WhgStrings.user_orgs_title + ":",
+        style: WhgConstant.subLightSmallText));
+
+    for (int i = 0; i < length; i++) {
+      list.add(renderOrgsItem(orgList[i]));
+    }
+    if (orgList.length > 3) {
+      list.add(new RawMaterialButton(
+          onPressed: () {
+            NavigatorUtils.gotoCommonList(
+                context,
+                userInfo.login + " " + WhgStrings.user_orgs_title,
+                "org",
+                "user_orgs",
+                userName: userInfo.login);
+          },
+          materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+          padding: const EdgeInsets.only(right: 5.0, left: 5.0),
+          constraints: const BoxConstraints(minWidth: 0.0, minHeight: 0.0),
+          child: Icon(
+            Icons.more_horiz,
+            color: Color(WhgColors.white),
+            size: 18.0,
+          )));
+    }
+    return Row(children: list);
+  }
 
   _getNotifyIcon(BuildContext context, Color color) {
     if (notifyColor == null) {
@@ -276,6 +329,11 @@ class UserHeaderItem extends StatelessWidget {
   Widget _renderChart(context) {
     double height = 140.0;
     double width = 3 * MediaQuery.of(context).size.width / 2;
+
+    if (userInfo.login != null && userInfo.type == "Organization") {
+      return new Container();
+    }
+
     return userInfo.login != null
         ? new Card(
             margin: EdgeInsets.only(

@@ -282,10 +282,15 @@ class CommonUtils {
   static launchUrl(context, String url) {
     if (url == null && url.length == 0) return;
     Uri parseUrl = Uri.parse(url);
-    if (isImageEnd(parseUrl.toString())) {
+
+    bool isImage = isImageEnd(parseUrl.toString());
+    if (parseUrl.toString().endsWith("?raw=true")) {
+      isImage = isImageEnd(parseUrl.toString().replaceAll("?raw=true", ""));
+    }
+    if (isImage) {
+      NavigatorUtils.gotoPhotoViewPage(context, url);
       return;
     }
-
     if (parseUrl != null &&
         parseUrl.host == "github.com" &&
         parseUrl.path.length > 0) {

@@ -261,4 +261,9 @@ class Address {
   static searchTopic(topic) {
     return "${host}search/repositories?q=topic:$topic&sort=stars&order=desc";
   }
+
+  ///获取用户组织
+  static getUserOrgs(userName) {
+    return "${host}users/$userName/orgs";
+  }
 }

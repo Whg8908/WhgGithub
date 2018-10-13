@@ -32,7 +32,7 @@ class WhgMarkdownWidget extends StatelessWidget {
           child: MarkdownBody(
             styleSheet: _getStyle(context),
             syntaxHighlighter: new WhgHighlighter(),
-            data: markdownData,
+            data: _getMarkDownData(markdownData),
             onTapLink: (String source) {
               CommonUtils.launchUrl(context, source);
             },
@@ -40,17 +40,69 @@ class WhgMarkdownWidget extends StatelessWidget {
         ));
   }
 
+  _getMarkDownData(String markdownData) {
+    ///优化图片显示
+    RegExp exp = new RegExp(r'!\[.*\]\((.+)\)');
+    RegExp expImg = new RegExp("<img.*?(?:>|\/>)");
+    RegExp expSrc = new RegExp("src=[\'\"]?([^\'\"]*)[\'\"]?");
+
+    Iterable<Match> tags = exp.allMatches(markdownData);
+    String mdDataCode = markdownData;
+    if (tags != null && tags.length > 0) {
+      for (Match m in tags) {
+        String imageMatch = m.group(0);
+        if (imageMatch != null) {
+          String match = m.group(0).replaceAll("\)", "?raw=true)");
+          if (!match.contains(".svg")) {
+            ///增加点击
+            String src = match
+                .replaceAll(new RegExp(r'!\[.*\]\('), "")
+                .replaceAll(")", "");
+            String actionMatch = "[$match]($src)";
+            match = actionMatch;
+          }
+          mdDataCode = mdDataCode.replaceAll(m.group(0), match);
+        }
+      }
+    }
+
+    tags = expImg.allMatches(markdownData);
+    if (tags != null && tags.length > 0) {
+      for (Match m in tags) {
+        String imageTag = m.group(0);
+        String match = imageTag;
+        if (imageTag != null) {
+          Iterable<Match> srcTags = expSrc.allMatches(imageTag);
+          for (Match srcMatch in srcTags) {
+            String srcString = srcMatch.group(0);
+            if (srcString != null && srcString.contains("http")) {
+              String newSrc = srcString.substring(
+                      srcString.indexOf("http"), srcString.length - 1) +
+                  "?raw=true";
+
+              ///增加点击
+              match = "[![]($newSrc)]($newSrc)";
+            }
+          }
+        }
+        mdDataCode = mdDataCode.replaceAll(imageTag, match);
+      }
+    }
+
+    return mdDataCode;
+  }
+
   _getStyleSheetTheme(BuildContext context) {
     return _getCommonSheet(context, Color(WhgColors.subTextColor)).copyWith(
       p: WhgConstant.smallTextWhite,
       h1: WhgConstant.largeLargeTextWhite,
-      h2: WhgConstant.largeTextWhite,
-      h3: WhgConstant.normalTextWhite,
+      h2: WhgConstant.largeTextWhiteBold,
+      h3: WhgConstant.normalTextMitWhiteBold,
       h4: WhgConstant.middleTextWhite,
       h5: WhgConstant.smallTextWhite,
       h6: WhgConstant.smallTextWhite,
       em: const TextStyle(fontStyle: FontStyle.italic),
-      strong: WhgConstant.middleTextWhite,
+      strong: WhgConstant.middleTextWhiteBold,
       code: WhgConstant.subSmallText,
     );
   }
@@ -104,13 +156,13 @@ class WhgMarkdownWidget extends StatelessWidget {
     return _getCommonSheet(context, Color(WhgColors.primaryValue)).copyWith(
       p: WhgConstant.smallTextWhite,
       h1: WhgConstant.largeLargeTextWhite,
-      h2: WhgConstant.largeTextWhite,
-      h3: WhgConstant.normalTextWhite,
+      h2: WhgConstant.largeTextWhiteBold,
+      h3: WhgConstant.normalTextMitWhiteBold,
       h4: WhgConstant.middleTextWhite,
       h5: WhgConstant.smallTextWhite,
       h6: WhgConstant.smallTextWhite,
       em: const TextStyle(fontStyle: FontStyle.italic),
-      strong: WhgConstant.middleTextWhite,
+      strong: WhgConstant.middleTextWhiteBold,
       code: WhgConstant.subSmallText,
     );
   }
@@ -119,12 +171,12 @@ class WhgMarkdownWidget extends StatelessWidget {
     return _getCommonSheet(context, Color(WhgColors.primaryValue)).copyWith(
       p: WhgConstant.smallText,
       h1: WhgConstant.largeLargeText,
-      h2: WhgConstant.largeText,
-      h3: WhgConstant.normalText,
+      h2: WhgConstant.largeTextBold,
+      h3: WhgConstant.normalTextBold,
       h4: WhgConstant.middleText,
       h5: WhgConstant.smallText,
       h6: WhgConstant.smallText,
-      strong: WhgConstant.middleText,
+      strong: WhgConstant.middleTextBold,
       code: WhgConstant.subSmallText,
     );
   }

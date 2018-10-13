@@ -4,10 +4,12 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:github/common/bean/Notification.dart';
 import 'package:github/common/bean/User.dart';
+import 'package:github/common/bean/UserOrg.dart';
 import 'package:github/common/config/config.dart';
 import 'package:github/common/db/provider/user/UserFollowedDbProvider.dart';
 import 'package:github/common/db/provider/user/UserFollowerDbProvider.dart';
 import 'package:github/common/db/provider/user/UserInfoDbProvider.dart';
+import 'package:github/common/db/provider/user/UserOrgsDbProvider.dart';
 import 'package:github/common/local/local_storage.dart';
 import 'package:github/common/net/address.dart';
 import 'package:github/common/net/data_result.dart';
@@ -351,5 +353,46 @@ class UserDao {
       return new DataResult(newUser, true);
     }
     return new DataResult(null, false);
+  }
+
+  /**
+   * 获取用户组织
+   */
+  /**
+   * 获取用户组织
+   */
+  static getUserOrgsDao(userName, page, {needDb = false}) async {
+    UserOrgsDbProvider provider = new UserOrgsDbProvider();
+    next() async {
+      String url =
+          Address.getUserOrgs(userName) + Address.getPageParams("?", page);
+      var res = await HttpManager.fetch(url, null, null, null);
+      if (res != null && res.result) {
+        List<UserOrg> list = new List();
+        var data = res.data;
+        if (data == null || data.length == 0) {
+          return new DataResult(null, false);
+        }
+        for (int i = 0; i < data.length; i++) {
+          list.add(new UserOrg.fromJson(data[i]));
+        }
+        if (needDb) {
+          provider.insert(userName, json.encode(data));
+        }
+        return new DataResult(list, true);
+      } else {
+        return new DataResult(null, false);
+      }
+    }
+
+    if (needDb) {
+      List<UserOrg> list = await provider.geData(userName);
+      if (list == null) {
+        return await next();
+      }
+      DataResult dataResult = new DataResult(list, true, next: next());
+      return dataResult;
+    }
+    return await next();
   }
 }

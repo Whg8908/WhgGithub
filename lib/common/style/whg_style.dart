@@ -156,8 +156,6 @@ class WhgStrings {
 
   static const String option_share_title = "分享自GitHubFlutterApp： ";
 
-  static const String load_more_text = "正在加载更多";
-
   static const String option_share_copy_success = "已经复制到粘贴板";
 
   static const String app_empty = "目前什么也没有哟";
@@ -194,6 +192,10 @@ class WhgStrings {
   static const String repos_fork_at = "Fork于 ";
   static const String repos_create_at = "创建于 ";
   static const String repos_last_commit = "最后提交于 ";
+
+  static const String user_orgs_title = "所在组织";
+
+  static const String load_more_text = "加载中···";
 }
 
 class WhgConstant {
@@ -350,6 +352,24 @@ class WhgConstant {
   static const actionLightSmallText = TextStyle(
     color: Color(WhgColors.actionBlue),
     fontSize: smallTextSize,
+  );
+
+  static const middleTextBold = TextStyle(
+    color: Color(WhgColors.mainTextColor),
+    fontSize: middleTextWhiteSize,
+    fontWeight: FontWeight.bold,
+  );
+
+  static const middleTextWhiteBold = TextStyle(
+    color: Color(WhgColors.TextColorWhite),
+    fontSize: middleTextWhiteSize,
+    fontWeight: FontWeight.bold,
+  );
+
+  static const middleSubTextBold = TextStyle(
+    color: Color(WhgColors.subTextColor),
+    fontSize: middleTextWhiteSize,
+    fontWeight: FontWeight.bold,
   );
 }
 

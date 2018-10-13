@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:github/common/bean/Notification.dart' as Model;
 import 'package:github/common/dao/user_dao.dart';
 import 'package:github/common/style/whg_style.dart';
@@ -27,10 +28,37 @@ class NotifyPage extends StatefulWidget {
 }
 
 class NotifyPageState extends WhgListState<NotifyPage> {
+  final SlidableController slidableController = new SlidableController();
+
   int selectIndex;
 
-  _renderEventItem(index) {
+  _renderItem(index) {
     Model.Notification notification = pullLoadWidgetControl.dataList[index];
+    if (selectIndex != 0) {
+      return _renderEventItem(notification);
+    }
+    return new Slidable(
+      controller: slidableController,
+      delegate: new SlidableDrawerDelegate(),
+      actionExtentRatio: 0.25,
+      child: _renderEventItem(notification),
+      secondaryActions: <Widget>[
+        new IconSlideAction(
+          caption: WhgStrings.notify_readed,
+          color: Colors.redAccent,
+          icon: Icons.delete,
+          onTap: () {
+            UserDao.setNotificationAsReadDao(notification.id.toString())
+                .then((res) {
+              showRefreshLoading();
+            });
+          },
+        ),
+      ],
+    );
+  }
+
+  _renderEventItem(Model.Notification notification) {
     EventViewModel eventViewModel = EventViewModel.fromNotify(notification);
     return new EventItem(eventViewModel, onPressed: () {
       if (notification.unread) {
@@ -114,7 +142,7 @@ class NotifyPageState extends WhgListState<NotifyPage> {
         elevation: 4.0,
       ),
       body: WhgPullLoadWidget(
-        (BuildContext context, int index) => _renderEventItem(index),
+        (BuildContext context, int index) => _renderItem(index),
         handleRefresh,
         onLoadMore,
         pullLoadWidgetControl,

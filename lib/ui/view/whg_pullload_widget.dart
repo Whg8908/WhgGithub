@@ -148,7 +148,7 @@ class WhgPullLoadWidgetState extends State<WhgPullLoadWidget> {
                   style: WhgConstant.smallTextBold,
                 )
               ])
-        : new Text(WhgStrings.load_more_not);
+        : new Container();
     return new Padding(
       padding: const EdgeInsets.all(20.0),
       child: new Center(

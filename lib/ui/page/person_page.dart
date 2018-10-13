@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:github/common/bean/Event.dart';
 import 'package:github/common/bean/User.dart';
+import 'package:github/common/bean/UserOrg.dart';
 import 'package:github/common/dao/event_dao.dart';
 import 'package:github/common/dao/repos_dao.dart';
 import 'package:github/common/dao/user_dao.dart';
@@ -43,6 +44,8 @@ class PersonPage extends StatefulWidget {
 class PersonPageState extends WhgListState<PersonPage> {
   final String userName;
   User userInfo = User.empty();
+
+  final List<UserOrg> orgList = new List();
 
   String beStaredCount = "---";
 
@@ -138,8 +141,33 @@ class PersonPageState extends WhgListState<PersonPage> {
     if (userInfo.type == "Organization") {
       return await UserDao.getMemberDao(_getUserName(), page);
     }
+
+    _getUserOrg();
+
     return await EventDao.getEventDao(_getUserName(),
         page: page, needDb: page <= 1);
+  }
+
+  _getUserOrg() {
+    if (page <= 1) {
+      UserDao.getUserOrgsDao(userName, page, needDb: true).then((res) {
+        if (res != null && res.result) {
+          setState(() {
+            orgList.clear();
+            orgList.addAll(res.data);
+          });
+          return res.next;
+        }
+        return new Future.value(null);
+      }).then((res) {
+        if (res != null && res.result) {
+          setState(() {
+            orgList.clear();
+            orgList.addAll(res.data);
+          });
+        }
+      });
+    }
   }
 
   _getFocusStatus() async {
@@ -156,7 +184,7 @@ class PersonPageState extends WhgListState<PersonPage> {
 
   _renderEventItem(index) {
     if (index == 0) {
-      return new UserHeaderItem(userInfo, beStaredCount);
+      return new UserHeaderItem(userInfo, beStaredCount, orgList: orgList);
     }
     if (userInfo.type == "Organization") {
       return new UserItem(
