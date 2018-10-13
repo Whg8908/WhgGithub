@@ -59,7 +59,7 @@ class RepositoryDetailIssuePageState
     if (searchString == null || searchString.trim().length == 0) {
       return await IssueDao.getRepositoryIssueDao(
           userName, reposName, issueState,
-          page: page);
+          page: page, needDb: page <= 1);
     }
     return await IssueDao.searchRepositoryIssue(
         searchString, userName, reposName, this.issueState,

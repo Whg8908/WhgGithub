@@ -1,7 +1,9 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:github/common/bean/Issue.dart';
+import 'package:github/common/db/provider/repos/RepositoryIssueDbProvider.dart';
 import 'package:github/common/net/address.dart';
 import 'package:github/common/net/data_result.dart';
 import 'package:github/common/net/httpmanager.dart';
@@ -27,31 +29,50 @@ class IssueDao {
    * @param direction 正序或者倒序
    */
   static getRepositoryIssueDao(userName, repository, state,
-      {sort, direction, page = 0}) async {
-    String url =
-        Address.getReposIssue(userName, repository, state, sort, direction) +
-            Address.getPageParams("&", page);
-    var res = await HttpManager.fetch(
-        url,
-        null,
-        {
-          "Accept":
-              'application/vnd.github.html,application/vnd.github.VERSION.raw'
-        },
-        null);
-    if (res != null && res.result) {
-      List<Issue> list = new List();
-      var data = res.data;
-      if (data == null || data.length == 0) {
+      {sort, direction, page = 0, needDb = false}) async {
+    String fullName = userName + "/" + repository;
+    String dbState = state ?? "*";
+    RepositoryIssueDbProvider provider = new RepositoryIssueDbProvider();
+
+    next() async {
+      String url =
+          Address.getReposIssue(userName, repository, state, sort, direction) +
+              Address.getPageParams("&", page);
+      var res = await HttpManager.fetch(
+          url,
+          null,
+          {
+            "Accept":
+                'application/vnd.github.html,application/vnd.github.VERSION.raw'
+          },
+          null);
+      if (res != null && res.result) {
+        List<Issue> list = new List();
+        var data = res.data;
+        if (data == null || data.length == 0) {
+          return new DataResult(null, false);
+        }
+        for (int i = 0; i < data.length; i++) {
+          list.add(Issue.fromJson(data[i]));
+        }
+        if (needDb) {
+          provider.insert(fullName, dbState, json.encode(data));
+        }
+        return new DataResult(list, true);
+      } else {
         return new DataResult(null, false);
       }
-      for (int i = 0; i < data.length; i++) {
-        list.add(Issue.fromJson(data[i]));
-      }
-      return new DataResult(list, true);
-    } else {
-      return new DataResult(null, false);
     }
+
+    if (needDb) {
+      List<Issue> list = await provider.getData(fullName, dbState);
+      if (list == null) {
+        return await next();
+      }
+      DataResult dataResult = new DataResult(list, true, next: next());
+      return dataResult;
+    }
+    return await next();
   }
 
   /**

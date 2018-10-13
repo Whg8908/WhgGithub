@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "132547A43BA5DC267E2E899ABC494EA5"
+               BlueprintIdentifier = "76BA37563498CFFD9BDC0987CF29BCDA"
                BlueprintName = "url_launcher"
                ReferencedContainer = "container:Pods.xcodeproj"
                BuildableName = "url_launcher.framework">

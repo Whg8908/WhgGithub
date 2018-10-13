@@ -11,8 +11,10 @@ import 'package:github/common/bean/RepoCommit.dart';
 import 'package:github/common/bean/Repository.dart';
 import 'package:github/common/bean/TrendingRepoModel.dart';
 import 'package:github/common/bean/User.dart';
+import 'package:github/common/db/provider/repos/RepositoryCommitsDbProvider.dart';
 import 'package:github/common/db/provider/repos/RepositoryDetailDbProvider.dart';
 import 'package:github/common/db/provider/repos/RepositoryDetailReadmeDbProvider.dart';
+import 'package:github/common/db/provider/repos/RepositoryEventDbProvider.dart';
 import 'package:github/common/db/provider/repos/TrendRepositoryDbProvider.dart';
 import 'package:github/common/net/address.dart';
 import 'package:github/common/net/data_result.dart';
@@ -118,24 +120,41 @@ class ReposDao {
    * 仓库活动事件
    */
   static getRepositoryEventDao(userName, reposName,
-      {page = 0, branch = "master"}) async {
-    String url = Address.getReposEvent(userName, reposName) +
-        Address.getPageParams("?", page);
+      {page = 0, branch = "master", needDb = false}) async {
+    String fullName = userName + "/" + reposName;
+    RepositoryEventDbProvider provider = new RepositoryEventDbProvider();
 
-    var res = await HttpManager.fetch(url, null, null, null);
-    if (res != null && res.result) {
-      List<Event> list = new List();
-      var data = res.data;
-      if (data == null || data.length == 0) {
+    next() async {
+      String url = Address.getReposEvent(userName, reposName) +
+          Address.getPageParams("?", page);
+      var res = await HttpManager.fetch(url, null, null, null);
+      if (res != null && res.result) {
+        List<Event> list = new List();
+        var data = res.data;
+        if (data == null || data.length == 0) {
+          return new DataResult(null, false);
+        }
+        for (int i = 0; i < data.length; i++) {
+          list.add(Event.fromJson(data[i]));
+        }
+        if (needDb) {
+          provider.insert(fullName, json.encode(data));
+        }
+        return new DataResult(list, true);
+      } else {
         return new DataResult(null, false);
       }
-      for (int i = 0; i < data.length; i++) {
-        list.add(Event.fromJson(data[i]));
-      }
-      return new DataResult(list, true);
-    } else {
-      return new DataResult(null, false);
     }
+
+    if (needDb) {
+      List<Event> list = await provider.getEvents(fullName);
+      if (list == null) {
+        return await next();
+      }
+      DataResult dataResult = new DataResult(list, true, next: next());
+      return dataResult;
+    }
+    return await next();
   }
 
   /**
@@ -158,26 +177,44 @@ class ReposDao {
    * 获取仓库的提交列表
    */
   static getReposCommitsDao(userName, reposName,
-      {page = 0, branch = "master"}) async {
-    String url = Address.getReposCommits(userName, reposName) +
-        Address.getPageParams("?", page) +
-        "&sha=" +
-        branch;
+      {page = 0, branch = "master", needDb = false}) async {
+    String fullName = userName + "/" + reposName;
 
-    var res = await HttpManager.fetch(url, null, null, null);
-    if (res != null && res.result) {
-      List<RepoCommit> list = new List();
-      var data = res.data;
-      if (data == null || data.length == 0) {
+    RepositoryCommitsDbProvider provider = new RepositoryCommitsDbProvider();
+
+    next() async {
+      String url = Address.getReposCommits(userName, reposName) +
+          Address.getPageParams("?", page) +
+          "&sha=" +
+          branch;
+      var res = await HttpManager.fetch(url, null, null, null);
+      if (res != null && res.result) {
+        List<RepoCommit> list = new List();
+        var data = res.data;
+        if (data == null || data.length == 0) {
+          return new DataResult(null, false);
+        }
+        for (int i = 0; i < data.length; i++) {
+          list.add(RepoCommit.fromJson(data[i]));
+        }
+        if (needDb) {
+          provider.insert(fullName, branch, json.encode(data));
+        }
+        return new DataResult(list, true);
+      } else {
         return new DataResult(null, false);
       }
-      for (int i = 0; i < data.length; i++) {
-        list.add(RepoCommit.fromJson(data[i]));
-      }
-      return new DataResult(list, true);
-    } else {
-      return new DataResult(null, false);
     }
+
+    if (needDb) {
+      List<RepoCommit> list = await provider.getData(fullName, branch);
+      if (list == null) {
+        return await next();
+      }
+      DataResult dataResult = new DataResult(list, true, next: next());
+      return dataResult;
+    }
+    return await next();
   }
 
   /***

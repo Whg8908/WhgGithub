@@ -87,6 +87,8 @@ class PersonPageState extends WhgListState<PersonPage> {
     ///如果返回的是数据库数据，next不为空
     ///这样数据库返回数据较快，马上显示
     ///next异步再请求后，再更新
+
+    ///用户信息
     var userResult = await UserDao.getUserInfo(userName, needDb: true);
     if (userResult != null && userResult.result) {
       _resolveUserInfo(userResult);
@@ -98,6 +100,7 @@ class PersonPageState extends WhgListState<PersonPage> {
     } else {
       return null;
     }
+
     var res = await _getDataLogic();
     resolveRefreshResult(res);
     resolveDataResult(res);
@@ -110,18 +113,22 @@ class PersonPageState extends WhgListState<PersonPage> {
     _getFocusStatus();
     ReposDao.getUserRepository100StatusDao(_getUserName()).then((res) {
       if (res != null && res.result) {
-        setState(() {
-          beStaredCount = res.data.toString();
-        });
+        if (isShow) {
+          setState(() {
+            beStaredCount = res.data.toString();
+          });
+        }
       }
     });
     return null;
   }
 
   _resolveUserInfo(res) {
-    setState(() {
-      userInfo = res.data;
-    });
+    if (isShow) {
+      setState(() {
+        userInfo = res.data;
+      });
+    }
   }
 
   @override
@@ -137,12 +144,14 @@ class PersonPageState extends WhgListState<PersonPage> {
 
   _getFocusStatus() async {
     var focusRes = await UserDao.checkFollowDao(userName);
-    setState(() {
-      focus = (focusRes != null && focusRes.result)
-          ? WhgStrings.user_focus
-          : WhgStrings.user_un_focus;
-      focusStatus = (focusRes != null && focusRes.result);
-    });
+    if (isShow) {
+      setState(() {
+        focus = (focusRes != null && focusRes.result)
+            ? WhgStrings.user_focus
+            : WhgStrings.user_un_focus;
+        focusStatus = (focusRes != null && focusRes.result);
+      });
+    }
   }
 
   _renderEventItem(index) {

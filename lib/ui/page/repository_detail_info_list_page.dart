@@ -118,10 +118,14 @@ class RepositoryDetailInfoPageState
   _getDataLogic() async {
     if (selectIndex == 1) {
       return await ReposDao.getReposCommitsDao(userName, reposName,
-          page: page, branch: reposDetailParentControl.currentBranch);
+          page: page,
+          branch: reposDetailParentControl.currentBranch,
+          needDb: page <= 1);
     }
     return await ReposDao.getRepositoryEventDao(userName, reposName,
-        page: page, branch: reposDetailParentControl.currentBranch);
+        page: page,
+        branch: reposDetailParentControl.currentBranch,
+        needDb: page <= 1);
   }
 
   @override
