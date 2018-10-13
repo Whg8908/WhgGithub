@@ -29,7 +29,7 @@ class ReleaseItem extends StatelessWidget {
                         style: WhgConstant.smallTextBold)),
                 new Container(
                     child: new Text(releaseItemViewModel.actionTime ?? "",
-                        style: WhgConstant.subSmallText)),
+                        style: WhgConstant.smallSubText)),
               ],
             ),
           ),

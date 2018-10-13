@@ -120,18 +120,18 @@ class ReposHeaderItem extends StatelessWidget {
             reposHeaderViewModel.repositoryType != null
                 ? reposHeaderViewModel.repositoryType
                 : "--",
-            style: WhgConstant.subLightSmallText,
+            style: WhgConstant.smallSubLightText,
           ),
           Padding(
             padding: const EdgeInsets.only(left: 5.0, right: 5.0),
             child: Text(
               reposHeaderViewModel.repositorySize ?? "--",
-              style: WhgConstant.subLightSmallText,
+              style: WhgConstant.smallSubLightText,
             ),
           ),
           Text(
             reposHeaderViewModel.license ?? "--",
-            style: WhgConstant.subLightSmallText,
+            style: WhgConstant.smallSubLightText,
           )
         ],
       );
@@ -139,7 +139,7 @@ class ReposHeaderItem extends StatelessWidget {
   //第三行
   Widget timeColumn() => new Container(
       child: new Text(reposHeaderViewModel.repositoryDes ?? "---",
-          style: WhgConstant.subSmallText),
+          style: WhgConstant.smallSubText),
       margin: new EdgeInsets.only(top: 6.0, bottom: 2.0),
       alignment: Alignment.topLeft);
 
@@ -161,8 +161,8 @@ class ReposHeaderItem extends StatelessWidget {
           constraints: const BoxConstraints(minWidth: 0.0, minHeight: 0.0),
           child: new Text(infoText,
               style: reposHeaderViewModel.repositoryIsFork
-                  ? WhgConstant.actionLightSmallText
-                  : WhgConstant.subLightSmallText),
+                  ? WhgConstant.smallActionLightText
+                  : WhgConstant.smallSubLightText),
         ),
       );
 
@@ -239,7 +239,7 @@ class ReposHeaderItem extends StatelessWidget {
         child: new WhgIconText(
           icon,
           text,
-          WhgConstant.subLightSmallText,
+          WhgConstant.smallSubLightText,
           Color(WhgColors.subLightTextColor),
           15.0,
           padding: 3.0,
@@ -268,7 +268,7 @@ class ReposHeaderItem extends StatelessWidget {
           ),
           child: new Text(
             item,
-            style: WhgConstant.subLightSmallText,
+            style: WhgConstant.smallSubLightText,
           ),
         ));
   }

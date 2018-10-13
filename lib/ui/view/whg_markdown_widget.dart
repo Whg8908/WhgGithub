@@ -103,7 +103,7 @@ class WhgMarkdownWidget extends StatelessWidget {
       h6: WhgConstant.smallTextWhite,
       em: const TextStyle(fontStyle: FontStyle.italic),
       strong: WhgConstant.middleTextWhiteBold,
-      code: WhgConstant.subSmallText,
+      code: WhgConstant.smallSubText,
     );
   }
 
@@ -163,7 +163,7 @@ class WhgMarkdownWidget extends StatelessWidget {
       h6: WhgConstant.smallTextWhite,
       em: const TextStyle(fontStyle: FontStyle.italic),
       strong: WhgConstant.middleTextWhiteBold,
-      code: WhgConstant.subSmallText,
+      code: WhgConstant.smallSubText,
     );
   }
 
@@ -177,7 +177,7 @@ class WhgMarkdownWidget extends StatelessWidget {
       h5: WhgConstant.smallText,
       h6: WhgConstant.smallText,
       strong: WhgConstant.middleTextBold,
-      code: WhgConstant.subSmallText,
+      code: WhgConstant.smallSubText,
     );
   }
 }

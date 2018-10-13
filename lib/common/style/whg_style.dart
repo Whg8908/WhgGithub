@@ -13,34 +13,17 @@ class WhgColors {
   static const int primaryDarkValue = 0xFF121917;
 
   static const int cardWhite = 0xFFFFFFFF;
-
   static const int textWhite = 0xFFFFFFFF;
+  static const int miWhite = 0xffececec;
+  static const int white = 0xFFFFFFFF;
+  static const int actionBlue = 0xff267aff;
+  static const int subTextColor = 0xff959595;
+  static const int subLightTextColor = 0xffc4c4c4;
 
-  static const miWhite = 0xffececec;
-  static const white = 0xFFFFFFFF;
-  static const transparentColor = 0x00000000;
+  static const int mainBackgroundColor = miWhite;
 
-  static const mainBackgroundColor = miWhite;
-  static const tabBackgroundColor = 0xffffffff;
-  static const cardBackgroundColor = 0xFFFFFFFF;
-  static const cardShadowColor = 0xff000000;
-  static const actionBlue = 0xff267aff;
-
-  static const lineColor = 0xff42464b;
-
-  static const webDraculaBackgroundColor = 0xff282a36;
-
-  static const selectedColor = primaryDarkValue;
-
-  static const titleTextColor = miWhite;
-  static const mainTextColor = primaryDarkValue;
-  static const subTextColor = 0xff959595;
-  static const subLightTextColor = 0xffc4c4c4;
-  static const TextColorWhite = 0xFFFFFFFF;
-  static const TextColorMiWhtte = miWhite;
-
-  static const tabSelectedColor = primaryValue;
-  static const tabUnSelectColor = 0xffa6aaaf;
+  static const int mainTextColor = primaryDarkValue;
+  static const int textColorWhite = white;
 
   static const MaterialColor primarySwatch =
       const MaterialColor(primaryValue, const <int, Color>{
@@ -199,39 +182,20 @@ class WhgStrings {
 }
 
 class WhgConstant {
-  // navbar 高度
-  static const iosnavHeaderHeight = 70.0;
-  static const andrnavHeaderHeight = 70.0;
-
-  static const largetTextSize = 30.0;
+  static const lagerTextSize = 30.0;
   static const bigTextSize = 23.0;
   static const normalTextSize = 18.0;
   static const middleTextWhiteSize = 16.0;
   static const smallTextSize = 14.0;
   static const minTextSize = 12.0;
 
-  // tabBar 高度
-  static const tabBarHeight = 44.0;
-  static const tabIconSize = 20.0;
-
-  static const normalIconSize = 40.0;
-  static const bigIconSize = 50.0;
-  static const largeIconSize = 80.0;
-  static const smallIconSize = 30.0;
-  static const minIconSize = 20.0;
-  static const littleIconSize = 10.0;
-
-  static const normalMarginEdge = 10.0;
-  static const normalNumberOfLine = 4.0;
-
-  static const titleTextStyle = TextStyle(
-    color: Color(WhgColors.titleTextColor),
-    fontSize: normalTextSize,
-    fontWeight: FontWeight.bold,
+  static const minText = TextStyle(
+    color: Color(WhgColors.subTextColor),
+    fontSize: minTextSize,
   );
 
   static const smallTextWhite = TextStyle(
-    color: Color(WhgColors.TextColorWhite),
+    color: Color(WhgColors.textColorWhite),
     fontSize: smallTextSize,
   );
 
@@ -246,17 +210,22 @@ class WhgConstant {
     fontWeight: FontWeight.bold,
   );
 
-  static const subLightSmallText = TextStyle(
+  static const smallSubLightText = TextStyle(
     color: Color(WhgColors.subLightTextColor),
     fontSize: smallTextSize,
   );
 
-  static const miLightSmallText = TextStyle(
+  static const smallActionLightText = TextStyle(
+    color: Color(WhgColors.actionBlue),
+    fontSize: smallTextSize,
+  );
+
+  static const smallMiLightText = TextStyle(
     color: Color(WhgColors.miWhite),
     fontSize: smallTextSize,
   );
 
-  static const subSmallText = TextStyle(
+  static const smallSubText = TextStyle(
     color: Color(WhgColors.subTextColor),
     fontSize: smallTextSize,
   );
@@ -266,92 +235,14 @@ class WhgConstant {
     fontSize: middleTextWhiteSize,
   );
 
-  static const normalText = TextStyle(
-    color: Color(WhgColors.mainTextColor),
-    fontSize: normalTextSize,
-  );
-
-  static const subNormalText = TextStyle(
-    color: Color(WhgColors.subTextColor),
-    fontSize: normalTextSize,
-  );
-
-  static const normalTextWhite = TextStyle(
-    color: Color(WhgColors.TextColorWhite),
-    fontSize: normalTextSize,
-  );
-
-  static const normalTextMitWhite = TextStyle(
-    color: Color(WhgColors.miWhite),
-    fontSize: normalTextSize,
-  );
-
-  static const normalTextLight = TextStyle(
-    color: Color(WhgColors.primaryLightValue),
-    fontSize: normalTextSize,
-  );
-
   static const middleTextWhite = TextStyle(
-    color: Color(WhgColors.TextColorWhite),
+    color: Color(WhgColors.textColorWhite),
     fontSize: middleTextWhiteSize,
-  );
-
-  static const largeText = TextStyle(
-    color: Color(WhgColors.mainTextColor),
-    fontSize: bigTextSize,
-  );
-
-  static const largeTextWhite = TextStyle(
-    color: Color(WhgColors.TextColorWhite),
-    fontSize: bigTextSize,
-  );
-
-  static const normalTextBold = TextStyle(
-    color: Color(WhgColors.mainTextColor),
-    fontSize: normalTextSize,
-    fontWeight: FontWeight.bold,
-  );
-
-  static const largeTextWhiteBold = TextStyle(
-    color: Color(WhgColors.TextColorWhite),
-    fontSize: bigTextSize,
-    fontWeight: FontWeight.bold,
   );
 
   static const middleSubText = TextStyle(
     color: Color(WhgColors.subTextColor),
     fontSize: middleTextWhiteSize,
-  );
-
-  static const normalTextMitWhiteBold = TextStyle(
-      color: Color(WhgColors.miWhite),
-      fontSize: normalTextSize,
-      fontWeight: FontWeight.bold);
-
-  static const largeLargeTextWhite = TextStyle(
-    color: Color(WhgColors.TextColorWhite),
-    fontSize: largetTextSize,
-  );
-
-  static const largeLargeText = TextStyle(
-    color: Color(WhgColors.primaryValue),
-    fontSize: largetTextSize,
-  );
-
-  static const minSmallText = TextStyle(
-    color: Color(WhgColors.subTextColor),
-    fontSize: minTextSize,
-  );
-
-  static const largeTextBold = TextStyle(
-    color: Color(WhgColors.mainTextColor),
-    fontSize: bigTextSize,
-    fontWeight: FontWeight.bold,
-  );
-
-  static const actionLightSmallText = TextStyle(
-    color: Color(WhgColors.actionBlue),
-    fontSize: smallTextSize,
   );
 
   static const middleTextBold = TextStyle(
@@ -361,7 +252,7 @@ class WhgConstant {
   );
 
   static const middleTextWhiteBold = TextStyle(
-    color: Color(WhgColors.TextColorWhite),
+    color: Color(WhgColors.textColorWhite),
     fontSize: middleTextWhiteSize,
     fontWeight: FontWeight.bold,
   );
@@ -369,6 +260,78 @@ class WhgConstant {
   static const middleSubTextBold = TextStyle(
     color: Color(WhgColors.subTextColor),
     fontSize: middleTextWhiteSize,
+    fontWeight: FontWeight.bold,
+  );
+
+  static const normalText = TextStyle(
+    color: Color(WhgColors.mainTextColor),
+    fontSize: normalTextSize,
+  );
+
+  static const normalTextBold = TextStyle(
+    color: Color(WhgColors.mainTextColor),
+    fontSize: normalTextSize,
+    fontWeight: FontWeight.bold,
+  );
+
+  static const normalSubText = TextStyle(
+    color: Color(WhgColors.subTextColor),
+    fontSize: normalTextSize,
+  );
+
+  static const normalTextWhite = TextStyle(
+    color: Color(WhgColors.textColorWhite),
+    fontSize: normalTextSize,
+  );
+
+  static const normalTextMitWhiteBold = TextStyle(
+    color: Color(WhgColors.miWhite),
+    fontSize: normalTextSize,
+    fontWeight: FontWeight.bold,
+  );
+
+  static const normalTextActionWhiteBold = TextStyle(
+    color: Color(WhgColors.actionBlue),
+    fontSize: normalTextSize,
+    fontWeight: FontWeight.bold,
+  );
+
+  static const normalTextLight = TextStyle(
+    color: Color(WhgColors.primaryLightValue),
+    fontSize: normalTextSize,
+  );
+
+  static const largeText = TextStyle(
+    color: Color(WhgColors.mainTextColor),
+    fontSize: bigTextSize,
+  );
+
+  static const largeTextBold = TextStyle(
+    color: Color(WhgColors.mainTextColor),
+    fontSize: bigTextSize,
+    fontWeight: FontWeight.bold,
+  );
+
+  static const largeTextWhite = TextStyle(
+    color: Color(WhgColors.textColorWhite),
+    fontSize: bigTextSize,
+  );
+
+  static const largeTextWhiteBold = TextStyle(
+    color: Color(WhgColors.textColorWhite),
+    fontSize: bigTextSize,
+    fontWeight: FontWeight.bold,
+  );
+
+  static const largeLargeTextWhite = TextStyle(
+    color: Color(WhgColors.textColorWhite),
+    fontSize: lagerTextSize,
+    fontWeight: FontWeight.bold,
+  );
+
+  static const largeLargeText = TextStyle(
+    color: Color(WhgColors.primaryValue),
+    fontSize: lagerTextSize,
     fontWeight: FontWeight.bold,
   );
 }

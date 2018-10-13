@@ -100,7 +100,7 @@ class PushHeader extends StatelessWidget {
     return new WhgIconText(
       icon,
       text,
-      WhgConstant.subSmallText,
+      WhgConstant.smallSubText,
       Color(WhgColors.subTextColor),
       15.0,
       padding: 0.0,

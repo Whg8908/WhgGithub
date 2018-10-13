@@ -92,7 +92,7 @@ class IssueHeaderItem extends StatelessWidget {
                                     style: WhgConstant.normalTextWhite)),
                             new Text(
                               issueHeaderViewModel.actionTime,
-                              style: WhgConstant.subSmallText,
+                              style: WhgConstant.smallSubText,
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,
                             ),
@@ -140,7 +140,7 @@ class IssueHeaderItem extends StatelessWidget {
         : new Container(
             child: new Text(
               "Close By " + issueHeaderViewModel.closedBy,
-              style: WhgConstant.subSmallText,
+              style: WhgConstant.smallSubText,
             ),
             margin: new EdgeInsets.only(right: 5.0, top: 10.0, bottom: 10.0),
             alignment: Alignment.topRight);

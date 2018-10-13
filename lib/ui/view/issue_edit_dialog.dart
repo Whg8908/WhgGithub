@@ -148,7 +148,7 @@ class IssueEditDialogState extends State<IssueEditDialog> {
                               constraints: const BoxConstraints(
                                   minWidth: 0.0, minHeight: 0.0),
                               child: new Text(WhgStrings.app_cancel,
-                                  style: WhgConstant.subNormalText),
+                                  style: WhgConstant.normalSubText),
                               onPressed: () {
                                 Navigator.pop(context);
                               })),

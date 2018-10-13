@@ -153,7 +153,7 @@ class RepositoryDetailFileListPageState
         ),
         trailing: trailing,
         title:
-            new Text(fileItemViewModel.name, style: WhgConstant.subSmallText),
+            new Text(fileItemViewModel.name, style: WhgConstant.smallSubText),
         onTap: () {
           _resolveItemClick(fileItemViewModel);
         },

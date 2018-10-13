@@ -126,7 +126,8 @@ class CommonUtils {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         new Container(
-                            child: SpinKitCubeGrid(color: Color(WhgColors.white))),
+                            child:
+                                SpinKitCubeGrid(color: Color(WhgColors.white))),
                         new Container(height: 10.0),
                         new Container(
                             child: new Text(WhgStrings.loading_text,
@@ -199,7 +200,7 @@ class CommonUtils {
                     },
                   ),
                   Container(
-                    color: Color(WhgColors.lineColor),
+                    color: Color(WhgColors.white),
                     height: 0.5,
                   ),
                   new WhgFlexButton(

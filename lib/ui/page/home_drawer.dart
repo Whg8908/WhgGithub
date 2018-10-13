@@ -42,7 +42,7 @@ class HomeDrawer extends StatelessWidget {
                       ),
                       accountEmail: Text(
                         user.email ?? user.name ?? "---",
-                        style: WhgConstant.subNormalText,
+                        style: WhgConstant.normalSubText,
                       ),
                       currentAccountPicture: GestureDetector(
                         onTap: () {},

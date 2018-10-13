@@ -107,12 +107,12 @@ class UserHeaderItem extends StatelessWidget {
                 ),
                 userInfo.name != null
                     ? new Text(userInfo.name == null ? "" : userInfo.name,
-                        style: WhgConstant.subLightSmallText)
+                        style: WhgConstant.smallSubLightText)
                     : Container(),
                 new WhgIconText(
                   WhgICons.USER_ITEM_COMPANY,
                   userInfo.company ?? WhgStrings.nothing_now,
-                  WhgConstant.subLightSmallText,
+                  WhgConstant.smallSubLightText,
                   Color(WhgColors.subLightTextColor),
                   10.0,
                   padding: 3.0,
@@ -120,7 +120,7 @@ class UserHeaderItem extends StatelessWidget {
                 new WhgIconText(
                   WhgICons.USER_ITEM_LOCATION,
                   userInfo.location ?? WhgStrings.nothing_now,
-                  WhgConstant.subLightSmallText,
+                  WhgConstant.smallSubLightText,
                   Color(WhgColors.subLightTextColor),
                   10.0,
                   padding: 3.0,
@@ -152,7 +152,7 @@ class UserHeaderItem extends StatelessWidget {
     int length = orgList.length > 3 ? 3 : orgList.length;
 
     list.add(new Text(WhgStrings.user_orgs_title + ":",
-        style: WhgConstant.subLightSmallText));
+        style: WhgConstant.smallSubLightText));
 
     for (int i = 0; i < length; i++) {
       list.add(renderOrgsItem(orgList[i]));
@@ -223,8 +223,8 @@ class UserHeaderItem extends StatelessWidget {
                   WhgICons.USER_ITEM_LINK,
                   userInfo.blog ?? WhgStrings.nothing_now,
                   (userInfo.blog == null)
-                      ? WhgConstant.subLightSmallText
-                      : WhgConstant.actionLightSmallText,
+                      ? WhgConstant.smallSubLightText
+                      : WhgConstant.smallActionLightText,
                   Color(WhgColors.subLightTextColor),
                   10.0,
                   padding: 3.0,
@@ -241,7 +241,7 @@ class UserHeaderItem extends StatelessWidget {
                         "\n" +
                         WhgStrings.user_create_at +
                         CommonUtils.getDateStr(userInfo.created_at),
-                style: WhgConstant.subLightSmallText,
+                style: WhgConstant.smallSubLightText,
                 maxLines: 3,
               ),
               margin: new EdgeInsets.only(top: 6.0, bottom: 2.0),
@@ -306,8 +306,8 @@ class UserHeaderItem extends StatelessWidget {
   Widget _getBottomItem(String title, var value, onPressed) {
     String data = value == null ? "" : value.toString();
     TextStyle valueStyle = (value != null && value.toString().length > 4)
-        ? WhgConstant.minSmallText
-        : WhgConstant.subSmallText;
+        ? WhgConstant.smallMiLightText
+        : WhgConstant.smallSubText;
 
     return new Expanded(
       child: new Center(
@@ -316,7 +316,7 @@ class UserHeaderItem extends StatelessWidget {
           child: RichText(
             textAlign: TextAlign.center,
             text: TextSpan(
-              style: WhgConstant.subSmallText,
+              style: WhgConstant.smallSubText,
               text: title + "\n",
               children: [TextSpan(text: data, style: valueStyle)],
             ),

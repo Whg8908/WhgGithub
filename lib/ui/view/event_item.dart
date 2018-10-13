@@ -55,7 +55,7 @@ class EventItem extends StatelessWidget {
             eventViewModel.actionUser,
             style: WhgConstant.smallTextBold,
           )),
-          new Text(eventViewModel.actionTime, style: WhgConstant.subSmallText),
+          new Text(eventViewModel.actionTime, style: WhgConstant.smallSubText),
         ],
       );
 
@@ -75,7 +75,7 @@ class EventItem extends StatelessWidget {
       return Container(
           child: new Text(
             eventViewModel.actionDes,
-            style: WhgConstant.subSmallText,
+            style: WhgConstant.smallSubText,
             maxLines: 3,
           ),
           margin: new EdgeInsets.only(top: 6.0, bottom: 2.0),

@@ -100,7 +100,8 @@ class TrendPageState extends WhgListState<TrendPage> {
               });
               showRefreshLoading();
             }),
-            new Container(height: 10.0, width: 0.5, color: Color(WhgColors.white)),
+            new Container(
+                height: 10.0, width: 0.5, color: Color(WhgColors.white)),
             _renderHeaderPopItem(selectType.name, TrendType,
                 (TrendTypeModel result) {
               setState(() {

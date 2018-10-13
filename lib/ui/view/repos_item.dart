@@ -61,7 +61,7 @@ class ReposItem extends StatelessWidget {
                 WhgIconText(
                   WhgICons.REPOS_ITEM_USER,
                   reposViewModel.ownerName,
-                  WhgConstant.subLightSmallText,
+                  WhgConstant.smallSubLightText,
                   Color(WhgColors.subLightTextColor),
                   10.0,
                   padding: 3.0,
@@ -69,14 +69,14 @@ class ReposItem extends StatelessWidget {
               ],
             ),
           ),
-          Text(reposViewModel.repositoryType, style: WhgConstant.subSmallText),
+          Text(reposViewModel.repositoryType, style: WhgConstant.smallSubText),
         ],
       );
 
   Widget secondColumn() => Container(
       child: new Text(
         reposViewModel.repositoryDes,
-        style: WhgConstant.subSmallText,
+        style: WhgConstant.smallSubText,
         maxLines: 3,
         overflow: TextOverflow.ellipsis,
       ),
@@ -103,7 +103,7 @@ class ReposItem extends StatelessWidget {
         child: new WhgIconText(
           icon,
           text,
-          WhgConstant.subSmallText,
+          WhgConstant.smallSubText,
           Color(WhgColors.subTextColor),
           15.0,
           padding: 5.0,

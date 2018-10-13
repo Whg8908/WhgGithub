@@ -30,7 +30,7 @@ class _UserProfileState extends State<UserProfileInfo> {
             new Container(
               width: 10.0,
             ),
-            new Text(title, style: WhgConstant.subNormalText),
+            new Text(title, style: WhgConstant.normalSubText),
             new Container(
               width: 10.0,
             ),
