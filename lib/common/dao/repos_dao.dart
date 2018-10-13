@@ -11,6 +11,7 @@ import 'package:github/common/bean/RepoCommit.dart';
 import 'package:github/common/bean/Repository.dart';
 import 'package:github/common/bean/TrendingRepoModel.dart';
 import 'package:github/common/bean/User.dart';
+import 'package:github/common/db/provider/repos/ReadHistoryDbProvider.dart';
 import 'package:github/common/db/provider/repos/RepositoryCommitsDbProvider.dart';
 import 'package:github/common/db/provider/repos/RepositoryDetailDbProvider.dart';
 import 'package:github/common/db/provider/repos/RepositoryDetailReadmeDbProvider.dart';
@@ -25,6 +26,8 @@ import 'package:github/common/net/address.dart';
 import 'package:github/common/net/data_result.dart';
 import 'package:github/common/net/httpmanager.dart';
 import 'package:github/common/net/trend/github_trend.dart';
+import 'package:github/common/redux/trend_redux.dart';
+import 'package:redux/redux.dart';
 
 /**
  * @Author by whg
@@ -43,43 +46,37 @@ class ReposDao {
    * @param since 数据时长， 本日，本周，本月
    * @param languageType 语言
    */
-  static getTrendDao(
+  static getTrendDao(Store store,
       {since = 'daily', languageType, page = 0, needDb = true}) async {
     TrendRepositoryDbProvider provider = new TrendRepositoryDbProvider();
     String languageTypeDb = languageType ?? "*";
-    await provider.getData(languageTypeDb, since);
-    next() async {
-      String url = Address.trending(since, languageType);
-      var res = await new GitHubTrending().fetchTrending(url);
-      if (res != null && res.result && res.data.length > 0) {
-        List<TrendingRepoModel> list = new List();
-        var data = res.data;
-        if (data == null || data.length == 0) {
-          return new DataResult(null, false);
-        }
-        if (needDb) {
-          provider.insert(languageTypeDb, since, json.encode(data));
-        }
-        for (int i = 0; i < data.length; i++) {
-          TrendingRepoModel model = data[i];
-          list.add(model);
-        }
-        return new DataResult(list, true);
-      } else {
+    List<TrendingRepoModel> list =
+        await provider.getData(languageTypeDb, since);
+    //redux
+    if (list != null && list.length > 0) {
+      store.dispatch(new RefreshTrendAction(list));
+    }
+    //net
+    String url = Address.trending(since, languageType);
+    var res = await new GitHubTrending().fetchTrending(url);
+    if (res != null && res.result && res.data.length > 0) {
+      List<TrendingRepoModel> list = new List();
+      var data = res.data;
+      if (data == null || data.length == 0) {
         return new DataResult(null, false);
       }
-    }
-
-    if (needDb) {
-      List<TrendingRepoModel> list =
-          await provider.getData(languageTypeDb, since);
-      if (list == null) {
-        return await next();
+      if (needDb) {
+        provider.insert(languageTypeDb, since, json.encode(data));
       }
-      DataResult dataResult = new DataResult(list, true, next: next());
-      return dataResult;
+      for (int i = 0; i < data.length; i++) {
+        TrendingRepoModel model = data[i];
+        list.add(model);
+      }
+      store.dispatch(new RefreshTrendAction(list));
+      return new DataResult(list, true);
+    } else {
+      return new DataResult(null, false);
     }
-    return await next();
   }
 
   /**
@@ -676,5 +673,25 @@ class ReposDao {
     } else {
       return new DataResult(null, false);
     }
+  }
+
+  /**
+   * 获取阅读历史
+   */
+  static getHistoryDao(page) async {
+    ReadHistoryDbProvider provider = new ReadHistoryDbProvider();
+    List<Repository> list = await provider.geData(page);
+    if (list == null || list.length <= 0) {
+      return new DataResult(null, false);
+    }
+    return new DataResult(list, true);
+  }
+
+  /**
+   * 保存阅读历史
+   */
+  static saveHistoryDao(String fullName, DateTime dateTime, String data) {
+    ReadHistoryDbProvider provider = new ReadHistoryDbProvider();
+    provider.insert(fullName, dateTime, data);
   }
 }

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:github/common/bean/User.dart';
 import 'package:github/common/style/whg_style.dart';
 import 'package:github/common/utils/commonutils.dart';
@@ -52,6 +54,7 @@ class UserHeaderItem extends StatelessWidget {
                 ),
                 thirdColumn(context),
                 userDynamicTitle(),
+                _renderChart(context),
               ],
             ),
           ),
@@ -63,15 +66,26 @@ class UserHeaderItem extends StatelessWidget {
   Widget firstColumn(BuildContext context) => Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          ClipOval(
-            child: FadeInImage.assetNetwork(
-              placeholder: WhgICons.DEFAULT_USER_ICON,
-              image: userInfo.avatar_url == null ? "" : userInfo.avatar_url,
-              fit: BoxFit.fitWidth,
-              width: 80.0,
-              height: 80.0,
-            ),
-          ),
+          new RawMaterialButton(
+              onPressed: () {
+                if (userInfo.avatar_url != null) {
+                  NavigatorUtils.gotoPhotoViewPage(
+                      context, userInfo.avatar_url);
+                }
+              },
+              materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              padding: const EdgeInsets.all(0.0),
+              constraints: const BoxConstraints(minWidth: 0.0, minHeight: 0.0),
+              child: new ClipOval(
+                child: new FadeInImage.assetNetwork(
+                  placeholder: WhgICons.DEFAULT_USER_ICON,
+                  //预览图
+                  fit: BoxFit.fitWidth,
+                  image: userInfo.avatar_url ?? WhgICons.DEFAULT_USER_ICON,
+                  width: 80.0,
+                  height: 80.0,
+                ),
+              )),
           SizedBox(
             width: 10.0,
           ),
@@ -246,5 +260,44 @@ class UserHeaderItem extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Widget _renderChart(context) {
+    double height = 140.0;
+    double width = 3 * MediaQuery.of(context).size.width / 2;
+    return userInfo.login != null
+        ? new Card(
+            margin: EdgeInsets.only(
+                top: 0.0, left: 10.0, right: 10.0, bottom: 10.0),
+            color: Colors.white,
+            child: new SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: new Container(
+                padding: EdgeInsets.only(left: 10.0, right: 10.0),
+                width: width,
+                height: height,
+                child: new SvgPicture.network(
+                  CommonUtils.getUserChartAddress(userInfo.login),
+                  width: width,
+                  height: height - 10,
+                  allowDrawingOutsideViewBox: true,
+                  placeholderBuilder: (BuildContext context) => new Container(
+                        height: height,
+                        width: width,
+                        child: Center(
+                          child: const SpinKitRipple(
+                              color: Color(WhgColors.primaryValue)),
+                        ),
+                      ),
+                ),
+              ),
+            ),
+          )
+        : new Container(
+            height: height,
+            child: Center(
+              child: const SpinKitRipple(color: Color(WhgColors.primaryValue)),
+            ),
+          );
   }
 }

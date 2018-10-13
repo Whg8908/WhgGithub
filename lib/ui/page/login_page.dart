@@ -47,12 +47,8 @@ class LoginPageState extends State<LoginPage> {
   Future initParams() async {
     _userName = await LocalStorage.get(Config.USER_NAME_KEY);
     _passWord = await LocalStorage.get(Config.PW_KEY);
-    if (_userName != null) {
-      _userNameController.value = new TextEditingValue(text: _userName);
-    }
-    if (_passWord != null) {
-      _passWordController.value = new TextEditingValue(text: _passWord);
-    }
+    _userNameController.value = new TextEditingValue(text: _userName ?? "");
+    _passWordController.value = new TextEditingValue(text: _passWord ?? "");
   }
 
   @override

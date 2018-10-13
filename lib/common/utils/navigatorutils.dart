@@ -11,6 +11,7 @@ import 'package:github/ui/page/issue_detail_page.dart';
 import 'package:github/ui/page/login_page.dart';
 import 'package:github/ui/page/notify_page.dart';
 import 'package:github/ui/page/person_page.dart';
+import 'package:github/ui/page/photo_view_page.dart';
 import 'package:github/ui/page/push_detail_page.dart';
 import 'package:github/ui/page/release_page.dart';
 import 'package:github/ui/page/repository_detail_page.dart';
@@ -199,5 +200,11 @@ class NavigatorUtils {
         branch: branch,
       );
     }
+  }
+
+  ///图片预览
+  static gotoPhotoViewPage(BuildContext context, String url) {
+    Navigator.push(context,
+        new MaterialPageRoute(builder: (context) => new PhotoViewPage(url)));
   }
 }

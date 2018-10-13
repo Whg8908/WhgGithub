@@ -116,7 +116,7 @@ class UserDao {
         User user = User.fromJson(res.data);
         user.starred = starred;
         if (userName == null) {
-          LocalStorage.put(Config.USER_INFO, json.encode(res.data));
+          LocalStorage.put(Config.USER_INFO, json.encode(user.toJson()));
         } else {
           if (needDb) {
             provider.insert(userName, json.encode(user.toJson()));
@@ -268,8 +268,9 @@ class UserDao {
    */
   static setNotificationAsReadDao(id) async {
     String url = Address.setNotificationAsRead(id);
-    var res =
-        await HttpManager.fetch(url, null, null, new Options(method: "PATCH"));
+    var res = await HttpManager.fetch(
+        url, null, null, new Options(method: "PATCH"),
+        noTip: true);
     return res;
   }
 

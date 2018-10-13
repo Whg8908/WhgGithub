@@ -4,7 +4,9 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:flutter_statusbar/flutter_statusbar.dart';
 import 'package:get_version/get_version.dart';
+import 'package:github/common/net/address.dart';
 import 'package:github/common/style/whg_style.dart';
 import 'package:github/common/utils/fluttertoast.dart';
 import 'package:github/common/utils/navigatorutils.dart';
@@ -30,6 +32,13 @@ class CommonUtils {
   static final double HOURS_LIMIT = 24 * MINUTES_LIMIT;
 
   static final double DAYS_LIMIT = 30 * HOURS_LIMIT;
+
+  static double sStaticBarHeight = 0.0;
+
+  static void initStatusBarHeight(context) async {
+    sStaticBarHeight =
+        await FlutterStatusbar.height / MediaQuery.of(context).devicePixelRatio;
+  }
 
   static String getNewsTimeStr(DateTime date) {
     int subTime =
@@ -57,6 +66,13 @@ class CommonUtils {
       return date.toString();
     }
     return date.toString().substring(0, 11);
+  }
+
+  static String getUserChartAddress(String userName) {
+    return Address.graphicHost +
+        WhgColors.primaryValueString.replaceAll("#", "") +
+        "/" +
+        userName;
   }
 
   static getFullName(String repository_url) {

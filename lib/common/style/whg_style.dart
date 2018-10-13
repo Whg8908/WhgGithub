@@ -176,6 +176,7 @@ class WhgStrings {
   static const String issue_edit_issue_copy_commit = "复制";
 
   static const String user_create_at = "创建于：";
+  static const String home_history = "阅读历史";
 }
 
 class WhgConstant {
@@ -414,4 +415,6 @@ class WhgICons {
   static const IconData ISSUE_EDIT_QUOTE = Icons.format_quote;
   static const IconData ISSUE_EDIT_CODE = Icons.format_shapes;
   static const IconData ISSUE_EDIT_LINK = Icons.insert_link;
+
+  static const String DEFAULT_IMAGE = 'static/images/default_img.png';
 }

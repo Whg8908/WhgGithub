@@ -3,6 +3,7 @@ package io.flutter.plugins;
 import io.flutter.plugin.common.PluginRegistry;
 import io.flutter.plugins.connectivity.ConnectivityPlugin;
 import io.flutter.plugins.deviceinfo.DeviceInfoPlugin;
+import com.github.jzoom.flutterstatusbar.FlutterStatusbarPlugin;
 import com.flutter_webview_plugin.FlutterWebviewPlugin;
 import com.appleeducate.getversion.GetVersionPlugin;
 import io.flutter.plugins.packageinfo.PackageInfoPlugin;
@@ -21,6 +22,7 @@ public final class GeneratedPluginRegistrant {
     }
     ConnectivityPlugin.registerWith(registry.registrarFor("io.flutter.plugins.connectivity.ConnectivityPlugin"));
     DeviceInfoPlugin.registerWith(registry.registrarFor("io.flutter.plugins.deviceinfo.DeviceInfoPlugin"));
+    FlutterStatusbarPlugin.registerWith(registry.registrarFor("com.github.jzoom.flutterstatusbar.FlutterStatusbarPlugin"));
     FlutterWebviewPlugin.registerWith(registry.registrarFor("com.flutter_webview_plugin.FlutterWebviewPlugin"));
     GetVersionPlugin.registerWith(registry.registrarFor("com.appleeducate.getversion.GetVersionPlugin"));
     PackageInfoPlugin.registerWith(registry.registrarFor("io.flutter.plugins.packageinfo.PackageInfoPlugin"));

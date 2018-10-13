@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:github/common/dao/user_dao.dart';
 import 'package:github/common/redux/whg_state.dart';
+import 'package:github/common/utils/commonutils.dart';
 import 'package:github/common/utils/navigatorutils.dart';
 import 'package:redux/redux.dart';
 
@@ -23,6 +24,7 @@ class WelComePage extends StatelessWidget {
   Widget build(BuildContext context) {
     //获取全局的store
     Store<WhgState> store = StoreProvider.of(context);
+    CommonUtils.initStatusBarHeight(context);
 
     new Future.delayed(const Duration(seconds: 1), () {
       UserDao.initUserInfo(store).then((res) {

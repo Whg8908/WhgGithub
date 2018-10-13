@@ -13,11 +13,13 @@ import 'package:github/common/bean/FileModel.dart';
 class FileItemViewModel {
   String type;
   String name;
+  String htmlUrl;
 
   FileItemViewModel();
 
   FileItemViewModel.fromMap(FileModel map) {
     name = map.name;
     type = map.type;
+    htmlUrl = map.htmlUrl;
   }
 }

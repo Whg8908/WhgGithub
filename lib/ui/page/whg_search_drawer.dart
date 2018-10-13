@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:github/common/style/whg_style.dart';
+import 'package:github/common/utils/commonutils.dart';
 import 'package:github/common/viewmodel/filter_model.dart';
 
 /**
@@ -39,10 +40,14 @@ class WhgSearchDrawerState extends State<WhgSearchDrawer> {
   @override
   Widget build(BuildContext context) {
     return new Container(
-      color: Colors.white,
-      child: new SingleChildScrollView(
-        child: new Column(
-          children: _renderList(),
+      color: Color(WhgColors.primaryValue),
+      padding: EdgeInsets.only(top: CommonUtils.sStaticBarHeight),
+      child: Container(
+        color: Color(WhgColors.white),
+        child: new SingleChildScrollView(
+          child: new Column(
+            children: _renderList(),
+          ),
         ),
       ),
     );

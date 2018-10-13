@@ -44,9 +44,11 @@ class MyPageState extends WhgListState<MyPage> {
 
     ReposDao.getUserRepository100StatusDao(_getUserName()).then((res) {
       if (res != null && res.result) {
-        setState(() {
-          beSharedCount = res.data.toString();
-        });
+        if (isShow) {
+          setState(() {
+            beSharedCount = res.data.toString();
+          });
+        }
       }
     });
     _refreshNotify();

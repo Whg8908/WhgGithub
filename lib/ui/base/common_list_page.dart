@@ -128,7 +128,7 @@ class CommonListPageState extends WhgListState<CommonListPage> {
       case 'notify':
         return null;
       case 'history':
-        return null;
+        return await ReposDao.getHistoryDao(page);
       case 'topics':
         return null;
       case 'user_be_stared':

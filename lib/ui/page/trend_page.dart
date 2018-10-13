@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
 import 'package:github/common/dao/repos_dao.dart';
+import 'package:github/common/redux/whg_state.dart';
 import 'package:github/common/style/whg_style.dart';
 import 'package:github/common/utils/navigatorutils.dart';
 import 'package:github/common/viewmodel/repos_view_model.dart';
@@ -8,6 +10,7 @@ import 'package:github/ui/base/whg_list_state.dart';
 import 'package:github/ui/view/card_item.dart';
 import 'package:github/ui/view/repos_item.dart';
 import 'package:github/ui/view/whg_pullload_widget.dart';
+import 'package:redux/redux.dart';
 
 /**
  * @Author by whg
@@ -29,9 +32,24 @@ class TrendPageState extends WhgListState<TrendPage> {
   TrendTypeModel selectType = TrendType[0];
 
   @override
-  requestRefresh() async {
-    return await ReposDao.getTrendDao(
+  Future<Null> handleRefresh() async {
+    if (isLoading) {
+      return null;
+    }
+    isLoading = true;
+    page = 1;
+    await ReposDao.getTrendDao(_getStore(),
         since: selectTime.value, languageType: selectType.value);
+    setState(() {
+      pullLoadWidgetControl.needLoadMore = false;
+    });
+    isLoading = false;
+    return null;
+  }
+
+  @override
+  requestRefresh() async {
+    return null;
   }
 
   @override
@@ -40,7 +58,20 @@ class TrendPageState extends WhgListState<TrendPage> {
   }
 
   @override
-  bool get isRefreshFirst => true;
+  bool get isRefreshFirst => false;
+
+  @override
+  void didChangeDependencies() {
+    pullLoadWidgetControl.dataList = _getStore().state.trendList;
+    if (pullLoadWidgetControl.dataList.length == 0) {
+      showRefreshLoading();
+    }
+    super.didChangeDependencies();
+  }
+
+  Store<WhgState> _getStore() {
+    return StoreProvider.of(context);
+  }
 
   _renderItem(e) {
     ReposViewModel reposViewModel = ReposViewModel.fromTrendMap(e);
@@ -119,22 +150,26 @@ class TrendPageState extends WhgListState<TrendPage> {
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return Scaffold(
-      backgroundColor: Color(WhgColors.mainBackgroundColor),
-      appBar: new AppBar(
-        flexibleSpace: _renderHeader(),
-        backgroundColor: Color(WhgColors.mainBackgroundColor),
-        leading: new Container(),
-        elevation: 0.0,
-      ),
-      body: WhgPullLoadWidget(
-        (BuildContext context, int index) =>
-            _renderItem(pullLoadWidgetControl.dataList[index]),
-        handleRefresh,
-        onLoadMore,
-        pullLoadWidgetControl,
-        refreshKey: refreshIndicatorKey,
-      ),
+    return new StoreBuilder<WhgState>(
+      builder: (context, store) {
+        return Scaffold(
+          backgroundColor: Color(WhgColors.mainBackgroundColor),
+          appBar: new AppBar(
+            flexibleSpace: _renderHeader(),
+            backgroundColor: Color(WhgColors.mainBackgroundColor),
+            leading: new Container(),
+            elevation: 0.0,
+          ),
+          body: WhgPullLoadWidget(
+            (BuildContext context, int index) =>
+                _renderItem(pullLoadWidgetControl.dataList[index]),
+            handleRefresh,
+            onLoadMore,
+            pullLoadWidgetControl,
+            refreshKey: refreshIndicatorKey,
+          ),
+        );
+      },
     );
   }
 }

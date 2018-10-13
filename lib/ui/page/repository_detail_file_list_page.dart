@@ -177,7 +177,8 @@ class RepositoryDetailFileListPageState
           "/" +
           fileItemViewModel.name;
       if (CommonUtils.isImageEnd(fileItemViewModel.name)) {
-        //todo 图片
+        NavigatorUtils.gotoPhotoViewPage(
+            context, fileItemViewModel.htmlUrl + "?raw=true");
       } else {
         NavigatorUtils.gotoCodeDetailPlatform(
           context,
