@@ -80,17 +80,29 @@ class IssueDetailPageState extends WhgListState<IssueDetailPage> {
       _getHeaderInfo();
     }
     return await IssueDao.getIssueCommentDao(userName, reposName, issueNum,
-        page: page);
+        page: page, needDb: page <= 1);
   }
 
   _getHeaderInfo() async {
-    var res = await IssueDao.getIssueInfoDao(userName, reposName, issueNum);
-    if (res != null && res.result) {
-      setState(() {
-        issueHeaderViewModel = IssueHeaderViewModel.fromMap(res.data);
-        headerStatus = true;
-      });
-    }
+    IssueDao.getIssueInfoDao(userName, reposName, issueNum).then((res) {
+      if (res != null && res.result) {
+        _resolveHeaderInfo(res);
+        return res.next;
+      }
+      return new Future.value(null);
+    }).then((res) {
+      if (res != null && res.result) {
+        _resolveHeaderInfo(res);
+      }
+    });
+  }
+
+  _resolveHeaderInfo(res) {
+    Issue issue = res.data;
+    setState(() {
+      issueHeaderViewModel = IssueHeaderViewModel.fromMap(issue);
+      headerStatus = true;
+    });
   }
 
   _renderEventItem(index) {

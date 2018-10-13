@@ -15,12 +15,16 @@ import 'package:github/common/db/provider/repos/RepositoryCommitsDbProvider.dart
 import 'package:github/common/db/provider/repos/RepositoryDetailDbProvider.dart';
 import 'package:github/common/db/provider/repos/RepositoryDetailReadmeDbProvider.dart';
 import 'package:github/common/db/provider/repos/RepositoryEventDbProvider.dart';
+import 'package:github/common/db/provider/repos/RepositoryForkDbProvider.dart';
+import 'package:github/common/db/provider/repos/RepositoryStarDbProvider.dart';
+import 'package:github/common/db/provider/repos/RepositoryWatcherDbProvider.dart';
 import 'package:github/common/db/provider/repos/TrendRepositoryDbProvider.dart';
+import 'package:github/common/db/provider/user/UserReposDbProvider.dart';
+import 'package:github/common/db/provider/user/UserStaredDbProvider.dart';
 import 'package:github/common/net/address.dart';
 import 'package:github/common/net/data_result.dart';
 import 'package:github/common/net/httpmanager.dart';
 import 'package:github/common/net/trend/github_trend.dart';
-import 'package:github/common/viewmodel/user_item_view_model.dart';
 
 /**
  * @Author by whg
@@ -302,115 +306,201 @@ class ReposDao {
   /**
    * 获取当前仓库所有订阅用户
    */
-  static getRepositoryWatcherDao(userName, reposName, page) async {
-    String url = Address.getReposWatcher(userName, reposName) +
-        Address.getPageParams("?", page);
-    var res = await HttpManager.fetch(url, null, null, null);
-    if (res != null && res.result) {
-      List<UserItemViewModel> list = new List();
-      var data = res.data;
-      if (data == null || data.length == 0) {
+  static getRepositoryWatcherDao(userName, reposName, page,
+      {needDb = false}) async {
+    String fullName = userName + "/" + reposName;
+    RepositoryWatcherDbProvider provider = new RepositoryWatcherDbProvider();
+
+    next() async {
+      String url = Address.getReposWatcher(userName, reposName) +
+          Address.getPageParams("?", page);
+      var res = await HttpManager.fetch(url, null, null, null);
+      if (res != null && res.result) {
+        List<User> list = new List();
+        var data = res.data;
+        if (data == null || data.length == 0) {
+          return new DataResult(null, false);
+        }
+        for (int i = 0; i < data.length; i++) {
+          list.add(new User.fromJson(data[i]));
+        }
+        if (needDb) {
+          provider.insert(fullName, json.encode(data));
+        }
+        return new DataResult(list, true);
+      } else {
         return new DataResult(null, false);
       }
-      for (int i = 0; i < data.length; i++) {
-        list.add(
-            new UserItemViewModel(data[i]['login'], data[i]["avatar_url"]));
-      }
-      return new DataResult(list, true);
-    } else {
-      return new DataResult(null, false);
     }
+
+    if (needDb) {
+      List<User> list = await provider.geData(fullName);
+      if (list == null) {
+        return await next();
+      }
+      DataResult dataResult = new DataResult(list, true, next: next());
+      return dataResult;
+    }
+    return await next();
   }
 
   /**
    * 获取当前仓库所有star用户
    */
-  static getRepositoryStarDao(userName, reposName, page) async {
-    String url = Address.getReposStar(userName, reposName) +
-        Address.getPageParams("?", page);
-    var res = await HttpManager.fetch(url, null, null, null);
-    if (res != null && res.result) {
-      List<User> list = new List();
-      var data = res.data;
-      if (data == null || data.length == 0) {
+  static getRepositoryStarDao(userName, reposName, page,
+      {needDb = false}) async {
+    String fullName = userName + "/" + reposName;
+    RepositoryStarDbProvider provider = new RepositoryStarDbProvider();
+    next() async {
+      String url = Address.getReposStar(userName, reposName) +
+          Address.getPageParams("?", page);
+      var res = await HttpManager.fetch(url, null, null, null);
+      if (res != null && res.result) {
+        List<User> list = new List();
+        var data = res.data;
+        if (data == null || data.length == 0) {
+          return new DataResult(null, false);
+        }
+        for (int i = 0; i < data.length; i++) {
+          list.add(new User.fromJson(data[i]));
+        }
+        if (needDb) {
+          provider.insert(fullName, json.encode(data));
+        }
+        return new DataResult(list, true);
+      } else {
         return new DataResult(null, false);
       }
-      for (int i = 0; i < data.length; i++) {
-        list.add(new User.fromJson(data[i]));
-      }
-      return new DataResult(list, true);
-    } else {
-      return new DataResult(null, false);
     }
+
+    if (needDb) {
+      List<User> list = await provider.geData(fullName);
+      if (list == null) {
+        return await next();
+      }
+      DataResult dataResult = new DataResult(list, true, next: next());
+      return dataResult;
+    }
+    return await next();
   }
 
   /**
    * 获取仓库的fork分支
    */
-  static getRepositoryForksDao(userName, reposName, page) async {
-    String url = Address.getReposForks(userName, reposName) +
-        Address.getPageParams("?", page);
-    var res = await HttpManager.fetch(url, null, null, null);
-    if (res != null && res.result && res.data.length > 0) {
-      List<Repository> list = new List();
-      var dataList = res.data;
-      if (dataList == null || dataList.length == 0) {
+  static getRepositoryForksDao(userName, reposName, page,
+      {needDb = false}) async {
+    String fullName = userName + "/" + reposName;
+    RepositoryForkDbProvider provider = new RepositoryForkDbProvider();
+    next() async {
+      String url = Address.getReposForks(userName, reposName) +
+          Address.getPageParams("?", page);
+      var res = await HttpManager.fetch(url, null, null, null);
+      if (res != null && res.result && res.data.length > 0) {
+        List<Repository> list = new List();
+        var dataList = res.data;
+        if (dataList == null || dataList.length == 0) {
+          return new DataResult(null, false);
+        }
+        for (int i = 0; i < dataList.length; i++) {
+          var data = dataList[i];
+          list.add(Repository.fromJson(data));
+        }
+        if (needDb) {
+          provider.insert(fullName, json.encode(dataList));
+        }
+        return new DataResult(list, true);
+      } else {
         return new DataResult(null, false);
       }
-      for (int i = 0; i < dataList.length; i++) {
-        var data = dataList[i];
-        list.add(Repository.fromJson(data));
-      }
-      return new DataResult(list, true);
-    } else {
-      return new DataResult(null, false);
     }
+
+    if (needDb) {
+      List<Repository> list = await provider.geData(fullName);
+      if (list == null) {
+        return await next();
+      }
+      DataResult dataResult = new DataResult(list, true, next: next());
+      return dataResult;
+    }
+    return await next();
   }
 
   /**
-   * 获取当前仓库所有star用户
+   * 获取用户所有star
    */
-  static getStarRepositoryDao(userName, page, sort) async {
-    String url =
-        Address.userStar(userName, sort) + Address.getPageParams("&", page);
-    var res = await HttpManager.fetch(url, null, null, null);
-    if (res != null && res.result && res.data.length > 0) {
-      List<Repository> list = new List();
-      var dataList = res.data;
-      if (dataList == null || dataList.length == 0) {
+  static getStarRepositoryDao(userName, page, sort, {needDb = false}) async {
+    UserStaredDbProvider provider = new UserStaredDbProvider();
+    next() async {
+      String url =
+          Address.userStar(userName, sort) + Address.getPageParams("&", page);
+      var res = await HttpManager.fetch(url, null, null, null);
+      if (res != null && res.result && res.data.length > 0) {
+        List<Repository> list = new List();
+        var dataList = res.data;
+        if (dataList == null || dataList.length == 0) {
+          return new DataResult(null, false);
+        }
+        for (int i = 0; i < dataList.length; i++) {
+          var data = dataList[i];
+          list.add(Repository.fromJson(data));
+        }
+        if (needDb) {
+          provider.insert(userName, json.encode(dataList));
+        }
+        return new DataResult(list, true);
+      } else {
         return new DataResult(null, false);
       }
-      for (int i = 0; i < dataList.length; i++) {
-        var data = dataList[i];
-        list.add(Repository.fromJson(data));
-      }
-      return new DataResult(list, true);
-    } else {
-      return new DataResult(null, false);
     }
+
+    if (needDb) {
+      List<Repository> list = await provider.geData(userName);
+      if (list == null) {
+        return await next();
+      }
+      DataResult dataResult = new DataResult(list, true, next: next());
+      return dataResult;
+    }
+    return await next();
   }
 
   /**
    * 用户的仓库
    */
-  static getUserRepositoryDao(userName, page, sort) async {
-    String url =
-        Address.userRepos(userName, sort) + Address.getPageParams("&", page);
-    var res = await HttpManager.fetch(url, null, null, null);
-    if (res != null && res.result && res.data.length > 0) {
-      List<Repository> list = new List();
-      var dataList = res.data;
-      if (dataList == null || dataList.length == 0) {
+  static getUserRepositoryDao(userName, page, sort, {needDb = false}) async {
+    UserReposDbProvider provider = new UserReposDbProvider();
+    next() async {
+      String url =
+          Address.userRepos(userName, sort) + Address.getPageParams("&", page);
+      var res = await HttpManager.fetch(url, null, null, null);
+      if (res != null && res.result && res.data.length > 0) {
+        List<Repository> list = new List();
+        var dataList = res.data;
+        if (dataList == null || dataList.length == 0) {
+          return new DataResult(null, false);
+        }
+        for (int i = 0; i < dataList.length; i++) {
+          var data = dataList[i];
+          list.add(Repository.fromJson(data));
+        }
+        if (needDb) {
+          provider.insert(userName, json.encode(dataList));
+        }
+        return new DataResult(list, true);
+      } else {
         return new DataResult(null, false);
       }
-      for (int i = 0; i < dataList.length; i++) {
-        var data = dataList[i];
-        list.add(Repository.fromJson(data));
-      }
-      return new DataResult(list, true);
-    } else {
-      return new DataResult(null, false);
     }
+
+    if (needDb) {
+      List<Repository> list = await provider.geData(userName);
+      if (list == null) {
+        return await next();
+      }
+      DataResult dataResult = new DataResult(list, true, next: next());
+      return dataResult;
+    }
+    return await next();
   }
 
   /**
