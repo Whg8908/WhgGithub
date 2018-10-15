@@ -22,7 +22,13 @@ import 'package:redux/redux.dart';
 void main() => runApp(new FlutterReduxApp());
 
 class FlutterReduxApp extends StatelessWidget {
-  /// 创建Store，引用 GSYState 中的 appReducer 创建 Reducer
+  ///1.创建
+  ///在创建 Store 的同时,  initialState 对 WhgState 进行了初始化，
+  /// 然后通过 StoreProvider 加载了 Store 并且包裹了 MaterialApp 。
+  /// 至此我们完成了 Redux 中的初始化构建。
+
+  ///创建 Store 需要 reducer ，而 reducer 实际上是一个带有 state 和 action 的方法，并返回新的 State
+  /// 创建Store，引用 WhgState 中的 appReducer 创建 Reducer
   /// initialState 初始化 State
   final store = new Store<WhgState>(appReducer,
       initialState: new WhgState(
@@ -42,6 +48,7 @@ class FlutterReduxApp extends StatelessWidget {
     return StoreProvider(
       store: store,
       child: new MaterialApp(
+          theme: store.state.themeData,
           localizationsDelegates: [
             //类似于国际化
             GlobalMaterialLocalizations.delegate,
@@ -54,7 +61,6 @@ class FlutterReduxApp extends StatelessWidget {
           ],
           //去掉右上角debug图标
           debugShowCheckedModeBanner: false,
-          theme: store.state.themeData,
           //注册页面,类似于在androidmanifest注册是一样
           routes: {
             WelComePage.sName: (context) {

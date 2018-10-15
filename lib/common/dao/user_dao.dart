@@ -69,6 +69,8 @@ class UserDao {
         print(resultData.data);
         print(res.data.toString());
       }
+
+      ///3.触发更新
       store.dispatch(new UpdataUserAction(resultData.data));
     }
     return new DataResult(resultData, res.result);

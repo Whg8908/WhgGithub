@@ -5,6 +5,7 @@ import 'package:github/common/bean/UserOrg.dart';
 import 'package:github/common/dao/event_dao.dart';
 import 'package:github/common/dao/repos_dao.dart';
 import 'package:github/common/dao/user_dao.dart';
+import 'package:github/common/redux/user_redux.dart';
 import 'package:github/common/redux/whg_state.dart';
 import 'package:github/common/style/whg_style.dart';
 import 'package:github/common/utils/eventutils.dart';
@@ -44,7 +45,7 @@ class MyPageState extends WhgListState<MyPage> {
   requestRefresh() async {
     UserDao.getUserInfo(null).then((res) {
       if (res != null && res.result) {
-        _getStore().dispatch(UserActions(res.data));
+        _getStore().dispatch(UpdataUserAction(res.data));
 
         _getUserOrg(_getUserName());
       }
