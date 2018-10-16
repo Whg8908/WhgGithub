@@ -20,4 +20,6 @@ class Config {
 
   static const String USER_INFO = "user_info";
   static const THEME_COLOR = "theme-color";
+
+  static const LOCALE = "locale";
 }

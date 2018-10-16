@@ -19,11 +19,21 @@ import 'package:github/ui/view/whg_title_bar.dart';
  * PS: Stay hungry,Stay foolish.
  */
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   static const String sName = "home";
 
   @override
+  HomePageState createState() => HomePageState();
+}
+
+class HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin {
+  @override
   Widget build(BuildContext context) {
+    List<Widget> tabs = [
+      _renderTab(WhgICons.MAIN_DT, CommonUtils.getLocale(context).home_dynamic),
+      _renderTab(WhgICons.MAIN_QS, CommonUtils.getLocale(context).home_trend),
+      _renderTab(WhgICons.MAIN_MY, CommonUtils.getLocale(context).home_my),
+    ];
     return WillPopScope(
         onWillPop: () {
           return CommonUtils.dialogExitApp(context);
@@ -32,35 +42,7 @@ class HomePage extends StatelessWidget {
             //tabview+viewpager组合(上/下)
             drawer: HomeDrawer(),
             type: WhgTabBarWidget.BOTTOM_TAB,
-            tabItems: [
-              new Tab(
-                child: new Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    new Icon(WhgICons.MAIN_DT, size: 16.0),
-                    new Text(WhgStrings.home_dynamic)
-                  ],
-                ),
-              ),
-              new Tab(
-                child: new Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    new Icon(WhgICons.MAIN_QS, size: 16.0),
-                    new Text(WhgStrings.home_trend)
-                  ],
-                ),
-              ),
-              new Tab(
-                child: new Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    new Icon(WhgICons.MAIN_MY, size: 16.0),
-                    new Text(WhgStrings.home_my)
-                  ],
-                ),
-              ),
-            ],
+            tabItems: tabs,
             tabViews: [
               DynamicPage(), //动态页面
               TrendPage(), //趋势页面
@@ -70,7 +52,7 @@ class HomePage extends StatelessWidget {
             indicatorColor: Color(WhgColors.white),
             title: WhgTitleBar(
               //自定义titlebar
-              WhgStrings.app_name,
+              CommonUtils.getLocale(context).app_name,
               iconData: WhgICons.MAIN_SEARCH,
               needRightLocalIcon: true,
               onPressed: () {
@@ -78,4 +60,16 @@ class HomePage extends StatelessWidget {
               },
             )));
   }
+
+  _renderTab(icon, text) {
+    return new Tab(
+      child: new Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[new Icon(icon, size: 16.0), new Text(text)],
+      ),
+    );
+  }
+
+  @override
+  bool get wantKeepAlive => true;
 }

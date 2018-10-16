@@ -118,8 +118,8 @@ class IssueDetailPageState extends WhgListState<IssueDetailPage> {
       onPressed: () {
         CommonUtils.showConfirmDialog(
             context,
-            WhgStrings.issue_edit_issue_edit_commit,
-            WhgStrings.issue_edit_issue_delete_commit, () {
+            CommonUtils.getLocale(context).issue_edit_issue_edit_commit,
+            CommonUtils.getLocale(context).issue_edit_issue_delete_commit, () {
           _editCommit(issue.id.toString(), issue.body);
         }, () {
           _deleteCommit(issue.id.toString());
@@ -147,7 +147,7 @@ class IssueDetailPageState extends WhgListState<IssueDetailPage> {
     //编译Issue Info
     CommonUtils.showEditDialog(
       context,
-      WhgStrings.issue_edit_issue,
+      CommonUtils.getLocale(context).issue_edit_issue,
       null,
       (contentValue) {
         contentData = contentValue;
@@ -155,7 +155,8 @@ class IssueDetailPageState extends WhgListState<IssueDetailPage> {
       () {
         if (contentData == null || contentData.trim().length == 0) {
           Fluttertoast.showToast(
-              msg: WhgStrings.issue_edit_issue_content_not_be_null);
+              msg: CommonUtils.getLocale(context)
+                  .issue_edit_issue_content_not_be_null);
           return;
         }
         CommonUtils.showLoadingDialog(context);
@@ -181,7 +182,7 @@ class IssueDetailPageState extends WhgListState<IssueDetailPage> {
     //编译Issue Info
     CommonUtils.showEditDialog(
       context,
-      WhgStrings.issue_edit_issue,
+      CommonUtils.getLocale(context).issue_edit_issue,
       (titleValue) {
         title = titleValue;
       },
@@ -191,12 +192,14 @@ class IssueDetailPageState extends WhgListState<IssueDetailPage> {
       () {
         if (title == null || title.trim().length == 0) {
           Fluttertoast.showToast(
-              msg: WhgStrings.issue_edit_issue_title_not_be_null);
+              msg: CommonUtils.getLocale(context)
+                  .issue_edit_issue_title_not_be_null);
           return;
         }
         if (content == null || content.trim().length == 0) {
           Fluttertoast.showToast(
-              msg: WhgStrings.issue_edit_issue_content_not_be_null);
+              msg: CommonUtils.getLocale(context)
+                  .issue_edit_issue_content_not_be_null);
           return;
         }
         CommonUtils.showLoadingDialog(context);
@@ -219,7 +222,7 @@ class IssueDetailPageState extends WhgListState<IssueDetailPage> {
     String content = "";
     CommonUtils.showEditDialog(
       context,
-      WhgStrings.issue_reply_issue,
+      CommonUtils.getLocale(context).issue_reply_issue,
       null,
       (replyContent) {
         content = replyContent;
@@ -227,7 +230,8 @@ class IssueDetailPageState extends WhgListState<IssueDetailPage> {
       () {
         if (content == null || content.trim().length == 0) {
           Fluttertoast.showToast(
-              msg: WhgStrings.issue_edit_issue_content_not_be_null);
+              msg: CommonUtils.getLocale(context)
+                  .issue_edit_issue_content_not_be_null);
           return;
         }
         CommonUtils.showLoadingDialog(context);
@@ -254,7 +258,7 @@ class IssueDetailPageState extends WhgListState<IssueDetailPage> {
                 onPressed: () {
                   _replyIssue();
                 },
-                child: new Text(WhgStrings.issue_reply,
+                child: new Text(CommonUtils.getLocale(context).issue_reply,
                     style: WhgConstant.smallText)),
             new Container(
                 width: 0.3,
@@ -265,7 +269,7 @@ class IssueDetailPageState extends WhgListState<IssueDetailPage> {
                 onPressed: () {
                   _editIssue();
                 },
-                child: new Text(WhgStrings.issue_edit,
+                child: new Text(CommonUtils.getLocale(context).issue_edit,
                     style: WhgConstant.smallText)),
             new Container(
                 width: 0.3,
@@ -286,8 +290,8 @@ class IssueDetailPageState extends WhgListState<IssueDetailPage> {
                 },
                 child: new Text(
                   (issueHeaderViewModel.state == 'closed')
-                      ? WhgStrings.issue_open
-                      : WhgStrings.issue_close,
+                      ? CommonUtils.getLocale(context).issue_open
+                      : CommonUtils.getLocale(context).issue_close,
                   style: WhgConstant.smallText,
                 )),
             new Container(
@@ -307,8 +311,8 @@ class IssueDetailPageState extends WhgListState<IssueDetailPage> {
                 },
                 child: new Text(
                     (issueHeaderViewModel.locked)
-                        ? WhgStrings.issue_unlock
-                        : WhgStrings.issue_lock,
+                        ? CommonUtils.getLocale(context).issue_unlock
+                        : CommonUtils.getLocale(context).issue_lock,
                     style: WhgConstant.smallText)),
           ];
     return bottomWidget;

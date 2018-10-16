@@ -62,14 +62,15 @@ class HomeDrawer extends StatelessWidget {
                     new ListTile(
                         //第一个功能项
                         title: new Text(
-                          WhgStrings.home_reply,
+                          CommonUtils.getLocale(context).home_reply,
                           style: WhgConstant.normalText,
                         ),
                         onTap: () {
                           String content = "";
                           CommonUtils.showEditDialog(
-                              context, WhgStrings.home_reply, (title) {},
-                              (res) {
+                              context,
+                              CommonUtils.getLocale(context).home_reply,
+                              (title) {}, (res) {
                             content = res;
                           }, () {
                             if (content == null || content.length == 0) {
@@ -90,17 +91,21 @@ class HomeDrawer extends StatelessWidget {
                         }),
                     new ListTile(
                         title: new Text(
-                          WhgStrings.home_history,
+                          CommonUtils.getLocale(context).home_history,
                           style: WhgConstant.normalText,
                         ),
                         onTap: () {
-                          NavigatorUtils.gotoCommonList(context,
-                              WhgStrings.home_history, "repository", "history",
-                              userName: "", reposName: "");
+                          NavigatorUtils.gotoCommonList(
+                              context,
+                              CommonUtils.getLocale(context).home_history,
+                              "repository",
+                              "history",
+                              userName: "",
+                              reposName: "");
                         }),
                     new ListTile(
                         title: new Text(
-                          WhgStrings.home_user_info,
+                          CommonUtils.getLocale(context).home_user_info,
                           style: WhgConstant.normalText,
                         ),
                         onTap: () {
@@ -108,7 +113,7 @@ class HomeDrawer extends StatelessWidget {
                         }),
                     new ListTile(
                         title: new Text(
-                          WhgStrings.home_change_theme,
+                          CommonUtils.getLocale(context).home_change_theme,
                           style: WhgConstant.normalText,
                         ),
                         onTap: () {
@@ -116,7 +121,15 @@ class HomeDrawer extends StatelessWidget {
                         }),
                     new ListTile(
                         title: new Text(
-                          WhgStrings.home_about,
+                          CommonUtils.getLocale(context).home_change_language,
+                          style: WhgConstant.normalText,
+                        ),
+                        onTap: () {
+                          CommonUtils.showLanguageDialog(context, store);
+                        }),
+                    new ListTile(
+                        title: new Text(
+                          CommonUtils.getLocale(context).home_about,
                           style: WhgConstant.normalText,
                         ),
                         onTap: () {
@@ -127,7 +140,7 @@ class HomeDrawer extends StatelessWidget {
                         }),
                     new ListTile(
                         title: new WhgFlexButton(
-                          text: WhgStrings.Login_out,
+                          text: CommonUtils.getLocale(context).Login_out,
                           color: Colors.redAccent,
                           textColor: Color(WhgColors.textWhite),
                           onPress: () {
@@ -150,13 +163,13 @@ class HomeDrawer extends StatelessWidget {
 
   showThemeDialog(BuildContext context, Store store) {
     List<String> list = [
-      WhgStrings.home_theme_default,
-      WhgStrings.home_theme_1,
-      WhgStrings.home_theme_2,
-      WhgStrings.home_theme_3,
-      WhgStrings.home_theme_4,
-      WhgStrings.home_theme_5,
-      WhgStrings.home_theme_6,
+      CommonUtils.getLocale(context).home_theme_default,
+      CommonUtils.getLocale(context).home_theme_1,
+      CommonUtils.getLocale(context).home_theme_2,
+      CommonUtils.getLocale(context).home_theme_3,
+      CommonUtils.getLocale(context).home_theme_4,
+      CommonUtils.getLocale(context).home_theme_5,
+      CommonUtils.getLocale(context).home_theme_6,
     ];
     CommonUtils.showCommitOptionDialog(context, list, (index) {
       CommonUtils.pushTheme(store, index);

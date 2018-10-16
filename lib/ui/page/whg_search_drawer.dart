@@ -59,20 +59,20 @@ class WhgSearchDrawerState extends State<WhgSearchDrawer> {
       height: 50.0,
       width: itemWidth,
     ));
-    list.add(_renderTitle("类型"));
+    list.add(_renderTitle(CommonUtils.getLocale(context).search_type));
     for (int i = 0; i < searchFilterType.length; i++) {
       FilterModel model = searchFilterType[i];
       list.add(_renderItem(model, searchFilterType, i, this.typeCallback));
       list.add(_renderDivider());
     }
-    list.add(_renderTitle("排序"));
+    list.add(_renderTitle(CommonUtils.getLocale(context).search_type));
 
     for (int i = 0; i < sortType.length; i++) {
       FilterModel model = sortType[i];
       list.add(_renderItem(model, sortType, i, this.sortCallback));
       list.add(_renderDivider());
     }
-    list.add(_renderTitle("语言"));
+    list.add(_renderTitle(CommonUtils.getLocale(context).search_language));
     for (int i = 0; i < searchLanguageType.length; i++) {
       FilterModel model = searchLanguageType[i];
       list.add(

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:github/common/style/whg_style.dart';
+import 'package:github/common/utils/commonutils.dart';
 import 'package:github/ui/view/repository_issue_list_header.dart';
 import 'package:github/ui/view/whg_search_input_widget.dart';
 
@@ -22,8 +22,8 @@ class SearchBottom extends StatelessWidget implements PreferredSizeWidget {
         WhgSearchInputWidget(onChanged, onSubmitted, onSubmitPressed),
         new WhgSelectItemWidget(
           [
-            WhgStrings.search_tab_repos,
-            WhgStrings.search_tab_user,
+            CommonUtils.getLocale(context).search_tab_repos,
+            CommonUtils.getLocale(context).search_tab_user,
           ],
           selectItemChanged,
           elevation: 0.0,

@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:github/common/bean/User.dart';
-import 'package:github/common/delegate/material_localizations_delegate.dart';
+import 'package:github/common/delegate/whg_localications.dart';
+import 'package:github/common/delegate/whg_locallizations_delegate.dart';
 import 'package:github/common/redux/whg_state.dart';
 import 'package:github/common/style/whg_style.dart';
 import 'package:github/ui/page/home_page.dart';
@@ -32,13 +33,13 @@ class FlutterReduxApp extends StatelessWidget {
   /// initialState 初始化 State
   final store = new Store<WhgState>(appReducer,
       initialState: new WhgState(
-        userInfo: User.empty(),
-        eventList: new List(),
-        trendList: new List(),
-        themeData: new ThemeData(
-          primarySwatch: WhgColors.primarySwatch,
-        ),
-      ));
+          userInfo: User.empty(),
+          eventList: new List(),
+          trendList: new List(),
+          themeData: new ThemeData(
+            primarySwatch: WhgColors.primarySwatch,
+          ),
+          locale: Locale('zh', 'CH')));
 
   FlutterReduxApp({Key key}) : super(key: key);
 
@@ -53,24 +54,26 @@ class FlutterReduxApp extends StatelessWidget {
             //类似于国际化
             GlobalMaterialLocalizations.delegate,
             GlobalWidgetsLocalizations.delegate,
-            MaterialLocalizationsDelegate(),
+            WhgLocalizationsDelegate.delegate,
           ],
-          supportedLocales: [
-            const Locale('zh', 'CH'),
-            const Locale('en', 'US'),
-          ],
+          supportedLocales: [store.state.locale],
           //去掉右上角debug图标
           debugShowCheckedModeBanner: false,
           //注册页面,类似于在androidmanifest注册是一样
           routes: {
             WelComePage.sName: (context) {
+              store.state.platformLocale = Localizations.localeOf(context);
               return WelComePage();
             },
             HomePage.sName: (context) {
-              return HomePage();
+              return new WhgLocalizations(
+                child: new HomePage(),
+              );
             },
             LoginPage.sName: (context) {
-              return LoginPage();
+              return new WhgLocalizations(
+                child: LoginPage(),
+              );
             },
           }),
     );

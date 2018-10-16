@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:github/common/style/whg_style.dart';
+import 'package:github/common/utils/commonutils.dart';
 import 'package:github/ui/view/card_item.dart';
 import 'package:github/ui/view/whg_input_widget.dart';
 
@@ -75,7 +76,8 @@ class IssueEditDialogState extends State<IssueEditDialog> {
             child: new WhgInputWidget(
               onChange: onTitleChanged,
               controller: titleController,
-              hintText: WhgStrings.issue_edit_issue_title_tip,
+              hintText:
+                  CommonUtils.getLocale(context).issue_edit_issue_title_tip,
               obscureText: false,
             ))
         : new Container();
@@ -124,7 +126,8 @@ class IssueEditDialogState extends State<IssueEditDialog> {
                             onChanged: onContentChanged,
                             controller: valueController,
                             decoration: new InputDecoration.collapsed(
-                              hintText: WhgStrings.issue_edit_issue_title_tip,
+                              hintText: CommonUtils.getLocale(context)
+                                  .issue_edit_issue_title_tip,
                               hintStyle: WhgConstant.middleSubText,
                             ),
                             style: WhgConstant.middleText,
@@ -147,7 +150,8 @@ class IssueEditDialogState extends State<IssueEditDialog> {
                               padding: EdgeInsets.all(4.0),
                               constraints: const BoxConstraints(
                                   minWidth: 0.0, minHeight: 0.0),
-                              child: new Text(WhgStrings.app_cancel,
+                              child: new Text(
+                                  CommonUtils.getLocale(context).app_cancel,
                                   style: WhgConstant.normalSubText),
                               onPressed: () {
                                 Navigator.pop(context);
@@ -163,7 +167,8 @@ class IssueEditDialogState extends State<IssueEditDialog> {
                               padding: EdgeInsets.all(4.0),
                               constraints: const BoxConstraints(
                                   minWidth: 0.0, minHeight: 0.0),
-                              child: new Text(WhgStrings.app_ok,
+                              child: new Text(
+                                  CommonUtils.getLocale(context).app_ok,
                                   style: WhgConstant.normalTextBold),
                               onPressed: onPressed)),
                     ],
@@ -185,7 +190,8 @@ class IssueEditDialogState extends State<IssueEditDialog> {
             child: new WhgInputWidget(
               onChange: onTitleChanged,
               controller: titleController,
-              hintText: WhgStrings.issue_edit_issue_title_tip,
+              hintText:
+                  CommonUtils.getLocale(context).issue_edit_issue_title_tip,
               obscureText: false,
             ))
         : new Container();

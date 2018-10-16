@@ -5,7 +5,6 @@ import 'package:github/common/bean/UserOrg.dart';
 import 'package:github/common/dao/event_dao.dart';
 import 'package:github/common/dao/repos_dao.dart';
 import 'package:github/common/dao/user_dao.dart';
-import 'package:github/common/style/whg_style.dart';
 import 'package:github/common/utils/commonutils.dart';
 import 'package:github/common/utils/eventutils.dart';
 import 'package:github/common/utils/fluttertoast.dart';
@@ -175,8 +174,8 @@ class PersonPageState extends WhgListState<PersonPage> {
     if (isShow) {
       setState(() {
         focus = (focusRes != null && focusRes.result)
-            ? WhgStrings.user_focus
-            : WhgStrings.user_un_focus;
+            ? CommonUtils.getLocale(context).user_focus
+            : CommonUtils.getLocale(context).user_un_focus;
         focusStatus = (focusRes != null && focusRes.result);
       });
     }
@@ -227,7 +226,8 @@ class PersonPageState extends WhgListState<PersonPage> {
               return;
             }
             if (userInfo.type == "Organization") {
-              Fluttertoast.showToast(msg: WhgStrings.user_focus_no_support);
+              Fluttertoast.showToast(
+                  msg: CommonUtils.getLocale(context).user_focus_no_support);
               return;
             }
             CommonUtils.showLoadingDialog(context);

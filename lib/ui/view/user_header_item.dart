@@ -52,7 +52,7 @@ class UserHeaderItem extends StatelessWidget {
               children: <Widget>[
                 firstColumn(context),
                 _renderOrgs(context, orgList),
-                secondColumn(),
+                secondColumn(context),
                 SizedBox(
                   height: 5.0,
                 ),
@@ -60,7 +60,7 @@ class UserHeaderItem extends StatelessWidget {
                   color: Color(WhgColors.subLightTextColor),
                 ),
                 thirdColumn(context),
-                userDynamicTitle(),
+                userDynamicTitle(context),
                 _renderChart(context),
               ],
             ),
@@ -113,7 +113,8 @@ class UserHeaderItem extends StatelessWidget {
                     : Container(),
                 new WhgIconText(
                   WhgICons.USER_ITEM_COMPANY,
-                  userInfo.company ?? WhgStrings.nothing_now,
+                  userInfo.company ??
+                      CommonUtils.getLocale(context).nothing_now,
                   WhgConstant.smallSubLightText,
                   Color(WhgColors.subLightTextColor),
                   10.0,
@@ -121,7 +122,8 @@ class UserHeaderItem extends StatelessWidget {
                 ),
                 new WhgIconText(
                   WhgICons.USER_ITEM_LOCATION,
-                  userInfo.location ?? WhgStrings.nothing_now,
+                  userInfo.location ??
+                      CommonUtils.getLocale(context).nothing_now,
                   WhgConstant.smallSubLightText,
                   Color(WhgColors.subLightTextColor),
                   10.0,
@@ -153,7 +155,7 @@ class UserHeaderItem extends StatelessWidget {
 
     int length = orgList.length > 3 ? 3 : orgList.length;
 
-    list.add(new Text(WhgStrings.user_orgs_title + ":",
+    list.add(new Text(CommonUtils.getLocale(context).user_orgs_title + ":",
         style: WhgConstant.smallSubLightText));
 
     for (int i = 0; i < length; i++) {
@@ -164,7 +166,9 @@ class UserHeaderItem extends StatelessWidget {
           onPressed: () {
             NavigatorUtils.gotoCommonList(
                 context,
-                userInfo.login + " " + WhgStrings.user_orgs_title,
+                userInfo.login +
+                    " " +
+                    CommonUtils.getLocale(context).user_orgs_title,
                 "org",
                 "user_orgs",
                 userName: userInfo.login);
@@ -205,7 +209,7 @@ class UserHeaderItem extends StatelessWidget {
         });
   }
 
-  Widget secondColumn() => Column(
+  Widget secondColumn(BuildContext context) => Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
           new Container(
@@ -214,7 +218,7 @@ class UserHeaderItem extends StatelessWidget {
               child: new RawMaterialButton(
                 onPressed: () {
                   if (userInfo.blog != null) {
-                    CommonUtils.launchOutURL(userInfo.blog);
+                    CommonUtils.launchOutURL(userInfo.blog, context);
                   }
                 },
                 materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
@@ -223,7 +227,7 @@ class UserHeaderItem extends StatelessWidget {
                     const BoxConstraints(minWidth: 0.0, minHeight: 0.0),
                 child: new WhgIconText(
                   WhgICons.USER_ITEM_LINK,
-                  userInfo.blog ?? WhgStrings.nothing_now,
+                  userInfo.blog ?? CommonUtils.getLocale(context).nothing_now,
                   (userInfo.blog == null)
                       ? WhgConstant.smallSubLightText
                       : WhgConstant.smallActionLightText,
@@ -237,11 +241,11 @@ class UserHeaderItem extends StatelessWidget {
           new Container(
               child: new Text(
                 userInfo.bio == null
-                    ? WhgStrings.user_create_at +
+                    ? CommonUtils.getLocale(context).user_create_at +
                         CommonUtils.getDateStr(userInfo.created_at)
                     : userInfo.bio +
                         "\n" +
-                        WhgStrings.user_create_at +
+                        CommonUtils.getLocale(context).user_create_at +
                         CommonUtils.getDateStr(userInfo.created_at),
                 style: WhgConstant.smallSubLightText,
                 maxLines: 3,
@@ -254,7 +258,8 @@ class UserHeaderItem extends StatelessWidget {
   Widget thirdColumn(BuildContext context) => new Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          _getBottomItem(WhgStrings.user_tab_repos, userInfo.public_repos, () {
+          _getBottomItem(CommonUtils.getLocale(context).user_tab_repos,
+              userInfo.public_repos, () {
             NavigatorUtils.gotoCommonList(
                 context, userInfo.login, "repository", "user_repos",
                 userName: userInfo.login);
@@ -263,7 +268,9 @@ class UserHeaderItem extends StatelessWidget {
               width: 0.3,
               height: 40.0,
               color: Color(WhgColors.subLightTextColor)),
-          _getBottomItem(WhgStrings.user_tab_fans, userInfo.followers, () {
+          _getBottomItem(
+              CommonUtils.getLocale(context).user_tab_fans, userInfo.followers,
+              () {
             NavigatorUtils.gotoCommonList(
                 context, userInfo.login, "user", "follower",
                 userName: userInfo.login);
@@ -272,7 +279,9 @@ class UserHeaderItem extends StatelessWidget {
               width: 0.3,
               height: 40.0,
               color: Color(WhgColors.subLightTextColor)),
-          _getBottomItem(WhgStrings.user_tab_focus, userInfo.following, () {
+          _getBottomItem(
+              CommonUtils.getLocale(context).user_tab_focus, userInfo.following,
+              () {
             NavigatorUtils.gotoCommonList(
                 context, userInfo.login, "user", "followed",
                 userName: userInfo.login);
@@ -281,7 +290,9 @@ class UserHeaderItem extends StatelessWidget {
               width: 0.3,
               height: 40.0,
               color: Color(WhgColors.subLightTextColor)),
-          _getBottomItem(WhgStrings.user_tab_star, userInfo.starred, () {
+          _getBottomItem(
+              CommonUtils.getLocale(context).user_tab_star, userInfo.starred,
+              () {
             NavigatorUtils.gotoCommonList(
                 context, userInfo.login, "repository", "user_star",
                 userName: userInfo.login);
@@ -290,15 +301,16 @@ class UserHeaderItem extends StatelessWidget {
               width: 0.3,
               height: 40.0,
               color: Color(WhgColors.subLightTextColor)),
-          _getBottomItem(WhgStrings.user_tab_honor, beSharedCount, () {}),
+          _getBottomItem(CommonUtils.getLocale(context).user_tab_honor,
+              beSharedCount, () {}),
         ],
       );
 
-  Widget userDynamicTitle() => Container(
+  Widget userDynamicTitle(BuildContext context) => Container(
       child: new Text(
         (userInfo.type == "Organization")
-            ? WhgStrings.user_dynamic_group
-            : WhgStrings.user_dynamic_title,
+            ? CommonUtils.getLocale(context).user_dynamic_group
+            : CommonUtils.getLocale(context).user_dynamic_title,
         style: WhgConstant.normalTextBold,
         overflow: TextOverflow.ellipsis,
       ),

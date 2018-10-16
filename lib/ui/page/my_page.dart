@@ -172,6 +172,7 @@ class MyPageState extends WhgListState<MyPage> {
   Widget build(BuildContext context) {
     super.build(context); // See AutomaticKeepAliveClientMixin.
     return StoreBuilder<WhgState>(
+      ///应用
       builder: (context, store) {
         return WhgPullLoadWidget(
           (BuildContext context, int index) =>

@@ -99,20 +99,22 @@ class RepositoryDetailIssuePageState
   _createIssue() {
     String title = "";
     String content = "";
-    CommonUtils.showEditDialog(context, WhgStrings.issue_edit_issue,
-        (titleValue) {
+    CommonUtils.showEditDialog(
+        context, CommonUtils.getLocale(context).issue_edit_issue, (titleValue) {
       title = titleValue;
     }, (contentValue) {
       content = contentValue;
     }, () {
       if (title == null || title.trim().length == 0) {
         Fluttertoast.showToast(
-            msg: WhgStrings.issue_edit_issue_title_not_be_null);
+            msg: CommonUtils.getLocale(context)
+                .issue_edit_issue_title_not_be_null);
         return;
       }
       if (content == null || content.trim().length == 0) {
         Fluttertoast.showToast(
-            msg: WhgStrings.issue_edit_issue_content_not_be_null);
+            msg: CommonUtils.getLocale(context)
+                .issue_edit_issue_content_not_be_null);
         return;
       }
       CommonUtils.showLoadingDialog(context);
@@ -163,9 +165,9 @@ class RepositoryDetailIssuePageState
         elevation: 0.0,
         backgroundColor: Color(WhgColors.mainBackgroundColor),
         bottom: new WhgSelectItemWidget([
-          WhgStrings.repos_tab_issue_all,
-          WhgStrings.repos_tab_issue_open,
-          WhgStrings.repos_tab_issue_closed,
+          CommonUtils.getLocale(context).repos_tab_issue_all,
+          CommonUtils.getLocale(context).repos_tab_issue_open,
+          CommonUtils.getLocale(context).repos_tab_issue_closed,
         ], (selectIndex) {
           this.selectIndex = selectIndex;
           _resolveSelectIndex();

@@ -6,8 +6,14 @@ import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_statusbar/flutter_statusbar.dart';
 import 'package:get_version/get_version.dart';
+import 'package:github/common/config/config.dart';
+import 'package:github/common/delegate/whg_localizations.dart';
+import 'package:github/common/local/local_storage.dart';
 import 'package:github/common/net/address.dart';
+import 'package:github/common/redux/local_redux.dart';
 import 'package:github/common/redux/themedata_redux.dart';
+import 'package:github/common/redux/whg_state.dart';
+import 'package:github/common/style/whg_string_base.dart';
 import 'package:github/common/style/whg_style.dart';
 import 'package:github/common/utils/fluttertoast.dart';
 import 'package:github/common/utils/navigatorutils.dart';
@@ -132,7 +138,8 @@ class CommonUtils {
                                 SpinKitCubeGrid(color: Color(WhgColors.white))),
                         new Container(height: 10.0),
                         new Container(
-                            child: new Text(WhgStrings.loading_text,
+                            child: new Text(
+                                CommonUtils.getLocale(context).loading_text,
                                 style: WhgConstant.normalTextWhite)),
                       ],
                     ),
@@ -278,8 +285,10 @@ class CommonUtils {
       showDialog(
           context: context,
           builder: (BuildContext context) => AboutDialog(
-                applicationName: WhgStrings.app_name,
-                applicationVersion: WhgStrings.app_version + ": " + versionName,
+                applicationName: CommonUtils.getLocale(context).app_name,
+                applicationVersion: CommonUtils.getLocale(context).app_version +
+                    ": " +
+                    versionName,
                 applicationIcon: new Image(
                     image: new AssetImage(WhgICons.DEFAULT_USER_ICON),
                     width: 50.0,
@@ -342,32 +351,47 @@ class CommonUtils {
     return showDialog(
         context: context,
         builder: (context) => new AlertDialog(
-              content: new Text(WhgStrings.app_back_tip),
+              content: new Text(CommonUtils.getLocale(context).app_back_tip),
               actions: <Widget>[
                 new FlatButton(
                     onPressed: () => Navigator.of(context).pop(false),
-                    child: new Text(WhgStrings.app_cancel)),
+                    child: new Text(CommonUtils.getLocale(context).app_cancel)),
                 new FlatButton(
                     onPressed: () {
                       Navigator.of(context).pop(true);
                     },
-                    child: new Text(WhgStrings.app_ok))
+                    child: new Text(CommonUtils.getLocale(context).app_ok))
               ],
             ));
   }
 
-  static copy(String data) {
+  static copy(String data, BuildContext context) {
     Clipboard.setData(new ClipboardData(text: data));
-    Fluttertoast.showToast(msg: WhgStrings.option_share_copy_success);
+    Fluttertoast.showToast(
+        msg: CommonUtils.getLocale(context).option_share_copy_success);
   }
 
-  static launchOutURL(String url) async {
+  static launchOutURL(String url, BuildContext context) async {
     if (await canLaunch(url)) {
       await launch(url);
     } else {
       Fluttertoast.showToast(
-          msg: WhgStrings.option_web_launcher_error + ": " + url);
+          msg: CommonUtils.getLocale(context).option_web_launcher_error +
+              ": " +
+              url);
     }
+  }
+
+  static showLanguageDialog(BuildContext context, Store store) {
+    List<String> list = [
+      CommonUtils.getLocale(context).home_language_default,
+      CommonUtils.getLocale(context).home_language_zh,
+      CommonUtils.getLocale(context).home_language_en,
+    ];
+    CommonUtils.showCommitOptionDialog(context, list, (index) {
+      CommonUtils.changeLocale(store, index);
+      LocalStorage.put(Config.LOCALE, index.toString());
+    }, colorList: CommonUtils.getThemeListColor(), height: 150.0);
   }
 
   static pushTheme(Store store, int index) {
@@ -387,5 +411,25 @@ class CommonUtils {
       Colors.blueGrey,
       Colors.deepOrange,
     ];
+  }
+
+  /**
+   * 切换语言
+   */
+  static changeLocale(Store<WhgState> store, int index) {
+    Locale locale = store.state.platformLocale;
+    switch (index) {
+      case 1:
+        locale = Locale('zh', 'CH');
+        break;
+      case 2:
+        locale = Locale('en', 'US');
+        break;
+    }
+    store.dispatch(RefreshLocaleAction(locale));
+  }
+
+  static WhgStringBase getLocale(BuildContext context) {
+    return WhgLocalizations.of(context).currentLocalized;
   }
 }

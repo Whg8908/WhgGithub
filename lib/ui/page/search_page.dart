@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:github/common/config/config.dart';
 import 'package:github/common/dao/repos_dao.dart';
 import 'package:github/common/style/whg_style.dart';
+import 'package:github/common/utils/commonutils.dart';
 import 'package:github/common/utils/navigatorutils.dart';
 import 'package:github/common/viewmodel/filter_model.dart';
 import 'package:github/common/viewmodel/repos_view_model.dart';
@@ -105,7 +106,7 @@ class SearchPageState extends WhgListState<SearchPage> {
       ),
       backgroundColor: Color(WhgColors.mainBackgroundColor),
       appBar: new AppBar(
-          title: new Text(WhgStrings.search_title),
+          title: new Text(CommonUtils.getLocale(context).search_title),
           bottom: new SearchBottom((value) {
             searchText = value;
           }, (value) {

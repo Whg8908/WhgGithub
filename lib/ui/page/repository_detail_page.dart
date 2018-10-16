@@ -236,10 +236,10 @@ class RepositoryDetailPageState extends State<RepositoryDetailPage> {
   ///TabView 配合tabbar 在四个页面上问题太多
   _renderTabItem() {
     var itemList = [
-      WhgStrings.repos_tab_info,
-      WhgStrings.repos_tab_readme,
-      WhgStrings.repos_tab_issue,
-      WhgStrings.repos_tab_file,
+      CommonUtils.getLocale(context).repos_tab_info,
+      CommonUtils.getLocale(context).repos_tab_readme,
+      CommonUtils.getLocale(context).repos_tab_issue,
+      CommonUtils.getLocale(context).repos_tab_file,
     ];
     renderItem(String item, int i) {
       return new FlatButton(
@@ -264,9 +264,8 @@ class RepositoryDetailPageState extends State<RepositoryDetailPage> {
 
   _getMoreOtherItem() {
     return [
-      new WhgOptionModel(
-          WhgStrings.repos_option_release, WhgStrings.repos_option_release,
-          (model) {
+      new WhgOptionModel(CommonUtils.getLocale(context).repos_option_release,
+          CommonUtils.getLocale(context).repos_option_release, (model) {
         NavigatorUtils.goReleasePage(context, userName, reposName);
       }),
     ];

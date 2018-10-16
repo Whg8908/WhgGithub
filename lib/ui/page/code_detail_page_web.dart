@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:github/common/dao/repos_dao.dart';
 import 'package:github/common/style/whg_style.dart';
+import 'package:github/common/utils/commonutils.dart';
 import 'package:github/common/utils/htmlutils.dart';
 import 'package:github/ui/view/whg_title_bar.dart';
 import 'package:github/ui/view/whg_webview.dart';
@@ -98,7 +99,7 @@ class CodeDetailPageWebState extends State<CodeDetailPageWeb> {
                 new SpinKitDoubleBounce(color: Theme.of(context).primaryColor),
                 new Container(width: 10.0),
                 new Container(
-                    child: new Text(WhgStrings.loading_text,
+                    child: new Text(CommonUtils.getLocale(context).loading_text,
                         style: WhgConstant.middleText)),
               ],
             ),

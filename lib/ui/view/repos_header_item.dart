@@ -53,7 +53,7 @@ class ReposHeaderItem extends StatelessWidget {
                       height: 5.0,
                     ),
                     timeColumn(),
-                    pullinfoColumn(context, _getInfoText()),
+                    pullinfoColumn(context, _getInfoText(context)),
                     new Divider(
                       color: Color(WhgColors.subTextColor),
                     ),
@@ -66,23 +66,25 @@ class ReposHeaderItem extends StatelessWidget {
           ),
         ),
         new WhgSelectItemWidget([
-          WhgStrings.repos_tab_activity,
-          WhgStrings.repos_tab_commits,
+          CommonUtils.getLocale(context).repos_tab_activity,
+          CommonUtils.getLocale(context).repos_tab_commits,
         ], selectItemChanged)
       ],
     );
   }
 
   ///仓库创建和提交状态信息
-  _getInfoText() {
+  _getInfoText(BuildContext context) {
     String createStr = reposHeaderViewModel.repositoryIsFork
-        ? WhgStrings.repos_fork_at +
+        ? CommonUtils.getLocale(context).repos_fork_at +
             reposHeaderViewModel.repositoryParentName +
             '\n'
-        : WhgStrings.repos_create_at + reposHeaderViewModel.created_at + "\n";
+        : CommonUtils.getLocale(context).repos_create_at +
+            reposHeaderViewModel.created_at +
+            "\n";
 
-    String updateStr =
-        WhgStrings.repos_last_commit + reposHeaderViewModel.push_at;
+    String updateStr = CommonUtils.getLocale(context).repos_last_commit +
+        reposHeaderViewModel.push_at;
 
     return createStr +
         ((reposHeaderViewModel.push_at != null) ? updateStr : '');
@@ -216,11 +218,11 @@ class ReposHeaderItem extends StatelessWidget {
               return;
             }
             List<String> list = [
-              WhgStrings.repos_all_issue_count +
+              CommonUtils.getLocale(context).repos_all_issue_count +
                   reposHeaderViewModel.allIssueCount.toString(),
-              WhgStrings.repos_open_issue_count +
+              CommonUtils.getLocale(context).repos_open_issue_count +
                   reposHeaderViewModel.openIssuesCount.toString(),
-              WhgStrings.repos_close_issue_count +
+              CommonUtils.getLocale(context).repos_close_issue_count +
                   (reposHeaderViewModel.allIssueCount -
                           reposHeaderViewModel.openIssuesCount)
                       .toString(),

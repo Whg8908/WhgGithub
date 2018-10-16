@@ -28,8 +28,8 @@ class TrendPage extends StatefulWidget {
 }
 
 class TrendPageState extends WhgListState<TrendPage> {
-  static TrendTypeModel selectTime = TrendTime[0];
-  static TrendTypeModel selectType = TrendType[0];
+  static TrendTypeModel selectTime = null;
+  static TrendTypeModel selectType = null;
 
   @override
   Future<Null> handleRefresh() async {
@@ -64,6 +64,10 @@ class TrendPageState extends WhgListState<TrendPage> {
   void didChangeDependencies() {
     pullLoadWidgetControl.dataList = _getStore().state.trendList;
     if (pullLoadWidgetControl.dataList.length == 0) {
+      setState(() {
+        selectTime = trendTime(context)[0];
+        selectType = trendType(context)[0];
+      });
       showRefreshLoading();
     }
     super.didChangeDependencies();
@@ -82,6 +86,10 @@ class TrendPageState extends WhgListState<TrendPage> {
   }
 
   _renderHeader(Store<WhgState> store) {
+    if (selectType == null && selectType == null) {
+      return Container();
+    }
+
     return new WhgCardItem(
       color: store.state.themeData.primaryColor,
       margin: EdgeInsets.all(10.0),
@@ -93,7 +101,7 @@ class TrendPageState extends WhgListState<TrendPage> {
             new EdgeInsets.only(left: 0.0, top: 5.0, right: 0.0, bottom: 5.0),
         child: new Row(
           children: <Widget>[
-            _renderHeaderPopItem(selectTime.name, TrendTime,
+            _renderHeaderPopItem(selectTime.name, trendTime(context),
                 (TrendTypeModel result) {
               setState(() {
                 selectTime = result;
@@ -102,7 +110,7 @@ class TrendPageState extends WhgListState<TrendPage> {
             }),
             new Container(
                 height: 10.0, width: 0.5, color: Color(WhgColors.white)),
-            _renderHeaderPopItem(selectType.name, TrendType,
+            _renderHeaderPopItem(selectType.name, trendType(context),
                 (TrendTypeModel result) {
               setState(() {
                 selectType = result;

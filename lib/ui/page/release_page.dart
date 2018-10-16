@@ -78,7 +78,9 @@ class _ReleasePageState extends WhgListState<ReleasePage> {
       await launch(url);
     } else {
       Fluttertoast.showToast(
-          msg: WhgStrings.option_web_launcher_error + ": " + url);
+          msg: CommonUtils.getLocale(context).option_web_launcher_error +
+              ": " +
+              url);
     }
   }
 
@@ -130,8 +132,8 @@ class _ReleasePageState extends WhgListState<ReleasePage> {
         ),
         bottom: new WhgSelectItemWidget(
           [
-            WhgStrings.release_tab_release,
-            WhgStrings.release_tab_tag,
+            CommonUtils.getLocale(context).release_tab_release,
+            CommonUtils.getLocale(context).release_tab_tag,
           ],
           (selectIndex) {
             this.selectIndex = selectIndex;

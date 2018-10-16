@@ -44,7 +44,7 @@ class NotifyPageState extends WhgListState<NotifyPage> {
       child: _renderEventItem(notification),
       secondaryActions: <Widget>[
         new IconSlideAction(
-          caption: WhgStrings.notify_readed,
+          caption: CommonUtils.getLocale(context).notify_readed,
           color: Colors.redAccent,
           icon: Icons.delete,
           onTap: () {
@@ -59,7 +59,8 @@ class NotifyPageState extends WhgListState<NotifyPage> {
   }
 
   _renderEventItem(Model.Notification notification) {
-    EventViewModel eventViewModel = EventViewModel.fromNotify(notification);
+    EventViewModel eventViewModel =
+        EventViewModel.fromNotify(context, notification);
     return new EventItem(eventViewModel, onPressed: () {
       if (notification.unread) {
         UserDao.setNotificationAsReadDao(notification.id.toString());
@@ -114,7 +115,7 @@ class NotifyPageState extends WhgListState<NotifyPage> {
       backgroundColor: Color(WhgColors.mainBackgroundColor),
       appBar: new AppBar(
         title: WhgTitleBar(
-          WhgStrings.notify_title,
+          CommonUtils.getLocale(context).notify_title,
           iconData: WhgICons.NOTIFY_ALL_READ,
           needRightLocalIcon: true,
           onPressed: () {
@@ -127,9 +128,9 @@ class NotifyPageState extends WhgListState<NotifyPage> {
         ),
         bottom: new WhgSelectItemWidget(
           [
-            WhgStrings.notify_tab_unread,
-            WhgStrings.notify_tab_part,
-            WhgStrings.notify_tab_all,
+            CommonUtils.getLocale(context).notify_tab_unread,
+            CommonUtils.getLocale(context).notify_tab_part,
+            CommonUtils.getLocale(context).notify_tab_all,
           ],
           (selectIndex) {
             this.selectIndex = selectIndex;

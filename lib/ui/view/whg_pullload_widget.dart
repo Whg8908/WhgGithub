@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:github/common/style/whg_style.dart';
+import 'package:github/common/utils/commonutils.dart';
 /**
  * @Author by whg
  * @Email ghw8908@163.com
@@ -105,7 +106,8 @@ class WhgPullLoadWidgetState extends State<WhgPullLoadWidget> {
                 height: 70.0),
           ),
           Container(
-            child: Text(WhgStrings.app_empty, style: WhgConstant.normalText),
+            child: Text(CommonUtils.getLocale(context).app_empty,
+                style: WhgConstant.normalText),
           ),
         ],
       ),
@@ -144,7 +146,7 @@ class WhgPullLoadWidgetState extends State<WhgPullLoadWidget> {
                   width: 5.0,
                 ),
                 new Text(
-                  WhgStrings.load_more_text,
+                  CommonUtils.getLocale(context).load_more_text,
                   style: WhgConstant.smallTextBold,
                 )
               ])

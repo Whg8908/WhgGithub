@@ -88,7 +88,7 @@ class LoginPageState extends State<LoginPage> {
                     ),
                     WhgInputWidget(
                       //自定义的带有图片的edittext
-                      hintText: WhgStrings.login_username_hint_text,
+                      hintText: CommonUtils.getLocale(context).login_username_hint_text,
                       iconData: WhgICons.LOGIN_USER,
                       onChange: (String value) {
                         _userName = value;
@@ -99,7 +99,7 @@ class LoginPageState extends State<LoginPage> {
                       height: 10.0,
                     ),
                     WhgInputWidget(
-                      hintText: WhgStrings.login_password_hint_text,
+                      hintText: CommonUtils.getLocale(context).login_password_hint_text,
                       obscureText: true,
                       iconData: WhgICons.LOGIN_PW,
                       onChange: (String value) {
@@ -112,7 +112,7 @@ class LoginPageState extends State<LoginPage> {
                     ),
                     WhgFlexButton(
                       //自适应屏幕宽的按钮
-                      text: WhgStrings.login_text,
+                      text: CommonUtils.getLocale(context).login_text,
                       color: Theme.of(context).primaryColor,
                       textColor: Color(WhgColors.textWhite),
                       onPress: () {

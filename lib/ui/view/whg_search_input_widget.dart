@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:github/common/style/whg_style.dart';
+import 'package:github/common/utils/commonutils.dart';
 
 /**
  * @Author by whg
@@ -37,7 +38,7 @@ class WhgSearchInputWidget extends StatelessWidget {
               child: new TextField(
                   autofocus: false,
                   decoration: new InputDecoration.collapsed(
-                    hintText: WhgStrings.repos_issue_search,
+                    hintText: CommonUtils.getLocale(context).repos_issue_search,
                     hintStyle: WhgConstant.middleSubText,
                   ),
                   style: WhgConstant.middleText,

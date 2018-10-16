@@ -25,19 +25,21 @@ class WhgCommonOptionWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String text = WhgStrings.option_share_title + url;
+    String text = CommonUtils.getLocale(context).option_share_title + url;
 
     List<WhgOptionModel> list = [
-      new WhgOptionModel(WhgStrings.option_web, WhgStrings.option_web, (model) {
-        CommonUtils.launchOutURL(url);
+      new WhgOptionModel(CommonUtils.getLocale(context).option_web,
+          CommonUtils.getLocale(context).option_web, (model) {
+        CommonUtils.launchOutURL(url, context);
       }),
-      new WhgOptionModel(WhgStrings.option_copy, WhgStrings.option_copy,
-          (model) {
+      new WhgOptionModel(CommonUtils.getLocale(context).option_copy,
+          CommonUtils.getLocale(context).option_copy, (model) {
         Clipboard.setData(new ClipboardData(text: url));
-        Fluttertoast.showToast(msg: WhgStrings.option_share_copy_success);
+        Fluttertoast.showToast(
+            msg: CommonUtils.getLocale(context).option_share_copy_success);
       }),
-      new WhgOptionModel(WhgStrings.option_share, WhgStrings.option_share,
-          (model) {
+      new WhgOptionModel(CommonUtils.getLocale(context).option_share,
+          CommonUtils.getLocale(context).option_share, (model) {
         Share.share(text);
       }),
     ];

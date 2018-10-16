@@ -3,6 +3,7 @@ import 'package:github/common/bean/Event.dart';
 import 'package:github/common/bean/TrendingRepoModel.dart';
 import 'package:github/common/bean/User.dart';
 import 'package:github/common/redux/event_redux.dart';
+import 'package:github/common/redux/local_redux.dart';
 import 'package:github/common/redux/themedata_redux.dart';
 import 'package:github/common/redux/trend_redux.dart';
 import 'package:github/common/redux/user_redux.dart';
@@ -24,13 +25,23 @@ class WhgState {
   ///主题
   ThemeData themeData;
 
+  //语言
+  Locale locale;
+
+  Locale platformLocale;
+
   ///用户接受到的事件列表
   List<Event> eventList = new List();
 
   ///用户接受到的事件列表
   List<TrendingRepoModel> trendList = new List();
 
-  WhgState({this.userInfo, this.eventList, this.trendList, this.themeData});
+  WhgState(
+      {this.userInfo,
+      this.eventList,
+      this.trendList,
+      this.themeData,
+      this.locale});
 }
 
 ///将 WhgState 内的每一个参数，和对应的 action 绑定起来，返回完整的 WhgState 。
@@ -51,5 +62,7 @@ WhgState appReducer(WhgState state, dynamic action) {
     trendList: TrendReducer(state.trendList, action),
 
     themeData: ThemeDataReducer(state.themeData, action),
+
+    locale: LocaleReducer(state.locale, action),
   );
 }
