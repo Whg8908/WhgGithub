@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:github/common/style/whg_style.dart';
 import 'package:github/common/utils/commonutils.dart';
-import 'package:github/common/utils/fluttertoast.dart';
 import 'package:github/common/viewmodel/whg_option_model.dart';
 import 'package:share/share.dart';
 

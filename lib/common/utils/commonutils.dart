@@ -19,11 +19,10 @@ import 'package:github/common/style/whg_string_base.dart';
 import 'package:github/common/style/whg_style.dart';
 import 'package:github/common/utils/fluttertoast.dart';
 import 'package:github/common/utils/navigatorutils.dart';
-import 'package:github/common/utils/permission_handler/permission_enums.dart';
-import 'package:github/common/utils/permission_handler/permission_handler.dart';
 import 'package:github/ui/view/issue_edit_dialog.dart';
 import 'package:github/ui/view/whg_flex_button.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:permission/permission.dart';
 import 'package:redux/redux.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -446,16 +445,19 @@ class CommonUtils {
     } else {
       appDir = await getExternalStorageDirectory();
     }
-    PermissionStatus permission = await PermissionHandler()
-        .checkPermissionStatus(PermissionGroup.storage);
-    if (permission != PermissionStatus.granted) {
-      Map<PermissionGroup, PermissionStatus> permissions =
-          await PermissionHandler()
-              .requestPermissions([PermissionGroup.storage]);
-      if (permissions[PermissionGroup.storage] != PermissionStatus.granted) {
-        return null;
+
+    List<Permissions> permissions =
+        await Permission.getPermissionStatus([PermissionName.Storage]);
+    permissions.forEach((permission) async {
+      if (permission.permissionStatus != PermissionStatus.allow) {
+        final res =
+            await Permission.requestSinglePermission(PermissionName.Storage);
+        if (res != PermissionStatus.allow) {
+          return null;
+        }
       }
-    }
+    });
+
     String appDocPath = appDir.path + "/whggithubappflutter";
     Directory appPath = Directory(appDocPath);
     await appPath.create(recursive: true);
