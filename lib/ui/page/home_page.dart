@@ -19,14 +19,9 @@ import 'package:github/ui/view/whg_title_bar.dart';
  * PS: Stay hungry,Stay foolish.
  */
 
-class HomePage extends StatefulWidget {
+class HomePage extends StatelessWidget {
   static const String sName = "home";
 
-  @override
-  HomePageState createState() => HomePageState();
-}
-
-class HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
     List<Widget> tabs = [

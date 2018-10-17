@@ -7,7 +7,6 @@ import 'package:github/common/dao/issue_dao.dart';
 import 'package:github/common/dao/user_dao.dart';
 import 'package:github/common/db/sql_manager.dart';
 import 'package:github/common/local/local_storage.dart';
-import 'package:github/common/redux/themedata_redux.dart';
 import 'package:github/common/redux/whg_state.dart';
 import 'package:github/common/style/whg_style.dart';
 import 'package:github/common/utils/commonutils.dart';
@@ -136,9 +135,6 @@ class HomeDrawer extends StatelessWidget {
                           ),
                           onTap: () {
                             CommonUtils.showAboutDailog(context);
-
-                            store.dispatch(new RefreshThemeDataAction(
-                                new ThemeData(primarySwatch: Colors.blue)));
                           }),
                       new ListTile(
                           title: new WhgFlexButton(

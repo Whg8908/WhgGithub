@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:github/common/style/whg_style.dart';
 import 'package:github/common/utils/commonutils.dart';
@@ -27,7 +28,7 @@ class ReposHeaderItem extends StatelessWidget {
     return Column(
       children: <Widget>[
         WhgCardItem(
-          color: Theme.of(context).primaryColorDark,
+          color: Theme.of(context).primaryColor,
           child: Container(
             decoration: BoxDecoration(
               image: DecorationImage(

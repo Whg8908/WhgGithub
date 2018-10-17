@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -30,6 +31,7 @@ class PhotoViewPage extends StatelessWidget {
         floatingActionButton: new FloatingActionButton(
           child: new Icon(Icons.file_download),
           onPressed: () {
+            Fluttertoast.showToast(msg: "开始保存照片");
             CommonUtils.saveImage(url).then((res) {
               if (res != null) {
                 Fluttertoast.showToast(msg: res);

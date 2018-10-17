@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -52,38 +53,41 @@ class FlutterReduxApp extends StatelessWidget {
     /// 通过 StoreProvider 应用 store
     return StoreProvider(
       store: store,
-      child: new MaterialApp(
-          theme: store.state.themeData,
+      //因为 MaterialApp 也是一个 StatefulWidget ，如下代码所示，还需要利用 StoreBuilder 包裹起来，
+      child: new StoreBuilder<WhgState>(builder: (context, store) {
+        return new MaterialApp(
+            theme: store.state.themeData,
 
-          ///多语言实现代理
-          localizationsDelegates: [
-            //类似于国际化
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            WhgLocalizationsDelegate.delegate,
-          ],
-          locale: store.state.locale,
-          supportedLocales: [store.state.locale],
-          //去掉右上角debug图标
-          debugShowCheckedModeBanner: false,
-          //注册页面,类似于在androidmanifest注册是一样
-          routes: {
-            WelComePage.sName: (context) {
-              store.state.platformLocale = Localizations.localeOf(context);
-              return WelComePage();
-            },
-            HomePage.sName: (context) {
-              ///通过 Localizations.override 包裹一层，
-              return new WhgLocalizations(
-                child: new HomePage(),
-              );
-            },
-            LoginPage.sName: (context) {
-              return new WhgLocalizations(
-                child: LoginPage(),
-              );
-            },
-          }),
+            ///多语言实现代理
+            localizationsDelegates: [
+              //类似于国际化
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              WhgLocalizationsDelegate.delegate,
+            ],
+            locale: store.state.locale,
+            supportedLocales: [store.state.locale],
+            //去掉右上角debug图标
+            debugShowCheckedModeBanner: false,
+            //注册页面,类似于在androidmanifest注册是一样
+            routes: {
+              WelComePage.sName: (context) {
+                store.state.platformLocale = Localizations.localeOf(context);
+                return WelComePage();
+              },
+              HomePage.sName: (context) {
+                ///通过 Localizations.override 包裹一层，
+                return new WhgLocalizations(
+                  child: new HomePage(),
+                );
+              },
+              LoginPage.sName: (context) {
+                return new WhgLocalizations(
+                  child: LoginPage(),
+                );
+              },
+            });
+      }),
     );
   }
 }
