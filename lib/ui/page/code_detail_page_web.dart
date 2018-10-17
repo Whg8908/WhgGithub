@@ -107,6 +107,6 @@ class CodeDetailPageWebState extends State<CodeDetailPageWeb> {
         ),
       );
     }
-    return WhgWebView(data, title);
+    return WhgWebView(data, title, scrollBar: false);
   }
 }

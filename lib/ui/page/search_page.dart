@@ -29,7 +29,8 @@ class SearchPage extends StatefulWidget {
   SearchPageState createState() => new SearchPageState();
 }
 
-class SearchPageState extends WhgListState<SearchPage> {
+class SearchPageState extends State<SearchPage>
+    with AutomaticKeepAliveClientMixin<SearchPage>, WhgListState<SearchPage> {
   int selectIndex = 0;
 
   String searchText;

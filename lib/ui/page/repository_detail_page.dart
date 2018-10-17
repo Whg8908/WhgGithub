@@ -156,68 +156,8 @@ class RepositoryDetailPageState extends State<RepositoryDetailPage> {
                 Navigator.pop(context);
               });
             }),
-            _renderBranchPopItem(
-                reposDetailParentControl.currentBranch, branchList, (value) {
-              setState(() {
-                reposDetailParentControl.currentBranch = value;
-                tarBarControl.footerButton = _getBottomWidget();
-              });
-              _getReposDetail();
-              if (infoListKey.currentState != null &&
-                  infoListKey.currentState.mounted) {
-                infoListKey.currentState.showRefreshLoading();
-              }
-              if (fileListKey.currentState != null &&
-                  fileListKey.currentState.mounted) {
-                fileListKey.currentState.showRefreshLoading();
-              }
-              if (readmeKey.currentState != null &&
-                  readmeKey.currentState.mounted) {
-                readmeKey.currentState.refreshReadme();
-              }
-            })
           ];
     return bottomWidget;
-  }
-
-  _renderBranchPopItem(String data, List<String> list, selected) {
-    if (list == null && list.length == 0) {
-      return Container();
-    }
-
-    return Container(
-      height: 30.0,
-      child: PopupMenuButton<String>(
-        onSelected: selected,
-        child: FlatButton(
-            onPressed: null,
-            color: Theme.of(context).primaryColorDark,
-            disabledColor: Theme.of(context).primaryColorDark,
-            child: WhgIconText(
-              Icons.arrow_drop_up,
-              data,
-              WhgConstant.smallTextWhite,
-              Color(WhgColors.white),
-              30.0,
-              padding: 3.0,
-              mainAxisAlignment: MainAxisAlignment.center,
-            )),
-        itemBuilder: (BuildContext context) {
-          return _renderHeaderPopItemChild(list);
-        },
-      ),
-    );
-  }
-
-  _renderHeaderPopItemChild(List<String> data) {
-    List<PopupMenuEntry<String>> list = new List();
-    for (String item in data) {
-      list.add(PopupMenuItem<String>(
-        value: item,
-        child: new Text(item),
-      ));
-    }
-    return list;
   }
 
   @override
@@ -267,6 +207,29 @@ class RepositoryDetailPageState extends State<RepositoryDetailPage> {
       new WhgOptionModel(CommonUtils.getLocale(context).repos_option_release,
           CommonUtils.getLocale(context).repos_option_release, (model) {
         NavigatorUtils.goReleasePage(context, userName, reposName);
+      }),
+      new WhgOptionModel(CommonUtils.getLocale(context).repos_option_branch,
+          CommonUtils.getLocale(context).repos_option_branch, (model) {
+        if (branchList.length == 0) {
+          return;
+        }
+        CommonUtils.showCommitOptionDialog(context, branchList, (value) {
+          setState(() {
+            reposDetailParentControl.currentBranch = branchList[value];
+          });
+          if (infoListKey.currentState != null &&
+              infoListKey.currentState.mounted) {
+            infoListKey.currentState.showRefreshLoading();
+          }
+          if (fileListKey.currentState != null &&
+              fileListKey.currentState.mounted) {
+            fileListKey.currentState.showRefreshLoading();
+          }
+          if (readmeKey.currentState != null &&
+              readmeKey.currentState.mounted) {
+            readmeKey.currentState.refreshReadme();
+          }
+        });
       }),
     ];
   }

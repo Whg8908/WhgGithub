@@ -81,7 +81,7 @@ class EventDao {
         List<Event> list = new List();
         var data = res.data;
         if (data == null || data.length == 0) {
-          return null;
+          return new DataResult(list, true);
         }
         if (needDb) {
           provider.insert(userName, json.encode(data));

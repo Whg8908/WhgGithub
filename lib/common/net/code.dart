@@ -1,5 +1,5 @@
-import 'package:github/common/style/whg_style.dart';
-import 'package:github/common/utils/fluttertoast.dart';
+import 'package:event_bus/event_bus.dart';
+import 'package:github/common/net/http_error_event.dart';
 
 /**
  * @Author by whg
@@ -23,40 +23,13 @@ class Code {
 
   static const SUCCESS = 200;
 
+  static final EventBus eventBus = new EventBus();
+
   static errorHandleFunction(code, message, noTip) {
-    switch (code) {
-      case NETWORK_ERROR:
-        if (!noTip) {
-          Fluttertoast.showToast(msg: WhgStrings.network_error);
-        }
-        return WhgStrings.network_error;
-      case 401:
-        if (!noTip) {
-          Fluttertoast.showToast(msg: WhgStrings.network_error_401);
-        }
-        return WhgStrings.network_error_401; //401 Unauthorized
-      case 403:
-        if (!noTip) {
-          Fluttertoast.showToast(msg: WhgStrings.network_error_403);
-        }
-        return WhgStrings.network_error_403;
-      case 404:
-        if (!noTip) {
-          Fluttertoast.showToast(msg: WhgStrings.network_error_404);
-        }
-        return WhgStrings.network_error_404;
-      case NETWORK_TIMEOUT:
-        //超时
-        if (!noTip) {
-          Fluttertoast.showToast(msg: WhgStrings.network_error_timeout);
-        }
-        return WhgStrings.network_error_timeout;
-      default:
-        if (!noTip) {
-          Fluttertoast.showToast(
-              msg: WhgStrings.network_error_unknown + " " + message);
-        }
-        return WhgStrings.network_error_unknown;
+    if (noTip) {
+      return message;
     }
+    eventBus.fire(new HttpErrorEvent(code, message));
+    return message;
   }
 }

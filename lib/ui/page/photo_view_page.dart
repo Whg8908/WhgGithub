@@ -1,6 +1,11 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:github/common/style/whg_style.dart';
+import 'package:github/common/utils/commonutils.dart';
+import 'package:github/common/utils/fluttertoast.dart';
 import 'package:github/ui/view/whg_common_option_widget.dart';
 import 'package:github/ui/view/whg_title_bar.dart';
 import 'package:photo_view/photo_view.dart';
@@ -22,6 +27,24 @@ class PhotoViewPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
+        floatingActionButton: new FloatingActionButton(
+          child: new Icon(Icons.file_download),
+          onPressed: () {
+            CommonUtils.saveImage(url).then((res) {
+              if (res != null) {
+                Fluttertoast.showToast(msg: res);
+                if (Platform.isAndroid) {
+                  const updateAlbum =
+                      const MethodChannel('com.whg.github/UpdateAlbumPlugin');
+                  updateAlbum.invokeMethod('updateAlbum', {
+                    'path': res,
+                    'name': CommonUtils.splitFileNameByPath(res)
+                  });
+                }
+              }
+            });
+          },
+        ),
         appBar: new AppBar(
           title: WhgTitleBar("", rightWidget: new WhgCommonOptionWidget(url)),
         ),
@@ -34,7 +57,7 @@ class PhotoViewPage extends StatelessWidget {
                 children: <Widget>[
                   new Center(
                       child: new Image.asset(WhgICons.DEFAULT_IMAGE,
-                          height: 150.0, width: 150.0)),
+                          height: 180.0, width: 180.0)),
                   new Center(
                       child: new SpinKitFoldingCube(
                           color: Colors.white30, size: 60.0)),

@@ -274,4 +274,7 @@ class WhgStringZh extends WhgStringBase {
   String home_language_zh = "中文";
   @override
   String home_language_en = "英文";
+
+  @override
+  String repos_option_branch = "分支";
 }

@@ -53,8 +53,8 @@ class WhgPullLoadWidgetState extends State<WhgPullLoadWidget> {
     scrollController.addListener(() {
       if (scrollController.position.pixels ==
           scrollController.position.maxScrollExtent) {
-        if (this.onLoadMore != null && this.control.needLoadMore) {
-          this.onLoadMore();
+        if (this.control.needLoadMore) {
+          this.onLoadMore?.call();
         }
       }
     });

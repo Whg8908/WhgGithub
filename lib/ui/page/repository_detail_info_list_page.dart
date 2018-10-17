@@ -38,8 +38,10 @@ class RepositoryDetailInfoListPage extends StatefulWidget {
           reposName, this.reposDetailParentControl);
 }
 
-class RepositoryDetailInfoPageState
-    extends WhgListState<RepositoryDetailInfoListPage> {
+class RepositoryDetailInfoPageState extends State<RepositoryDetailInfoListPage>
+    with
+        AutomaticKeepAliveClientMixin<RepositoryDetailInfoListPage>,
+        WhgListState<RepositoryDetailInfoListPage> {
   final ReposDetailInfoPageControl reposDetailInfoPageControl;
   final String userName;
   final String reposName;

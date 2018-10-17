@@ -202,9 +202,7 @@ class UserHeaderItem extends StatelessWidget {
         ),
         onPressed: () {
           NavigatorUtils.goNotifyPage(context).then((res) {
-            if (refreshCallBack != null) {
-              refreshCallBack();
-            }
+            refreshCallBack?.call();
           });
         });
   }
@@ -319,24 +317,30 @@ class UserHeaderItem extends StatelessWidget {
 
   Widget _getBottomItem(String title, var value, onPressed) {
     String data = value == null ? "" : value.toString();
-    TextStyle valueStyle = (value != null && value.toString().length > 4)
+    TextStyle valueStyle = (value != null && value.toString().length > 6)
+        ? WhgConstant.minText
+        : WhgConstant.smallSubLightText;
+    TextStyle titleStyle = (title != null && title.toString().length > 6)
         ? WhgConstant.minText
         : WhgConstant.smallSubLightText;
 
     return new Expanded(
       child: new Center(
-        child: new FlatButton(
-          onPressed: onPressed,
-          child: RichText(
-            textAlign: TextAlign.center,
-            text: TextSpan(
-              style: WhgConstant.smallSubLightText,
-              text: title + "\n",
-              children: [TextSpan(text: data, style: valueStyle)],
-            ),
-          ),
-        ),
-      ),
+          child: new RawMaterialButton(
+              materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              padding: EdgeInsets.only(top: 5.0),
+              constraints: const BoxConstraints(minWidth: 0.0, minHeight: 0.0),
+              child: RichText(
+                textAlign: TextAlign.center,
+                text: TextSpan(
+                  children: [
+                    TextSpan(text: title, style: titleStyle),
+                    TextSpan(text: "\n", style: valueStyle),
+                    TextSpan(text: data, style: valueStyle)
+                  ],
+                ),
+              ),
+              onPressed: onPressed)),
     );
   }
 

@@ -1,8 +1,10 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_statusbar/flutter_statusbar.dart';
 import 'package:get_version/get_version.dart';
@@ -17,8 +19,11 @@ import 'package:github/common/style/whg_string_base.dart';
 import 'package:github/common/style/whg_style.dart';
 import 'package:github/common/utils/fluttertoast.dart';
 import 'package:github/common/utils/navigatorutils.dart';
+import 'package:github/common/utils/permission_handler/permission_enums.dart';
+import 'package:github/common/utils/permission_handler/permission_handler.dart';
 import 'package:github/ui/view/issue_edit_dialog.dart';
 import 'package:github/ui/view/whg_flex_button.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:redux/redux.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -397,7 +402,8 @@ class CommonUtils {
   static pushTheme(Store store, int index) {
     ThemeData themeData;
     List<Color> colors = getThemeListColor();
-    themeData = new ThemeData(primarySwatch: colors[index]);
+    themeData = new ThemeData(
+        primarySwatch: colors[index], platform: TargetPlatform.iOS);
     store.dispatch(new RefreshThemeDataAction(themeData));
   }
 
@@ -431,5 +437,51 @@ class CommonUtils {
 
   static WhgStringBase getLocale(BuildContext context) {
     return WhgLocalizations.of(context).currentLocalized;
+  }
+
+  static getLocalPath() async {
+    Directory appDir;
+    if (Platform.isIOS) {
+      appDir = await getApplicationDocumentsDirectory();
+    } else {
+      appDir = await getExternalStorageDirectory();
+    }
+    PermissionStatus permission = await PermissionHandler()
+        .checkPermissionStatus(PermissionGroup.storage);
+    if (permission != PermissionStatus.granted) {
+      Map<PermissionGroup, PermissionStatus> permissions =
+          await PermissionHandler()
+              .requestPermissions([PermissionGroup.storage]);
+      if (permissions[PermissionGroup.storage] != PermissionStatus.granted) {
+        return null;
+      }
+    }
+    String appDocPath = appDir.path + "/whggithubappflutter";
+    Directory appPath = Directory(appDocPath);
+    await appPath.create(recursive: true);
+    return appPath;
+  }
+
+  static saveImage(String url) async {
+    Future<String> _findPath(String imageUrl) async {
+      final cache = await CacheManager.getInstance();
+      final file = await cache.getFile(imageUrl);
+      if (file == null) {
+        return null;
+      }
+      Directory localPath = await CommonUtils.getLocalPath();
+      if (localPath == null) {
+        return null;
+      }
+      final name = splitFileNameByPath(file.path);
+      final result = await file.copy(localPath.path + name);
+      return result.path;
+    }
+
+    return _findPath(url);
+  }
+
+  static splitFileNameByPath(String path) {
+    return path.substring(path.lastIndexOf("/"));
   }
 }

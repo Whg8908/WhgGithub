@@ -27,7 +27,8 @@ class NotifyPage extends StatefulWidget {
   NotifyPageState createState() => new NotifyPageState();
 }
 
-class NotifyPageState extends WhgListState<NotifyPage> {
+class NotifyPageState extends State<NotifyPage>
+    with AutomaticKeepAliveClientMixin<NotifyPage>, WhgListState<NotifyPage> {
   final SlidableController slidableController = new SlidableController();
 
   int selectIndex;

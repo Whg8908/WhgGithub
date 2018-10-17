@@ -33,7 +33,10 @@ class RepositoryDetailIssueListPage extends StatefulWidget {
 }
 
 class RepositoryDetailIssuePageState
-    extends WhgListState<RepositoryDetailIssueListPage> {
+    extends State<RepositoryDetailIssueListPage>
+    with
+        AutomaticKeepAliveClientMixin<RepositoryDetailIssueListPage>,
+        WhgListState<RepositoryDetailIssueListPage> {
   final String userName;
   final String reposName;
   String issueState;

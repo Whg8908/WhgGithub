@@ -12,6 +12,7 @@ import 'package:github/common/utils/eventutils.dart';
 import 'package:github/common/utils/navigatorutils.dart';
 import 'package:github/common/viewmodel/event_view_model.dart';
 import 'package:github/common/viewmodel/user_item_view_model.dart';
+import 'package:github/ui/base/base_person_page.dart';
 import 'package:github/ui/base/whg_list_state.dart';
 import 'package:github/ui/view/event_item.dart';
 import 'package:github/ui/view/user_header_item.dart';
@@ -34,12 +35,10 @@ class MyPage extends StatefulWidget {
   MyPageState createState() => MyPageState();
 }
 
-class MyPageState extends WhgListState<MyPage> {
+class MyPageState extends BasePersonState<MyPage> {
   String beSharedCount = '---';
 
   Color notifyColor = const Color(WhgColors.subTextColor);
-
-  final List<UserOrg> orgList = new List();
 
   @override
   requestRefresh() async {
@@ -47,7 +46,7 @@ class MyPageState extends WhgListState<MyPage> {
       if (res != null && res.result) {
         _getStore().dispatch(UpdataUserAction(res.data));
 
-        _getUserOrg(_getUserName());
+        getUserOrg(_getUserName());
       }
     });
 
@@ -86,43 +85,20 @@ class MyPageState extends WhgListState<MyPage> {
 
   _refreshNotify() {
     UserDao.getNotifyDao(false, false, 0).then((res) {
+      Color newColor;
+
       if (res != null && res.result && res.data.length > 0) {
-        notifyColor = Colors.blue;
+        newColor = Color(WhgColors.actionBlue);
       } else {
-        notifyColor = Color(WhgColors.subLightTextColor);
+        newColor = Color(WhgColors.subLightTextColor);
+      }
+
+      if (isShow) {
+        setState(() {
+          notifyColor = newColor;
+        });
       }
     });
-  }
-
-  _renderEventItem(Store<WhgState> store, userInfo, index) {
-    if (index == 0) {
-      return new UserHeaderItem(
-        userInfo,
-        beSharedCount,
-        store.state.themeData.primaryColor,
-        notifyColor: notifyColor,
-        refreshCallBack: () {
-          _refreshNotify();
-        },
-        orgList: orgList,
-      );
-    }
-
-    if (getUserType() == "Organization") {
-      return new UserItem(
-          UserItemViewModel.fromMap(pullLoadWidgetControl.dataList[index - 1]),
-          onPressed: () {
-        NavigatorUtils.goPerson(
-            context,
-            UserItemViewModel.fromMap(pullLoadWidgetControl.dataList[index - 1])
-                .userName);
-      });
-    } else {
-      Event event = pullLoadWidgetControl.dataList[index - 1];
-      return new EventItem(EventViewModel.fromEventMap(event), onPressed: () {
-        EventUtils.ActionUtils(context, event, "");
-      });
-    }
   }
 
   getUserType() {
@@ -139,28 +115,6 @@ class MyPageState extends WhgListState<MyPage> {
     return _getStore().state.userInfo.login;
   }
 
-  _getUserOrg(String userName) {
-    if (page <= 1) {
-      UserDao.getUserOrgsDao(userName, page, needDb: true).then((res) {
-        if (res != null && res.result) {
-          setState(() {
-            orgList.clear();
-            orgList.addAll(res.data);
-          });
-          return res.next;
-        }
-        return new Future.value(null);
-      }).then((res) {
-        if (res != null && res.result) {
-          setState(() {
-            orgList.clear();
-            orgList.addAll(res.data);
-          });
-        }
-      });
-    }
-  }
-
   Store<WhgState> _getStore() {
     return StoreProvider.of(context);
   }
@@ -175,8 +129,10 @@ class MyPageState extends WhgListState<MyPage> {
       ///应用
       builder: (context, store) {
         return WhgPullLoadWidget(
-          (BuildContext context, int index) =>
-              _renderEventItem(store, store.state.userInfo, index),
+          (BuildContext context, int index) => renderItem(
+                  index, store.state.userInfo, beSharedCount, notifyColor, () {
+                _refreshNotify();
+              }, orgList),
           handleRefresh,
           onLoadMore,
           pullLoadWidgetControl,

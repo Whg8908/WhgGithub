@@ -43,7 +43,10 @@ class PushDetailPage extends StatefulWidget {
       this.userName, this.reposName, this.sha, this.needHomeIcon);
 }
 
-class PushDetailPageState extends WhgListState<PushDetailPage> {
+class PushDetailPageState extends State<PushDetailPage>
+    with
+        AutomaticKeepAliveClientMixin<PushDetailPage>,
+        WhgListState<PushDetailPage> {
   final String userName;
 
   final String reposName;

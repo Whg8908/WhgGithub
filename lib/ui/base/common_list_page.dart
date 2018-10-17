@@ -37,7 +37,10 @@ class CommonListPage extends StatefulWidget {
       this.showType, this.dataType, this.title, this.userName, this.reposName);
 }
 
-class CommonListPageState extends WhgListState<CommonListPage> {
+class CommonListPageState extends State<CommonListPage>
+    with
+        AutomaticKeepAliveClientMixin<CommonListPage>,
+        WhgListState<CommonListPage> {
   final String userName;
 
   final String reposName;

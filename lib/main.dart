@@ -20,7 +20,10 @@ import 'package:redux/redux.dart';
  *
  * PS: Stay hungry,Stay foolish.
  */
-void main() => runApp(new FlutterReduxApp());
+void main() {
+  runApp(new FlutterReduxApp());
+  PaintingBinding.instance.imageCache.maximumSize = 100; //设置图片缓存大小
+}
 
 class FlutterReduxApp extends StatelessWidget {
   ///1.创建
@@ -37,8 +40,9 @@ class FlutterReduxApp extends StatelessWidget {
           eventList: new List(),
           trendList: new List(),
           themeData: new ThemeData(
-            primarySwatch: WhgColors.primarySwatch,
-          ),
+              primarySwatch: WhgColors.primarySwatch,
+              platform: TargetPlatform.iOS //滑动返回
+              ),
           locale: Locale('zh', 'CH')));
 
   FlutterReduxApp({Key key}) : super(key: key);
@@ -50,12 +54,15 @@ class FlutterReduxApp extends StatelessWidget {
       store: store,
       child: new MaterialApp(
           theme: store.state.themeData,
+
+          ///多语言实现代理
           localizationsDelegates: [
             //类似于国际化
             GlobalMaterialLocalizations.delegate,
             GlobalWidgetsLocalizations.delegate,
             WhgLocalizationsDelegate.delegate,
           ],
+          locale: store.state.locale,
           supportedLocales: [store.state.locale],
           //去掉右上角debug图标
           debugShowCheckedModeBanner: false,
@@ -66,6 +73,7 @@ class FlutterReduxApp extends StatelessWidget {
               return WelComePage();
             },
             HomePage.sName: (context) {
+              ///通过 Localizations.override 包裹一层，
               return new WhgLocalizations(
                 child: new HomePage(),
               );

@@ -26,30 +26,21 @@ class WhgInputWidget extends StatefulWidget {
       : super(key: key);
 
   @override
-  WhgInputWidgetState createState() => new WhgInputWidgetState(
-      hintText, iconData, onChange, controller, obscureText);
+  WhgInputWidgetState createState() => new WhgInputWidgetState();
 }
 
 class WhgInputWidgetState extends State<WhgInputWidget> {
-  final String hintText;
-  final IconData iconData;
-  final bool obscureText;
-  final ValueChanged<String> onChange;
-  final TextEditingController controller;
-
-  WhgInputWidgetState(this.hintText, this.iconData, this.onChange,
-      this.controller, this.obscureText)
-      : super();
+  WhgInputWidgetState() : super();
 
   @override
   Widget build(BuildContext context) {
     return TextField(
-      controller: controller,
-      onChanged: onChange,
-      obscureText: obscureText,
+      controller: widget.controller,
+      onChanged: widget.onChange,
+      obscureText: widget.obscureText,
       decoration: InputDecoration(
-        hintText: hintText,
-        icon: iconData == null ? null : new Icon(iconData),
+        hintText: widget.hintText,
+        icon: widget.iconData == null ? null : new Icon(widget.iconData),
       ),
     );
   }

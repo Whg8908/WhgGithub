@@ -217,4 +217,6 @@ abstract class WhgStringBase {
   String home_language_default;
   String home_language_zh;
   String home_language_en;
+
+  String repos_option_branch;
 }

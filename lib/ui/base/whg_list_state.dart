@@ -14,7 +14,7 @@ import 'package:github/ui/view/whg_pullload_widget.dart';
  */
 
 abstract class WhgListState<T extends StatefulWidget> extends State<T>
-    with AutomaticKeepAliveClientMixin {
+    with AutomaticKeepAliveClientMixin<T> {
   bool isShow = false;
 
   bool isLoading = false;

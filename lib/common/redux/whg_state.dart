@@ -28,6 +28,7 @@ class WhgState {
   //语言
   Locale locale;
 
+  ///当前手机平台默认语言
   Locale platformLocale;
 
   ///用户接受到的事件列表
@@ -61,8 +62,10 @@ WhgState appReducer(WhgState state, dynamic action) {
     ///通过 TrendReducer 将 WhgState 内的 trendList 和 action 关联在一起
     trendList: TrendReducer(state.trendList, action),
 
+    ///通过 ThemeDataReducer 将 GSYState 内的 themeData 和 action 关联在一起
     themeData: ThemeDataReducer(state.themeData, action),
 
+    ///通过 LocaleReducer 将 GSYState 内的 locale 和 action 关联在一起
     locale: LocaleReducer(state.locale, action),
   );
 }

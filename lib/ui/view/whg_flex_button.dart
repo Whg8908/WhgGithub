@@ -28,9 +28,7 @@ class WhgFlexButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return RaisedButton(
       onPressed: () {
-        if (this.onPress != null) {
-          this.onPress();
-        }
+        this.onPress?.call();
       },
       padding: const EdgeInsets.only(
           left: 20.0, top: 12.0, right: 20.0, bottom: 12.0),

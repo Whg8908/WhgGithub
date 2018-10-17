@@ -233,21 +233,24 @@ class ReposHeaderItem extends StatelessWidget {
         ],
       ));
 
+  ///底部仓库状态信息，比如star数量等
   _getBottomItem(IconData icon, String text, onPressed) {
     return new Expanded(
-      child: new FlatButton(
-        onPressed: onPressed,
-        padding: new EdgeInsets.all(0.0),
-        child: new WhgIconText(
-          icon,
-          text,
-          WhgConstant.smallSubLightText,
-          Color(WhgColors.subLightTextColor),
-          15.0,
-          padding: 3.0,
-          mainAxisAlignment: MainAxisAlignment.center,
-        ),
-      ),
+      child: new Center(
+          child: new RawMaterialButton(
+              materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
+              constraints: const BoxConstraints(minWidth: 0.0, minHeight: 0.0),
+              child: new WhgIconText(
+                icon,
+                text,
+                WhgConstant.smallSubLightText,
+                Color(WhgColors.subLightTextColor),
+                15.0,
+                padding: 3.0,
+                mainAxisAlignment: MainAxisAlignment.center,
+              ),
+              onPressed: onPressed)),
     );
   }
 

@@ -37,27 +37,21 @@ class WhgSelectItemWidget extends StatefulWidget
 
   @override
   RepositoryIssueListHeaderState createState() =>
-      RepositoryIssueListHeaderState(
-          this.itemName, this.selectItemChanged, this.elevation, margin);
+      RepositoryIssueListHeaderState();
 }
 
 class RepositoryIssueListHeaderState extends State<WhgSelectItemWidget> {
   int selectIndex = 0;
-  final SelectItemChanged selectItemChanged;
-  final List<String> itemNames;
-  final double elevation;
-  final EdgeInsets margin;
 
-  RepositoryIssueListHeaderState(
-      this.itemNames, this.selectItemChanged, this.elevation, this.margin);
+  RepositoryIssueListHeaderState();
 
   _renderList() {
     List<Widget> list = new List();
-    for (int i = 0; i < itemNames.length; i++) {
-      if (i == itemNames.length - 1) {
-        list.add(_renderItem(itemNames[i], i));
+    for (int i = 0; i < widget.itemName.length; i++) {
+      if (i == widget.itemName.length - 1) {
+        list.add(_renderItem(widget.itemName[i], i));
       } else {
-        list.add(_renderItem(itemNames[i], i));
+        list.add(_renderItem(widget.itemName[i], i));
         list.add(new Container(
             width: 1.0,
             height: 25.0,
@@ -70,8 +64,8 @@ class RepositoryIssueListHeaderState extends State<WhgSelectItemWidget> {
   @override
   Widget build(BuildContext context) {
     return WhgCardItem(
-        elevation: elevation,
-        margin: margin,
+        elevation: widget.elevation,
+        margin: widget.margin,
         color: Theme.of(context).primaryColor,
         shape: new RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(4.0)),
@@ -96,11 +90,9 @@ class RepositoryIssueListHeaderState extends State<WhgSelectItemWidget> {
             constraints: const BoxConstraints(minWidth: 0.0, minHeight: 0.0),
             padding: EdgeInsets.all(10.0),
             onPressed: () {
-              if (selectItemChanged != null) {
-                if (selectIndex != index) {
-                  //防止重复点击
-                  selectItemChanged(index);
-                }
+              if (selectIndex != index) {
+                //防止重复点击
+                widget.selectItemChanged?.call(index);
               }
               setState(() {
                 selectIndex = index;

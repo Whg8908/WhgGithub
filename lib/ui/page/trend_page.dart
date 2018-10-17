@@ -3,6 +3,8 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:github/common/dao/repos_dao.dart';
 import 'package:github/common/redux/whg_state.dart';
 import 'package:github/common/style/whg_style.dart';
+import 'package:github/common/utils/commonutils.dart';
+import 'package:github/common/utils/fluttertoast.dart';
 import 'package:github/common/utils/navigatorutils.dart';
 import 'package:github/common/viewmodel/repos_view_model.dart';
 import 'package:github/common/viewmodel/trend_type_model.dart';
@@ -27,7 +29,8 @@ class TrendPage extends StatefulWidget {
   TrendPageState createState() => TrendPageState();
 }
 
-class TrendPageState extends WhgListState<TrendPage> {
+class TrendPageState extends State<TrendPage>
+    with AutomaticKeepAliveClientMixin<TrendPage>, WhgListState<TrendPage> {
   static TrendTypeModel selectTime = null;
   static TrendTypeModel selectType = null;
 
@@ -103,6 +106,11 @@ class TrendPageState extends WhgListState<TrendPage> {
           children: <Widget>[
             _renderHeaderPopItem(selectTime.name, trendTime(context),
                 (TrendTypeModel result) {
+              if (isLoading) {
+                Fluttertoast.showToast(
+                    msg: CommonUtils.getLocale(context).loading_text);
+                return;
+              }
               setState(() {
                 selectTime = result;
               });
@@ -112,6 +120,11 @@ class TrendPageState extends WhgListState<TrendPage> {
                 height: 10.0, width: 0.5, color: Color(WhgColors.white)),
             _renderHeaderPopItem(selectType.name, trendType(context),
                 (TrendTypeModel result) {
+              if (isLoading) {
+                Fluttertoast.showToast(
+                    msg: CommonUtils.getLocale(context).loading_text);
+                return;
+              }
               setState(() {
                 selectType = result;
               });

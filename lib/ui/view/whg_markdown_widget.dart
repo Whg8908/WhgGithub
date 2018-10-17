@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:github/common/style/whg_style.dart';
 import 'package:github/common/utils/commonutils.dart';
+import 'package:github/ui/view/syntax_highlighter.dart';
 /**
  * @Author by whg
  * @Email ghw8908@163.com
@@ -51,15 +52,17 @@ class WhgMarkdownWidget extends StatelessWidget {
     if (tags != null && tags.length > 0) {
       for (Match m in tags) {
         String imageMatch = m.group(0);
-        if (imageMatch != null) {
-          String match = m.group(0).replaceAll("\)", "?raw=true)");
-          if (!match.contains(".svg")) {
+        if (imageMatch != null && !imageMatch.contains(".svg")) {
+          String match = imageMatch.replaceAll("\)", "?raw=true)");
+          if (!match.contains(".svg") && match.contains("http")) {
             ///增加点击
             String src = match
                 .replaceAll(new RegExp(r'!\[.*\]\('), "")
                 .replaceAll(")", "");
             String actionMatch = "[$match]($src)";
             match = actionMatch;
+          } else {
+            match = "";
           }
           mdDataCode = mdDataCode.replaceAll(m.group(0), match);
         }
@@ -93,7 +96,7 @@ class WhgMarkdownWidget extends StatelessWidget {
   }
 
   _getStyleSheetTheme(BuildContext context) {
-    return _getCommonSheet(context, Color(WhgColors.subTextColor)).copyWith(
+    return _getCommonSheet(context, Color.fromRGBO(40, 44, 52, 1.00)).copyWith(
       p: WhgConstant.smallTextWhite,
       h1: WhgConstant.largeLargeTextWhite,
       h2: WhgConstant.largeTextWhiteBold,
@@ -153,7 +156,7 @@ class WhgMarkdownWidget extends StatelessWidget {
   }
 
   _getStyleSheetDark(BuildContext context) {
-    return _getCommonSheet(context, Color(WhgColors.primaryValue)).copyWith(
+    return _getCommonSheet(context, Color.fromRGBO(40, 44, 52, 1.00)).copyWith(
       p: WhgConstant.smallTextWhite,
       h1: WhgConstant.largeLargeTextWhite,
       h2: WhgConstant.largeTextWhiteBold,
@@ -168,7 +171,7 @@ class WhgMarkdownWidget extends StatelessWidget {
   }
 
   _getStyleSheetWhite(BuildContext context) {
-    return _getCommonSheet(context, Color(WhgColors.primaryValue)).copyWith(
+    return _getCommonSheet(context, Color.fromRGBO(40, 44, 52, 1.00)).copyWith(
       p: WhgConstant.smallText,
       h1: WhgConstant.largeLargeText,
       h2: WhgConstant.largeTextBold,
@@ -185,9 +188,8 @@ class WhgMarkdownWidget extends StatelessWidget {
 class WhgHighlighter extends SyntaxHighlighter {
   @override
   TextSpan format(String source) {
-    return new TextSpan(
-      text: source,
-      style: WhgConstant.smallTextWhite,
-    );
+    String showSource = source.replaceAll("&lt;", "<");
+    showSource = showSource.replaceAll("&gt;", ">");
+    return new DartSyntaxHighlighter().format(showSource);
   }
 }

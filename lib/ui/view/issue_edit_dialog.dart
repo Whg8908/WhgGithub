@@ -34,48 +34,20 @@ class IssueEditDialog extends StatefulWidget {
       {this.titleController, this.valueController, this.needTitle = true});
 
   @override
-  IssueEditDialogState createState() => IssueEditDialogState(
-      this.dialogTitle,
-      this.onContentChanged,
-      this.onTitleChanged,
-      this.onPressed,
-      titleController,
-      valueController,
-      needTitle);
+  IssueEditDialogState createState() => IssueEditDialogState();
 }
 
 class IssueEditDialogState extends State<IssueEditDialog> {
-  final String dialogTitle;
-
-  final ValueChanged<String> onTitleChanged;
-
-  final ValueChanged<String> onContentChanged;
-
-  final VoidCallback onPressed;
-
-  final TextEditingController titleController;
-
-  final TextEditingController valueController;
-
-  final bool needTitle;
-
-  IssueEditDialogState(
-      this.dialogTitle,
-      this.onContentChanged,
-      this.onTitleChanged,
-      this.onPressed,
-      this.titleController,
-      this.valueController,
-      this.needTitle);
+  IssueEditDialogState();
 
   @override
   Widget build(BuildContext context) {
-    Widget title = (needTitle)
+    Widget title = (widget.needTitle)
         ? new Padding(
             padding: new EdgeInsets.all(5.0),
             child: new WhgInputWidget(
-              onChange: onTitleChanged,
-              controller: titleController,
+              onChange: widget.onTitleChanged,
+              controller: widget.titleController,
               hintText:
                   CommonUtils.getLocale(context).issue_edit_issue_title_tip,
               obscureText: false,
@@ -103,7 +75,7 @@ class IssueEditDialogState extends State<IssueEditDialog> {
                   new Padding(
                       padding: new EdgeInsets.only(top: 5.0, bottom: 15.0),
                       child: new Center(
-                        child: new Text(dialogTitle,
+                        child: new Text(widget.dialogTitle,
                             style: WhgConstant.normalTextBold),
                       )),
                   renderTitleInput(),
@@ -123,8 +95,8 @@ class IssueEditDialogState extends State<IssueEditDialog> {
                           child: new TextField(
                             autofocus: false,
                             maxLines: 999,
-                            onChanged: onContentChanged,
-                            controller: valueController,
+                            onChanged: widget.onContentChanged,
+                            controller: widget.valueController,
                             decoration: new InputDecoration.collapsed(
                               hintText: CommonUtils.getLocale(context)
                                   .issue_edit_issue_title_tip,
@@ -170,7 +142,7 @@ class IssueEditDialogState extends State<IssueEditDialog> {
                               child: new Text(
                                   CommonUtils.getLocale(context).app_ok,
                                   style: WhgConstant.normalTextBold),
-                              onPressed: onPressed)),
+                              onPressed: widget.onPressed)),
                     ],
                   )
                 ],
@@ -184,12 +156,12 @@ class IssueEditDialogState extends State<IssueEditDialog> {
 
   ///标题输入框
   renderTitleInput() {
-    return (needTitle)
+    return (widget.needTitle)
         ? new Padding(
             padding: new EdgeInsets.all(5.0),
             child: new WhgInputWidget(
-              onChange: onTitleChanged,
-              controller: titleController,
+              onChange: widget.onTitleChanged,
+              controller: widget.titleController,
               hintText:
                   CommonUtils.getLocale(context).issue_edit_issue_title_tip,
               obscureText: false,
@@ -214,16 +186,16 @@ class IssueEditDialogState extends State<IssueEditDialog> {
               onPressed: () {
                 String text = FAST_INPUT_LIST[index].content;
                 String newText = "";
-                if (valueController.value != null) {
-                  newText = valueController.value.text;
+                if (widget.valueController.value != null) {
+                  newText = widget.valueController.value.text;
                 }
                 newText = newText + text;
                 setState(() {
-                  valueController.value = new TextEditingValue(text: newText);
+                  widget.valueController.value =
+                      new TextEditingValue(text: newText);
                 });
-                if (onContentChanged != null) {
-                  onContentChanged(newText);
-                }
+
+                widget.onContentChanged?.call(newText);
               });
         },
         itemCount: FAST_INPUT_LIST.length,

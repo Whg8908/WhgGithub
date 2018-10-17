@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:github/common/dao/repos_dao.dart';
 import 'package:github/common/style/whg_style.dart';
 import 'package:github/common/utils/commonutils.dart';
+import 'package:github/common/utils/fluttertoast.dart';
 import 'package:github/common/utils/navigatorutils.dart';
 import 'package:github/common/viewmodel/file_item_view_model.dart';
 import 'package:github/ui/base/whg_list_state.dart';
@@ -36,7 +37,10 @@ class RepositoryDetailFileListPage extends StatefulWidget {
 }
 
 class RepositoryDetailFileListPageState
-    extends WhgListState<RepositoryDetailFileListPage> {
+    extends State<RepositoryDetailFileListPage>
+    with
+        AutomaticKeepAliveClientMixin<RepositoryDetailFileListPage>,
+        WhgListState<RepositoryDetailFileListPage> {
   final String userName;
   final String reposName;
   final ReposDetailParentControl reposDetailParentControl;
@@ -164,6 +168,12 @@ class RepositoryDetailFileListPageState
   //item点击事件
   _resolveItemClick(FileItemViewModel fileItemViewModel) {
     if (fileItemViewModel.type == "dir") {
+      if (isLoading) {
+        Fluttertoast.showToast(
+            msg: CommonUtils.getLocale(context).loading_text);
+        return;
+      }
+
       this.setState(() {
         headerList.add(fileItemViewModel.name);
       });
@@ -194,6 +204,11 @@ class RepositoryDetailFileListPageState
 
   ///头部列表点击
   _resolveHeaderClick(index) {
+    if (isLoading) {
+      Fluttertoast.showToast(msg: CommonUtils.getLocale(context).loading_text);
+      return;
+    }
+
     if (headerList[index] != ".") {
       List<String> newHeaderList = headerList.sublist(0, index + 1);
       String path = newHeaderList.sublist(1, newHeaderList.length).join("/");

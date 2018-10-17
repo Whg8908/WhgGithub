@@ -5,14 +5,16 @@ import 'package:github/ui/view/whg_common_option_widget.dart';
 class WhgWebView extends StatelessWidget {
   final String url;
   final String title;
+  final bool scrollBar;
 
-  WhgWebView(this.url, this.title);
+  WhgWebView(this.url, this.title, {this.scrollBar = true});
 
   @override
   Widget build(BuildContext context) {
     return new WebviewScaffold(
       withJavascript: true,
       url: url,
+      scrollBar: scrollBar,
       withLocalUrl: true,
       appBar: new AppBar(
         title: _renderTitle(),

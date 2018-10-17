@@ -30,7 +30,8 @@ class ReleasePage extends StatefulWidget {
 }
 
 // ignore: mixin_inherits_from_not_object
-class _ReleasePageState extends WhgListState<ReleasePage> {
+class _ReleasePageState extends State<ReleasePage>
+    with AutomaticKeepAliveClientMixin<ReleasePage>, WhgListState<ReleasePage> {
   final String userName;
 
   final String reposName;

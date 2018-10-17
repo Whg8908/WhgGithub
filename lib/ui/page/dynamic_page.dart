@@ -24,8 +24,11 @@ class DynamicPage extends StatefulWidget {
   DynamicPageState createState() => DynamicPageState();
 }
 
-class DynamicPageState extends WhgListState<DynamicPage>
-    with WidgetsBindingObserver {
+class DynamicPageState extends State<DynamicPage>
+    with
+        AutomaticKeepAliveClientMixin<DynamicPage>,
+        WhgListState<DynamicPage>,
+        WidgetsBindingObserver {
   Store<WhgState> _getStore() {
     return StoreProvider.of(context);
   }
@@ -68,7 +71,7 @@ class DynamicPageState extends WhgListState<DynamicPage>
     }
   }
 
-  //listview的item
+//listview的item
   _renderEventItem(Event e) {
     EventViewModel eventViewModel = EventViewModel.fromEventMap(e);
 

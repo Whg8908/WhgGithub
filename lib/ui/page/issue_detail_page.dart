@@ -39,7 +39,10 @@ class IssueDetailPage extends StatefulWidget {
       this.userName, this.reposName, this.issueNum, this.needHomeIcon);
 }
 
-class IssueDetailPageState extends WhgListState<IssueDetailPage> {
+class IssueDetailPageState extends State<IssueDetailPage>
+    with
+        AutomaticKeepAliveClientMixin<IssueDetailPage>,
+        WhgListState<IssueDetailPage> {
   final String userName;
 
   final String reposName;
