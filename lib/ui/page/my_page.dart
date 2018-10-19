@@ -105,6 +105,14 @@ class MyPageState extends BasePersonState<MyPage> {
     return _getStore().state.userInfo.login;
   }
 
+  @override
+  void didChangeDependencies() {
+    if (pullLoadWidgetControl.dataList.length == 0) {
+      showRefreshLoading();
+    }
+    super.didChangeDependencies();
+  }
+
   Store<WhgState> _getStore() {
     return StoreProvider.of(context);
   }

@@ -64,7 +64,4 @@ class HomePage extends StatelessWidget {
       ),
     );
   }
-
-  @override
-  bool get wantKeepAlive => true;
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:github/common/bean/Event.dart';
+import 'package:github/common/config/config.dart';
 import 'package:github/common/dao/event_dao.dart';
 import 'package:github/common/redux/whg_state.dart';
 import 'package:github/common/utils/eventutils.dart';
@@ -29,26 +30,53 @@ class DynamicPageState extends State<DynamicPage>
         AutomaticKeepAliveClientMixin<DynamicPage>,
         WhgListState<DynamicPage>,
         WidgetsBindingObserver {
+  @override
+  Future<Null> handleRefresh() async {
+    if (isLoading) {
+      return null;
+    }
+    isLoading = true;
+    page = 1;
+    var result =
+        await EventDao.getEventReceived(_getStore(), page: page, needDb: true);
+    setState(() {
+      pullLoadWidgetControl.needLoadMore =
+          (result != null && result.length == Config.PAGE_SIZE);
+    });
+    isLoading = false;
+    return null;
+  }
+
+  @override
+  Future<Null> onLoadMore() async {
+    if (isLoading) {
+      return null;
+    }
+    isLoading = true;
+    page++;
+    var result = await EventDao.getEventReceived(_getStore(), page: page);
+    setState(() {
+      pullLoadWidgetControl.needLoadMore = (result != null);
+    });
+    isLoading = false;
+    return null;
+  }
+
   Store<WhgState> _getStore() {
     return StoreProvider.of(context);
   }
 
   @override
-  requestRefresh() async {
-    return await EventDao.getEventReceived(_getStore(),
-        page: page, needDb: true);
-  }
+  bool get wantKeepAlive => true;
 
   @override
-  requestLoadMore() async {
-    return await EventDao.getEventReceived(_getStore(), page: page);
-  }
+  requestRefresh() async {}
+
+  @override
+  requestLoadMore() async {}
 
   @override
   bool get isRefreshFirst => false;
-
-  @override
-  List get getDataList => _getStore().state.eventList;
 
   @override
   void initState() {
@@ -60,6 +88,15 @@ class DynamicPageState extends State<DynamicPage>
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
     super.dispose();
+  }
+
+  @override
+  void didChangeDependencies() {
+    pullLoadWidgetControl.dataList = _getStore().state.eventList;
+    if (pullLoadWidgetControl.dataList.length == 0) {
+      showRefreshLoading();
+    }
+    super.didChangeDependencies();
   }
 
   @override
