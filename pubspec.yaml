@@ -18,7 +18,7 @@ dependencies:
   cupertino_icons: ^0.1.2
   dio: ^1.0.0
   shared_preferences: ^0.4.2
-#  fluttertoast: ^2.0.4
+  fluttertoast: ^2.0.9
   json_annotation: ^1.0.0
   flutter_redux: ^0.5.2
   device_info: ^0.2.1
@@ -40,8 +40,8 @@ dependencies:
   event_bus: ^1.0.1
   flutter_cache_manager: ^0.2.0
   path_provider: ^0.4.1
-#  permission_handler: 2.0.1
-  permission: ^0.1.0
+  permission_handler: 2.1.0
+#  permission: ^0.1.0
 
 
 dev_dependencies:

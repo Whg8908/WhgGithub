@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:github/common/bean/User.dart';
 import 'package:github/common/bean/UserOrg.dart';
 import 'package:github/common/dao/event_dao.dart';
 import 'package:github/common/dao/repos_dao.dart';
 import 'package:github/common/dao/user_dao.dart';
 import 'package:github/common/utils/commonutils.dart';
-import 'package:github/common/utils/fluttertoast.dart';
 import 'package:github/ui/base/base_person_page.dart';
 import 'package:github/ui/view/whg_common_option_widget.dart';
 import 'package:github/ui/view/whg_pullload_widget.dart';

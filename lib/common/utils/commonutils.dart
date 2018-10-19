@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_statusbar/flutter_statusbar.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get_version/get_version.dart';
 import 'package:github/common/config/config.dart';
 import 'package:github/common/delegate/whg_localizations.dart';
@@ -17,12 +18,11 @@ import 'package:github/common/redux/themedata_redux.dart';
 import 'package:github/common/redux/whg_state.dart';
 import 'package:github/common/style/whg_string_base.dart';
 import 'package:github/common/style/whg_style.dart';
-import 'package:github/common/utils/fluttertoast.dart';
 import 'package:github/common/utils/navigatorutils.dart';
 import 'package:github/ui/view/issue_edit_dialog.dart';
 import 'package:github/ui/view/whg_flex_button.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:permission/permission.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:redux/redux.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -438,6 +438,32 @@ class CommonUtils {
     return WhgLocalizations.of(context).currentLocalized;
   }
 
+//  static getLocalPath() async {
+//    Directory appDir;
+//    if (Platform.isIOS) {
+//      appDir = await getApplicationDocumentsDirectory();
+//    } else {
+//      appDir = await getExternalStorageDirectory();
+//    }
+//
+//    List<Permissions> permissions =
+//        await Permission.getPermissionStatus([PermissionName.Storage]);
+//    permissions.forEach((permission) async {
+//      if (permission.permissionStatus != PermissionStatus.allow) {
+//        final res =
+//            await Permission.requestSinglePermission(PermissionName.Storage);
+//        if (res != PermissionStatus.allow) {
+//          return null;
+//        }
+//      }
+//    });
+//
+//    String appDocPath = appDir.path + "/whggithubappflutter";
+//    Directory appPath = Directory(appDocPath);
+//    await appPath.create(recursive: true);
+//    return appPath;
+//  }
+
   static getLocalPath() async {
     Directory appDir;
     if (Platform.isIOS) {
@@ -445,20 +471,36 @@ class CommonUtils {
     } else {
       appDir = await getExternalStorageDirectory();
     }
+    PermissionStatus permission = null;
+    if (Platform.isAndroid) {
+      permission = await PermissionHandler()
+          .checkPermissionStatus(PermissionGroup.storage);
+    } else {
+      permission = await PermissionHandler()
+          .checkPermissionStatus(PermissionGroup.photos);
+    }
 
-    List<Permissions> permissions =
-        await Permission.getPermissionStatus([PermissionName.Storage]);
-    permissions.forEach((permission) async {
-      if (permission.permissionStatus != PermissionStatus.allow) {
-        final res =
-            await Permission.requestSinglePermission(PermissionName.Storage);
-        if (res != PermissionStatus.allow) {
+    if (permission != PermissionStatus.granted) {
+      Map<PermissionGroup, PermissionStatus> permissions = null;
+      if (Platform.isAndroid) {
+        permissions = await PermissionHandler()
+            .requestPermissions([PermissionGroup.storage]);
+      } else {
+        permissions = await PermissionHandler()
+            .requestPermissions([PermissionGroup.photos]);
+      }
+
+      if (Platform.isAndroid) {
+        if (permissions[PermissionGroup.storage] != PermissionStatus.granted) {
+          return null;
+        }
+      } else {
+        if (permissions[PermissionGroup.photos] != PermissionStatus.granted) {
           return null;
         }
       }
-    });
-
-    String appDocPath = appDir.path + "/whggithubappflutter";
+    }
+    String appDocPath = appDir.path + "/gsygithubappflutter";
     Directory appPath = Directory(appDocPath);
     await appPath.create(recursive: true);
     return appPath;

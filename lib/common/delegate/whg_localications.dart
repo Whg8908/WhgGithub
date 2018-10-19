@@ -2,11 +2,11 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:github/common/net/code.dart';
 import 'package:github/common/net/http_error_event.dart';
 import 'package:github/common/redux/whg_state.dart';
 import 'package:github/common/utils/commonutils.dart';
-import 'package:github/common/utils/fluttertoast.dart';
 
 class WhgLocalizations extends StatefulWidget {
   final Widget child;
