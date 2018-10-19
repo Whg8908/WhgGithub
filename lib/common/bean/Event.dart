@@ -6,7 +6,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'Event.g.dart';
 
 @JsonSerializable()
-class Event extends Object with _$EventSerializerMixin {
+class Event {
   String id;
   String type;
   User actor;
@@ -30,4 +30,6 @@ class Event extends Object with _$EventSerializerMixin {
   );
 
   factory Event.fromJson(Map<String, dynamic> json) => _$EventFromJson(json);
+
+  Map<String, dynamic> toJson() => _$EventToJson(this);
 }

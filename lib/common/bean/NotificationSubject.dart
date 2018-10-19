@@ -3,8 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'NotificationSubject.g.dart';
 
 @JsonSerializable()
-class NotificationSubject extends Object
-    with _$NotificationSubjectSerializerMixin {
+class NotificationSubject {
   String title;
   String url;
   String type;
@@ -13,4 +12,6 @@ class NotificationSubject extends Object
 
   factory NotificationSubject.fromJson(Map<String, dynamic> json) =>
       _$NotificationSubjectFromJson(json);
+
+  Map<String, dynamic> toJson() => _$NotificationSubjectToJson(this);
 }

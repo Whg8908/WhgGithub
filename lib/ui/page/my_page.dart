@@ -1,22 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:github/common/bean/Event.dart';
-import 'package:github/common/bean/UserOrg.dart';
 import 'package:github/common/dao/event_dao.dart';
 import 'package:github/common/dao/repos_dao.dart';
 import 'package:github/common/dao/user_dao.dart';
 import 'package:github/common/redux/user_redux.dart';
 import 'package:github/common/redux/whg_state.dart';
 import 'package:github/common/style/whg_style.dart';
-import 'package:github/common/utils/eventutils.dart';
-import 'package:github/common/utils/navigatorutils.dart';
-import 'package:github/common/viewmodel/event_view_model.dart';
-import 'package:github/common/viewmodel/user_item_view_model.dart';
 import 'package:github/ui/base/base_person_page.dart';
-import 'package:github/ui/base/whg_list_state.dart';
-import 'package:github/ui/view/event_item.dart';
-import 'package:github/ui/view/user_header_item.dart';
-import 'package:github/ui/view/user_item.dart';
 import 'package:github/ui/view/whg_pullload_widget.dart';
 import 'package:redux/redux.dart';
 

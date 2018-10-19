@@ -6,7 +6,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'Repository.g.dart';
 
 @JsonSerializable()
-class Repository extends Object with _$RepositorySerializerMixin {
+class Repository {
   int id;
 
   int size;
@@ -133,6 +133,8 @@ class Repository extends Object with _$RepositorySerializerMixin {
   /// The constructor is named after the source class, in this case User.
   factory Repository.fromJson(Map<String, dynamic> json) =>
       _$RepositoryFromJson(json);
+
+  Map<String, dynamic> toJson() => _$RepositoryToJson(this);
 
   Repository.empty();
 }

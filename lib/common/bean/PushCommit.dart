@@ -8,7 +8,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'PushCommit.g.dart';
 
 @JsonSerializable()
-class PushCommit extends Object with _$PushCommitSerializerMixin {
+class PushCommit {
   List<CommitFile> files;
 
   CommitStats stats;
@@ -40,4 +40,6 @@ class PushCommit extends Object with _$PushCommitSerializerMixin {
 
   factory PushCommit.fromJson(Map<String, dynamic> json) =>
       _$PushCommitFromJson(json);
+
+  Map<String, dynamic> toJson() => _$PushCommitToJson(this);
 }

@@ -42,17 +42,6 @@ class IssueEditDialogState extends State<IssueEditDialog> {
 
   @override
   Widget build(BuildContext context) {
-    Widget title = (widget.needTitle)
-        ? new Padding(
-            padding: new EdgeInsets.all(5.0),
-            child: new WhgInputWidget(
-              onChange: widget.onTitleChanged,
-              controller: widget.titleController,
-              hintText:
-                  CommonUtils.getLocale(context).issue_edit_issue_title_tip,
-              obscureText: false,
-            ))
-        : new Container();
     return new Container(
       height: MediaQuery.of(context).size.height,
       width: MediaQuery.of(context).size.width,

@@ -303,7 +303,7 @@ class ReposDao {
         null,
         null,
         new Options(
-            method: !star ? 'PUT' : 'DELETE', contentType: ContentType.TEXT));
+            method: !star ? 'PUT' : 'DELETE', contentType: ContentType.text));
     return Future<DataResult>(() {
       return new DataResult(null, res.result);
     });
