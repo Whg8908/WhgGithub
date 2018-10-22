@@ -403,6 +403,8 @@ class CommonUtils {
     List<Color> colors = getThemeListColor();
     themeData = new ThemeData(
         primarySwatch: colors[index], platform: TargetPlatform.iOS);
+
+    ///3.触发更新
     store.dispatch(new RefreshThemeDataAction(themeData));
   }
 

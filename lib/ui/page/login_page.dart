@@ -53,11 +53,6 @@ class LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    ///2.绑定
-    ///通过在 build 中使用 StoreConnector ，
-    /// 通过 converter 转化 store.state 的数据，
-    /// 最后通过 builder 返回实际需要渲染的控件，
-    /// 这样就完成了数据和控件的绑定。当然，你也可以使用StoreBuilder 。
     return StoreBuilder<WhgState>(builder: (context, store) {
       return new GestureDetector(
         //手势控制
@@ -88,7 +83,8 @@ class LoginPageState extends State<LoginPage> {
                     ),
                     WhgInputWidget(
                       //自定义的带有图片的edittext
-                      hintText: CommonUtils.getLocale(context).login_username_hint_text,
+                      hintText: CommonUtils.getLocale(context)
+                          .login_username_hint_text,
                       iconData: WhgICons.LOGIN_USER,
                       onChange: (String value) {
                         _userName = value;
@@ -99,7 +95,8 @@ class LoginPageState extends State<LoginPage> {
                       height: 10.0,
                     ),
                     WhgInputWidget(
-                      hintText: CommonUtils.getLocale(context).login_password_hint_text,
+                      hintText: CommonUtils.getLocale(context)
+                          .login_password_hint_text,
                       obscureText: true,
                       iconData: WhgICons.LOGIN_PW,
                       onChange: (String value) {

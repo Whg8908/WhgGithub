@@ -54,6 +54,11 @@ class FlutterReduxApp extends StatelessWidget {
     return StoreProvider(
       store: store,
       //因为 MaterialApp 也是一个 StatefulWidget ，如下代码所示，还需要利用 StoreBuilder 包裹起来，
+      ///2.绑定
+      ///通过在 build 中使用 StoreConnector ，
+      /// 通过 converter 转化 store.state 的数据，
+      /// 最后通过 builder 返回实际需要渲染的控件，
+      /// 这样就完成了数据和控件的绑定。当然，你也可以使用StoreBuilder 。
       child: new StoreBuilder<WhgState>(builder: (context, store) {
         return new MaterialApp(
             theme: store.state.themeData,
