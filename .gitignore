@@ -18,3 +18,5 @@ lib/net_config.dart
 
 android/key.properties
 android/whg.jks
+
+ios/Build+DeployToFir.sh
